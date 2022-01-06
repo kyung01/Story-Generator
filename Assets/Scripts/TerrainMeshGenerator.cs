@@ -121,9 +121,9 @@ public class TerrainMeshGenerator : MonoBehaviour
 				int centerZ = 1 + z * 2;
 				Vector2[][] adjEdges = new Vector2[][]
 				{
-					new Vector2[]{ new Vector2(centerX - 1, centerZ + 1),new Vector2(centerX + 0, centerZ + 1),new Vector2(centerX + 1, centerZ + 1) },
+					new Vector2[]{new Vector2(centerX - 1, centerZ + 1),new Vector2(centerX + 0, centerZ + 1),new Vector2(centerX + 1, centerZ + 1) },
 					new Vector2[]{new Vector2(centerX+1,centerZ+0),new Vector2(centerX + 1, centerZ + 1),new Vector2(centerX + 1, centerZ -1) },
-					new Vector2[]{ new Vector2(centerX -1 , centerZ - 1),new Vector2(centerX+0, centerZ - 1),new Vector2(centerX + 1, centerZ -1) },
+					new Vector2[]{new Vector2(centerX -1 , centerZ - 1),new Vector2(centerX+0, centerZ - 1),new Vector2(centerX + 1, centerZ -1) },
 					new Vector2[]{new Vector2(centerX - 1, centerZ + 0), new Vector2(centerX - 1, centerZ + 1), new Vector2(centerX - 1, centerZ - 1) }
 				};
 				var tile = instance.pieces[instance.Width * z + x];
@@ -153,7 +153,6 @@ public class TerrainMeshGenerator : MonoBehaviour
 					List<TerrainVertex> edges = adjEdgeIndexs.Select(v => this.vertexDetailed[(int)v.x + (int) ((v.y) * (1+2*xSize ))]).ToList();
 
 					hprUpdateInfluencedVertexs(tile, tileAdj, edges);
-
 				}
 			}
 		}
@@ -265,9 +264,41 @@ public class TerrainMeshGenerator : MonoBehaviour
 				int center = 1+2*x + horizontalVertexRawCount*(2*z+1);
 				//int cornerB = cornerStartIndex+zIndex + x + 1;
 
+				//bottom
 				triangles[triangleIndex + 0] = center - horizontalVertexRawCount - 1;
 				triangles[triangleIndex + 1] = center;
-				triangles[triangleIndex + 2] = triangles[triangleIndex + 0]+1;
+				triangles[triangleIndex + 2] = triangles[triangleIndex + 0] + 1;
+
+				triangles[triangleIndex + 3] = center;
+				triangles[triangleIndex + 4] = center - horizontalVertexRawCount + 1;
+				triangles[triangleIndex + 5] = center - horizontalVertexRawCount;
+
+				//right
+				triangles[triangleIndex + 6] = center;
+				triangles[triangleIndex + 7] = center + 1;
+				triangles[triangleIndex + 8] = center - horizontalVertexRawCount + 1;
+
+				triangles[triangleIndex + 9] = center;
+				triangles[triangleIndex + 10] = center + horizontalVertexRawCount + 1;
+				triangles[triangleIndex + 11] = center + 1;
+
+				//up
+				triangles[triangleIndex + 12] = center;
+				triangles[triangleIndex + 13] = center + horizontalVertexRawCount ;
+				triangles[triangleIndex + 14] = center + horizontalVertexRawCount + 1;
+
+				triangles[triangleIndex + 15] = center;
+				triangles[triangleIndex + 16] = center + horizontalVertexRawCount -1;
+				triangles[triangleIndex + 17] = center + horizontalVertexRawCount;
+
+				//left
+				triangles[triangleIndex + 18] = center;
+				triangles[triangleIndex + 19] = center -1;
+				triangles[triangleIndex + 20] = center + horizontalVertexRawCount -1;
+
+				triangles[triangleIndex + 21] = center;
+				triangles[triangleIndex + 22] = center - horizontalVertexRawCount - 1;
+				triangles[triangleIndex + 23] = center -1;
 
 
 
