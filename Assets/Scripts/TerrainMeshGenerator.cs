@@ -182,9 +182,23 @@ public class TerrainMeshGenerator : MonoBehaviour
 
 				int cornerA = cornerStartIndex+zIndex + x;
 				int cornerB = cornerStartIndex+zIndex + x + 1;
+
 				triangles[triangleIndex + 0] = cornerA;
 				triangles[triangleIndex + 1] = cornerA + horizontalVertexRawCount;
 				triangles[triangleIndex + 2] = centerIndex;
+
+
+				triangles[triangleIndex + 3] = cornerA;
+				triangles[triangleIndex + 4] = centerIndex;
+				triangles[triangleIndex + 5] = cornerB;
+
+				triangles[triangleIndex + 6] = cornerA + horizontalVertexRawCount;
+				triangles[triangleIndex + 7] = cornerB + horizontalVertexRawCount;
+				triangles[triangleIndex + 8] = centerIndex;
+
+				triangles[triangleIndex + 9]  = cornerB + horizontalVertexRawCount;
+				triangles[triangleIndex + 10] = cornerB;
+				triangles[triangleIndex + 11] = centerIndex;
 
 				//triangles[triangleIndex + 3] = cornerB ;
 				//triangles[triangleIndex + 4] = cornerA + horizontalVertexRawCount;
