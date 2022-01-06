@@ -16,6 +16,8 @@ public class TerrainMeshGenerator : MonoBehaviour
 
 	TerrainVertex[] vertexsCenter;
 	TerrainVertex[] vertexsEdges;
+	TerrainVertex[] vertexDetailed;
+
 
 	StoryGenerator.Terrain.TerrainInstance sterrain;
 
@@ -49,6 +51,8 @@ public class TerrainMeshGenerator : MonoBehaviour
 		zSize = instance.Height;
 		vertexsCenter = new TerrainVertex[xSize  * zSize ];
 		vertexsEdges = new TerrainVertex[(xSize + 1) * (zSize + 1)];
+		vertexDetailed = new TerrainVertex[(1+2*xSize ) * (1+2*zSize )];
+		int detailedRowSize = 1 + 2 * xSize;
 
 		#region Initiate center
 		for (int i = 0,
@@ -62,6 +66,26 @@ public class TerrainMeshGenerator : MonoBehaviour
 		#endregion
 
 		#region Initiate vertex positions
+		{
+			//detailed vertex initialization 
+			int i = 0;
+			for (float z = 0; z <= zSize; z+= 0.5f)
+			{
+				for (float x = 0; x <= xSize; x+= 0.5f )
+				{
+					vertexDetailed[i] = new TerrainVertex();
+					vertexDetailed[i].position = new Vector3(-.5f + x, 0, -.5f + z);
+					i++;
+				}
+			}
+			Debug.Log(i);
+			for (int z = 0; z < zSize; z++) for (int x = 0; x < xSize; x++)
+				{
+					vertexDetailed[(1+2*x) + (1 + 2 * xSize) *(1+z*2)].type = (int)instance.pieces[xSize * z + x].Type;
+				}
+		}
+		Debug.Log("detailed legnth " + vertexDetailed.Length);
+
 		for (
 		int i = 0,
 		z = 0; z <= zSize; z++)
@@ -77,6 +101,64 @@ public class TerrainMeshGenerator : MonoBehaviour
 
 		#region Initiate vertex types
 		for (int z = 0; z < zSize; z++)
+		{
+			for (int x = 0; x < xSize; x++)
+			{
+			}
+		}
+
+		for (int z = 0; z < zSize; z++)
+		{
+			for (int x = 0; x < xSize; x++)
+			{
+				Vector2[] adjTiles = new Vector2[] {
+					new Vector2(x,z+1), 
+					new Vector2(x+1,z),
+					new Vector2(x,z-1), 
+					new Vector2(x-1,z) 
+				};
+				int centerX = 1 + x * 2;
+				int centerZ = 1 + z * 2;
+				Vector2[][] adjEdges = new Vector2[][]
+				{
+					new Vector2[]{ new Vector2(centerX - 1, centerZ + 1),new Vector2(centerX + 0, centerZ + 1),new Vector2(centerX + 1, centerZ + 1) },
+					new Vector2[]{new Vector2(centerX+1,centerZ+0),new Vector2(centerX + 1, centerZ + 1),new Vector2(centerX + 1, centerZ -1) },
+					new Vector2[]{ new Vector2(centerX -1 , centerZ - 1),new Vector2(centerX+0, centerZ - 1),new Vector2(centerX + 1, centerZ -1) },
+					new Vector2[]{new Vector2(centerX - 1, centerZ + 0), new Vector2(centerX - 1, centerZ + 1), new Vector2(centerX - 1, centerZ - 1) }
+				};
+				var tile = instance.pieces[instance.Width * z + x];
+
+				for(int k = 0; k < 4; k++)
+				{
+					int xRowSize = 1 + 2 * xSize;
+					int zColumnSize = 1 + 2 * zSize;
+					var adjTileIndex = adjTiles[k];
+					var adjEdgeIndexs = adjEdges[k].OfType<Vector2>().ToList(); 
+					
+					bool isAdjacentTileLegit = EzT.ChkWithinBoundaries(adjTileIndex, new Vector2(0, 0), new Vector2(xSize - 1, zSize - 1));
+					
+					var tileAdj = (isAdjacentTileLegit)?
+						instance.pieces[instance.Width * (int)adjTileIndex.y + (int)adjTileIndex.x] : null;
+
+					for (int i = adjEdgeIndexs.Count-1; i >= 0; i--)
+					{
+						var edgeIndex = adjEdgeIndexs[i];
+						bool isAdjacentEdgeLegit = EzT.ChkWithinBoundaries(edgeIndex, new Vector2(0, 0), new Vector2(xRowSize-1, zColumnSize-1));
+						if (!isAdjacentEdgeLegit)
+						{
+							adjEdgeIndexs.RemoveAt(i);
+						}
+					}
+					//get vertices
+					List<TerrainVertex> edges = adjEdgeIndexs.Select(v => this.vertexDetailed[(int)v.x + (int) ((v.y) * (1+2*xSize ))]).ToList();
+
+					hprUpdateInfluencedVertexs(tile, tileAdj, edges);
+
+				}
+			}
+		}
+		/*
+		 * for (int z = 0; z < zSize; z++)
 		{
 			for (int x = 0; x < xSize; x++)
 			{
@@ -122,6 +204,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 				}
 			}
 		}
+		 * */
 		#endregion
 
 
@@ -164,15 +247,14 @@ public class TerrainMeshGenerator : MonoBehaviour
 	void CreateShape()
 	{
 		//verticies = new Vector3[(xSize + 1) * (zSize + 1)];
-		triangles = new int[(xSize) * (zSize) * 4*3]; // I need 4 triangles for each square
+		triangles = new int[(xSize) * (zSize) * 8*3]; // I need 8 triangles for each square
 
 
 
-		int totalVerticesUsedToExpressSquare = 4 * 3;
+		int totalVerticesUsedToExpressSquare = 8 * 3;
 		int triangleIndex = 0;
-		int horizontalVertexRawCount = xSize + 1;
+		int horizontalVertexRawCount = 1+2*xSize;
 
-		int cornerStartIndex = vertexsCenter.Length;
 		for (int z = 0; z < zSize ; z++)
 		{
 			int zIndex = horizontalVertexRawCount * z;
@@ -180,25 +262,14 @@ public class TerrainMeshGenerator : MonoBehaviour
 			{
 				int centerIndex = x + xSize * z;
 
-				int cornerA = cornerStartIndex+zIndex + x;
-				int cornerB = cornerStartIndex+zIndex + x + 1;
+				int center = 1+2*x + horizontalVertexRawCount*(2*z+1);
+				//int cornerB = cornerStartIndex+zIndex + x + 1;
 
-				triangles[triangleIndex + 0] = cornerA;
-				triangles[triangleIndex + 1] = cornerA + horizontalVertexRawCount;
-				triangles[triangleIndex + 2] = centerIndex;
+				triangles[triangleIndex + 0] = center - horizontalVertexRawCount - 1;
+				triangles[triangleIndex + 1] = center;
+				triangles[triangleIndex + 2] = triangles[triangleIndex + 0]+1;
 
 
-				triangles[triangleIndex + 3] = cornerA;
-				triangles[triangleIndex + 4] = centerIndex;
-				triangles[triangleIndex + 5] = cornerB;
-
-				triangles[triangleIndex + 6] = cornerA + horizontalVertexRawCount;
-				triangles[triangleIndex + 7] = cornerB + horizontalVertexRawCount;
-				triangles[triangleIndex + 8] = centerIndex;
-
-				triangles[triangleIndex + 9]  = cornerB + horizontalVertexRawCount;
-				triangles[triangleIndex + 10] = cornerB;
-				triangles[triangleIndex + 11] = centerIndex;
 
 				//triangles[triangleIndex + 3] = cornerB ;
 				//triangles[triangleIndex + 4] = cornerA + horizontalVertexRawCount;
@@ -223,15 +294,17 @@ public class TerrainMeshGenerator : MonoBehaviour
 
 		var positionsCenter = vertexsCenter.Select(s => s.position).ToArray();
 		var positionsEdges = vertexsEdges.Select(s => s.position).ToArray();
+		var positionsDetailedVertexs = vertexDetailed.Select(s => s.position).ToArray();
 
 		var colorCenter = vertexsCenter.Select(s => hprIntToColor(s.type)).ToArray();
 		var colorsEdges = vertexsEdges.Select(s => hprIntToColor(s.type)).ToArray();
+		var colorsDetailed= vertexDetailed.Select(s => hprIntToColor(s.type)).ToArray();
 
 		var meshVertices	= positionsCenter.Concat(positionsEdges).ToArray();
-		var meshColors		= colorCenter.Concat(colorsEdges).ToArray();
+		var meshColors = colorCenter.Concat(colorsEdges).ToArray();
 
-		mesh.vertices = meshVertices;
-		mesh.colors = meshColors;
+		mesh.vertices = positionsDetailedVertexs;
+		mesh.colors = colorsDetailed;
 
 		mesh.triangles = triangles;
 		mesh.RecalculateNormals();

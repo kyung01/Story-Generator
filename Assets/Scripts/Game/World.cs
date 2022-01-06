@@ -13,7 +13,7 @@ namespace StoryGenerator.World
 		public void InitTerrain()
 		{
 			//initialize the world 
-			terrain.init(15, 15);
+			terrain.init(3, 3);
 
 		}
 
