@@ -6,7 +6,7 @@ namespace EasyTools
 
 	public class EzT
 	{
-
+			
 		public static bool ChkWithinBoundaries(int value, int min, int max)
 		{
 			return (value >= min) && (value <= max);

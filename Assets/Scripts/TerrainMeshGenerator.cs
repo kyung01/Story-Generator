@@ -14,8 +14,6 @@ public class TerrainMeshGenerator : MonoBehaviour
 	int xSize = 3;
 	int zSize = 3;
 
-	TerrainVertex[] vertexsCenter;
-	TerrainVertex[] vertexsEdges;
 	TerrainVertex[] vertexDetailed;
 
 
@@ -49,20 +47,11 @@ public class TerrainMeshGenerator : MonoBehaviour
 	{
 		xSize = instance.Width;
 		zSize = instance.Height;
-		vertexsCenter = new TerrainVertex[xSize  * zSize ];
-		vertexsEdges = new TerrainVertex[(xSize + 1) * (zSize + 1)];
 		vertexDetailed = new TerrainVertex[(1+2*xSize ) * (1+2*zSize )];
 		int detailedRowSize = 1 + 2 * xSize;
 
 		#region Initiate center
-		for (int i = 0,
-			z = 0; z < zSize; z++) for (int x = 0; x < xSize; x++)
-			{
-				vertexsCenter[i] = new TerrainVertex();
-				vertexsCenter[i].position = new Vector3(x, 0, z);
-				vertexsCenter[i].type = (int)instance.pieces[xSize * z + x].Type;
-				i++;
-			}
+		
 		#endregion
 
 		#region Initiate vertex positions
@@ -86,17 +75,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 		}
 		Debug.Log("detailed legnth " + vertexDetailed.Length);
 
-		for (
-		int i = 0,
-		z = 0; z <= zSize; z++)
-		{
-			for (int x = 0; x <= xSize; x++)
-			{
-				vertexsEdges[i] = new TerrainVertex();
-				vertexsEdges[i].position = new Vector3(-.5f + x, 0, -.5f + z);
-				i++;
-			}
-		}
+		
 		#endregion
 
 		#region Initiate vertex types
@@ -206,8 +185,17 @@ public class TerrainMeshGenerator : MonoBehaviour
 		 * */
 		#endregion
 
+		#region Iniritiate Vertex normal values
+		for(int z = 0; z < zSize; z++) 
+			for( int x = 0;  x < xSize; x++)
+			{
+
+			}
+		
+#Endregion
 
 	}
+
 	void hprUpdateInfluencedVertexs(
 		Piece piece, Piece pieceAdjacent, 
 		List<TerrainVertex> vertexInfluenced)
@@ -323,20 +311,15 @@ public class TerrainMeshGenerator : MonoBehaviour
 	{
 		mesh.Clear();
 
-		var positionsCenter = vertexsCenter.Select(s => s.position).ToArray();
-		var positionsEdges = vertexsEdges.Select(s => s.position).ToArray();
 		var positionsDetailedVertexs = vertexDetailed.Select(s => s.position).ToArray();
 
-		var colorCenter = vertexsCenter.Select(s => hprIntToColor(s.type)).ToArray();
-		var colorsEdges = vertexsEdges.Select(s => hprIntToColor(s.type)).ToArray();
 		var colorsDetailed= vertexDetailed.Select(s => hprIntToColor(s.type)).ToArray();
 
-		var meshVertices	= positionsCenter.Concat(positionsEdges).ToArray();
-		var meshColors = colorCenter.Concat(colorsEdges).ToArray();
 
 		mesh.vertices = positionsDetailedVertexs;
 		mesh.colors = colorsDetailed;
 
+		mesh.name = "I made this";
 		mesh.triangles = triangles;
 		mesh.RecalculateNormals();
 	}
