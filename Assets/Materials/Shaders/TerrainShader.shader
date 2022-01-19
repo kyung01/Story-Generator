@@ -24,6 +24,7 @@ Shader "Custom/UnLitTerrainShader"
 				float4 vertex : POSITION;
 				float4 color : COLOR;
 				float2 uv : TEXCOORD0;/// id of the coordiante on the sprite shett
+				
 			};
 
 			struct v2f
@@ -43,6 +44,10 @@ Shader "Custom/UnLitTerrainShader"
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.color = v.color;
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+				int xInt = v.vertex.x;
+				int zInt = v.vertex.z;
+
+				o.uv = float2(v.vertex.x - xInt, v.vertex.z - zInt);
 				UNITY_TRANSFER_FOG(o,o.vertex);
 				return o;
 			}
