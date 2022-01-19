@@ -335,8 +335,9 @@ public class TerrainMeshGenerator : MonoBehaviour
 			uv3Empty.Add(uv3);
 		}
 		Vector2[] uv2s = new Vector2[] { new Vector2(), };
-		mesh.uv2 = uv2Empty.ToArray();
-		mesh.uv3 = uv3Empty.ToArray();
+		//mesh.uv2 = uv2Empty.ToArray();
+		//mesh.uv3 = uv3Empty.ToArray();
+		//mesh.
 		mesh.vertices = positionsDetailedVertexs;
 		mesh.colors = colorsDetailed;
 

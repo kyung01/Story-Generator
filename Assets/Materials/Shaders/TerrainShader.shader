@@ -34,6 +34,7 @@ Shader "Custom/UnLitTerrainShader"
 				float2 uv : TEXCOORD0;
 				UNITY_FOG_COORDS(1)
 				float4 vertex : SV_POSITION;
+				float3 worldPosition : NORMAL;
 				fixed4 color : COLOR;
 
 
@@ -49,18 +50,11 @@ Shader "Custom/UnLitTerrainShader"
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.color = v.color;
-				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-				int xInt = v.vertex.x;
-				int zInt = v.vertex.z;
-				float length = 1.0 / 8.0;
-				float xDecimal =( v.vertex.x - xInt)*length;
-				float zDecimal = (v.vertex.z - zInt)*length;
-				float xIndent = (v.vertex.x - xInt) * length;
-				float zIndent = (v.vertex.z - zInt) * length;
+				o.worldPosition = v.vertex;
+				//o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 
-				//o.uv = float2(v.vertex.x - xInt, v.vertex.z - zInt);
-				o.uv = float2(xDecimal + xIndent , zIndent + zDecimal);
-				UNITY_TRANSFER_FOG(o,o.vertex);
+				//o.uv = float2(xDecimal + xIndent , zIndent + zDecimal);
+				//UNITY_TRANSFER_FOG(o,o.vertex);
 
 				o.uv1 = v.uv1;
 				o.uv2 = v.uv2;
@@ -69,9 +63,27 @@ Shader "Custom/UnLitTerrainShader"
 
 			fixed4 frag(v2f i) : SV_Target
 			{
+
+
+				float vX = i.worldPosition.x + .5f;
+				float vZ = i.worldPosition.z + 0.5f;
+				int xInt = vX;
+				int zInt = vZ;
+				float length = 1.0 / 8.0;
+				float square = 1.0 / 8.0;
+				float xDecimal	= (vX - xInt) * square;
+				float zDecimal = 1-((vZ - zInt)	* square);
+				float xIndent	= (vX - xInt) * length;
+				float zIndent	= (vZ - zInt) * length;
+
+				float2 uv  = float2(xDecimal , zDecimal );
+				//o.uv = float2(vX - xInt, vZ - zInt);
+
 				// sample the texture
 				//fixed4 col = i.color;
-				fixed4 col = tex2D(_MainTex, i.uv);
+				fixed4 col = float4(uv.x, uv.y, 0, 1);
+				 col = float4(xDecimal, zDecimal, 0, 1);
+				 col = tex2D(_MainTex, uv);
 				// apply fog
 				UNITY_APPLY_FOG(i.fogCoord, col);
 				return col;
