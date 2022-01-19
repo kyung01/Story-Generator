@@ -81,9 +81,19 @@ Shader "Custom/UnLitTerrainShader"
 
 				// sample the texture
 				//fixed4 col = i.color;
-				fixed4 col = float4(uv.x, uv.y, 0, 1);
-				 col = float4(xDecimal, zDecimal, 0, 1);
-				 col = tex2D(_MainTex, uv);
+				//fixed4 col = float4(uv.x, uv.y, 0, 1);
+				fixed4 col01 = tex2D(_MainTex, float2(xDecimal, zDecimal) );
+				fixed4 col02 = tex2D(_MainTex, float2(square+xDecimal, + zDecimal) );
+				fixed4 col03 = tex2D(_MainTex, float2(square*2 + xDecimal, zDecimal));
+
+				float normalizedPower = i.uv1.x + i.uv1.y + i.uv2.x;
+				fixed4 col =
+					col01 * (i.uv1.x / normalizedPower)
+					+ col02 * (i.uv1.y / normalizedPower)
+					 +col03 * (i.uv2.x / normalizedPower);
+
+				col = fixed4(col.x, col.y, col.z, 1);
+				// col = tex2D(_MainTex, uv);
 				// apply fog
 				UNITY_APPLY_FOG(i.fogCoord, col);
 				return col;

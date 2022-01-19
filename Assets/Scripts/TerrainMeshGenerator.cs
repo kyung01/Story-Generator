@@ -325,11 +325,13 @@ public class TerrainMeshGenerator : MonoBehaviour
 		var uv3Empty = new List<Vector2>();
 		for (int i  = 0; i < vertexDetailed.Count(); i++)
 		{
-			var uv2 = new Vector2();
-			var uv3 = new Vector2();
-			if (vertexDetailed[i].type == 0) uv2 = new Vector2(1, 0);
-			if (vertexDetailed[i].type == 0) uv2 = new Vector2(0, 1);
-			if (vertexDetailed[i].type == 0) uv3 = new Vector2(1, 0);
+			float uv2X = 0, uv2Y = 0;
+			var uv2 = new Vector2(0,0);
+			var uv3 = new Vector2(0,0);
+			if (vertexDetailed[i].type == 0) uv2X = 1;
+			if (vertexDetailed[i].type == 1) uv2Y = 1;
+			uv2 = new Vector2(uv2X, uv2Y);
+			if (vertexDetailed[i].type == 2) uv3 = new Vector2(1, 0);
 
 			uv2Empty.Add(uv2);
 			uv3Empty.Add(uv3);
@@ -340,10 +342,13 @@ public class TerrainMeshGenerator : MonoBehaviour
 		//mesh.
 		mesh.vertices = positionsDetailedVertexs;
 		mesh.colors = colorsDetailed;
+		mesh.uv2 = uv2Empty.ToArray();
+		mesh.uv3 = uv3Empty.ToArray();
 
 		mesh.name = "I made this";
 		mesh.triangles = triangles;
 		mesh.RecalculateNormals();
+
 	}
 
 	private void OnDrawGizmos()
