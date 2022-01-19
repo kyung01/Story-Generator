@@ -24,7 +24,9 @@ Shader "Custom/UnLitTerrainShader"
 				float4 vertex : POSITION;
 				float4 color : COLOR;
 				float2 uv : TEXCOORD0;/// id of the coordiante on the sprite shett
-				
+
+				float2 uv1 : TEXCOORD1;
+				float2 uv2 : TEXCOORD2;
 			};
 
 			struct v2f
@@ -33,6 +35,10 @@ Shader "Custom/UnLitTerrainShader"
 				UNITY_FOG_COORDS(1)
 				float4 vertex : SV_POSITION;
 				fixed4 color : COLOR;
+
+
+				float2 uv1 : TEXCOORD1;
+				float2 uv2 : TEXCOORD2;
 			};
 
 			sampler2D _MainTex;
@@ -46,17 +52,26 @@ Shader "Custom/UnLitTerrainShader"
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				int xInt = v.vertex.x;
 				int zInt = v.vertex.z;
+				float length = 1.0 / 8.0;
+				float xDecimal =( v.vertex.x - xInt)*length;
+				float zDecimal = (v.vertex.z - zInt)*length;
+				float xIndent = (v.vertex.x - xInt) * length;
+				float zIndent = (v.vertex.z - zInt) * length;
 
-				o.uv = float2(v.vertex.x - xInt, v.vertex.z - zInt);
+				//o.uv = float2(v.vertex.x - xInt, v.vertex.z - zInt);
+				o.uv = float2(xDecimal + xIndent , zIndent + zDecimal);
 				UNITY_TRANSFER_FOG(o,o.vertex);
+
+				o.uv1 = v.uv1;
+				o.uv2 = v.uv2;
 				return o;
 			}
 
 			fixed4 frag(v2f i) : SV_Target
 			{
 				// sample the texture
-				//fixed4 col = tex2D(_MainTex, i.uv);
-				fixed4 col = i.color;
+				//fixed4 col = i.color;
+				fixed4 col = tex2D(_MainTex, i.uv);
 				// apply fog
 				UNITY_APPLY_FOG(i.fogCoord, col);
 				return col;

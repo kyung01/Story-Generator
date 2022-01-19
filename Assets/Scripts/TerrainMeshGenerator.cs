@@ -1,10 +1,11 @@
-using StoryGenerator.Terrain;
+﻿using StoryGenerator.Terrain;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EasyTools;
 using System.Linq;
+using UnityEngine.Rendering;
 
 public class TerrainMeshGenerator : MonoBehaviour
 {
@@ -314,7 +315,28 @@ public class TerrainMeshGenerator : MonoBehaviour
 
 		var colorsDetailed = vertexDetailed.Select(s => hprIntToColor(s.type)).ToArray();
 
+		//center color
+		//64개 필요함
+		//mesh.uv2~8 // 2* 7 = 14
+		//	mesh.normals// 4
+		//mesh.tangents// 4
+		//32개 까지 가능
+		var uv2Empty = new List<Vector2>();
+		var uv3Empty = new List<Vector2>();
+		for (int i  = 0; i < vertexDetailed.Count(); i++)
+		{
+			var uv2 = new Vector2();
+			var uv3 = new Vector2();
+			if (vertexDetailed[i].type == 0) uv2 = new Vector2(1, 0);
+			if (vertexDetailed[i].type == 0) uv2 = new Vector2(0, 1);
+			if (vertexDetailed[i].type == 0) uv3 = new Vector2(1, 0);
 
+			uv2Empty.Add(uv2);
+			uv3Empty.Add(uv3);
+		}
+		Vector2[] uv2s = new Vector2[] { new Vector2(), };
+		mesh.uv2 = uv2Empty.ToArray();
+		mesh.uv3 = uv3Empty.ToArray();
 		mesh.vertices = positionsDetailedVertexs;
 		mesh.colors = colorsDetailed;
 
