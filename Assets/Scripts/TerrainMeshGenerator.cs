@@ -218,7 +218,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 				continue;
 			}
 
-			Debug.Log(vertexInfluenced[i].position.x + " " + vertexInfluenced[i].position.z + " COLOR = " + selectedType);
+			//Debug.Log(vertexInfluenced[i].position.x + " " + vertexInfluenced[i].position.z + " COLOR = " + selectedType);
 			vertexInfluenced[i].type = selectedType;
 		}
 

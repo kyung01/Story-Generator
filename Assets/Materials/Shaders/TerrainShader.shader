@@ -1,106 +1,60 @@
-Shader "Custom/UnLitTerrainShader"
-{
-	Properties
-	{
+Shader "Custom/UnLitTerrainShader"{
+	Properties{
 		_MainTex("Texture", 2D) = "white" {}
+	_MainTex2("Texture", 2D) = "white" {}
+	_MainTex3("Texture", 2D) = "white" {}
 	}
-		SubShader
-	{
-		Tags { "RenderType" = "Opaque" }
-		LOD 100
+		SubShader{
+		Tags{ "RenderType" = "Opaque" }
+		CGPROGRAM
+#pragma surface surf Lambert
 
-		Pass
-		{
-			CGPROGRAM
-			#pragma vertex vert
-			#pragma fragment frag
-			// make fog work
-			#pragma multi_compile_fog
+		struct Input {
 
-			#include "UnityCG.cginc"
+		float3 worldPos;
 
-			struct appdata
-			{
-				float4 vertex : POSITION;
-				float4 color : COLOR;
+		float2 uv_MainTex;
+		float2 uv2_MainTex2;
+		float2 uv3_MainTex3;
+	};
+	sampler2D _MainTex;
+	void surf(Input IN, inout SurfaceOutput o) {
+		float vX = IN.worldPos.x + .5f;
+		float vZ = IN.worldPos.z + 0.5f;
+		int xInt = vX;
+		int zInt = vZ;
+		float length = 1.0 / 8.0;
+		float square = 1.0 / 8.0;
+		float xDecimal = (vX - xInt) * square;
+		float zDecimal = 1 - ((vZ - zInt)	* square);
+		float xIndent = (vX - xInt) * length;
+		float zIndent = (vZ - zInt) * length;
 
-				float2 uv : TEXCOORD0;/// id of the coordiante on the sprite shett
-				float2 uv1 : TEXCOORD1;
-				float2 uv2 : TEXCOORD2;
-			};
+		float2 uv = float2(xDecimal, zDecimal);
+		//o.uv = float2(vX - xInt, vZ - zInt);
 
-			struct v2f
-			{
-				UNITY_FOG_COORDS(1)
-				float4 vertex : SV_POSITION;
-				float3 worldPosition : NORMAL;
-				fixed4 color : COLOR;
+		// sample the texture
+		//fixed4 col = i.color;
+		//fixed4 col = float4(uv.x, uv.y, 0, 1);
+		float4 col01 = tex2D(_MainTex, float2(xDecimal, zDecimal));
+		float4 col02 = tex2D(_MainTex, float2(square + xDecimal, +zDecimal));
+		float4 col03 = tex2D(_MainTex, float2(square * 2 + xDecimal, zDecimal));
 
+		float normalizedPower = IN.uv_MainTex.x + IN.uv_MainTex.y + IN.uv2_MainTex2.x;
+		fixed4 col =
+			col01 * (IN.uv_MainTex.x / normalizedPower)
+			+ col02 * (IN.uv_MainTex.y / normalizedPower)
+			+ col03 * (IN.uv2_MainTex2.x / normalizedPower);
 
-				float2 uv : TEXCOORD0;
-				float2 uv1 : TEXCOORD1;
-				float2 uv2 : TEXCOORD2;
-			};
+		col = float4(col.x, col.y, col.z, 1);
+		// col = tex2D(_MainTex, uv);
+		// apply fog
+		//UNITY_APPLY_FOG(i.fogCoord, col);
+		//return col;
 
-			sampler2D _MainTex;
-			float4 _MainTex_ST;
-
-			v2f vert(appdata v)
-			{
-				v2f o;
-				o.vertex = UnityObjectToClipPos(v.vertex);
-				o.color = v.color;
-				o.worldPosition = v.vertex;
-				//o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-
-				//o.uv = float2(xDecimal + xIndent , zIndent + zDecimal);
-				//UNITY_TRANSFER_FOG(o,o.vertex);
-
-				o.uv = v.uv;
-				o.uv1 = v.uv1;
-				o.uv2 = v.uv2;
-				return o;
-			}
-
-			fixed4 frag(v2f i) : SV_Target
-			{
-
-
-				float vX = i.worldPosition.x + .5f;
-				float vZ = i.worldPosition.z + 0.5f;
-				int xInt = vX;
-				int zInt = vZ;
-				float length = 1.0 / 8.0;
-				float square = 1.0 / 8.0;
-				float xDecimal	= (vX - xInt) * square;
-				float zDecimal = 1-((vZ - zInt)	* square);
-				float xIndent	= (vX - xInt) * length;
-				float zIndent	= (vZ - zInt) * length;
-
-				float2 uv  = float2(xDecimal , zDecimal );
-				//o.uv = float2(vX - xInt, vZ - zInt);
-
-				// sample the texture
-				//fixed4 col = i.color;
-				//fixed4 col = float4(uv.x, uv.y, 0, 1);
-				fixed4 col01 = tex2D(_MainTex, float2(xDecimal, zDecimal) );
-				fixed4 col02 = tex2D(_MainTex, float2(square+xDecimal, + zDecimal) );
-				fixed4 col03 = tex2D(_MainTex, float2(square*2 + xDecimal, zDecimal));
-
-				float normalizedPower = i.uv.x + i.uv.y + i.uv1.x;
-				fixed4 col =
-					col01 * (i.uv.x / normalizedPower)
-					+ col02 * (i.uv.y / normalizedPower)
-					 +col03 * (i.uv1.x / normalizedPower);
-
-				col = fixed4(col.x, col.y, col.z, 1);
-				// col = tex2D(_MainTex, uv);
-				// apply fog
-				UNITY_APPLY_FOG(i.fogCoord, col);
-				return col;
-			}
-
-		ENDCG
+		o.Albedo = col;
 	}
+	ENDCG
 	}
+		Fallback "Diffuse"
 }
