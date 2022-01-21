@@ -23,21 +23,21 @@ Shader "Custom/UnLitTerrainShader"
 			{
 				float4 vertex : POSITION;
 				float4 color : COLOR;
-				float2 uv : TEXCOORD0;/// id of the coordiante on the sprite shett
 
+				float2 uv : TEXCOORD0;/// id of the coordiante on the sprite shett
 				float2 uv1 : TEXCOORD1;
 				float2 uv2 : TEXCOORD2;
 			};
 
 			struct v2f
 			{
-				float2 uv : TEXCOORD0;
 				UNITY_FOG_COORDS(1)
 				float4 vertex : SV_POSITION;
 				float3 worldPosition : NORMAL;
 				fixed4 color : COLOR;
 
 
+				float2 uv : TEXCOORD0;
 				float2 uv1 : TEXCOORD1;
 				float2 uv2 : TEXCOORD2;
 			};
@@ -56,6 +56,7 @@ Shader "Custom/UnLitTerrainShader"
 				//o.uv = float2(xDecimal + xIndent , zIndent + zDecimal);
 				//UNITY_TRANSFER_FOG(o,o.vertex);
 
+				o.uv = v.uv;
 				o.uv1 = v.uv1;
 				o.uv2 = v.uv2;
 				return o;
@@ -86,11 +87,11 @@ Shader "Custom/UnLitTerrainShader"
 				fixed4 col02 = tex2D(_MainTex, float2(square+xDecimal, + zDecimal) );
 				fixed4 col03 = tex2D(_MainTex, float2(square*2 + xDecimal, zDecimal));
 
-				float normalizedPower = i.uv1.x + i.uv1.y + i.uv2.x;
+				float normalizedPower = i.uv.x + i.uv.y + i.uv1.x;
 				fixed4 col =
-					col01 * (i.uv1.x / normalizedPower)
-					+ col02 * (i.uv1.y / normalizedPower)
-					 +col03 * (i.uv2.x / normalizedPower);
+					col01 * (i.uv.x / normalizedPower)
+					+ col02 * (i.uv.y / normalizedPower)
+					 +col03 * (i.uv1.x / normalizedPower);
 
 				col = fixed4(col.x, col.y, col.z, 1);
 				// col = tex2D(_MainTex, uv);

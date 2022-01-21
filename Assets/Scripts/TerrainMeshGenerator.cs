@@ -192,7 +192,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 			{
 
 			}
-		# endregion
+		#endregion
 
 	}
 
@@ -307,6 +307,20 @@ public class TerrainMeshGenerator : MonoBehaviour
 		if (n == 2) return new Color(0, 0, 1);
 		return Color.black;
 	}
+
+	void hpr(TerrainVertex tVertex, ref Vector2 vec2, bool isFirst, int checkedType)
+	{
+		if (isFirst)
+		{
+			if (tVertex.type == checkedType)
+				vec2 = new Vector2(1, vec2.y);
+		}
+		else
+		{
+			if (tVertex.type == checkedType)
+				vec2 = new Vector2(vec2.x, 1);
+		}
+	}
 	private void UpdateMesh()
 	{
 		mesh.Clear();
@@ -321,29 +335,49 @@ public class TerrainMeshGenerator : MonoBehaviour
 		//	mesh.normals// 4
 		//mesh.tangents// 4
 		//32개 까지 가능
+		List<List<Vector2>> typeVec2 = new List<List<Vector2>>();
+		for (int i = 0; i < 15; i++)
+		{
+			typeVec2.Add(new List<Vector2>());
+		}
 		var uv2Empty = new List<Vector2>();
 		var uv3Empty = new List<Vector2>();
-		for (int i  = 0; i < vertexDetailed.Count(); i++)
+
+		for (int i = 0; i < vertexDetailed.Count(); i++)
 		{
+			/*
+			*/
+			int typeIndex = 0;
+			for (int j = 0; j < 15; j++)
+			{
+				Vector2 uv = new Vector2(0,0);
+				hpr(vertexDetailed[i], ref uv, true, typeIndex++);
+				hpr(vertexDetailed[i], ref uv, false, typeIndex++);
+				typeVec2[j].Add(uv);
+			}
+			/*
 			float uv2X = 0, uv2Y = 0;
-			var uv2 = new Vector2(0,0);
-			var uv3 = new Vector2(0,0);
-			if (vertexDetailed[i].type == 0) uv2X = 1;
-			if (vertexDetailed[i].type == 1) uv2Y = 1;
-			uv2 = new Vector2(uv2X, uv2Y);
-			if (vertexDetailed[i].type == 2) uv3 = new Vector2(1, 0);
+			var uv2 = new Vector2(0, 0);
+			var uv3 = new Vector2(0, 0);
+			hpr(vertexDetailed[i], ref uv2, true, 0);
+			hpr(vertexDetailed[i], ref uv2, false, 1);
+			hpr(vertexDetailed[i], ref uv3, true, 2);
+			hpr(vertexDetailed[i], ref uv3, false, 3);
+
 
 			uv2Empty.Add(uv2);
 			uv3Empty.Add(uv3);
+			*/
 		}
-		Vector2[] uv2s = new Vector2[] { new Vector2(), };
-		//mesh.uv2 = uv2Empty.ToArray();
-		//mesh.uv3 = uv3Empty.ToArray();
+
 		//mesh.
 		mesh.vertices = positionsDetailedVertexs;
 		mesh.colors = colorsDetailed;
-		mesh.uv2 = uv2Empty.ToArray();
-		mesh.uv3 = uv3Empty.ToArray();
+
+		//mesh.uv2 = uv2Empty.ToArray();
+		//mesh.uv3 = uv3Empty.ToArray();
+		mesh.uv = typeVec2[0].ToArray();
+		mesh.uv2 = typeVec2[1].ToArray();
 
 		mesh.name = "I made this";
 		mesh.triangles = triangles;
