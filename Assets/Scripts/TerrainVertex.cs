@@ -5,6 +5,8 @@ public class TerrainVertex
 {
 	public Vector3 position;
 	public int type;
+	public float renderWeight;
+
 	public TerrainVertex()
 	{
 		position = Vector3.zero;

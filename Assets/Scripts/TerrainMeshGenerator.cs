@@ -71,7 +71,9 @@ public class TerrainMeshGenerator : MonoBehaviour
 			Debug.Log(i);
 			for (int z = 0; z < zSize; z++) for (int x = 0; x < xSize; x++)
 				{
-					vertexDetailed[(1 + 2 * x) + (1 + 2 * xSize) * (1 + z * 2)].type = (int)instance.pieces[xSize * z + x].Type;
+					int index =	(1 + 2 * x) + (1 + 2 * xSize) * (1 + z * 2);
+					vertexDetailed[index].type = (int)instance.pieces[xSize * z + x].Type;
+					vertexDetailed[index].renderWeight = (int)instance.pieces[xSize * z + x].RenderWeight;
 				}
 		}
 		Debug.Log("detailed legnth " + vertexDetailed.Length);
@@ -208,7 +210,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 		else
 		{
 			selectedType =
-				((int)piece.Type >= (int)pieceAdjacent.Type) ?
+				((int)piece.RenderWeight >= (int)pieceAdjacent.RenderWeight) ?
 				(int)piece.Type : (int)pieceAdjacent.Type;
 		}
 		for (int i = 0; i < vertexInfluenced.Count; i++)

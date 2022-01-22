@@ -8,12 +8,30 @@ namespace StoryGenerator.Terrain
 	/// </summary>
 	public class Piece
 	{
-		public enum KType { DIRT = 0 , GRASS = 1 }
+		public enum KType { DIRT = 0 , GRASS = 1, Water = 2 }
 		KType type = KType.DIRT;
+		float renderWeight = 0;
+
 		public KType Type {get{return this.type;} }
+		public float RenderWeight { get { return this.renderWeight; } }
+
 		public Piece()
 		{
 			this.type = (KType) Random.Range(0, 3);
+			switch (this.type)
+			{
+				case KType.DIRT:
+					renderWeight = 0;
+					break;
+				case KType.GRASS:
+					renderWeight = 1;
+					break;
+				case KType.Water:
+					renderWeight = -1;
+					break;
+				default:
+					break;
+			}
 		}
 
 	}
