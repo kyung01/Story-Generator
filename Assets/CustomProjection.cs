@@ -70,7 +70,7 @@ public class CustomProjection : MonoBehaviour
 		// Now for the custom projection.
 		// Set the world's up vector to always align with the camera's up vector.
 		// Add a small amount of the original up vector to ensure the matrix will be invertible.
-		m.SetColumn(2, 1.00000001f * m.GetColumn(2) - up);
+		m.SetColumn(2, 1.0000000001f * m.GetColumn(2) - up);
 
 		cam.worldToCameraMatrix = m;
 	}
