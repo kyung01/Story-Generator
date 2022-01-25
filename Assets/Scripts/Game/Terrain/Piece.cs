@@ -17,7 +17,15 @@ namespace StoryGenerator.Terrain
 
 		public Piece()
 		{
-			this.type = (KType) Random.Range(0, 3);
+			if(Random.Range(0,100) < 50)
+			{
+
+				this.type = (KType)Random.Range(1, 3);
+			}
+			else
+			{
+				this.type = KType.DIRT;
+			}
 			switch (this.type)
 			{
 				case KType.DIRT:
