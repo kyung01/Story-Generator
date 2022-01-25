@@ -64,7 +64,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 				for (float x = 0; x <= xSize; x += 0.5f)
 				{
 					vertexDetailed[i] = new TerrainVertex();
-					vertexDetailed[i].position = new Vector3(-.5f + x, 0, -.5f + z);
+					vertexDetailed[i].position = new Vector3(-.5f + x, -.5f + z,0);
 					i++;
 				}
 			}

@@ -27,7 +27,7 @@ namespace StoryGenerator.Terrain
 					renderWeight = 1;
 					break;
 				case KType.Water:
-					renderWeight = -1;
+					renderWeight = 2;
 					break;
 				default:
 					break;
