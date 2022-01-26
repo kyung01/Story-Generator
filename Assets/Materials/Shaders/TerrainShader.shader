@@ -50,10 +50,23 @@ Shader "Custom/UnLitTerrainShader"{
 		float4 col03 = tex2D(_MainTex, float2(square * 2 + xDecimal, zDecimal));
 
 		float normalizedPower = IN.uv_MainTex.x + IN.uv_MainTex.y + IN.uv2_MainTex2.x + IN.uv2_MainTex2.y;
+		float power01 = (IN.uv_MainTex.x / normalizedPower);
+		float power02 = (IN.uv_MainTex.y / normalizedPower);
+		float power03 = (IN.uv2_MainTex2.x / normalizedPower);
+
+		//power01 = pow(power01,2);
+		//power02 = pow(power02,2);
+		//power03 = pow(power03,2);
+		//float powerNormal = power01 + power02 + power03;
+		//power01 /= powerNormal;
+		//power02 /= powerNormal;
+		//power03 /= powerNormal;
+
+
 		float3 col =
-			col01.xyz * (IN.uv_MainTex.x / normalizedPower)
-			+ col02.xyz * (IN.uv_MainTex.y / normalizedPower)
-			+ col03.xyz * (IN.uv2_MainTex2.x / normalizedPower);
+			col01.xyz * power01
+			+ col02.xyz * power02
+			+ col03.xyz * power03;
 		float3 normal =
 			normal01.xyz * (IN.uv_MainTex.x / normalizedPower)
 			+ normal02.xyz * (IN.uv_MainTex.y / normalizedPower)
