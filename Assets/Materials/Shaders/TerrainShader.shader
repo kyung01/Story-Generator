@@ -38,6 +38,9 @@ Shader "Custom/UnLitTerrainShader"{
 		// sample the texture
 		//fixed4 col = i.color;
 		//fixed4 col = float4(uv.x, uv.y, 0, 1);
+
+		float smooth01 = tex2D(_MainTex, float2(xDecimal, zDecimal)).w;
+
 		float3 normal01 = UnpackNormal(tex2D(_MainTex2, float2(xDecimal, zDecimal)));
 		float3 normal02 = UnpackNormal(tex2D(_MainTex2, float2(xDecimal + square, zDecimal)));
 		float3 normal03 = UnpackNormal(tex2D(_MainTex2, float2(xDecimal + square*2, zDecimal)));
@@ -56,6 +59,7 @@ Shader "Custom/UnLitTerrainShader"{
 			+ normal02.xyz * (IN.uv_MainTex.y / normalizedPower)
 			+ normal03.xyz * (IN.uv2_MainTex2.x / normalizedPower);
 
+		float smooth = smooth01;
 		//col = normalize(col);
 		//col = float3(min(1,col.x), min(1,col.y), min(col.z,1));
 
@@ -67,6 +71,7 @@ Shader "Custom/UnLitTerrainShader"{
 
 		o.Albedo = float4(col.x,col.y,col.z,1.0);
 		o.Normal = normal;
+		o.Specular = smooth;
 		//o.Normal = normalize(normal + float3(0, 0, 0));
 	}
 	ENDCG
