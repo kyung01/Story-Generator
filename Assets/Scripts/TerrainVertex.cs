@@ -1,10 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TerrainVertex 
 {
 	public Vector3 position;
 	public int type;
+	public List<int> typeRendered = new List<int>();
 	public float renderWeight;
 
 	public TerrainVertex()
@@ -16,6 +19,11 @@ public class TerrainVertex
 	{
 		this.position = position;
 		this.type = type; 
+	}
 
+	public void addInfluencedType(int type)
+	{
+		if (typeRendered.Contains(type)) return;
+		typeRendered.Add(type);
 	}
 }

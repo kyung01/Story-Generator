@@ -64,15 +64,16 @@ public class TerrainMeshGenerator : MonoBehaviour
 				for (float x = 0; x <= xSize; x += 0.5f)
 				{
 					vertexDetailed[i] = new TerrainVertex();
-					vertexDetailed[i].position = new Vector3(-.5f + x, -.5f + z,0);
+					vertexDetailed[i].position = new Vector3(-.5f + x, -.5f + z, 0);
 					i++;
 				}
 			}
 			Debug.Log(i);
 			for (int z = 0; z < zSize; z++) for (int x = 0; x < xSize; x++)
 				{
-					int index =	(1 + 2 * x) + (1 + 2 * xSize) * (1 + z * 2);
+					int index = (1 + 2 * x) + (1 + 2 * xSize) * (1 + z * 2);
 					vertexDetailed[index].type = (int)instance.pieces[xSize * z + x].Type;
+					vertexDetailed[index].addInfluencedType((int)instance.pieces[xSize * z + x].Type);
 					vertexDetailed[index].renderWeight = (int)instance.pieces[xSize * z + x].RenderWeight;
 				}
 		}
@@ -203,23 +204,34 @@ public class TerrainMeshGenerator : MonoBehaviour
 		List<TerrainVertex> vertexInfluenced)
 	{
 		int selectedType;
+		Piece selectedPiece;
+		bool isEqual = false;
 		if (pieceAdjacent == null)
 		{
 			selectedType = (int)piece.Type;
+			selectedPiece = piece;
 		}
 		else
 		{
-			selectedType =
-				((int)piece.RenderWeight >= (int)pieceAdjacent.RenderWeight) ?
-				(int)piece.Type : (int)pieceAdjacent.Type;
+			isEqual = piece.RenderWeight == pieceAdjacent.RenderWeight;
+			selectedPiece = (piece.RenderWeight >= pieceAdjacent.RenderWeight) ?
+				piece : pieceAdjacent;
+			selectedType = (int)selectedPiece.Type;
 		}
 		for (int i = 0; i < vertexInfluenced.Count; i++)
 		{
+			if (isEqual)
+			{
+				vertexInfluenced[i].addInfluencedType((int)piece.Type);
+				vertexInfluenced[i].addInfluencedType((int)pieceAdjacent.Type);
+			}
 			if (vertexInfluenced[i].type > selectedType)
 			{
+				vertexInfluenced[i].addInfluencedType(vertexInfluenced[i].type);
 				continue;
 			}
 
+			vertexInfluenced[i].addInfluencedType(selectedType);
 			//Debug.Log(vertexInfluenced[i].position.x + " " + vertexInfluenced[i].position.z + " COLOR = " + selectedType);
 			vertexInfluenced[i].type = selectedType;
 		}
@@ -323,6 +335,21 @@ public class TerrainMeshGenerator : MonoBehaviour
 				vec2 = new Vector2(vec2.x, 1);
 		}
 	}
+
+	void hprType(int tVertexType, ref Vector2 vec2, bool isFirst, int checkedType)
+	{
+		if (isFirst)
+		{
+			if (tVertexType == checkedType)
+				vec2 = new Vector2(1, vec2.y);
+		}
+		else
+		{
+			if (tVertexType == checkedType)
+				vec2 = new Vector2(vec2.x, 1);
+		}
+	}
+
 	private void UpdateMesh()
 	{
 		mesh.Clear();
@@ -347,16 +374,24 @@ public class TerrainMeshGenerator : MonoBehaviour
 
 		for (int i = 0; i < vertexDetailed.Count(); i++)
 		{
-			/*
-			*/
+
 			int typeIndex = 0;
 			for (int j = 0; j < 15; j++)
 			{
-				Vector2 uv = new Vector2(0,0);
-				hpr(vertexDetailed[i], ref uv, true, typeIndex++);
-				hpr(vertexDetailed[i], ref uv, false, typeIndex++);
+				Vector2 uv = new Vector2(0, 0);
+				for (int k = 0; k < vertexDetailed[i].typeRendered.Count; k++)
+				{
+					int selectedRenderType = vertexDetailed[i].typeRendered[k];
+					hprType(selectedRenderType, ref uv, true, typeIndex);
+					hprType(selectedRenderType, ref uv, false, typeIndex+1);
+				}
 				typeVec2[j].Add(uv);
+				typeIndex += 2;
 			}
+
+			/*
+			*/
+
 			/*
 			float uv2X = 0, uv2Y = 0;
 			var uv2 = new Vector2(0, 0);

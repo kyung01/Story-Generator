@@ -54,13 +54,13 @@ Shader "Custom/UnLitTerrainShader"{
 		float power02 = (IN.uv_MainTex.y / normalizedPower);
 		float power03 = (IN.uv2_MainTex2.x / normalizedPower);
 
-		//power01 = pow(power01,2);
-		//power02 = pow(power02,2);
-		//power03 = pow(power03,2);
-		//float powerNormal = power01 + power02 + power03;
-		//power01 /= powerNormal;
-		//power02 /= powerNormal;
-		//power03 /= powerNormal;
+		power01 = pow(power01,3);
+		power02 = pow(power02,3);
+		power03 = pow(power03,3);
+		float powerNormal = power01 + power02 + power03;
+		power01 /= powerNormal;
+		power02 /= powerNormal;
+		power03 /= powerNormal;
 
 
 		float3 col =
@@ -84,7 +84,7 @@ Shader "Custom/UnLitTerrainShader"{
 
 		o.Albedo = float4(col.x,col.y,col.z,1.0);
 		o.Normal = normal;
-		o.Specular = smooth;
+		//o.Specular = smooth;
 		//o.Normal = normalize(normal + float3(0, 0, 0));
 	}
 	ENDCG
