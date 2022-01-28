@@ -84,7 +84,7 @@ Shader "Custom/UnLitTerrainShader"{
 
 		o.Albedo = float4(col.x,col.y,col.z,1.0);
 		o.Normal = normal;
-		//o.Specular = smooth;
+		o.Specular = 1;
 		//o.Normal = normalize(normal + float3(0, 0, 0));
 	}
 	ENDCG

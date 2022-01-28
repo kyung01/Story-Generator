@@ -17,7 +17,7 @@ namespace StoryGenerator.Terrain
 
 		public Piece()
 		{
-			if(Random.Range(0,100) < 50)
+			if(Random.Range(0,100) < 30)
 			{
 
 				this.type = (KType)Random.Range(1, 3);
