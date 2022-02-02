@@ -7,8 +7,9 @@ Shader "Custom/UnLitTerrainShader"{
 		SubShader{
 		Tags{ "RenderType" = "Opaque" }
 		CGPROGRAM
-#pragma surface surf Lambert
+#pragma surface surf Standard fullforwardshadows
 
+#pragma target 3.0
 		struct Input {
 
 		float3 worldPos;
@@ -20,7 +21,7 @@ Shader "Custom/UnLitTerrainShader"{
 	sampler2D _MainTex;
 	sampler2D _MainTex2;
 	
-	void surf(Input IN, inout SurfaceOutput o) {
+	void surf(Input IN, inout SurfaceOutputStandard  o) {
 		float vX = IN.worldPos.x + .5f;
 		float vZ = IN.worldPos.y + .5f;
 		int xInt = vX;
@@ -67,12 +68,16 @@ Shader "Custom/UnLitTerrainShader"{
 			col01.xyz * power01
 			+ col02.xyz * power02
 			+ col03.xyz * power03;
+		float3 smooth =
+			col01.w * power01
+			+ col02.w * power02
+			+ col03.w * power03;
 		float3 normal =
 			normal01.xyz * (IN.uv_MainTex.x / normalizedPower)
 			+ normal02.xyz * (IN.uv_MainTex.y / normalizedPower)
 			+ normal03.xyz * (IN.uv2_MainTex2.x / normalizedPower);
 
-		float smooth = smooth01;
+		//float smooth = smooth01;
 		//col = normalize(col);
 		//col = float3(min(1,col.x), min(1,col.y), min(col.z,1));
 
@@ -82,9 +87,11 @@ Shader "Custom/UnLitTerrainShader"{
 		//UNITY_APPLY_FOG(i.fogCoord, col);
 		//return col;
 
-		o.Albedo = float4(col.x,col.y,col.z,1.0);
+		o.Albedo = float4(col.x, col.y, col.z, 1.0);
+		//o.Albedo = float4(1, 1, 1, 1);
 		o.Normal = normal;
-		o.Specular = 1;
+		//o.Specular = 1;
+		//o.Metallic =1- smooth;
 		//o.Normal = normalize(normal + float3(0, 0, 0));
 	}
 	ENDCG
