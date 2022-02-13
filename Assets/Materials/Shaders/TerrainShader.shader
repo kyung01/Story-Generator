@@ -43,39 +43,47 @@ Shader "Custom/UnLitTerrainShader"{
 		float smooth01 = tex2D(_MainTex, float2(xDecimal, zDecimal)).w;
 
 		float3 normal01 = UnpackNormal(tex2D(_MainTex2, float2(xDecimal, zDecimal)));
-		float3 normal02 = UnpackNormal(tex2D(_MainTex2, float2(xDecimal + square, zDecimal)));
-		float3 normal03 = UnpackNormal(tex2D(_MainTex2, float2(xDecimal + square*2, zDecimal)));
+		float3 normal02 = UnpackNormal(tex2D(_MainTex2, float2(xDecimal + square * 1, zDecimal)));
+		float3 normal03 = UnpackNormal(tex2D(_MainTex2, float2(xDecimal + square * 2, zDecimal)));
+		float3 normal04 = UnpackNormal(tex2D(_MainTex2, float2(xDecimal + square * 3, zDecimal)));
 
 		float4 col01 = tex2D(_MainTex, float2(xDecimal, zDecimal));
-		float4 col02 = tex2D(_MainTex, float2(square + xDecimal, +zDecimal));
+		float4 col02 = tex2D(_MainTex, float2(square * 1 + xDecimal, +zDecimal));
 		float4 col03 = tex2D(_MainTex, float2(square * 2 + xDecimal, zDecimal));
+		float4 col04 = tex2D(_MainTex, float2(square * 3 + xDecimal, zDecimal));
 
 		float normalizedPower = IN.uv_MainTex.x + IN.uv_MainTex.y + IN.uv2_MainTex2.x + IN.uv2_MainTex2.y;
 		float power01 = (IN.uv_MainTex.x / normalizedPower);
 		float power02 = (IN.uv_MainTex.y / normalizedPower);
 		float power03 = (IN.uv2_MainTex2.x / normalizedPower);
+		float power04 = (IN.uv2_MainTex2.y / normalizedPower);
 
 		power01 = pow(power01,3);
 		power02 = pow(power02,3);
-		power03 = pow(power03,3);
-		float powerNormal = power01 + power02 + power03;
+		power03 = pow(power03, 3);
+		power04 = pow(power04, 3);
+		float powerNormal = power01 + power02 + power03 + power04;
 		power01 /= powerNormal;
 		power02 /= powerNormal;
 		power03 /= powerNormal;
+		power04 /= powerNormal;
 
 
 		float3 col =
 			col01.xyz * power01
 			+ col02.xyz * power02
-			+ col03.xyz * power03;
+			+ col03.xyz * power03
+			+ col04.xyz * power04;
 		float3 smooth =
 			col01.w * power01
 			+ col02.w * power02
-			+ col03.w * power03;
+			+ col03.w * power03
+			+ col04.w * power04;
 		float3 normal =
 			normal01.xyz * (IN.uv_MainTex.x / normalizedPower)
 			+ normal02.xyz * (IN.uv_MainTex.y / normalizedPower)
-			+ normal03.xyz * (IN.uv2_MainTex2.x / normalizedPower);
+			+ normal03.xyz * (IN.uv2_MainTex2.x / normalizedPower)
+			+ normal04.xyz * (IN.uv2_MainTex2.y / normalizedPower);
 
 		//float smooth = smooth01;
 		//col = normalize(col);

@@ -50,10 +50,12 @@ namespace StoryGenerator.Terrain
 			}
 			float chanceToBeFertile = 0.4f;
 			float chanceToBeRocky = 0.3f;
+			float chanceToBeMountain = 0.4f;
 			int seed = Random.Range(0, 100);
 
 			var perlinMap_fertility = getPerlinNoise(seed +0, width, height, 0.1f);
-			var perlinMap_Rocky = getPerlinNoise(seed+1, width, height, 0.1f);
+			var perlinMap_Rocky = getPerlinNoise(seed + 1, width, height, 0.1f);
+			var perlinMap_Mountain = getPerlinNoise(seed + 2, width, height, 0.05f);
 			for (int i = 0; i < width; i++)
 			{
 				for(int j = 0; j < height; j++)
@@ -65,6 +67,10 @@ namespace StoryGenerator.Terrain
 					if (perlinMap_Rocky[i][j] > (1 - chanceToBeRocky))
 					{
 						pieces[i + j * width].SetType(Piece.KType.ROCKY);
+					}
+					if (perlinMap_Mountain[i][j] > (1 - chanceToBeMountain))
+					{
+						pieces[i + j * width].SetType(Piece.KType.MOUNTAIN);
 					}
 				}
 			}
