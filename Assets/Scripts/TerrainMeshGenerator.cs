@@ -424,7 +424,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 
 	private void OnDrawGizmos()
 	{
-
+		return;
 		if (sterrain == null) return;
 
 		for (int x = 0; x < xSize; x++)

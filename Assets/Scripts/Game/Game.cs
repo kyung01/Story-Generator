@@ -16,6 +16,7 @@ public class Game : MonoBehaviour
 		terrainMeshGenerator.Init(world.terrain);
 	}
 
+
 	// Update is called once per frame
 	void Update()
 	{

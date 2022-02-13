@@ -8,8 +8,9 @@ namespace StoryGenerator.Terrain
 	/// </summary>
 	public class Piece
 	{
-		public enum KType { DIRT = 0 , ROCKY = 1, FERTILE = 2 }
+		public enum KType { DIRT = 0 , ROCKY = 1, FERTILE = 2 ,MOUNTAIN,}
 		KType type = KType.DIRT;
+
 		float renderWeight = 0;
 
 		public KType Type {get{return this.type;} }
@@ -17,15 +18,18 @@ namespace StoryGenerator.Terrain
 
 		public Piece()
 		{
-			if(Random.Range(0,100) < 30)
+			this.type = KType.DIRT;
+			/*
+			float chanceToBeNotNormal = 30;
+			if (Random.Range(0, 100) < chanceToBeNotNormal)
 			{
-
 				this.type = (KType)Random.Range(1, 3);
 			}
-			else
-			{
-				this.type = KType.DIRT;
-			}
+			*/
+		}
+		public void SetType(KType type)
+		{
+			this.type = type;	
 			switch (this.type)
 			{
 				case KType.DIRT:
