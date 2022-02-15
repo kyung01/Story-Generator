@@ -44,10 +44,10 @@ public class TerrainMeshGenerator : MonoBehaviour
 		UpdateMesh();
 	}
 
-	void InitVerticies(StoryGenerator.Terrain.TerrainInstance instance)
+	void InitVerticies(StoryGenerator.Terrain.TerrainInstance terrainInstance)
 	{
-		xSize = instance.Width;
-		zSize = instance.Height;
+		xSize = terrainInstance.Width;
+		zSize = terrainInstance.Height;
 		vertexDetailed = new TerrainVertex[(1 + 2 * xSize) * (1 + 2 * zSize)];
 		int detailedRowSize = 1 + 2 * xSize;
 
@@ -69,12 +69,13 @@ public class TerrainMeshGenerator : MonoBehaviour
 				}
 			}
 			Debug.Log(i);
+			int oneLine = (1 + 2 * xSize);
 			for (int z = 0; z < zSize; z++) for (int x = 0; x < xSize; x++)
 				{
-					int index = (1 + 2 * x) + (1 + 2 * xSize) * (1 + z * 2);
-					vertexDetailed[index].type = (int)instance.pieces[xSize * z + x].Type;
-					vertexDetailed[index].addInfluencedType((int)instance.pieces[xSize * z + x].Type);
-					vertexDetailed[index].renderWeight = (int)instance.pieces[xSize * z + x].RenderWeight;
+					int index =  oneLine * (1 + z * 2) + (1 + 2 * x) ;
+					vertexDetailed[index].type = (int)terrainInstance.pieces[xSize * z + x].Type;
+					vertexDetailed[index].addInfluencedType((int)terrainInstance.pieces[xSize * z + x].Type);
+					vertexDetailed[index].renderWeight = (int)terrainInstance.pieces[xSize * z + x].RenderWeight;
 				}
 		}
 		Debug.Log("detailed legnth " + vertexDetailed.Length);
@@ -109,7 +110,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 					new Vector2[]{new Vector2(centerX -1 , centerZ - 1),new Vector2(centerX+0, centerZ - 1),new Vector2(centerX + 1, centerZ -1) },
 					new Vector2[]{new Vector2(centerX - 1, centerZ + 0), new Vector2(centerX - 1, centerZ + 1), new Vector2(centerX - 1, centerZ - 1) }
 				};
-				var tile = instance.pieces[instance.Width * z + x];
+				var tile = terrainInstance.pieces[terrainInstance.Width * z + x];
 
 				for (int k = 0; k < 4; k++)
 				{
@@ -121,7 +122,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 					bool isAdjacentTileLegit = EzT.ChkWithinBoundaries(adjTileIndex, new Vector2(0, 0), new Vector2(xSize - 1, zSize - 1));
 
 					var tileAdj = (isAdjacentTileLegit) ?
-						instance.pieces[instance.Width * (int)adjTileIndex.y + (int)adjTileIndex.x] : null;
+						terrainInstance.pieces[terrainInstance.Width * (int)adjTileIndex.y + (int)adjTileIndex.x] : null;
 
 					for (int i = adjEdgeIndexs.Count - 1; i >= 0; i--)
 					{
