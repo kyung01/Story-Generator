@@ -8,6 +8,7 @@ public class TerrainVertex
 	public Vector3 position;
 	public int type;
 	public List<int> typeRendered = new List<int>();
+	public List<int> typeAdjacent = new List<int>();
 	public float renderWeight;
 
 	public TerrainVertex()

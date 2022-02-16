@@ -15,7 +15,8 @@ public class TerrainMeshGenerator : MonoBehaviour
 	int xSize = 3;
 	int ySize = 3;
 
-	TerrainVertex[] vertexEdgesAndCenters;
+	TerrainVertex[] vertexEdges;
+	TerrainVertex[] vertexCenters;
 
 
 	StoryGenerator.Terrain.TerrainInstance sterrain;
@@ -48,7 +49,8 @@ public class TerrainMeshGenerator : MonoBehaviour
 	{
 		xSize = terrainInstance.Width;
 		ySize = terrainInstance.Height;
-		vertexEdgesAndCenters = new TerrainVertex[(1 + 2 * xSize) * (1 + 2 * ySize)];
+		vertexEdges = new TerrainVertex[(1+ xSize) * (1 +  ySize)];
+		vertexCenters = new TerrainVertex[xSize * ySize];
 		int detailedRowSize = 1 + 2 * xSize;
 
 		#region Initiate center
@@ -59,26 +61,29 @@ public class TerrainMeshGenerator : MonoBehaviour
 		{
 			//detailed vertex initialization 
 			int i = 0;
-			for (float z = 0; z <= ySize; z += 0.5f)
+			for (float y = 0; y <= ySize; y++)
 			{
-				for (float x = 0; x <= xSize; x += 0.5f)
+				for (float x = 0; x <= xSize; x++)
 				{
-					vertexEdgesAndCenters[i] = new TerrainVertex();
-					vertexEdgesAndCenters[i].position = new Vector3(-.5f + x, -.5f + z, 0);
+					vertexEdges[i] = new TerrainVertex();
+					vertexEdges[i].position = new Vector3(-.5f + x, -.5f + y, 0);
 					i++;
 				}
 			}
-			Debug.Log(i);
-			int oneLine = (1 + 2 * xSize);
-			for (int z = 0; z < ySize; z++) for (int x = 0; x < xSize; x++)
+			i = 0;
+			for (int y = 0; y < ySize; y++) for (int x = 0; x < xSize; x++)
 				{
-					int index =  oneLine * (1 + z * 2) + (1 + 2 * x) ;
-					vertexEdgesAndCenters[index].type = (int)terrainInstance.pieces[xSize * z + x].Type;
-					vertexEdgesAndCenters[index].addInfluencedType((int)terrainInstance.pieces[xSize * z + x].Type);
-					vertexEdgesAndCenters[index].renderWeight = (int)terrainInstance.pieces[xSize * z + x].RenderWeight;
+					var terrainPieceType = (int)terrainInstance.pieces[xSize * y + x].Type;
+					vertexCenters[i] = new TerrainVertex();
+					vertexCenters[i].position = new Vector3(x, y, 0);
+					vertexCenters[i].type = terrainPieceType;
+					vertexCenters[i].addInfluencedType(terrainPieceType);
+					//vertexCenters[i].renderWeight =	(int)terrainInstance.pieces[xSize * y + x].RenderWeight;
+					i++;
 				}
 		}
-		Debug.Log("detailed legnth " + vertexEdgesAndCenters.Length);
+		return;
+		Debug.Log("detailed legnth " + vertexEdges.Length);
 
 
 		#endregion
@@ -90,6 +95,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 			{
 			}
 		}
+		int index = 0;
 		for (float y = -0.5f; y <= ySize+0.5f; y++)
 		{
 			for (float x = -0.5f; x <= xSize+0.5f; x++)
@@ -110,9 +116,30 @@ public class TerrainMeshGenerator : MonoBehaviour
 
 					}
 				}
-				List<TerrainVertex> adjVertices = adjTileListIndex.Select(v => this.vertexEdgesAndCenters[(int)v.x + (int)((v.y) * (1 + 2 * xSize))]).ToList();
+				List<TerrainVertex> adjVertices =  adjTileListIndex.Select(v => this.vertexEdges[(int)(1+v.x*2) + (int)((1+v.y*2) * (1 + 2 * xSize))]).ToList();
+				foreach(var v in adjTileListIndex)
+				{
+					Debug.Log(v);
+					Debug.Log("index "+(int)(1 + v.x * 2) + " , " + (int)((1 + v.y * 2) * (1 + 2 * xSize)) );
+				}
+				var vertex = this.vertexEdges[index];
+				Debug.Log("Updating " + x + " " + y + " " + adjVertices.Count);
+				foreach(var v in adjTileListIndex)
+				{
+					Debug.Log("Index at " + v);
+				}
+
+				hpr(vertex, adjVertices);
+				Debug.Log("RESULT " + vertex.typeAdjacent.Count);
+				foreach(var v in vertex.typeAdjacent)
+				{
+					Debug.Log("-> " +v);
+				}
+				index +=2;
 			}
+			index -= 1;
 		}
+		/*
 		for (int y = 0; y < ySize; y++)
 		{
 			for (int x = 0; x < xSize; x++)
@@ -163,6 +190,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 				}
 			}
 		}
+		*/
 		/*
 		 * for (int z = 0; z < zSize; z++)
 		{
@@ -223,6 +251,14 @@ public class TerrainMeshGenerator : MonoBehaviour
 
 	}
 
+	void hpr(TerrainVertex vertex, List<TerrainVertex> adjVertices)
+	{
+		foreach(var v in adjVertices)
+		{
+			vertex.typeAdjacent.Add(v.type);
+		}
+	}
+
 	void hprUpdateInfluencedVertexs(
 		Piece piece, Piece pieceAdjacent,
 		List<TerrainVertex> vertexInfluenced)
@@ -272,29 +308,34 @@ public class TerrainMeshGenerator : MonoBehaviour
 	void CreateShape()
 	{
 		//verticies = new Vector3[(xSize + 1) * (zSize + 1)];
-		triangles = new int[(xSize) * (ySize) * 8 * 3]; // I need 8 triangles for each square
+		int numTriangleRequiredForEachSquare = 4;
+		// I need 8 triangles for each square
+		// edit : I need 4 triangles for each square, my math was wrong
+		triangles = new int[(xSize) * (ySize) * numTriangleRequiredForEachSquare * 3]; 
 
 
 
-		int totalVerticesUsedToExpressSquare = 8 * 3;
+		int totalVerticesUsedToExpressSquare = numTriangleRequiredForEachSquare * 3;
 		int triangleIndex = 0;
-		int horizontalVertexRawCount = 1 + 2 * xSize;
+		int centerVertexStartingIndex = vertexEdges.Length;
+		//int horizontalVertexRawCount = 1 + 2 * xSize;
+		int edgeRowCount = 1 + xSize;
 
-		for (int z = 0; z < ySize; z++)
+		for (int y = 0; y < ySize; y++)
 		{
-			int zIndex = horizontalVertexRawCount * z;
+			//int zIndex = horizontalVertexRawCount * y;
 			for (int x = 0; x < xSize; x++)
 			{
-				int centerIndex = x + xSize * z;
+				int centerIndex = x + xSize * y;
 
-				int center = 1 + 2 * x + horizontalVertexRawCount * (2 * z + 1);
+				int center = centerVertexStartingIndex + x + y * xSize;
 				//int cornerB = cornerStartIndex+zIndex + x + 1;
 
 				//bottom
-				triangles[triangleIndex + 0] = center - horizontalVertexRawCount - 1;
-				triangles[triangleIndex + 1] = center;
-				triangles[triangleIndex + 2] = triangles[triangleIndex + 0] + 1;
-
+				triangles[triangleIndex + 0] = center;
+				triangles[triangleIndex + 1] = x+1 + y* edgeRowCount;
+				triangles[triangleIndex + 2] = x + y * edgeRowCount;
+				/*
 				triangles[triangleIndex + 3] = center;
 				triangles[triangleIndex + 4] = center - horizontalVertexRawCount + 1;
 				triangles[triangleIndex + 5] = center - horizontalVertexRawCount;
@@ -307,30 +348,8 @@ public class TerrainMeshGenerator : MonoBehaviour
 				triangles[triangleIndex + 9] = center;
 				triangles[triangleIndex + 10] = center + horizontalVertexRawCount + 1;
 				triangles[triangleIndex + 11] = center + 1;
+				 * */
 
-				//up
-				triangles[triangleIndex + 12] = center;
-				triangles[triangleIndex + 13] = center + horizontalVertexRawCount;
-				triangles[triangleIndex + 14] = center + horizontalVertexRawCount + 1;
-
-				triangles[triangleIndex + 15] = center;
-				triangles[triangleIndex + 16] = center + horizontalVertexRawCount - 1;
-				triangles[triangleIndex + 17] = center + horizontalVertexRawCount;
-
-				//left
-				triangles[triangleIndex + 18] = center;
-				triangles[triangleIndex + 19] = center - 1;
-				triangles[triangleIndex + 20] = center + horizontalVertexRawCount - 1;
-
-				triangles[triangleIndex + 21] = center;
-				triangles[triangleIndex + 22] = center - horizontalVertexRawCount - 1;
-				triangles[triangleIndex + 23] = center - 1;
-
-
-
-				//triangles[triangleIndex + 3] = cornerB ;
-				//triangles[triangleIndex + 4] = cornerA + horizontalVertexRawCount;
-				//triangles[triangleIndex + 5] = cornerB + horizontalVertexRawCount;
 
 				triangleIndex += totalVerticesUsedToExpressSquare;
 			}
@@ -365,12 +384,12 @@ public class TerrainMeshGenerator : MonoBehaviour
 		if (isFirst)
 		{
 			if (tVertexType == checkedType)
-				vec2 = new Vector2(1, vec2.y);
+				vec2 = new Vector2(vec2.x + 1, vec2.y);
 		}
 		else
 		{
 			if (tVertexType == checkedType)
-				vec2 = new Vector2(vec2.x, 1);
+				vec2 = new Vector2(vec2.x, vec2.y + 1);
 		}
 	}
 
@@ -378,9 +397,11 @@ public class TerrainMeshGenerator : MonoBehaviour
 	{
 		mesh.Clear();
 
-		var positionsDetailedVertexs = vertexEdgesAndCenters.Select(s => s.position).ToArray();
+		var vertexCombined = vertexEdges.Concat(vertexCenters).ToArray();
 
-		var colorsDetailed = vertexEdgesAndCenters.Select(s => hprIntToColor(s.type)).ToArray();
+
+		var meshVertexPositions = vertexCombined.Select(s => s.position).ToArray(); 
+		//var colorsDetailed = vertexEdges.Select(s => hprIntToColor(s.type)).ToArray();
 
 		//center color
 		//64개 필요함
@@ -396,16 +417,20 @@ public class TerrainMeshGenerator : MonoBehaviour
 		var uv2Empty = new List<Vector2>();
 		var uv3Empty = new List<Vector2>();
 
-		for (int i = 0; i < vertexEdgesAndCenters.Count(); i++)
+		for (int i = 0; i < vertexCombined.Count(); i++)
 		{
-
+			Debug.Log("UpdateMesh:: at " + i + " has n amount of adjacent::" + vertexCombined[i].typeAdjacent.Count);
+			foreach(var v  in vertexCombined[i].typeAdjacent)
+			{
+				Debug.Log(v);
+			}
 			int typeIndex = 0;
 			for (int j = 0; j < 15; j++)
 			{
 				Vector2 uv = new Vector2(0, 0);
-				for (int k = 0; k < vertexEdgesAndCenters[i].typeRendered.Count; k++)
+				for (int k = 0; k < vertexCombined[i].typeAdjacent.Count; k++)
 				{
-					int selectedRenderType = vertexEdgesAndCenters[i].typeRendered[k];
+					int selectedRenderType = vertexCombined[i].typeAdjacent[k];
 					hprType(selectedRenderType, ref uv, true, typeIndex);
 					hprType(selectedRenderType, ref uv, false, typeIndex+1);
 				}
@@ -432,8 +457,8 @@ public class TerrainMeshGenerator : MonoBehaviour
 		}
 
 		//mesh.
-		mesh.vertices = positionsDetailedVertexs;
-		mesh.colors = colorsDetailed;
+		mesh.vertices = meshVertexPositions;
+		//mesh.colors = colorsDetailed;
 
 		//mesh.uv2 = uv2Empty.ToArray();
 		//mesh.uv3 = uv3Empty.ToArray();
