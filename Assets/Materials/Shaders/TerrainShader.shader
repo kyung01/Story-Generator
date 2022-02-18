@@ -58,10 +58,10 @@ Shader "Custom/UnLitTerrainShader"{
 		float power03 = (IN.uv2_MainTex2.x / normalizedPower);
 		float power04 = (IN.uv2_MainTex2.y / normalizedPower);
 
-		power01 = pow(power01,3);
-		power02 = pow(power02,3);
-		power03 = pow(power03, 3);
-		power04 = pow(power04, 3);
+		//power01 = pow(power01,1);
+		//power02 = pow(power02,1);
+		//power03 = pow(power03, 1);
+		//power04 = pow(power04, 1);
 		float powerNormal = power01 + power02 + power03 + power04;
 		power01 /= powerNormal;
 		power02 /= powerNormal;

@@ -82,7 +82,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 					i++;
 				}
 		}
-		return;
+		//return;
 		Debug.Log("detailed legnth " + vertexEdges.Length);
 
 
@@ -96,9 +96,9 @@ public class TerrainMeshGenerator : MonoBehaviour
 			}
 		}
 		int index = 0;
-		for (float y = -0.5f; y <= ySize+0.5f; y++)
+		for (float y = -0.5f; y < ySize+0.5f; y++)
 		{
-			for (float x = -0.5f; x <= xSize+0.5f; x++)
+			for (float x = -0.5f; x < xSize+0.5f; x++)
 			{
 				Vector2[] adjTilesNew = new Vector2[] {
 					new Vector2(x-0.5f,y+0.5f),
@@ -116,12 +116,12 @@ public class TerrainMeshGenerator : MonoBehaviour
 
 					}
 				}
-				List<TerrainVertex> adjVertices =  adjTileListIndex.Select(v => this.vertexEdges[(int)(1+v.x*2) + (int)((1+v.y*2) * (1 + 2 * xSize))]).ToList();
+				List<TerrainVertex> adjVertices =  adjTileListIndex.Select(v => this.vertexCenters[(int)(v.x + v.y * xSize)]).ToList();
 				foreach(var v in adjTileListIndex)
 				{
-					Debug.Log(v);
-					Debug.Log("index "+(int)(1 + v.x * 2) + " , " + (int)((1 + v.y * 2) * (1 + 2 * xSize)) );
+					//Debug.Log(v);
 				}
+				//Debug.Log("index " + index  +"/"+ vertexEdges .Length+ " " + x + " , " + y);
 				var vertex = this.vertexEdges[index];
 				Debug.Log("Updating " + x + " " + y + " " + adjVertices.Count);
 				foreach(var v in adjTileListIndex)
@@ -135,9 +135,8 @@ public class TerrainMeshGenerator : MonoBehaviour
 				{
 					Debug.Log("-> " +v);
 				}
-				index +=2;
+				index++;
 			}
-			index -= 1;
 		}
 		/*
 		for (int y = 0; y < ySize; y++)
@@ -333,8 +332,25 @@ public class TerrainMeshGenerator : MonoBehaviour
 
 				//bottom
 				triangles[triangleIndex + 0] = center;
-				triangles[triangleIndex + 1] = x+1 + y* edgeRowCount;
+				triangles[triangleIndex + 1] = x + 1 + y * edgeRowCount;
 				triangles[triangleIndex + 2] = x + y * edgeRowCount;
+
+				//right
+
+				triangles[triangleIndex + 3] = center;
+				triangles[triangleIndex + 4] = x + 1 + (y + 1) * edgeRowCount;
+				triangles[triangleIndex + 5] = x + 1 + y * edgeRowCount;
+
+				//up
+
+				triangles[triangleIndex + 6] = center;
+				triangles[triangleIndex + 7] = x  + (y + 1) * edgeRowCount;
+				triangles[triangleIndex + 8] = x + 1 + (y+1) * edgeRowCount;
+
+				//left 
+				triangles[triangleIndex + 9] = center;
+				triangles[triangleIndex + 10] = x + (y ) * edgeRowCount;
+				triangles[triangleIndex + 11] = x  + (y + 1) * edgeRowCount;
 				/*
 				triangles[triangleIndex + 3] = center;
 				triangles[triangleIndex + 4] = center - horizontalVertexRawCount + 1;
@@ -473,30 +489,29 @@ public class TerrainMeshGenerator : MonoBehaviour
 
 	private void OnDrawGizmos()
 	{
-		return;
 		if (sterrain == null) return;
 
 		for (int x = 0; x < xSize; x++)
 		{
-			for (int z = 0; z < ySize; z++)
+			for (int y = 0; y < ySize; y++)
 			{
 				Gizmos.color = Color.white;
-				if ((int)sterrain.pieces[x + z * (xSize)].Type == 0)
+				if ((int)sterrain.pieces[x + y * (xSize)].Type == 0)
 				{
 					Gizmos.color = Color.red;
 
 				}
-				if ((int)sterrain.pieces[x + z * (xSize)].Type == 1)
+				if ((int)sterrain.pieces[x + y * (xSize)].Type == 1)
 				{
 					Gizmos.color = Color.green;
 
 				}
-				if ((int)sterrain.pieces[x + z * (xSize)].Type == 2)
+				if ((int)sterrain.pieces[x + y * (xSize)].Type == 2)
 				{
 					Gizmos.color = Color.blue;
 
 				}
-				Gizmos.DrawSphere(new Vector3(x, 0, z), .1f);
+				Gizmos.DrawSphere(new Vector3(x, y, 0), .1f);
 
 			}
 		}
