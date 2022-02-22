@@ -9,11 +9,13 @@ namespace StoryGenerator.World
 	public class World
 	{
 		public TerrainInstance terrain = new TerrainInstance();
+		public int width = 50;
+		public int height = 50;
 
 		public void InitTerrain()
 		{
 			//initialize the world 
-			terrain.init(50, 50);
+			terrain.init(width,height);
 
 		}
 

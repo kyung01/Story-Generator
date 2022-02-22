@@ -21,6 +21,7 @@ namespace StoryGenerator.Terrain
 		
 
 		public Piece[] pieces;
+		public bool[] mountain;
 
 		float[][] getPerlinNoise(int seed, int width, int height, float scale)
 		{
@@ -29,7 +30,8 @@ namespace StoryGenerator.Terrain
 			float ranY = Random.Range(0, 100.0f);
 
 			float[][] noiseMap = new float[width][];
-			for(int i = 0; i < width; i++){
+			mountain = new bool[width * height];
+			for (int i = 0; i < width; i++){
 				noiseMap[i] = new float[height];
 				for (int j =0; j < height; j++)
 				{
@@ -48,10 +50,12 @@ namespace StoryGenerator.Terrain
 			{
 				pieces[i] = new Piece();
 			}
-			float chanceToBeFertile = 0.4f;
-			float chanceToBeRocky = 0.3f;
-			float chanceToBeMountain = 0.4f;
-			int seed = Random.Range(0, 100);
+			float probToBeFertile = 0.4f;
+			float probToBeRocky = 0.3f;
+			float probToBeMountainGround = 0.4f;
+			float probToBeMountainRocks = 0.35f;
+			Random.InitState((int)System.DateTime.Now.Second);
+			int seed = Random.Range(0, 100000);
 
 			var perlinMap_fertility = getPerlinNoise(seed +0, width, height, 0.1f);
 			var perlinMap_Rocky = getPerlinNoise(seed + 1, width, height, 0.1f);
@@ -60,17 +64,21 @@ namespace StoryGenerator.Terrain
 			{
 				for(int j = 0; j < height; j++)
 				{
-					if (perlinMap_fertility[i][j] > (1 - chanceToBeFertile))
+					if (perlinMap_fertility[i][j] > (1 - probToBeFertile))
 					{
 						pieces[i + j * width].SetType(Piece.KType.FERTILE);
 					}
-					if (perlinMap_Rocky[i][j] > (1 - chanceToBeRocky))
+					if (perlinMap_Rocky[i][j] > (1 - probToBeRocky))
 					{
 						pieces[i + j * width].SetType(Piece.KType.ROCKY);
 					}
-					if (perlinMap_Mountain[i][j] > (1 - chanceToBeMountain))
+					if (perlinMap_Mountain[i][j] > (1 - probToBeMountainGround))
 					{
 						pieces[i + j * width].SetType(Piece.KType.MOUNTAIN);
+					}
+					if (perlinMap_Mountain[i][j] > (1 - probToBeMountainRocks))
+					{
+						mountain[i + j * width] = true;
 					}
 				}
 			}

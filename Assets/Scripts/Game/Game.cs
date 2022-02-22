@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class Game : MonoBehaviour
 {
-	World world;
-	[SerializeField] TerrainMeshGenerator terrainMeshGenerator;
+	public World world;
 
-	// Use this for initialization
-	void Start()
+	public void StartGame()
 	{
 		world = new World();
 		world.InitTerrain();
 
-		terrainMeshGenerator.Init(world.terrain);
+
+	}
+	// Use this for initialization
+	void Start()
+	{
+		
 	}
 
 
