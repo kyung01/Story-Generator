@@ -53,15 +53,19 @@ Shader "Custom/UnLitTerrainShader"{
 		float4 col04 = tex2D(_MainTex, float2(square * 3 + xDecimal, zDecimal));
 
 		float normalizedPower = IN.uv_MainTex.x + IN.uv_MainTex.y + IN.uv2_MainTex2.x + IN.uv2_MainTex2.y;
+		normalizedPower = 1;
 		float power01 = (IN.uv_MainTex.x / normalizedPower);
 		float power02 = (IN.uv_MainTex.y / normalizedPower);
 		float power03 = (IN.uv2_MainTex2.x / normalizedPower);
 		float power04 = (IN.uv2_MainTex2.y / normalizedPower);
+		
+		//hotfix
 
-		//power01 = pow(power01,1);
-		//power02 = pow(power02,1);
-		//power03 = pow(power03, 1);
-		//power04 = pow(power04, 1);
+		float powV = 3;
+		power01 = pow(power01,powV);
+		power02 = pow(power02,powV);
+		power03 = pow(power03,powV);
+		power04 = pow(power04,powV);
 		float powerNormal = power01 + power02 + power03 + power04;
 		power01 /= powerNormal;
 		power02 /= powerNormal;

@@ -9,15 +9,24 @@ public class TerrainVertex
 	public int type;
 	public List<int> typeRendered = new List<int>();
 	public List<int> typeAdjacent = new List<int>();
+	public List<float> typePower = new List<float>();
 	public float renderWeight;
 
 	public TerrainVertex()
 	{
+		for (int i = 0; i < 50; i++)
+		{
+			typePower.Add(0);
+		}
 		position = Vector3.zero;
 		type = -1;
 	}
 	public TerrainVertex(Vector3 position, int type)
 	{
+		for(int i = 0; i < 50; i++)
+		{
+			typePower.Add(0);
+		}
 		this.position = position;
 		this.type = type; 
 	}

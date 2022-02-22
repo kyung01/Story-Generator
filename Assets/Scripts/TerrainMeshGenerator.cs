@@ -73,9 +73,12 @@ public class TerrainMeshGenerator : MonoBehaviour
 			for (int z = 0; z < ySize; z++) for (int x = 0; x < xSize; x++)
 				{
 					int index = oneLine * (1 + z * 2) + (1 + 2 * x);
-					vertexEdgesAndCenters[index].type = (int)terrainInstance.pieces[xSize * z + x].Type;
-					vertexEdgesAndCenters[index].addInfluencedType((int)terrainInstance.pieces[xSize * z + x].Type);
+					var p = terrainInstance.pieces[xSize * z + x];
+					//vertexEdgesAndCenters[index].type = (int)terrainInstance.pieces[xSize * z + x].Type;
+					//vertexEdgesAndCenters[index].addInfluencedType((int)terrainInstance.pieces[xSize * z + x].Type);
 					vertexEdgesAndCenters[index].renderWeight = (int)terrainInstance.pieces[xSize * z + x].RenderWeight;
+					vertexEdgesAndCenters[index].typeRendered.Add((int)terrainInstance.pieces[xSize * z + x].Type);
+					vertexEdgesAndCenters[index].typePower[(int)p.Type] = 1;
 				}
 		}
 		Debug.Log("detailed legnth " + vertexEdgesAndCenters.Length);
@@ -90,77 +93,46 @@ public class TerrainMeshGenerator : MonoBehaviour
 			{
 			}
 		}
-		for (float y = -0.5f; y <= ySize + 0.5f; y++)
-		{
-			for (float x = -0.5f; x <= xSize + 0.5f; x++)
-			{
-				Vector2[] adjTilesNew = new Vector2[] {
-					new Vector2(x-0.5f,y+0.5f),
-					new Vector2(x+0.5f,y+0.5f),
-					new Vector2(x+0.5f,y-0.5f),
-					new Vector2(x-0.5f,y-0.5f)
-				};
-				var adjTileListIndex = adjTilesNew.OfType<Vector2>().ToList();
-				for (int i = 3; i >= 0; i--)
-				{
-					var t = adjTileListIndex[i];
-					if (!EzT.ChkWithinBoundaries(t.x, 0, xSize - 1) || !EzT.ChkWithinBoundaries(t.y, 0, ySize - 1))
-					{
-						adjTileListIndex.RemoveAt(i);
-
-					}
-				}
-				List<TerrainVertex> adjVertices = adjTileListIndex.Select(v => this.vertexEdgesAndCenters[(int)v.x + (int)((v.y) * (1 + 2 * xSize))]).ToList();
-			}
-		}
+		
 		for (int y = 0; y < ySize; y++)
 		{
-			for (int x = 0; x < xSize; x++)
+			for (int x = 0; x < xSize ; x++)
 			{
-				Vector2[] adjTiles = new Vector2[] {
-					new Vector2(x,y+1),
-					new Vector2(x+1,y),
-					new Vector2(x,y-1),
-					new Vector2(x-1,y)
-				};
 				int centerX = 1 + x * 2;
 				int centerY = 1 + y * 2;
-				Vector2[][] adjEdges = new Vector2[][]
+				var surroundingVertices = new Vector2[] {
+					new Vector2(centerX-1, centerY+1),
+					new Vector2(centerX+0, centerY+1),
+					new Vector2(centerX+1, centerY+1),
+										 
+					new Vector2(centerX-1, centerY),
+					new Vector2(centerX+1, centerY),
+										 
+					new Vector2(centerX-1, centerY-1),
+					new Vector2(centerX+0, centerY-1),
+					new Vector2(centerX+1, centerY-1)
+				}.ToList();
+				for (int i = surroundingVertices.Count() - 1; i >= 0; i--)
 				{
-					new Vector2[]{new Vector2(centerX - 1, centerY + 1),new Vector2(centerX + 0, centerY + 1),new Vector2(centerX + 1, centerY + 1) }, //upper
-					new Vector2[]{new Vector2(centerX+1,centerY+1),new Vector2(centerX + 1, centerY + 1),new Vector2(centerX + 1, centerY +1) }, // right
-					new Vector2[]{new Vector2(centerX -1 , centerY - 1),new Vector2(centerX+0, centerY - 1),new Vector2(centerX + 1, centerY -1) }, //down
-					new Vector2[]{new Vector2(centerX - 1, centerY + 0), new Vector2(centerX - 1, centerY + 1), new Vector2(centerX - 1, centerY - 1)  //left
-					} //
-				};
-				var tile = terrainInstance.pieces[terrainInstance.Width * y + x];
-
-				for (int k = 0; k < 4; k++)
-				{
-					int xRowSize = 1 + 2 * xSize;
-					int zColumnSize = 1 + 2 * ySize;
-					var adjTileIndex = adjTiles[k];
-					var adjEdgeIndexs = adjEdges[k].OfType<Vector2>().ToList();
-
-					bool isAdjacentTileLegit = EzT.ChkWithinBoundaries(adjTileIndex, new Vector2(0, 0), new Vector2(xSize - 1, ySize - 1));
-
-					var tileAdj = (isAdjacentTileLegit) ?
-						terrainInstance.pieces[terrainInstance.Width * (int)adjTileIndex.y + (int)adjTileIndex.x] : null;
-
-					for (int i = adjEdgeIndexs.Count - 1; i >= 0; i--)
+					var v = surroundingVertices[i];
+					bool isLegit = EzT.ChkWithinBoundaries(v, new Vector2(0, 0), new Vector2(1 + (xSize * 2) - 1, 1 + (ySize * 2) - 1));
+					if (!isLegit)
 					{
-						var edgeIndex = adjEdgeIndexs[i];
-						bool isAdjacentEdgeLegit = EzT.ChkWithinBoundaries(edgeIndex, new Vector2(0, 0), new Vector2(xRowSize - 1, zColumnSize - 1));
-						if (!isAdjacentEdgeLegit)
-						{
-							adjEdgeIndexs.RemoveAt(i);
-						}
-					}
-					//get vertices
-					List<TerrainVertex> edges = adjEdgeIndexs.Select(v => this.vertexEdgesAndCenters[(int)v.x + (int)((v.y) * (1 + 2 * xSize))]).ToList();
+						surroundingVertices.RemoveAt(i);
 
-					hprUpdateInfluencedVertexs(tile, tileAdj, edges);
+					}
+
 				}
+				var tile = terrainInstance.pieces[terrainInstance.Width * y + x];
+				var e2 = surroundingVertices.Select(s => vertexEdgesAndCenters[(int)s.x + (int)s.y * (1 + 2 * xSize)]).ToList();
+				for(int k = 0;k < e2.Count; k++)
+				{
+					float distance = (e2[k].position - new Vector3(x, y, 0)).magnitude / 0.5f;
+					distance *= distance;
+					e2[k].typePower[(int)tile.Type] = Mathf.Max(distance , e2[k].typePower[(int)tile.Type]);
+				}
+				hprUpdateInfluencedVertexs(tile, e2);
+
 			}
 		}
 		/*
@@ -220,6 +192,16 @@ public class TerrainMeshGenerator : MonoBehaviour
 
 			}
 		#endregion
+
+	}
+
+	void hprUpdateInfluencedVertexs(
+		Piece piece, List<TerrainVertex> vertexInfluenced)
+	{
+		for (int i = 0; i < vertexInfluenced.Count; i++)
+		{
+			vertexInfluenced[i].typeRendered.Add((int)piece.Type);
+		}
 
 	}
 
@@ -346,31 +328,18 @@ public class TerrainMeshGenerator : MonoBehaviour
 		return Color.black;
 	}
 
-	void hpr(TerrainVertex tVertex, ref Vector2 vec2, bool isFirst, int checkedType)
-	{
-		if (isFirst)
-		{
-			if (tVertex.type == checkedType)
-				vec2 = new Vector2(1, vec2.y);
-		}
-		else
-		{
-			if (tVertex.type == checkedType)
-				vec2 = new Vector2(vec2.x, 1);
-		}
-	}
 
 	void hprType(int tVertexType, ref Vector2 vec2, bool isFirst, int checkedType)
 	{
 		if (isFirst)
 		{
 			if (tVertexType == checkedType)
-				vec2 = new Vector2(1, vec2.y);
+				vec2 = new Vector2(vec2.x + 1.0f, vec2.y);
 		}
 		else
 		{
 			if (tVertexType == checkedType)
-				vec2 = new Vector2(vec2.x, 1);
+				vec2 = new Vector2(vec2.x, vec2.y + 1.0f);
 		}
 	}
 
@@ -400,17 +369,83 @@ public class TerrainMeshGenerator : MonoBehaviour
 		{
 
 			int typeIndex = 0;
+			int n = vertexEdgesAndCenters[i].typeRendered.Count;
+			var isMultipleColor = refreshHprIsMultipleColor(ref vertexEdgesAndCenters[i].typeRendered);
+
+			Debug.Log("[COUNT] " + n + " -> " + vertexEdgesAndCenters[i].typeRendered.Count);
+			List<Vector2> vec2List = new List<Vector2>();
 			for (int j = 0; j < 15; j++)
 			{
 				Vector2 uv = new Vector2(0, 0);
 				for (int k = 0; k < vertexEdgesAndCenters[i].typeRendered.Count; k++)
 				{
+
 					int selectedRenderType = vertexEdgesAndCenters[i].typeRendered[k];
 					hprType(selectedRenderType, ref uv, true, typeIndex);
 					hprType(selectedRenderType, ref uv, false, typeIndex + 1);
 				}
-				typeVec2[j].Add(uv);
+				//typeVec2[j].Add(uv);
+				vec2List.Add(new Vector2(vertexEdgesAndCenters[i].typePower[typeIndex], vertexEdgesAndCenters[i].typePower[typeIndex+1]));
 				typeIndex += 2;
+			}
+			float greatest = 0;
+
+			for (int j = 0; j < 30; j++)
+			{
+				//vertexEdgesAndCenters[i].typePower[j] = Mathf.Pow(vertexEdgesAndCenters[i].typePower[j],3);
+				//vec2List[j] = new Vector2(Mathf.Min(vec2List[j].x, 1), Mathf.Min(vec2List[j].y, 1f));
+
+			}
+			for (int j = 0; j < 15; j++)
+			{
+				//vec2List[j] = new Vector2(Mathf.Min(vec2List[j].x, 1), Mathf.Min(vec2List[j].y, 1f));
+
+			}
+			for (int j = 0; j < 15; j++)
+			{
+				//vec2List[j] = new Vector2(Mathf.Pow(vec2List[j].x, 2f), Mathf.Pow(vec2List[j].y, 2f));
+				//vec2List[j] = new Vector2(vec2List[j].x*0.5f, vec2List[j].y*0.5f);
+
+			}
+			for (int j = 0; j < 15; j++)
+			{
+
+				//greatest = Mathf.Max(vertexEdgesAndCenters[i].typePower[j * 2], greatest);
+				//greatest = Mathf.Max(vertexEdgesAndCenters[i].typePower[j * 2 + 1], greatest); ;
+				greatest += vertexEdgesAndCenters[i].typePower[j * 2] + vertexEdgesAndCenters[i].typePower[j * 2 + 1];
+				//greatest += vec2List[j].x + vec2List[j].y;
+
+			}
+			if (greatest != 0)
+			{
+				for (int j = 0; j < 15; j++)
+				{
+					vec2List[j] = new Vector2(vec2List[j].x / greatest, vec2List[j].y / greatest);
+				}
+
+			}
+
+			for (int j = 0; j < 15; j++)
+			{
+				float pow = 3;
+				vec2List[j] = new Vector2(Mathf.Pow(vec2List[j].x, pow), Mathf.Pow(vec2List[j].y, pow ) );
+			}
+			greatest = 0;
+			for (int j = 0; j < 15; j++)
+			{
+				greatest += vec2List[j].x + vec2List[j].y;
+			}
+			if (greatest != 0)
+			{
+				for (int j = 0; j < 15; j++)
+				{
+					vec2List[j] = new Vector2(vec2List[j].x / greatest, vec2List[j].y / greatest);
+				}
+
+			}
+			for (int j = 0; j < 15; j++)
+			{
+				typeVec2[j].Add(vec2List[j]);
 			}
 
 			/*
@@ -446,9 +481,33 @@ public class TerrainMeshGenerator : MonoBehaviour
 
 	}
 
+	private bool refreshHprIsMultipleColor(ref List<int> typeRendered)
+	{
+		if (typeRendered.Count == 0) return false;
+		int n = typeRendered[0];
+
+		bool isMultipleColor = false;
+		for(int i = 0; i< typeRendered.Count; i++)
+		{
+			if (n != typeRendered[i])
+			{
+				isMultipleColor = true;
+				break;
+			}
+		}
+		if (isMultipleColor)
+		{
+			//typeRendered = new List<int>();
+			return true;
+
+		}
+		typeRendered = new List<int>();
+		typeRendered.Add(n);
+		return false;
+	}
+
 	private void OnDrawGizmos()
 	{
-		return;
 		if (sterrain == null) return;
 
 		for (int x = 0; x < xSize; x++)
@@ -471,7 +530,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 					Gizmos.color = Color.blue;
 
 				}
-				Gizmos.DrawSphere(new Vector3(x, 0, z), .1f);
+				Gizmos.DrawSphere(new Vector3(x, z, 0), .1f);
 
 			}
 		}
