@@ -474,6 +474,9 @@ public class TerrainMeshGenerator : MonoBehaviour
 		//mesh.uv3 = uv3Empty.ToArray();
 		mesh.uv = typeVec2[0].ToArray();
 		mesh.uv2 = typeVec2[1].ToArray();
+		mesh.uv3 = typeVec2[2].ToArray();
+		mesh.uv4 = typeVec2[3].ToArray();
+		mesh.uv5 = typeVec2[4].ToArray();
 
 		mesh.name = "I made this";
 		mesh.triangles = triangles;

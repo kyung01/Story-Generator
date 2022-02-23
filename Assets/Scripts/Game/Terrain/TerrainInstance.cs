@@ -54,12 +54,19 @@ namespace StoryGenerator.Terrain
 			float probToBeRocky = 0.3f;
 			float probToBeMountainGround = 0.4f;
 			float probToBeMountainRocks = 0.35f;
+
+
+			float probClay = 0.3f;
+			float probWater = probClay - 0.05f;
+			float probWaterDeep = probWater - 0.05f;
+
 			Random.InitState((int)System.DateTime.Now.Second);
 			int seed = Random.Range(0, 100000);
 
 			var perlinMap_fertility = getPerlinNoise(seed +0, width, height, 0.1f);
 			var perlinMap_Rocky = getPerlinNoise(seed + 1, width, height, 0.1f);
 			var perlinMap_Mountain = getPerlinNoise(seed + 2, width, height, 0.05f);
+			var perlinMap_Water = getPerlinNoise(seed + 3, width, height, 0.05f);
 			for (int i = 0; i < width; i++)
 			{
 				for(int j = 0; j < height; j++)
@@ -79,6 +86,20 @@ namespace StoryGenerator.Terrain
 					if (perlinMap_Mountain[i][j] > (1 - probToBeMountainRocks))
 					{
 						mountain[i + j * width] = true;
+					}
+
+					if (perlinMap_Water[i][j] > (1 - probClay))
+					{
+						pieces[i + j * width].SetType(Piece.KType.CLAY);
+						mountain[i + j * width] = false;
+					}
+					if (perlinMap_Water[i][j] > (1 - probWater))
+					{
+						pieces[i + j * width].SetType(Piece.KType.WATER_SHALLOW);
+					}
+					if (perlinMap_Water[i][j] > (1 - probWaterDeep))
+					{
+						pieces[i + j * width].SetType(Piece.KType.WATER_DEEP);
 					}
 				}
 			}
