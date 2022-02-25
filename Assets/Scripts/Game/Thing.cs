@@ -1,12 +1,17 @@
 ﻿using System.Collections;
-using StoryGenerator.Terrain;
+using UnityEngine;
 
-namespace StoryGenerator.World.Mountain
+public class Thing : MonoBehaviour
 {
-	/// <summary>
-	/// Piece of mountain
-	/// </summary>
-	public class Piece
+
+	// Use this for initialization
+	void Start()
+	{
+
+	}
+
+	// Update is called once per frame
+	void Update()
 	{
 
 	}

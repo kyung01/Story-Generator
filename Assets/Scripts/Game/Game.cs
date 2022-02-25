@@ -6,10 +6,10 @@ public class Game : MonoBehaviour
 {
 	public World world;
 
-	public void StartGame()
+	public void StartGame(PrefabList prefabList)
 	{
 		world = new World();
-		world.InitTerrain();
+		world.InitTerrain(prefabList);
 
 
 	}
