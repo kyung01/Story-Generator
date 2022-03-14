@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Thing : MonoBehaviour
+public class Pawn : ThingAlive
 {
 
 	// Use this for initialization

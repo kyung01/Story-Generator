@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3782a7233c6eb24f9fc212fc9c05caf, type: 3}
   m_Name: PrefabList
   m_EditorClassIdentifier: 
-  Tree00: {fileID: 0}
-  Tree01: {fileID: 0}
-  Grass00: {fileID: 0}
-  Bush00: {fileID: 0}
-  Rock00: {fileID: 0}
-  Reed00: {fileID: 0}
+  Tree00: {fileID: 4184651335986869977, guid: 074ce28c9f1e61b44a5e08baddd932e3, type: 3}
+  Tree01: {fileID: -3368585252103681608, guid: ef4e9cd9922c316488aa792a0c4afc8a, type: 3}
+  Grass00: {fileID: -7646955884949213999, guid: 0b0b542eef0cb9b4581d52ca5d0913f7, type: 3}
+  Bush00: {fileID: -1967536162574952388, guid: 9fa6958c5fb510340a25737ce7e1a573, type: 3}
+  Rock00: {fileID: 7100124615057608123, guid: a522ca3589d159c49ab095e4c8ca2e9c, type: 3}
+  Reed00: {fileID: 7699228305810097061, guid: 4e660d6eb5edd234f8361a788962980a, type: 3}
