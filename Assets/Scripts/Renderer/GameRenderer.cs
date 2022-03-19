@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
+using StoryGenerator.World;
 
 public class GameRenderer : MonoBehaviour
 {
+	[SerializeField] SpriteList SPRITE_LIST;
+	[SerializeField] ThingRenderer PREFAB_THING_RENDERER;
+
 	[SerializeField] TerrainMeshGenerator terrainMeshGenerator;
 	[SerializeField] GameObject tempMountainRock;
 	public void RenderGame(Game game)
@@ -17,5 +21,19 @@ public class GameRenderer : MonoBehaviour
 				}
 
 			}
+		RenderWorld(game.world);
+	}
+	public void RenderWorld(World world)
+	{
+		for(int i = 0; i < world.things.Length; i++)
+		{
+			var thingCollection = world.things[i];
+			foreach(var thing in thingCollection)
+			{
+				var thingRenderer = Instantiate(PREFAB_THING_RENDERER);
+				thingRenderer.RenderThing(thing);
+			}
+
+		}
 	}
 }

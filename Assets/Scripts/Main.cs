@@ -10,7 +10,7 @@ public class Main : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		game.StartGame(prefabList);
+		game.StartGame();
 		gameRenderer.RenderGame(game);
 	}
 

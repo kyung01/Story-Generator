@@ -13,9 +13,9 @@ namespace StoryGenerator.World
 		public TerrainInstance terrain = new TerrainInstance();
 		public int width = 50;
 		public int height = 50;
-		List<Thing>[] things;
+		public List<Thing>[] things;
 
-		public void InitTerrain(PrefabList prefabList)
+		public void InitTerrain()
 		{
 			//initialize the world 
 			terrain.init(width,height);
@@ -38,14 +38,15 @@ namespace StoryGenerator.World
 						case Piece.KType.FERTILE:
 						case Piece.KType.DIRT:
 							//grass bush or tree
-							Thing[] vegitarians = new Thing[] { prefabList.Grass00, prefabList.Grass00, prefabList.Grass00,prefabList.Grass00, prefabList.Tree00, prefabList.Tree01, prefabList.Bush00 };
+							Thing[] vegitarians = new Thing[] {
+								new Plant(Thing.TYPE.GRASS), new Plant(Thing.TYPE.BUSH),new Thing(Thing.TYPE.ROCK)};
 							thing = vegitarians[Random.Range(0, vegitarians.Length)];
 							break;
 						case Piece.KType.ROCKY:
-							thing = prefabList.Rock00;
+							thing = new Thing(Thing.TYPE.ROCK);
 							break;
 						case Piece.KType.CLAY:
-							thing = prefabList.Reed00;
+							thing = new Thing(Thing.TYPE.ROCK);
 							break;
 						case Piece.KType.MOUNTAIN:
 						case Piece.KType.WATER_SHALLOW:
@@ -55,8 +56,10 @@ namespace StoryGenerator.World
 							break;
 					}
 					if (thing == null) continue;
-					var obj = GameObject.Instantiate(thing);
-					obj.transform.position = new Vector3(i, j, -0.001f);
+					
+					var obj = thing;
+					obj.x = i;
+					obj.y = j;
 					things[i + j * width].Add(obj);
 					//things[i+j*width] 
 				}

@@ -10,4 +10,6 @@ public class PrefabList : ScriptableObject
 	public Thing Bush00;
 	public Thing Rock00;
 	public Thing Reed00;
+
+	public Human Human;
 }

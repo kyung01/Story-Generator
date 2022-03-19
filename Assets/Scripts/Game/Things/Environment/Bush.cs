@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Pawn : ThingDestructable
+public class Bush :ThingDestructable
 {
 
 	// Use this for initialization
