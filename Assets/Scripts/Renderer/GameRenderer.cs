@@ -31,7 +31,7 @@ public class GameRenderer : MonoBehaviour
 			foreach(var thing in thingCollection)
 			{
 				var thingRenderer = Instantiate(PREFAB_THING_RENDERER);
-				thingRenderer.RenderThing(thing);
+				thingRenderer.RenderThing(thing, SPRITE_LIST);
 			}
 
 		}

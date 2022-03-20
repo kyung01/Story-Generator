@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a924a340214b17d4f9f94ba6cd8c5da2, type: 3}
+  m_Name: SpriteList
+  m_EditorClassIdentifier: 
+  Rock: {fileID: 2800000, guid: 28152a84448847a448c11c3169d55a05, type: 3}
+  Tree: {fileID: 2800000, guid: 4ee5c428310079348a548e709163b3f0, type: 3}
+  Bush: {fileID: 2800000, guid: 8a31071e753a8204fb1bedc1b2460540, type: 3}
+  Grass: {fileID: 2800000, guid: 10368d5b8c316aa42a71463167445573, type: 3}
+  Reed: {fileID: 2800000, guid: 7daddcb5549fbbb47a64139af7124da6, type: 3}
+  Human: {fileID: 2800000, guid: a1c81701ef26d484e8b38d86a82dad49, type: 3}

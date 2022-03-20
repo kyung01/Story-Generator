@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ScriptableObject", menuName = "PrefabList")]
+[CreateAssetMenu(fileName = "ScriptableObject", menuName = "SpriteList")]
 public class SpriteList : ScriptableObject
 {
 	public Texture2D Rock;

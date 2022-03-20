@@ -46,7 +46,7 @@ namespace StoryGenerator.World
 							thing = new Thing(Thing.TYPE.ROCK);
 							break;
 						case Piece.KType.CLAY:
-							thing = new Thing(Thing.TYPE.ROCK);
+							thing = new Thing(Thing.TYPE.REED);
 							break;
 						case Piece.KType.MOUNTAIN:
 						case Piece.KType.WATER_SHALLOW:

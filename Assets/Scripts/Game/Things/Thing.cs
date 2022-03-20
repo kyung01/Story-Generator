@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class Thing 
 {
-	public enum TYPE { UNDEFINED, ROCK,GRASS,BUSH}
+	public enum TYPE { UNDEFINED, ROCK,GRASS,BUSH,
+		REED
+	}
 	public TYPE type = TYPE.UNDEFINED;
 
 	public float x, y;

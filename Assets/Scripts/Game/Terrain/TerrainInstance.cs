@@ -23,7 +23,15 @@ namespace StoryGenerator.Terrain
 		public Piece[] pieces;
 		public bool[] mountain;
 
-		float[][] getPerlinNoise(int seed, int width, int height, float scale)
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="seed"></param>
+		/// <param name="width"></param>
+		/// <param name="height"></param>
+		/// <param name="scale">Scale is not amplifier, it defines how wider the map is</param>
+		/// <returns></returns>
+		float[][] getPerlinNoise(int seed, int width, int height, float scale = 1, float amplifier = 1, float offset = 0)
 		{
 			Random.InitState(seed);
 			float ranX = Random.Range(0, 100.0f);
@@ -35,7 +43,7 @@ namespace StoryGenerator.Terrain
 				noiseMap[i] = new float[height];
 				for (int j =0; j < height; j++)
 				{
-					noiseMap[i][j] = Mathf.PerlinNoise(ranX + (float)i * scale, ranY + (float)j * scale);
+					noiseMap[i][j] = Mathf.PerlinNoise(ranX + (float)i * scale, ranY + (float)j * scale) * amplifier + offset;
 				}
 			}
 			return noiseMap;
@@ -51,12 +59,15 @@ namespace StoryGenerator.Terrain
 				pieces[i] = new Piece();
 			}
 			float probToBeFertile = 0.4f;
+
+
 			float probToBeRocky = 0.3f;
-			float probToBeMountainGround = 0.4f;
-			float probToBeMountainRocks = 0.35f;
+
+			float probToBeMountainGround = 0.7f;
+			float probToBeMountainRocks = probToBeMountainGround - 0.05f;
 
 
-			float probClay = 0.3f;
+			float probClay = 0.5f;
 			float probWater = probClay - 0.05f;
 			float probWaterDeep = probWater - 0.05f;
 
@@ -65,8 +76,8 @@ namespace StoryGenerator.Terrain
 
 			var perlinMap_fertility = getPerlinNoise(seed +0, width, height, 0.1f);
 			var perlinMap_Rocky = getPerlinNoise(seed + 1, width, height, 0.1f);
-			var perlinMap_Mountain = getPerlinNoise(seed + 2, width, height, 0.05f);
-			var perlinMap_Water = getPerlinNoise(seed + 3, width, height, 0.05f);
+			var perlinMap_Mountain = getPerlinNoise(seed + 2, width, height, 0.05f,2,-1f);
+			var perlinMap_Water = perlinMap_Mountain;// getPerlinNoise(seed + 3, width, height, 0.05f);
 			for (int i = 0; i < width; i++)
 			{
 				for(int j = 0; j < height; j++)
@@ -87,17 +98,18 @@ namespace StoryGenerator.Terrain
 					{
 						mountain[i + j * width] = true;
 					}
-
-					if (perlinMap_Water[i][j] > (1 - probClay))
+					/*
+					 * */
+					if (perlinMap_Water[i][j] < -( 1- probClay))
 					{
 						pieces[i + j * width].SetType(Piece.KType.CLAY);
 						mountain[i + j * width] = false;
 					}
-					if (perlinMap_Water[i][j] > (1 - probWater))
+					if (perlinMap_Water[i][j] < -( 1- probWater))
 					{
 						pieces[i + j * width].SetType(Piece.KType.WATER_SHALLOW);
 					}
-					if (perlinMap_Water[i][j] > (1 - probWaterDeep))
+					if (perlinMap_Water[i][j] < -( 1- probWaterDeep))
 					{
 						pieces[i + j * width].SetType(Piece.KType.WATER_DEEP);
 					}
