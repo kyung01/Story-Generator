@@ -1,14 +1,10 @@
 ﻿using StoryGenerator.World;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 public class Hunger_General : Need
 {
 	float demandThreshold = 100;
-	float desiredKeywordTransferToSatisfy = 30;
+	float desiredKeywordTransfer_To_CalmDownDemandCall = 30;
 	public Hunger_General()
 	{
 		this.requiredKeyword = Game.Keyword.FOOD;
@@ -25,7 +21,8 @@ public class Hunger_General : Need
 		Thing bestTargetThing = getBestTargetThing(thingsIsee, requiredKeyword);
 		if (bestTargetThing == null) return false;
 		thing.TAM.MoveTo(bestTargetThing);
-		thing.TAM.RequestKeywordTransfer(bestTargetThing, requiredKeyword,demand - demandThreshold );
+		thing.TAM.RequestKeywordTransfer(bestTargetThing, requiredKeyword,
+			(demand - demandThreshold) + desiredKeywordTransfer_To_CalmDownDemandCall);
 		return true;
 	}
 

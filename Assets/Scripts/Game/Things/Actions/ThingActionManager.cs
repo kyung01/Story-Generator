@@ -65,6 +65,11 @@ public class ThingActionManager
 		}
 	}
 
+	internal void RequestKeywordTransfer(Thing bestTargetThing, Game.Keyword requiredKeyword, float v)
+	{
+
+	}
+
 	internal void MoveTo(Thing bestTargetThing)
 	{
 		actions.Add(new MoveToTarget(bestTargetThing));

@@ -18,3 +18,4 @@ MonoBehaviour:
   Grass: {fileID: 2800000, guid: 10368d5b8c316aa42a71463167445573, type: 3}
   Reed: {fileID: 2800000, guid: 7daddcb5549fbbb47a64139af7124da6, type: 3}
   Human: {fileID: 2800000, guid: a1c81701ef26d484e8b38d86a82dad49, type: 3}
+  Rabbit: {fileID: 2800000, guid: 909b7b2b2bafe0d4981d72140acb24a8, type: 3}
