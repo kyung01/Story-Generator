@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class Hunger_Meat : Need
+public class Hunger_Meat : Hunger_General
 {
 	public Hunger_Meat()
 	{

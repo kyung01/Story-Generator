@@ -29,6 +29,14 @@ namespace StoryGenerator.Terrain
 			}
 		}
 
+		public bool IsSightable
+		{
+			get
+			{
+				return type != KType.MOUNTAIN;
+			}
+		}
+
 		public Piece()
 		{
 			this.type = KType.DIRT;

@@ -72,6 +72,7 @@ public class Thing
 
 	public delegate void DEL_RECEIVE_KEYWORD(Game.Keyword keyword, float amount);
 	public List<DEL_RECEIVE_KEYWORD> OnReceiveKeyword = new List<DEL_RECEIVE_KEYWORD>();
+	
 	public virtual void ReceiveKeyword(Game.Keyword keyword, float amount)
 	{
 		//Debug.Log("Received " + keyword + " " + amount);
@@ -79,6 +80,12 @@ public class Thing
 		{
 			OnReceiveKeyword[i](keyword, amount);
 		}
+
+	}
+	public virtual Dictionary<Game.Keyword, float> GetKeywords()
+	{
+		Dictionary<Game.Keyword, float> d = new Dictionary<Game.Keyword, float>();
+		return d;
 
 	}
 

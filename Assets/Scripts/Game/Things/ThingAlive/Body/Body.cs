@@ -28,4 +28,10 @@ public class Body
 		}
 
 	}
+
+	internal float GetSight()
+	{
+		//calculate sight by computing all the things that are "eye" in the body
+		return 0;
+	}
 }

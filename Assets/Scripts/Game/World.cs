@@ -67,6 +67,66 @@ namespace StoryGenerator.World
 				}
 
 		}
+		bool hprIsWithinRange(float n, float minInclusive, float maxExclusive)
+		{
+			return n >= minInclusive && n < maxExclusive;
+		}
+		public List<Thing> GetSightableThings(ThingAlive thing, float sight)
+		{
+			List<Thing> things = new List<Thing>();
+			float xMin = Mathf.RoundToInt( thing.X - sight);
+			float yMin =  Mathf.RoundToInt(thing.Y - sight);
+			float xMax =  Mathf.RoundToInt(thing.X + sight);
+			float yMax = Mathf.RoundToInt(thing.Y + sight);
+			for(float i = xMin; i < xMax;i++)for(float j = yMin;j < yMax; j++)
+				{
+					if (!(hprIsWithinRange(i, 0, width) && hprIsWithinRange(j, 0, height)))
+					{
+						//Wrong coordiante
+						continue;
+					}
+					Vector2 sightedPosition = new Vector2(i, j);
+					bool canThingSeeThisPosition = testLOS(thing, sightedPosition);
+					things.AddRange(GetThingsAt((int)i, (int)j));
+				}
+			return things;
+		}
+
+		private List<Thing> GetThingsAt(int i, int j)
+		{
+			return things[i + j * width];
+		}
+
+		bool hprIsSameCell(Vector2 a, Vector2 b)
+		{
+			int aX = Mathf.RoundToInt(a.x);
+			int aY = Mathf.RoundToInt(a.y);
+			int bX = Mathf.RoundToInt(b.x);
+			int bY = Mathf.RoundToInt(b.y);
+			return aX == bX && aY == bY;
+		}
+		bool testLOS(ThingAlive thing, Vector2 positon)
+		{
+			if (hprIsSameCell(thing.XY, positon)) return true;
+
+			var dir =( thing.XY - positon).normalized;
+			float longerDirAxis = Mathf.Max(dir.x, dir.y);
+			dir *= 1.0f / longerDirAxis; //make dir increase at least one when added
+			var testingPosition = positon;
+			while(hprIsSameCell(thing.XY, testingPosition))
+			{
+				var piece = terrain.GetPieceAt(Mathf.RoundToInt(testingPosition.x), Mathf.RoundToInt(testingPosition.y));
+				if (!piece.IsSightable)
+				{
+					return false;
+				}
+				testingPosition += dir;
+
+			}
+			return true;
+
+
+		}
 
 		internal float GetThingsSpeed(Thing thing)
 		{

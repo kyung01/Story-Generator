@@ -65,6 +65,11 @@ public class ThingActionManager
 		}
 	}
 
+	internal void MoveTo(Thing bestTargetThing)
+	{
+		actions.Add(new MoveToTarget(bestTargetThing));
+	}
+
 	public void MoveTo(float x, float y)
 	{
 		actions.Add(new MoveTo(x, y));
