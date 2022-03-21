@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Game : MonoBehaviour
+public partial class Game : MonoBehaviour
 {
 	public World world;
 
@@ -10,6 +10,7 @@ public class Game : MonoBehaviour
 	{
 		world = new World();
 		world.InitTerrain();
+		world.InitAnimals();
 
 
 	}
@@ -23,6 +24,6 @@ public class Game : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-
+		world.Update(Time.deltaTime);
 	}
 }

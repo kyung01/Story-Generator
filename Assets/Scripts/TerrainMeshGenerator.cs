@@ -372,7 +372,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 			int n = vertexEdgesAndCenters[i].typeRendered.Count;
 			var isMultipleColor = refreshHprIsMultipleColor(ref vertexEdgesAndCenters[i].typeRendered);
 
-			Debug.Log("[COUNT] " + n + " -> " + vertexEdgesAndCenters[i].typeRendered.Count);
+			//Debug.Log("[COUNT] " + n + " -> " + vertexEdgesAndCenters[i].typeRendered.Count);
 			List<Vector2> vec2List = new List<Vector2>();
 			for (int j = 0; j < 15; j++)
 			{

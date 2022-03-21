@@ -14,6 +14,7 @@ namespace StoryGenerator.World
 		public int width = 50;
 		public int height = 50;
 		public List<Thing>[] things;
+		public List<Thing> allThings = new List<Thing>();
 
 		public void InitTerrain()
 		{
@@ -58,13 +59,56 @@ namespace StoryGenerator.World
 					if (thing == null) continue;
 					
 					var obj = thing;
-					obj.x = i;
-					obj.y = j;
+					obj.SetPosition(i, j);
 					things[i + j * width].Add(obj);
+					allThings.Add(obj);
+					obj.Init(this);
 					//things[i+j*width] 
 				}
 
 		}
 
+		internal float GetThingsSpeed(Thing thing)
+		{
+			if (thing.type == Thing.TYPE.RABBIT)
+			{
+				return 3f;
+			}
+			return 1;
+		}
+
+		public void InitAnimals()
+		{
+			int numAnimal = 10;
+			for(int i = 0; i < numAnimal; i++)
+			{
+				float x=0, y=0;
+				bool isAppropriateLocationFound = false;
+				while (!isAppropriateLocationFound)
+				{
+					x = Random.Range(0, width);
+					y = Random.Range(0, height);
+					var terrainType = terrain.pieces[(int)x + (int)y * width].Type;
+					if(terrainType == Piece.KType.MOUNTAIN || terrainType == Piece.KType.WATER_DEEP ||  terrainType == Piece.KType.WATER_SHALLOW)
+					{
+						continue;
+					}
+					break;
+				}
+				Rabbit rabbit = new Rabbit();
+				rabbit.SetPosition(x, y);
+				rabbit.Init(this);
+				allThings.Add(rabbit);
+
+			}
+		}
+
+		public virtual void Update(float timeElapsed)
+		{
+			for(int i = 0; i< allThings.Count; i++)
+			{
+				allThings[i].Update(this, timeElapsed);
+			}
+		}
 	}
 }

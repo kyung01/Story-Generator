@@ -21,6 +21,14 @@ namespace StoryGenerator.Terrain
 		public KType Type {get{return this.type;} }
 		public float RenderWeight { get { return this.renderWeight; } }
 
+		public bool IsWalkable
+		{
+			get
+			{
+				return type != KType.MOUNTAIN && type != KType.WATER_DEEP;
+			}
+		}
+
 		public Piece()
 		{
 			this.type = KType.DIRT;

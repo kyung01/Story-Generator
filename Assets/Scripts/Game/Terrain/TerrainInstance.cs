@@ -118,6 +118,9 @@ namespace StoryGenerator.Terrain
 
 		}
 
-
+		public Piece GetPieceAt(int x, int y)
+		{
+			return pieces[x + y * width];
+		}
 	}
 }

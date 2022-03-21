@@ -25,15 +25,10 @@ public class GameRenderer : MonoBehaviour
 	}
 	public void RenderWorld(World world)
 	{
-		for(int i = 0; i < world.things.Length; i++)
+		for (int i = 0; i < world.allThings.Count; i++)
 		{
-			var thingCollection = world.things[i];
-			foreach(var thing in thingCollection)
-			{
-				var thingRenderer = Instantiate(PREFAB_THING_RENDERER);
-				thingRenderer.RenderThing(thing, SPRITE_LIST);
-			}
-
+			var thingRenderer = Instantiate(PREFAB_THING_RENDERER);
+			thingRenderer.RenderThing(world.allThings[i], SPRITE_LIST);
 		}
 	}
 }
