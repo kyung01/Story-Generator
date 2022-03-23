@@ -7,10 +7,13 @@ public class ThingRenderer : MonoBehaviour
 	public static float SMOOTH_TIME = .2f;
 	public Thing thing;
 	public MeshRenderer meshRenderer;
+	public TMPro.TextMeshPro textMesh;
 	Vector2 speed = new Vector2();
 	private void Awake()
 	{
 		meshRenderer = GetComponentInChildren<MeshRenderer>();
+		textMesh = GetComponentInChildren<TMPro.TextMeshPro>();
+		textMesh.text = "";
 	}
 
 	public void RenderThing(Thing thing, SpriteList SPRITE_LIST)
@@ -41,10 +44,38 @@ public class ThingRenderer : MonoBehaviour
 		this.transform.position = new Vector3(thing.X,thing.Y, Z_AXIS_LAYER);
 
 	}
-	private void Update()
+	public virtual void Update()
 	{
 		Vector2 pos = new Vector2(this.transform.position.x, this.transform.position.y);
 		pos = Vector2.SmoothDamp(pos, thing.XY, ref speed, SMOOTH_TIME);
 		this.transform.position = new Vector3(pos.x, pos.y, Z_AXIS_LAYER);
+
+		try
+		{
+
+			var thingAlive = (ThingAlive)thing;
+			if (thingAlive == null) return;
+
+			if (thingAlive.type != Thing.TYPE.RABBIT) return;
+			textMesh.text = "";
+			for (int i = 0; i < thing.TAM.actions.Count; i++)
+			{
+				var n = thing.TAM.actions[i];
+				textMesh.text += n.name  +" \n";
+
+			}
+			for (int i = 0; i < thingAlive.needs.Count; i++)
+			{
+				var n = thingAlive.needs[i];
+				textMesh.text += n.name + " " + n.demand + " \n";
+
+			}
+		}
+		catch
+		{
+
+		}
+
+
 	}
 }

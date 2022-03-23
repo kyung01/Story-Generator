@@ -9,7 +9,7 @@ using UnityEngine;
 //Manages action of a thing
 public class ThingActionManager
 {
-	List<Action> actions = new List<Action>();
+	public List<Action> actions = new List<Action>();
 	public ThingActionManager()
 	{
 
@@ -65,14 +65,20 @@ public class ThingActionManager
 		}
 	}
 
+	internal void Eat(Thing bestTargetThing,
+		Game.Keyword requiredKeyword, float amount)
+	{
+		this.actions.Add(new Eat(bestTargetThing, requiredKeyword, amount));
+	}
+
 	internal void RequestKeywordTransfer(Thing bestTargetThing, Game.Keyword requiredKeyword, float v)
 	{
 
 	}
 
-	internal void MoveTo(Thing bestTargetThing)
+	internal void MoveToTarget(Thing bestTargetThing, float distanceThatsCloseEnough)
 	{
-		actions.Add(new MoveToTarget(bestTargetThing));
+		actions.Add(new MoveToTarget(bestTargetThing, distanceThatsCloseEnough));
 	}
 
 	public void MoveTo(float x, float y)

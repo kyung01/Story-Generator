@@ -8,7 +8,6 @@ using UnityEngine;
 
 public class MoveTo : Action
 {
-	static float DISTANCE_CLOSE = 0.01f * 0.01f;
 	//position I am trying to go to
 	float targetX, targetY;
 	Vector2 Target { get { return new Vector2(targetX, targetY); } }
@@ -17,23 +16,19 @@ public class MoveTo : Action
 
 	public MoveTo(float x, float y)
 	{
+		this.name = "MoveTo";
 		this.targetX = x;
 		this.targetY = y;
 	}
 
-	public override bool IsFinished
-	{
-
-		get { return isFinished; }
-	}
 	public override void Update(World world, Thing thingAlive, float timeElapsed)
 	{
 		base.Update(world, thingAlive, timeElapsed);
 		float xDiff = thingAlive.X - targetX;
 		float yDiff = thingAlive.Y - targetY;
-		if (xDiff * xDiff + yDiff * yDiff < DISTANCE_CLOSE)
+		if ((thingAlive.XY - Target).magnitude < ZEROf)
 		{
-			isFinished = true;
+			finish();
 			return;
 		}
 		move(world, thingAlive, timeElapsed);

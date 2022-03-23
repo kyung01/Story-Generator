@@ -8,34 +8,33 @@ using UnityEngine;
 
 public class MoveToTarget : Action
 {
-	static float DISTANCE_CLOSE = 1*1;
 	//position I am trying to go to
 	Thing targetThing;
 	Vector2 Target { get { return new Vector2(targetThing.X, targetThing.Y); } }
 
 	bool isFinished = false;
+	float distanceMinToDestination;
 
-	public MoveToTarget(Thing thing)
+	public MoveToTarget(Thing targetThing, float distanceMinToDestination = 1)
 	{
-		this.targetThing = thing;
+		this.name = "MoveToTarget";
+		this.targetThing = targetThing;
+		this.distanceMinToDestination = distanceMinToDestination;
 	}
 
-	public override bool IsFinished
+	public override void Update(World world, Thing thingThis, float timeElapsed)
 	{
-
-		get { return isFinished; }
-	}
-	public override void Update(World world, Thing thingAlive, float timeElapsed)
-	{
-		base.Update(world, thingAlive, timeElapsed);
-		float xDiff = thingAlive.X - targetThing.X;
-		float yDiff = thingAlive.Y - targetThing.Y;
-		if (xDiff * xDiff + yDiff * yDiff < DISTANCE_CLOSE)
+		Debug.Log(this + " " + targetThing.XY + " " +  thingThis.XY);
+		base.Update(world, thingThis, timeElapsed);
+		float xDiff = thingThis.X - targetThing.X;
+		float yDiff = thingThis.Y - targetThing.Y;
+		if ((thingThis.XY - Target).magnitude <= distanceMinToDestination)
 		{
-			isFinished = true;
+			finish();
 			return;
 		}
-		move(world, thingAlive, timeElapsed);
+		Debug.Log(this + " Is Finished  " + (xDiff * xDiff + yDiff * yDiff < ZEROf_SQUARE));
+		move(world, thingThis, timeElapsed);
 	}
 
 	private void move(World world, Thing thing, float timeElapsed)

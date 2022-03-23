@@ -2,9 +2,12 @@
 using UnityEngine;
 using StoryGenerator.World;
 using System.Collections.Generic;
+using System;
 
-public class Thing
+[Serializable]
+public partial class Thing
 {
+	static float ZEROf = 0.01f;
 	public enum TYPE { UNDEFINED, ROCK, GRASS, BUSH,
 		REED,
 		RABBIT
@@ -24,21 +27,26 @@ public class Thing
 	void baseInit()
 	{
 		this.thingActManager = new ThingActionManager();
-
-	}
-	public Thing()
-	{
-		baseInit();
 		this.type = TYPE.UNDEFINED;
 		this.x = 0;
 		this.y = 0;
 	}
-	public Thing (TYPE type, float x = 0, float y=0)
+	public Thing()
+	{
+		baseInit();
+
+	}
+	public Thing (TYPE type = TYPE.UNDEFINED , float x = 0, float y=0)
 	{
 		baseInit();
 		this.type = type;
 		this.x = x;
 		this.y = y;
+	}
+	public Thing SetType(TYPE type)
+	{
+		this.type = type;
+		return this;
 	}
 	public float X
 	{
@@ -47,6 +55,19 @@ public class Thing
 	public float Y
 	{
 		get { return this.y; }
+	}
+
+	public float TakenKeyword(Game.Keyword keywordToRequest, float requestedAmount)
+	{
+		var availableKeywords = this.GetKeywords();
+		if (!availableKeywords.ContainsKey(keywordToRequest)) return 0;
+		float givenAmount = Mathf.Min(requestedAmount, availableKeywords[keywordToRequest]);
+		availableKeywords[keywordToRequest] -= givenAmount;
+		if(availableKeywords[keywordToRequest] < ZEROf)
+		{
+			availableKeywords.Remove(keywordToRequest);
+		}
+		return givenAmount;
 	}
 
 	public Vector2 XY
@@ -71,17 +92,23 @@ public class Thing
 	}
 
 	public delegate void DEL_RECEIVE_KEYWORD(Game.Keyword keyword, float amount);
-	public List<DEL_RECEIVE_KEYWORD> OnReceiveKeyword = new List<DEL_RECEIVE_KEYWORD>();
-	
-	public virtual void ReceiveKeyword(Game.Keyword keyword, float amount)
-	{
-		//Debug.Log("Received " + keyword + " " + amount);
-		for(int i = 0; i< OnReceiveKeyword.Count; i++)
-		{
-			OnReceiveKeyword[i](keyword, amount);
-		}
+	public List<DEL_RECEIVE_KEYWORD> OnConsumeKeyword = new List<DEL_RECEIVE_KEYWORD>();
 
+	public virtual void ConsumeKeyword(Game.Keyword keyword, float amount)
+	{
+		//Debug.Log("ConsumeKeyword " + keyword + " " + amount);
+		for (int i = 0; i < OnConsumeKeyword.Count; i++)
+		{
+			OnConsumeKeyword[i](keyword, amount);
+		}
 	}
+
+	public virtual Dictionary<Game.Keyword, float> ProvideKeyword(Game.Keyword keyword, float amount)
+	{
+		Dictionary<Game.Keyword, float> d = new Dictionary<Game.Keyword, float>();
+		return d;
+	}
+
 	public virtual Dictionary<Game.Keyword, float> GetKeywords()
 	{
 		Dictionary<Game.Keyword, float> d = new Dictionary<Game.Keyword, float>();

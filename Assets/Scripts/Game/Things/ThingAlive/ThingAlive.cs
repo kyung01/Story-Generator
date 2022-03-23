@@ -8,13 +8,12 @@ using UnityEngine;
 public class ThingAlive : ThingDestructable
 {
 	internal Body body = new Body();
-	List<Need> needs = new List<Need>();
+	public List<Need> needs = new List<Need>();
 
 
 	public void addNeed(Need n)
 	{
 		//n.Init(this);
-		this.OnReceiveKeyword.Add(n.hdrKeywordReceived);
 		needs.Add(n);
 
 	}

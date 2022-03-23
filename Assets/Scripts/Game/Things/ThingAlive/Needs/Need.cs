@@ -30,17 +30,4 @@ public class Need
 		return false;
 	}
 
-
-	public virtual void hdrKeywordReceived(Game.Keyword keyword, float amount)
-	{
-		if (Game.IsKeywordCompatible(this.requiredKeyword, keyword))
-		{
-			this.demand -= amount;
-		}
-		if (Game.IsKeywordCompatible(this.stressKeyword, keyword))
-		{
-			this.demand += amount;
-
-		}
-	}
 }

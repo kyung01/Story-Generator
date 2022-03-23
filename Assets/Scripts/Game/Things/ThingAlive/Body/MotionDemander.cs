@@ -27,14 +27,15 @@ public class MotionDemander : Body
 	public override void Update(World world, ThingAlive thing, float timeElapsed)
 	{
 		base.Update(world, thing, timeElapsed);
-		happyDistanceIMoved +=  (thing.XY - this.position).magnitude - REQUIRED_SPEED_TO_MOVE_AROUND * timeElapsed;
+		happyDistanceIMoved += (thing.XY - this.position).magnitude;
+		happyDistanceIMoved -= REQUIRED_SPEED_TO_MOVE_AROUND * timeElapsed;
 
 		this.position = thing.XY;
 		//Debug.Log(this + " Updating " + happyDistanceIMoved);
-		if (happyDistanceIMoved < -REQUIRED_SPEED_TO_MOVE_AROUND)
+		if (happyDistanceIMoved < 0)
 		{
-			happyDistanceIMoved += REQUIRED_SPEED_TO_MOVE_AROUND;
-			thing.ReceiveKeyword(Game.Keyword.STILL, STRESS_PER_TICK);
+			//happyDistanceIMoved += REQUIRED_SPEED_TO_MOVE_AROUND;
+			thing.ConsumeKeyword(Game.Keyword.STILL, STRESS_PER_TICK * timeElapsed);
 			return;
 		}
 
@@ -43,7 +44,7 @@ public class MotionDemander : Body
 		{
 			float distanceRemovedFromTotal = Mathf.Min(happyDistanceIMoved, HAPPY_DISTANCE_REDUCED_SPEED * timeElapsed);
 			happyDistanceIMoved -= distanceRemovedFromTotal;
-			thing.ReceiveKeyword(Game.Keyword.MOVED, distanceRemovedFromTotal);
+			thing.ConsumeKeyword(Game.Keyword.MOVED, distanceRemovedFromTotal);
 		}
 
 

@@ -12,17 +12,29 @@ public class Hunger_General : Need
 		this.name = "Hunger";
 		this.explanation = "A general need for food. It can be satisfied by any consumable that can be calssified as a food.";
 	}
+	public override void Init(ThingAlive thing)
+	{
+		base.Init(thing);
+		this.demand = demandThreshold+1;
+		thing.OnConsumeKeyword.Add( hdrKeywordConsumed);
+	}
 
 	public override bool ResolveNeed(World world, ThingAlive thing, float timeElapsed)
 	{
 		if (demand < demandThreshold) return false;
-
 		var thingsIsee = world.GetSightableThings(thing, thing.body.GetSight());
 		Thing bestTargetThing = getBestTargetThing(thingsIsee, requiredKeyword);
+
+		UnityEngine.Debug.Log(this + " thingsIsee " + thingsIsee.Count);
+		UnityEngine.Debug.Log(this + " Resolving hunger " + (bestTargetThing != null));
 		if (bestTargetThing == null) return false;
-		thing.TAM.MoveTo(bestTargetThing);
-		thing.TAM.RequestKeywordTransfer(bestTargetThing, requiredKeyword,
-			(demand - demandThreshold) + desiredKeywordTransfer_To_CalmDownDemandCall);
+
+		thing.TAM.MoveToTarget(bestTargetThing,thing.GetEatingDistance());
+		thing.TAM.Eat(
+			bestTargetThing, 
+			requiredKeyword,
+			(demand - demandThreshold) + desiredKeywordTransfer_To_CalmDownDemandCall
+			);
 		return true;
 	}
 
@@ -43,5 +55,20 @@ public class Hunger_General : Need
 
 		}
 		return thingSelected;
+	}
+
+
+	public virtual void hdrKeywordConsumed(Game.Keyword keyword, float amount)
+	{
+		if (Game.IsKeywordCompatible(this.requiredKeyword, keyword))
+		{
+			this.demand -= amount;
+		}
+		if (Game.IsKeywordCompatible(this.stressKeyword, keyword))
+		{
+			this.demand += amount;
+
+		}
+		//UnityEngine.Debug.Log(this + " demand at  " + this.demand);
 	}
 }

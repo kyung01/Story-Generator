@@ -11,10 +11,32 @@ public class Wander : Need
 	static float DISTANCE_TO_WANDER = 5;
 	public Wander()
 	{
+		this.name = "Wander";
+		this.explanation = "Need to move around";
 		this.demand = 100;
 		this.requiredKeyword = Game.Keyword.MOVED;
 		this.stressKeyword = Game.Keyword.STILL;
 	}
+
+	public override void Init(ThingAlive thing)
+	{
+		base.Init(thing);
+		thing.OnConsumeKeyword.Add(hdrConsumeKeyword);
+	}
+
+	private void hdrConsumeKeyword(Game.Keyword keyword, float amount)
+	{
+		if (Game.IsKeywordCompatible(this.requiredKeyword, keyword))
+		{
+			this.demand -= amount;
+		}
+		if (Game.IsKeywordCompatible(this.stressKeyword, keyword))
+		{
+			this.demand += amount;
+
+		}
+	}
+
 	public override bool ResolveNeed(World world, ThingAlive thing, float timeElapsed)
 	{
 		//UnityEngine.Debug.Log("Wander Resolve Need " + demand);

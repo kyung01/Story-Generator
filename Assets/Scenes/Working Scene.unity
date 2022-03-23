@@ -3272,6 +3272,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SPRITE_LIST: {fileID: 11400000, guid: 09481ff828dbe46449f4a7a8aa9b6f81, type: 2}
   PREFAB_THING_RENDERER: {fileID: 4750775492405083470, guid: 43018d9ec7a6d4a46a18888e31395561, type: 3}
+  PREFAB_GRASS_RENDERER: {fileID: 1475616298744957836, guid: de095e1277db3bc4c838e4b86f997a4a, type: 3}
   terrainMeshGenerator: {fileID: 811711754}
   tempMountainRock: {fileID: 957670843}
 --- !u!4 &1251271836

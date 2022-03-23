@@ -12,6 +12,7 @@ public class Rabbit : ThingAlive
 		addNeed(new Hunger_Vegi());
 		addNeed(new Wander());
 		body.addBody(new MotionDemander());
+		body.addBody(new Stomach());
 		this.type = TYPE.RABBIT;
 	}
 	public override void Init(World world)

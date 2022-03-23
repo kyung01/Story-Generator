@@ -7,7 +7,17 @@ using System.Threading.Tasks;
 
 public class Action
 {
-	public virtual bool IsFinished { get { return true; } }
+	internal static float ZEROf = 0.01f;
+	internal static float ZEROf_SQUARE = ZEROf * ZEROf;
+	bool isFinished = false;
+	public string name = "Action";
+	public bool IsFinished { get { return isFinished; } }
+
+	
+	internal void finish()
+	{
+		isFinished = true;
+	}
 
 	public virtual void Update(World world, Thing thing, float timeElapsed)
 	{

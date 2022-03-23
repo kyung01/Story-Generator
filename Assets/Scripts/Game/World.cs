@@ -40,7 +40,7 @@ namespace StoryGenerator.World
 						case Piece.KType.DIRT:
 							//grass bush or tree
 							Thing[] vegitarians = new Thing[] {
-								new Plant(Thing.TYPE.GRASS), new Plant(Thing.TYPE.BUSH),new Thing(Thing.TYPE.ROCK)};
+								new Grass(), new Plant().SetType(Thing.TYPE.BUSH),new Thing().SetType(Thing.TYPE.ROCK)};
 							thing = vegitarians[Random.Range(0, vegitarians.Length)];
 							break;
 						case Piece.KType.ROCKY:
@@ -86,7 +86,7 @@ namespace StoryGenerator.World
 						continue;
 					}
 					Vector2 sightedPosition = new Vector2(i, j);
-					bool canThingSeeThisPosition = testLOS(thing, sightedPosition);
+					bool canThingSeeThisPosition = TestLOS(thing, sightedPosition);
 					things.AddRange(GetThingsAt((int)i, (int)j));
 				}
 			return things;
@@ -105,7 +105,12 @@ namespace StoryGenerator.World
 			int bY = Mathf.RoundToInt(b.y);
 			return aX == bX && aY == bY;
 		}
-		bool testLOS(ThingAlive thing, Vector2 positon)
+
+		public bool TestLOS(Thing thing, Thing otherThing)
+		{
+			return TestLOS(thing, otherThing.XY);
+		}
+		public bool TestLOS(Thing thing, Vector2 positon)
 		{
 			if (hprIsSameCell(thing.XY, positon)) return true;
 
