@@ -10,7 +10,8 @@ public partial class Thing
 	static float ZEROf = 0.01f;
 	public enum TYPE { UNDEFINED, ROCK, GRASS, BUSH,
 		REED,
-		RABBIT
+		RABBIT,
+		BEAR
 	}
 	public TYPE type = TYPE.UNDEFINED;
 
@@ -57,18 +58,6 @@ public partial class Thing
 		get { return this.y; }
 	}
 
-	public float TakenKeyword(Game.Keyword keywordToRequest, float requestedAmount)
-	{
-		var availableKeywords = this.GetKeywords();
-		if (!availableKeywords.ContainsKey(keywordToRequest)) return 0;
-		float givenAmount = Mathf.Min(requestedAmount, availableKeywords[keywordToRequest]);
-		availableKeywords[keywordToRequest] -= givenAmount;
-		if(availableKeywords[keywordToRequest] < ZEROf)
-		{
-			availableKeywords.Remove(keywordToRequest);
-		}
-		return givenAmount;
-	}
 
 	public Vector2 XY
 	{
@@ -91,6 +80,20 @@ public partial class Thing
 		this.y = y;
 	}
 
+
+	public virtual float TakenKeyword(Game.Keyword keywordToRequest, float requestedAmount)
+	{
+		var availableKeywords = this.GetKeywords();
+		if (!availableKeywords.ContainsKey(keywordToRequest)) return 0;
+		float givenAmount = Mathf.Min(requestedAmount, availableKeywords[keywordToRequest]);
+		availableKeywords[keywordToRequest] -= givenAmount;
+		if (availableKeywords[keywordToRequest] < ZEROf)
+		{
+			availableKeywords.Remove(keywordToRequest);
+		}
+		return givenAmount;
+	}
+
 	public delegate void DEL_RECEIVE_KEYWORD(Game.Keyword keyword, float amount);
 	public List<DEL_RECEIVE_KEYWORD> OnConsumeKeyword = new List<DEL_RECEIVE_KEYWORD>();
 
@@ -103,17 +106,18 @@ public partial class Thing
 		}
 	}
 
-	public virtual Dictionary<Game.Keyword, float> ProvideKeyword(Game.Keyword keyword, float amount)
-	{
-		Dictionary<Game.Keyword, float> d = new Dictionary<Game.Keyword, float>();
-		return d;
-	}
 
 	public virtual Dictionary<Game.Keyword, float> GetKeywords()
 	{
 		Dictionary<Game.Keyword, float> d = new Dictionary<Game.Keyword, float>();
 		return d;
+	}
 
+	/// Hunters need to check if the target has X when they become unconscious 
+	public virtual Dictionary<Game.Keyword, float> GetKeywordsForHunter()
+	{
+		Dictionary<Game.Keyword, float> d = new Dictionary<Game.Keyword, float>();
+		return d;
 	}
 
 

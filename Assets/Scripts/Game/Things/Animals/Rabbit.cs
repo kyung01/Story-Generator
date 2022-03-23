@@ -12,7 +12,13 @@ public class Rabbit : ThingAlive
 		addNeed(new Hunger_Vegi());
 		addNeed(new Wander());
 		body.addBody(new MotionDemander());
-		body.addBody(new Stomach());
+
+		var meatBody = new MeatBody();
+		var stomach = new Stomach();
+		stomach.addNutrtionBody(new MeatBody());
+		body.addBody(meatBody);
+		body.addBody(stomach);
+
 		this.type = TYPE.RABBIT;
 	}
 	public override void Init(World world)

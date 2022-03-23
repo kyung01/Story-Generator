@@ -5,8 +5,11 @@ public class Hunger_General : Need
 {
 	float demandThreshold = 100;
 	float desiredKeywordTransfer_To_CalmDownDemandCall = 30;
-	public Hunger_General()
+	bool isHuntersHunger = false;
+
+	public Hunger_General(bool isHuntersHunger = false)
 	{
+		this.isHuntersHunger = isHuntersHunger;
 		this.requiredKeyword = Game.Keyword.FOOD;
 		this.stressKeyword = Game.Keyword.HUNGER;
 		this.name = "Hunger";
@@ -18,34 +21,59 @@ public class Hunger_General : Need
 		this.demand = demandThreshold+1;
 		thing.OnConsumeKeyword.Add( hdrKeywordConsumed);
 	}
-
-	public override bool ResolveNeed(World world, ThingAlive thing, float timeElapsed)
+	public bool passiveResolution(World world, ThingAlive thing, float timeElapsed, bool isHunter = false)
 	{
-		if (demand < demandThreshold) return false;
 		var thingsIsee = world.GetSightableThings(thing, thing.body.GetSight());
-		Thing bestTargetThing = getBestTargetThing(thingsIsee, requiredKeyword);
+		Thing bestTargetThing = getBestTargetThing(thingsIsee, requiredKeyword, isHunter);
 
 		UnityEngine.Debug.Log(this + " thingsIsee " + thingsIsee.Count);
 		UnityEngine.Debug.Log(this + " Resolving hunger " + (bestTargetThing != null));
 		if (bestTargetThing == null) return false;
 
-		thing.TAM.MoveToTarget(bestTargetThing,thing.GetEatingDistance());
-		thing.TAM.Eat(
-			bestTargetThing, 
-			requiredKeyword,
-			(demand - demandThreshold) + desiredKeywordTransfer_To_CalmDownDemandCall
-			);
+		thing.TAM.MoveToTarget(bestTargetThing, thing.GetEatingDistance());
+		float desiredKeywordAmount = (demand - demandThreshold) + desiredKeywordTransfer_To_CalmDownDemandCall;
+		if (isHunter)
+		{
+			//do hunter thing (which is attacking)
+			thing.TAM.Hunt(
+				bestTargetThing,
+				requiredKeyword,
+				desiredKeywordAmount
+				);
+		}
+		else
+		{
+			thing.TAM.Eat(
+			   bestTargetThing,
+			   requiredKeyword,
+			   desiredKeywordAmount
+			   );
+
+		}
+		
 		return true;
 	}
 
-	private Thing getBestTargetThing(List<Thing> thingsIsee, Game.Keyword requiredKeyword)
+	public override bool ResolveNeed(World world, ThingAlive thing, float timeElapsed)
+	{
+		if (demand < demandThreshold) return false;
+		if (passiveResolution(world, thing, timeElapsed)){
+			return true;
+		}
+		else if (isHuntersHunger)
+			return passiveResolution(world, thing, timeElapsed, isHuntersHunger);
+		return false;
+	}
+
+	private Thing getBestTargetThing(List<Thing> thingsIsee, Game.Keyword requiredKeyword, bool hunterMode = false)
 	{
 		Thing thingSelected = null;
 		float amountOfKeyword_of_thingCurrentlySelected = 0;
 		for(int i = 0; i< thingsIsee.Count; i++)
 		{
 			var thing = thingsIsee[i];
-			var thingsKeywords = thing.GetKeywords();
+			Dictionary<Game.Keyword, float> thingsKeywords = (hunterMode) ? thing.GetKeywordsForHunter():thing.GetKeywords();
+			
 			if (!thingsKeywords.ContainsKey(requiredKeyword)) continue;
 			if(thingsKeywords[requiredKeyword] > amountOfKeyword_of_thingCurrentlySelected)
 			{

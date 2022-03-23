@@ -5,11 +5,18 @@ using UnityEngine;
 
 
 
-public class ThingAlive : ThingDestructable
+public class ThingAlive : ThingWithBody
 {
-	internal Body body = new Body();
 	public List<Need> needs = new List<Need>();
 
+	public override bool IsReadyToProvideWithBody
+	{
+		get
+		{
+			return health < 30;
+		}
+
+	}
 
 	public void addNeed(Need n)
 	{
@@ -24,13 +31,11 @@ public class ThingAlive : ThingDestructable
 		{
 			needs[i].Init(this);
 		}
-		this.body.Init(this);
 	}
 
 	public override void Update(World world, float timeElapsed)
 	{
 		base.Update(world, timeElapsed);
-		body.Update(world, this, timeElapsed);
 		for (int i = 0; i < needs.Count; i++)
 		{
 			needs[i].updateStatic(world, this, timeElapsed);

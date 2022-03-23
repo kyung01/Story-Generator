@@ -65,10 +65,19 @@ public class ThingActionManager
 		}
 	}
 
-	internal void Eat(Thing bestTargetThing,
-		Game.Keyword requiredKeyword, float amount)
+	internal void Hunt(
+		Thing bestTargetThing, 
+		Game.Keyword requiredKeyword, float desiredKeywordAmount)
 	{
-		this.actions.Add(new Eat(bestTargetThing, requiredKeyword, amount));
+		this.actions.Add(new Hunt(bestTargetThing, requiredKeyword, desiredKeywordAmount));
+
+	}
+
+	internal void Eat(
+		Thing bestTargetThing,
+		Game.Keyword requiredKeyword, float desiredKeywordAmount)
+	{
+		this.actions.Add(new Eat(bestTargetThing, requiredKeyword, desiredKeywordAmount));
 	}
 
 	internal void RequestKeywordTransfer(Thing bestTargetThing, Game.Keyword requiredKeyword, float v)
@@ -76,9 +85,11 @@ public class ThingActionManager
 
 	}
 
-	internal void MoveToTarget(Thing bestTargetThing, float distanceThatsCloseEnough)
+	internal void MoveToTarget(Thing bestTargetThing, float distanceThatsCloseEnough, bool isPriority = false)
 	{
-		actions.Add(new MoveToTarget(bestTargetThing, distanceThatsCloseEnough));
+		var action = new MoveToTarget(bestTargetThing, distanceThatsCloseEnough);
+		if (isPriority) actions.Insert(0, action);
+		else actions.Add(action);
 	}
 
 	public void MoveTo(float x, float y)

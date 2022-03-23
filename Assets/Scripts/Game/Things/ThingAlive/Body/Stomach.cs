@@ -11,20 +11,30 @@ public class Stomach : Body
 	float hungerFrustrationRate = 1;
 	float hungerIncreaseSpeed = 5;
 	float hunger = 0;
+	List<Body> nutritionReceivingBodies = new List<Body>();
+
+	public void addNutrtionBody(Body b)
+	{
+		nutritionReceivingBodies.Add(b);
+	}
 
 	void hdrThingConsumedKeyword(Game.Keyword keyword, float amount)
 	{
 		if (!Game.IsKeywordCompatible(Game.Keyword.FOOD, keyword)) return;
+		for(int i = 0; i < nutritionReceivingBodies.Count; i++)
+		{
+			nutritionReceivingBodies[i].ConsumeKeyword(Game.Keyword.NUTRITION, amount / nutritionReceivingBodies.Count);
+		}
 		hunger -= amount;
 	}
 
-	public override void Init(ThingAlive thing)
+	public override void Init(ThingWithBody thing)
 	{
 		base.Init(thing);
 		thing.OnConsumeKeyword.Add(hdrThingConsumedKeyword);
 	}
 
-	public override void Update(World world, ThingAlive thing, float timeElapsed)
+	public override void Update(World world, ThingWithBody thing, float timeElapsed)
 	{
 		base.Update(world, thing, timeElapsed);
 		float hungerIncreased = hungerIncreaseSpeed * timeElapsed;

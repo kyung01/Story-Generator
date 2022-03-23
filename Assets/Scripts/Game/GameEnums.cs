@@ -31,8 +31,20 @@ public partial class Game
 		FOOD_MEAT,
 		FOOD_VEGI,
 		STILL,
-		MOVED
+		MOVED,
+		NUTRITION
 	}
+
+	//Types of action
+	//Indiciated inside body parts to be able to distinguish which body part can do which task
+	public enum TaskType { 
+		BITE,
+		HOWL,
+		HOLD,
+		PUNCH,
+		MOVE
+	}
+
 	public static bool IsKeywordCompatible(Keyword original, Keyword testKeyword)
 	{
 		return original == testKeyword;
