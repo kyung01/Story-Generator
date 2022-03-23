@@ -23,6 +23,8 @@ public class Stomach : Body
 		if (!Game.IsKeywordCompatible(Game.Keyword.FOOD, keyword)) return;
 		for(int i = 0; i < nutritionReceivingBodies.Count; i++)
 		{
+			UnityEngine.Debug.Log("hdrThingConsumedKeyword " + Game.IsKeywordCompatible(Game.Keyword.FOOD, keyword) + " " + keyword);
+			UnityEngine.Debug.Log("hdrThingConsumedKeyword "+(amount / nutritionReceivingBodies.Count));
 			nutritionReceivingBodies[i].ConsumeKeyword(Game.Keyword.NUTRITION, amount / nutritionReceivingBodies.Count);
 		}
 		hunger -= amount;

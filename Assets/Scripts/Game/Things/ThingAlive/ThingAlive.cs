@@ -50,6 +50,7 @@ public class ThingAlive : ThingWithBody
 					var resolvingNeed = needs[i];
 					needs.RemoveAt(i);
 					needs.Add(resolvingNeed);
+					break;
 				}
 			}
 		}

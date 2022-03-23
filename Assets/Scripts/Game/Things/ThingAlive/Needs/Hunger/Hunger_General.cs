@@ -23,18 +23,21 @@ public class Hunger_General : Need
 	}
 	public bool passiveResolution(World world, ThingAlive thing, float timeElapsed, bool isHunter = false)
 	{
-		var thingsIsee = world.GetSightableThings(thing, thing.body.GetSight());
+		var thingsIsee = world.GetSightableThings(thing, (isHunter)?20: thing.body.GetSight());
 		Thing bestTargetThing = getBestTargetThing(thingsIsee, requiredKeyword, isHunter);
-
-		UnityEngine.Debug.Log(this + " thingsIsee " + thingsIsee.Count);
-		UnityEngine.Debug.Log(this + " Resolving hunger " + (bestTargetThing != null));
+		if (isHunter)
+		{
+			UnityEngine.Debug.Log("Engaging a hunter mode");
+		}
+		if (isHunter) UnityEngine.Debug.Log(this + " thingsIsee " + thingsIsee.Count);
+		if (isHunter) UnityEngine.Debug.Log(this + " Resolving hunger " + (bestTargetThing != null));
 		if (bestTargetThing == null) return false;
 
 		thing.TAM.MoveToTarget(bestTargetThing, thing.GetEatingDistance());
 		float desiredKeywordAmount = (demand - demandThreshold) + desiredKeywordTransfer_To_CalmDownDemandCall;
 		if (isHunter)
 		{
-			//do hunter thing (which is attacking)
+			UnityEngine.Debug.Log("Hunt TAM called");
 			thing.TAM.Hunt(
 				bestTargetThing,
 				requiredKeyword,

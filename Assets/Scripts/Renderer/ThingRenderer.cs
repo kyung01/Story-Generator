@@ -38,6 +38,9 @@ public class ThingRenderer : MonoBehaviour
 			case Thing.TYPE.RABBIT:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Rabbit;
 				break;
+			case Thing.TYPE.BEAR:
+				meshRenderer.material.mainTexture = SPRITE_LIST.Bear;
+				break;
 			default:
 				break;
 		}
@@ -56,7 +59,7 @@ public class ThingRenderer : MonoBehaviour
 			var thingAlive = (ThingAlive)thing;
 			if (thingAlive == null) return;
 
-			if (thingAlive.type != Thing.TYPE.RABBIT) return;
+			if (!(thingAlive.type == Thing.TYPE.RABBIT  || thingAlive.type == Thing.TYPE.BEAR)) return;
 			textMesh.text = "";
 			for (int i = 0; i < thing.TAM.actions.Count; i++)
 			{

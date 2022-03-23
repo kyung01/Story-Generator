@@ -29,7 +29,15 @@ public class Body
 		{
 			var otherD = otherBodyParts[i].GetKeywords();
 			foreach (var pair in otherD)
+			{
+				if (!d.ContainsKey(pair.Key))
+				{
+					d.Add(pair.Key, 0);
+
+				}
 				d[pair.Key] += pair.Value;
+
+			}
 		}
 		return d;
 	}

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public class Hunger_Meat : Hunger_General
 {
-	public Hunger_Meat()
+	public Hunger_Meat():base(true)
 	{
 		this.requiredKeyword = Game.Keyword.FOOD_MEAT;
 		this.stressKeyword = Game.Keyword.HUNGER;

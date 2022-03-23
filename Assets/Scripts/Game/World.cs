@@ -5,6 +5,31 @@ using UnityEngine;
 
 namespace StoryGenerator.World
 {
+	public class ThingXY {
+		public Thing thing;
+		public int xOld, yOld;
+		public int x, y;
+		public ThingXY(Thing thing, int x, int y)
+		{
+			this.thing = thing;
+			this.x = x;
+			this.y = y;
+			xOld = x;
+			yOld = y;
+		}
+		public bool IsPositionUpdated()
+		{
+			int xNew = Mathf.RoundToInt(thing.X);
+			int yNew = Mathf.RoundToInt(thing.Y);
+			if (this.x == xNew && this.y == yNew) return false;
+			xOld = x;
+			yOld = y;
+			x = xNew;
+			y = yNew;
+			return true;
+		}
+	}
+
 	/// <summary>
 	/// Piece of terrain, contains information about the particular terrain piece 
 	/// </summary>
@@ -15,6 +40,7 @@ namespace StoryGenerator.World
 		public int height = 50;
 		public List<Thing>[] things;
 		public List<Thing> allThings = new List<Thing>();
+		public List<ThingXY> thingsToKeepTracking = new List<ThingXY>();
 
 		public void InitTerrain()
 		{
@@ -144,17 +170,19 @@ namespace StoryGenerator.World
 
 		public void InitAnimals()
 		{
-			int numAnimal = 10;
-			for(int i = 0; i < numAnimal; i++)
+			int numRabbit = 1;
+			int numBear = 1;
+
+			for (int i = 0; i < numRabbit; i++)
 			{
-				float x=0, y=0;
+				float x = 0, y = 0;
 				bool isAppropriateLocationFound = false;
 				while (!isAppropriateLocationFound)
 				{
 					x = Random.Range(0, width);
 					y = Random.Range(0, height);
 					var terrainType = terrain.pieces[(int)x + (int)y * width].Type;
-					if(terrainType == Piece.KType.MOUNTAIN || terrainType == Piece.KType.WATER_DEEP ||  terrainType == Piece.KType.WATER_SHALLOW)
+					if (terrainType == Piece.KType.MOUNTAIN || terrainType == Piece.KType.WATER_DEEP || terrainType == Piece.KType.WATER_SHALLOW)
 					{
 						continue;
 					}
@@ -164,15 +192,50 @@ namespace StoryGenerator.World
 				rabbit.SetPosition(x, y);
 				rabbit.Init(this);
 				allThings.Add(rabbit);
+				things[(int)x + (int)y * width].Add(rabbit);
+				thingsToKeepTracking.Add(new ThingXY( rabbit,(int)x,(int)y));
+
+			}
+
+			for (int i = 0; i < numBear; i++)
+			{
+				float x = 0, y = 0;
+				bool isAppropriateLocationFound = false;
+				while (!isAppropriateLocationFound)
+				{
+					x = Random.Range(0, width);
+					y = Random.Range(0, height);
+					var terrainType = terrain.pieces[(int)x + (int)y * width].Type;
+					if (terrainType == Piece.KType.MOUNTAIN || terrainType == Piece.KType.WATER_DEEP || terrainType == Piece.KType.WATER_SHALLOW)
+					{
+						continue;
+					}
+					break;
+				}
+				Bear bear = new Bear();
+				bear.SetPosition(x, y);
+				bear.Init(this);
+				allThings.Add(bear);
+				things[(int)x + (int)y * width].Add(bear);
+				thingsToKeepTracking.Add(new ThingXY( bear,(int)x,(int)y));
 
 			}
 		}
 
 		public virtual void Update(float timeElapsed)
 		{
-			for(int i = 0; i< allThings.Count; i++)
+			for (int i = 0; i < allThings.Count; i++)
 			{
 				allThings[i].Update(this, timeElapsed);
+			}
+			for (int i = 0; i < thingsToKeepTracking.Count; i++)
+			{
+				var t = thingsToKeepTracking[i];
+				if (t.IsPositionUpdated())
+				{
+					things[t.xOld + t.yOld * width].Remove(t.thing);
+					things[t.x + t.y * width].Add(t.thing);
+				}
 			}
 		}
 	}

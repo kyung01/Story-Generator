@@ -47,6 +47,14 @@ public partial class Game
 
 	public static bool IsKeywordCompatible(Keyword original, Keyword testKeyword)
 	{
+		if (original == Keyword.FOOD && testKeyword == Keyword.FOOD_VEGI)
+		{
+			return true;
+		}
+		if (original == Keyword.FOOD && testKeyword == Keyword.FOOD_MEAT)
+		{
+			return true;
+		}
 		return original == testKeyword;
 	}
 

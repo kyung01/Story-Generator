@@ -24,6 +24,11 @@ public class ThingWithBody : ThingDestructable
 		var keywordsBody = body.GetKeywords();
 		foreach (var pair in keywordsBody)
 		{
+			if (!keywords.ContainsKey(pair.Key))
+			{
+				keywords.Add(pair.Key, 0);
+
+			}
 			keywords[pair.Key] += pair.Value;
 
 		}
@@ -63,6 +68,7 @@ public class ThingWithBody : ThingDestructable
 	public override void Update(World world, float timeElapsed)
 	{
 		base.Update(world, timeElapsed);
+		body.Update(world, this, timeElapsed);
 
 	}
 

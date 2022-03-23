@@ -12,7 +12,7 @@ public class Bear : ThingAlive
 
 		var meatBody = new MeatBody();
 		var stomach = new Stomach();
-		stomach.addNutrtionBody(new MeatBody());
+		stomach.addNutrtionBody(meatBody);
 		body.addBody(meatBody);
 		body.addBody(stomach);
 

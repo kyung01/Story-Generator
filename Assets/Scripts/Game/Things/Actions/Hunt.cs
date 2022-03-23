@@ -14,7 +14,7 @@ public class Hunt : Action
 
 	public Hunt(Thing thing, Game.Keyword keyword, float amount)
 	{
-		this.name = "Eat";
+		this.name = "Hunt";
 		this.targetThing = thing;
 		this.keywordToRequest = keyword;
 		this.keywordAmountToRequest = amount;
@@ -38,6 +38,7 @@ public class Hunt : Action
 		bool isNoMethodOfAttacking = taskableBodies[Game.TaskType.BITE] == null || taskableBodies[Game.TaskType.BITE].Count == 0;
 		if (isNoMethodOfAttacking)
 		{
+			Debug.Log("Hunt finished : no way to attack");
 			finish();
 		}
 		var bitingParts = taskableBodies[Game.TaskType.BITE];

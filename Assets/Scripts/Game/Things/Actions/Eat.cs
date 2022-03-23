@@ -22,7 +22,7 @@ public class Eat :Action
 	public override void Update(World world, Thing thing, float timeElapsed)
 	{
 		base.Update(world, thing, timeElapsed);
-		Debug.Log(this + "BEFORE  " + keywordAmount);
+		//Debug.Log(this + "BEFORE  " + keywordAmount);
 		float distance = (thing.XY - targetThing.XY).magnitude;
 		if (distance > thing.GetEatingDistance()) finish();
 		if (!world.TestLOS(thing, targetThing)) finish();
@@ -37,7 +37,7 @@ public class Eat :Action
 		}
 		this.keywordAmount -= amountOfKeywordICouldTake;
 		thing.ConsumeKeyword(keywordToRequest, amountOfKeywordICouldTake);
-		Debug.Log(this + "AFTER  " + keywordAmount);
+		//Debug.Log(this + "AFTER  " + keywordAmount);
 		if (this.keywordAmount <= ZEROf)
 		{
 			finish();

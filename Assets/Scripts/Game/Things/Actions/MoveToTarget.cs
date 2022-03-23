@@ -24,7 +24,7 @@ public class MoveToTarget : Action
 
 	public override void Update(World world, Thing thingThis, float timeElapsed)
 	{
-		Debug.Log(this + " " + targetThing.XY + " " +  thingThis.XY);
+		//Debug.Log(this + " " + targetThing.XY + " " +  thingThis.XY);
 		base.Update(world, thingThis, timeElapsed);
 		float xDiff = thingThis.X - targetThing.X;
 		float yDiff = thingThis.Y - targetThing.Y;
@@ -33,7 +33,7 @@ public class MoveToTarget : Action
 			finish();
 			return;
 		}
-		Debug.Log(this + " Is Finished  " + (xDiff * xDiff + yDiff * yDiff < ZEROf_SQUARE));
+		//Debug.Log(this + " Is Finished  " + (xDiff * xDiff + yDiff * yDiff < ZEROf_SQUARE));
 		move(world, thingThis, timeElapsed);
 	}
 
