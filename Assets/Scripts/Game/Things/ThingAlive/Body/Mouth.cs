@@ -7,6 +7,11 @@ public class Mouth : BodyTaskable
 	float eatingSpeed = 1;
 	public float JawPower { get { return jawPower; } }
 
+	public Mouth()
+	{
+
+		this.tasks.Add(Game.TaskType.BITE);
+	}
 	public void Bite(Thing thingToBite)
 	{
 		bool isBitable = thingToBite is ThingDestructable;

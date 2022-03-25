@@ -23,7 +23,7 @@ public class Hunger_General : Need
 	}
 	public bool passiveResolution(World world, ThingAlive thing, float timeElapsed, bool isHunter = false)
 	{
-		var thingsIsee = world.GetSightableThings(thing, (isHunter)?20: thing.body.GetSight());
+		var thingsIsee = world.GetSightableThings(thing, (isHunter)?50: thing.body.GetSight());
 		Thing bestTargetThing = getBestTargetThing(thingsIsee, requiredKeyword, isHunter);
 		if (isHunter)
 		{

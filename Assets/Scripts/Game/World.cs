@@ -165,6 +165,10 @@ namespace StoryGenerator.World
 			{
 				return 3f;
 			}
+			if (thing.type == Thing.TYPE.BEAR)
+			{
+				return 5f;
+			}
 			return 1;
 		}
 

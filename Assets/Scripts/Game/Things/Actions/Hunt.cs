@@ -35,11 +35,12 @@ public class Hunt : Action
 		//I am close enough to bite now
 		
 		var taskableBodies = thing.GetBodiesForTask();
-		bool isNoMethodOfAttacking = taskableBodies[Game.TaskType.BITE] == null || taskableBodies[Game.TaskType.BITE].Count == 0;
+		bool isNoMethodOfAttacking = !taskableBodies.ContainsKey(Game.TaskType.BITE)|| taskableBodies[Game.TaskType.BITE].Count == 0;
 		if (isNoMethodOfAttacking)
 		{
 			Debug.Log("Hunt finished : no way to attack");
 			finish();
+			return;
 		}
 		var bitingParts = taskableBodies[Game.TaskType.BITE];
 		bool targetIsInSurrenderingState = false;

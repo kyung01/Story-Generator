@@ -22,10 +22,13 @@ public static class ThingExtensions
 		var dicTaskAvailableBodies = new Dictionary<Game.TaskType, List<BodyTaskable>>();
 		if (!IsThisThing_ThingBodyWithTask)
 		{
+			UnityEngine.Debug.Log( " GetBodiesForTask :: Thing doesn't have a body");
+			//Cnannot proceed because thing is not a body with a task
 			return dicTaskAvailableBodies;
 		}
 		var twb = (ThingWithBody)thing;
 		sortBodiesForTask(ref dicTaskAvailableBodies, twb.body);
+		UnityEngine.Debug.Log(" GetBodiesForTask :: " + dicTaskAvailableBodies.Count);
 
 
 		return dicTaskAvailableBodies;
@@ -39,7 +42,13 @@ public static class ThingExtensions
 		{
 			//sort 
 			var bt = (BodyTaskable)body;
+			//UnityEngine.Debug.Log("Body is taskable " + bt);
 			sort(ref dicTaskAvailableBodies, bt);
+		}
+		else
+		{
+
+			//UnityEngine.Debug.Log("Body is not taskable " + body);
 		}
 		
 		for(int i = 0; i < body.otherBodyParts.Count; i++)
@@ -51,6 +60,7 @@ public static class ThingExtensions
 
 	private static void sort(ref Dictionary<Game.TaskType, List<BodyTaskable>> dicTaskAvailableBodies, BodyTaskable bt)
 	{
+		//UnityEngine.Debug.Log("Sort " + bt.tasks.Count);
 		foreach(var task in bt.tasks)
 		{
 			if (!dicTaskAvailableBodies.ContainsKey(task)) dicTaskAvailableBodies[task] = new List<BodyTaskable>();

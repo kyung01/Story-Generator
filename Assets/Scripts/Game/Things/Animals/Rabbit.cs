@@ -31,10 +31,10 @@ public class Rabbit : ThingAlive
 	{
 		base.Update(world, timeElapsed);
 		var bodyKeywords = this.body.GetKeywords();
-		UnityEngine.Debug.Log("Rabbit Update");
+		//UnityEngine.Debug.Log("Rabbit Update");
 		foreach (var pair in bodyKeywords)
 		{
-			UnityEngine. Debug.Log("Rabbit " +pair.Key + " " + pair.Value);
+			//UnityEngine. Debug.Log("Rabbit " +pair.Key + " " + pair.Value);
 
 		}
 		//UnityEngine. Debug.Log("RabitUpdate" + " , " + world);
