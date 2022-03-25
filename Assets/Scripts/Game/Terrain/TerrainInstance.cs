@@ -48,7 +48,7 @@ namespace StoryGenerator.Terrain
 			}
 			return noiseMap;
 		}
-		public void init(int width, int height)
+		public void Init(int width, int height)
 		{
 			this.width = width;
 			this.height = height;

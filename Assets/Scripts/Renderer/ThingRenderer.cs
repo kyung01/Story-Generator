@@ -5,6 +5,8 @@ public class ThingRenderer : MonoBehaviour
 {
 	public static float Z_AXIS_LAYER = -0.001f;
 	public static float SMOOTH_TIME = .2f;
+
+	[SerializeField] InWorldTextFeedback PREFAB_IN_WORLD_TEXT_FEEDBACk;
 	public Thing thing;
 	public MeshRenderer meshRenderer;
 	public TMPro.TextMeshPro textMesh;
@@ -44,9 +46,23 @@ public class ThingRenderer : MonoBehaviour
 			default:
 				break;
 		}
+
+		if(thing is ThingDestructable)
+		{
+			var tD = (ThingDestructable)thing;
+			tD.OnHealthChanged.Add(hdrHealthChanged);
+		}
 		this.transform.position = new Vector3(thing.X,thing.Y, Z_AXIS_LAYER);
 
 	}
+
+	private void hdrHealthChanged(Thing me, Thing other, float dealtChange, float healthBefore, float healthAfter)
+	{
+		var effect = Instantiate(PREFAB_IN_WORLD_TEXT_FEEDBACk);
+		effect.transform.position = this.transform.position;
+		effect.text.text = "HP " + healthBefore + ((dealtChange > 0) ? " + " : " - ") + Mathf.Abs(dealtChange) + " = " + healthAfter;
+	}
+
 	public virtual void Update()
 	{
 		Vector2 pos = new Vector2(this.transform.position.x, this.transform.position.y);

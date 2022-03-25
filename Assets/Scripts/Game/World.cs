@@ -35,6 +35,7 @@ namespace StoryGenerator.World
 	/// </summary>
 	public class World
 	{
+		public PathFinder.PathFinderSystem pathFinder = new PathFinder.PathFinderSystem();
 		public TerrainInstance terrain = new TerrainInstance();
 		public int width = 50;
 		public int height = 50;
@@ -45,7 +46,20 @@ namespace StoryGenerator.World
 		public void InitTerrain()
 		{
 			//initialize the world 
-			terrain.init(width,height);
+			terrain.Init(width,height);
+			pathFinder.Init(width, height);
+
+			for(int i = 0; i < width; i++)
+			{
+				for(int  j = 0; j < height; j++)
+				{
+					if (!terrain.GetPieceAt(i, j).IsWalkable)
+					{
+						pathFinder.setCellOccupied(i, j, true);
+					}
+				}
+			}
+
 			things = new List<Thing>[width * height];
 			for(int i  = 0; i < width;i ++)for(int j = 0; j < height; j++)
 				{

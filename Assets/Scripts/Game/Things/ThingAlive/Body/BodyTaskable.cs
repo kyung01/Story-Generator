@@ -15,6 +15,12 @@ public class BodyTaskable : Body
 
 	public bool IsReady { get { return this.isReady; } }
 
+	public void Use()
+	{
+		this.isReady = false;
+		timePassed = 0;
+	}
+
 
 
 	public override void Update(World world, ThingWithBody thing, float timeElapsed)

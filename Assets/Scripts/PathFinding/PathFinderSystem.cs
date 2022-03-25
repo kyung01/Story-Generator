@@ -14,7 +14,7 @@ namespace PathFinder
 		List<KPath> availablePaths = new List<KPath>();
 		int maxWidth = 0;
 		int maxHeight = 0;
-		public void Awake(int width, int height)
+		public void Init(int width, int height)
 		{
 			this.maxWidth = width;
 			this.maxHeight = height;

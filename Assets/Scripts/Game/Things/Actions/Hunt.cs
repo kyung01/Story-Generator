@@ -48,7 +48,7 @@ public class Hunt : Action
 		{
 			if (bitingParts[i].IsReady)
 			{
-				((Mouth)bitingParts[i]).Bite(targetThing);
+				((Mouth)bitingParts[i]).Bite(thing,targetThing);
 				if (((ThingWithBody)targetThing).IsReadyToProvideWithBody)
 				{
 					targetIsInSurrenderingState = true;

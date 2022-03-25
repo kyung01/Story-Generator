@@ -70,6 +70,15 @@ public partial class Thing
 			return new Vector2(this.X, this.y);
 		}
 	}
+
+	public Vector2 XY_Int
+	{
+		get
+		{
+			return new Vector2(Mathf.RoundToInt(X), Mathf.RoundToInt(Y));
+		}
+	}
+
 	public virtual void Init(World world)
 	{
 
@@ -80,7 +89,14 @@ public partial class Thing
 		this.y = y;
 	}
 
+	//Giver game me keyword of X amount
+	public virtual void ReceiveKeyword(Thing giver, Game.Keyword keyword, float amount)
+	{
 
+	}
+	/// <summary>
+	/// My keyword is being taken from me
+	/// </summary>
 	public virtual float TakenKeyword(Game.Keyword keywordToRequest, float requestedAmount)
 	{
 		var availableKeywords = this.GetKeywords();

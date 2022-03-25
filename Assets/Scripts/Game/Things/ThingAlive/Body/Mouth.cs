@@ -12,10 +12,12 @@ public class Mouth : BodyTaskable
 
 		this.tasks.Add(Game.TaskType.BITE);
 	}
-	public void Bite(Thing thingToBite)
+	public void Bite(Thing me, Thing other)
 	{
-		bool isBitable = thingToBite is ThingDestructable;
-		var t = (ThingDestructable)thingToBite;
-		t.TakeHealthChange(JawPower);
+		if (!IsReady) return;
+		Use();
+		bool isBitable = other is ThingDestructable;
+		var t = (ThingDestructable)other;
+		t.TakeHealthChange(me,-JawPower);
 	}
 }
