@@ -6,33 +6,27 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class MoveTo : Action
+public abstract class MoveTo : Action
 {
 	//position I am trying to go to
-	float targetX, targetY;
-	Vector2 destinationXY { get { return new Vector2(targetX, targetY); } }
+	public virtual Vector2 destinationXY { get { return new Vector2(); } }
 	Vector2 nextDestinationXY { get { return pathRegistered[0]; } }
 
-	bool isFinished = false;
 	bool updateNewPath = true;
-	List<Vector2> pathRegistered  = new List<Vector2>();
+	List<Vector2> pathRegistered = new List<Vector2>();
 
-	public MoveTo(float x, float y)
+	public MoveTo()
 	{
 		this.name = "MoveTo";
-		this.targetX = x;
-		this.targetY = y;
-
-
 	}
 
-	public override void Update(World world, Thing thingAlive, float timeElapsed)
+	public override void Do(World world, Thing thing, float timeElapsed)
 	{
-		base.Update(world, thingAlive, timeElapsed);
+		base.Do(world, thing, timeElapsed);
 		if (updateNewPath)
 		{
 			pathRegistered = new List<Vector2>();
-			var path = world.pathFinder.getPath(thingAlive.XY_Int, destinationXY);
+			var path = world.pathFinder.getPath(thing.XY_Int, destinationXY);
 			while (path != null)
 			{
 				pathRegistered.Add(path);
@@ -40,29 +34,46 @@ public class MoveTo : Action
 			}
 			updateNewPath = false;
 		}
-
-		Debug.Log("AvailablePaths " + pathRegistered.Count);
-		
-
-		move(world, thingAlive, timeElapsed);
-		var diff = thingAlive.XY - pathRegistered[0];
-		if (diff.magnitude < ZEROf)
-		{
-			pathRegistered.RemoveAt(0);
-		}
-		if ((thingAlive.XY - destinationXY).magnitude < ZEROf || pathRegistered.Count == 0)
+		if(pathRegistered.Count == 0)
 		{
 			finish();
 			return;
 		}
+
+		Debug.Log("AvailablePaths " + pathRegistered.Count);
+
+
+		move(world, thing, timeElapsed);
+		var diff = thing.XY - pathRegistered[0];
+		if (diff.magnitude < ZEROf)
+		{
+			pathRegistered.RemoveAt(0);
+		}
+
+		if (IsDestinationReached(world, thing) || pathRegistered.Count == 0)
+		{
+			finish();
+			return;
+		}
+		/*
+		if ((thing.XY - destinationXY).magnitude < ZEROf || pathRegistered.Count == 0)
+		{
+			finish();
+			return;
+		}
+		*/
+	}
+	public virtual bool IsDestinationReached(World world, Thing thing)
+	{
+		return true;
 	}
 
 	private void move(World world, Thing thing, float timeElapsed)
 	{
-	
+
 		//I am going to move thing to the target location
 		float speed = world.GetThingsSpeed(thing);
-		float maxDistanceToMove =( thing.XY - nextDestinationXY).magnitude;
+		float maxDistanceToMove = (thing.XY - nextDestinationXY).magnitude;
 		float distanceApplied = Mathf.Min(speed * timeElapsed, maxDistanceToMove);
 		var thingsNewPosition = thing.XY + (nextDestinationXY - thing.XY).normalized * distanceApplied;
 		thing.XY = thingsNewPosition;

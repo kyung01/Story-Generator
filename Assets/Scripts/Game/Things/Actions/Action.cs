@@ -21,5 +21,9 @@ public class Action
 
 	public virtual void Update(World world, Thing thing, float timeElapsed)
 	{
+		if (!IsFinished) Do(world,thing,timeElapsed);
+	}
+	public virtual void Do(World world, Thing thing, float timeElapsed)
+	{
 	}
 }

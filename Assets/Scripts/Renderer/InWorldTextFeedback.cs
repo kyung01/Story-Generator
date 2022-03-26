@@ -23,6 +23,10 @@ public class InWorldTextFeedback : MonoBehaviour
 		float alpha = Mathf.Max(0, 1- durationElapsed / duration);
 
 		text.color = new Color(1, 1, 1, alpha);
+		if(alpha == 0)
+		{
+			Destroy(this.gameObject);
+		}
 
 	}
 }

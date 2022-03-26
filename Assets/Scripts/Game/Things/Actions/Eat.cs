@@ -19,9 +19,9 @@ public class Eat :Action
 		this.keywordAmount = amount;
 
 	}
-	public override void Update(World world, Thing thing, float timeElapsed)
+	public override void Do(World world, Thing thing, float timeElapsed)
 	{
-		base.Update(world, thing, timeElapsed);
+		base.Do(world, thing, timeElapsed);
 		//Debug.Log(this + "BEFORE  " + keywordAmount);
 		float distance = (thing.XY - targetThing.XY).magnitude;
 		if (distance > thing.GetEatingDistance()) finish();

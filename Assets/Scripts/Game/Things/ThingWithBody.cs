@@ -18,6 +18,7 @@ public class ThingWithBody : ThingDestructable
 
 	}
 
+
 	public override Dictionary<Game.Keyword, float> GetKeywordsForHunter()
 	{
 		var keywords = base.GetKeywordsForHunter();

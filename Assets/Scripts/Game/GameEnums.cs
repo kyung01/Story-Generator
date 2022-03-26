@@ -32,7 +32,9 @@ public partial class Game
 		FOOD_VEGI,
 		STILL,
 		MOVED,
-		NUTRITION
+		NUTRITION,
+		NEGATIVE_HEALTH_CHANGE,
+		PAIN
 	}
 
 	//Types of action

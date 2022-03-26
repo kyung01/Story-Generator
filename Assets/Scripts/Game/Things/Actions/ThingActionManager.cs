@@ -15,18 +15,10 @@ public class ThingActionManager
 
 	}
 
+
 	public bool IsIdl { get { return actions.Count == 0; } }
 
-	public void Update(World world, Thing thing, float timeElapsed)
-	{
-		if (actions.Count == 0) return;
-		var action = actions[0];
-		action.Update(world, thing, timeElapsed);
-		if (action.IsFinished)
-		{
-			actions.RemoveAt(0);
-		}
-	}
+	
 
 	public void MoveToRandomLocationOfDistance(World world, Thing thing, float disToWander)
 	{
@@ -65,7 +57,7 @@ public class ThingActionManager
 		}
 	}
 
-	internal void Hunt(
+	public void Hunt(
 		Thing bestTargetThing, 
 		Game.Keyword requiredKeyword, float desiredKeywordAmount)
 	{
@@ -73,11 +65,17 @@ public class ThingActionManager
 
 	}
 
-	internal void Eat(
+	public void Eat(
 		Thing bestTargetThing,
 		Game.Keyword requiredKeyword, float desiredKeywordAmount)
 	{
 		this.actions.Add(new Eat(bestTargetThing, requiredKeyword, desiredKeywordAmount));
+	}
+
+
+	public void Flee(Thing fleeFromThisThing, float minFleeDistance)
+	{
+		this.actions.Add(new Flee(fleeFromThisThing, minFleeDistance));
 	}
 
 	internal void RequestKeywordTransfer(Thing bestTargetThing, Game.Keyword requiredKeyword, float v)
@@ -94,7 +92,18 @@ public class ThingActionManager
 
 	public void MoveTo(float x, float y)
 	{
-		actions.Add(new MoveTo(x, y));
+		actions.Add(new MoveToPosition(x, y));
 
+	}
+
+	public void Update(World world, Thing thing, float timeElapsed)
+	{
+		if (actions.Count == 0) return;
+		var action = actions[0];
+		action.Update(world, thing, timeElapsed);
+		if (action.IsFinished)
+		{
+			actions.RemoveAt(0);
+		}
 	}
 }

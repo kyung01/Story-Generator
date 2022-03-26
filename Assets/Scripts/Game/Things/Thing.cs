@@ -89,11 +89,18 @@ public partial class Thing
 		this.y = y;
 	}
 
+	public delegate void DEL_RECEIVE_KEYWORD(Thing me , Thing giver, Game.Keyword keyword, float amount);
+	public List<DEL_RECEIVE_KEYWORD> OnReceiveKeyword = new List<DEL_RECEIVE_KEYWORD>();
 	//Giver game me keyword of X amount
 	public virtual void ReceiveKeyword(Thing giver, Game.Keyword keyword, float amount)
 	{
+		for(int i = 0; i< OnReceiveKeyword.Count; i++)
+		{
+			OnReceiveKeyword[i](this ,giver, keyword, amount);
+		}
 
 	}
+
 	/// <summary>
 	/// My keyword is being taken from me
 	/// </summary>
@@ -110,8 +117,8 @@ public partial class Thing
 		return givenAmount;
 	}
 
-	public delegate void DEL_RECEIVE_KEYWORD(Game.Keyword keyword, float amount);
-	public List<DEL_RECEIVE_KEYWORD> OnConsumeKeyword = new List<DEL_RECEIVE_KEYWORD>();
+	public delegate void DEL_CONSUME_KEYWORD(Game.Keyword keyword, float amount);
+	public List<DEL_CONSUME_KEYWORD> OnConsumeKeyword = new List<DEL_CONSUME_KEYWORD>();
 
 	public virtual void ConsumeKeyword(Game.Keyword keyword, float amount)
 	{

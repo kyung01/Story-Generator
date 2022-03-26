@@ -7,7 +7,9 @@ public class Bear : ThingAlive
 	{
 		addNeed(new Hunger_Meat());
 		addNeed(new Wander());
+
 		body.addBody(new MotionDemander());
+		body.addBody(new PainCreator());
 		body.addBody(new Mouth());
 
 		var meatBody = new MeatBody();

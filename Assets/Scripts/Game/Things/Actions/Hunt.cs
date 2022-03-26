@@ -20,9 +20,9 @@ public class Hunt : Action
 		this.keywordAmountToRequest = amount;
 
 	}
-	public override void Update(World world, Thing thing, float timeElapsed)
+	public override void Do(World world, Thing thing, float timeElapsed)
 	{
-		base.Update(world, thing, timeElapsed);
+		base.Do(world, thing, timeElapsed);
 		float attackDistance = 1;
 
 		Debug.Log(this + "BEFORE  " + keywordAmountToRequest);

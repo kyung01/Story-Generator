@@ -14,6 +14,8 @@ public class Rabbit : ThingAlive
 
 
 		body.addBody(new MotionDemander());
+		body.addBody(new PainCreator());
+		body.addBody(new PainReactionModelBody());
 
 		var meatBody = new MeatBody();
 		var stomach = new Stomach();
