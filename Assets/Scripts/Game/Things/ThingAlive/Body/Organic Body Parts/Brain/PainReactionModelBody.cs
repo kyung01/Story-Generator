@@ -17,17 +17,20 @@ public class PainReactionModelBody : Body
 	
 	void hdrReceiveKeyword(Thing me, Thing giver, Game.Keyword keyword, float amount)
 	{
+		//UnityEngine.Debug.Log(this + " flee pain reaction model " + amount);
 		if (keyword != Game.Keyword.PAIN) return;
+		//UnityEngine.Debug.Log(this + " flee pain reaction model Not returned");
 		//I received pain
 		//How should I react
-		if(amount>= minimumPainToTrigger)
+		if (amount>= minimumPainToTrigger)
 		{
+			//UnityEngine.Debug.Log(this + " flee pain reaction :: TriggerPainReactioin");
 			TriggerPainReactioin(me,giver);
 		}
 	}
 	public virtual void TriggerPainReactioin(Thing me, Thing giver)
 	{
-		me.TAM.Flee(giver, minDistanceToFlee);
+		me.TAM.Flee(giver, minDistanceToFlee, ThingActionManager.PriorityLevel.FOCUSE);
 
 	}
 }

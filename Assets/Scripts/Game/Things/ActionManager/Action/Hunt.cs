@@ -29,7 +29,7 @@ public class Hunt : Action
 		float distance = (thing.XY - targetThing.XY).magnitude;
 		if (distance > attackDistance)
 		{
-			thing.TAM.MoveToTarget(targetThing, attackDistance, true);
+			thing.TAM.MoveToTarget(targetThing, attackDistance, ThingActionManager.PriorityLevel.FIRST);
 			return;
 		}
 		//I am close enough to bite now

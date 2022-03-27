@@ -11,7 +11,8 @@ public partial class Thing
 	public enum TYPE { UNDEFINED, ROCK, GRASS, BUSH,
 		REED,
 		RABBIT,
-		BEAR
+		BEAR,
+		HUMAN
 	}
 	public TYPE type = TYPE.UNDEFINED;
 
@@ -27,6 +28,7 @@ public partial class Thing
 
 	void baseInit()
 	{
+		initCarryingFunctionality();
 		this.thingActManager = new ThingActionManager();
 		this.type = TYPE.UNDEFINED;
 		this.x = 0;
@@ -83,10 +85,32 @@ public partial class Thing
 	{
 
 	}
+	public delegate void DEL_POSITIONCHANGED(Thing thing, int xBefore, int yBefore, int xNew, int yNew);
+	public List<DEL_POSITIONCHANGED> OnPositionChanged = new List<DEL_POSITIONCHANGED>();
 	public void SetPosition(float x, float y)
 	{
+		int xBefore = Mathf.RoundToInt(x);
+		int yBefore = Mathf.RoundToInt(y);
+
 		this.x = x;
 		this.y = y;
+
+		int xNew = Mathf.RoundToInt(x);
+		int yNew = Mathf.RoundToInt(y);
+
+		if(xBefore!= xNew || yBefore != yNew)
+		{
+			//position is chagned 
+			for(int i = 0; i< OnPositionChanged.Count; i++)
+			{
+				OnPositionChanged[i](this, xBefore, yBefore, xNew, yNew);
+			}
+		}
+	}
+	public void SetPosition(Vector2 vec2)
+	{
+		this.x = vec2.x;
+		this.y = vec2.y;
 	}
 
 	public delegate void DEL_RECEIVE_KEYWORD(Thing me , Thing giver, Game.Keyword keyword, float amount);

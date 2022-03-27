@@ -28,6 +28,9 @@ public class ThingRenderer : MonoBehaviour
 			case Thing.TYPE.ROCK:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Rock;
 				break;
+			case Thing.TYPE.HUMAN:
+				meshRenderer.material.mainTexture = SPRITE_LIST.Human;
+				break;
 			case Thing.TYPE.GRASS:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Grass;
 				break;

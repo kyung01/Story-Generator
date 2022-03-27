@@ -9,6 +9,43 @@ using UnityEngine;
 //Manages action of a thing
 public class ThingActionManager
 {
+	public enum State { 
+		DEFAULT,//default state
+		USER_CONTROLLING,// user is controlling TAM
+
+		END
+	}
+
+	public enum PriorityLevel
+	{
+		DEFAULT, // orders are queued in order
+		FIRST, //order is queued to the front
+		FOCUSE, // order queue is emptied then the new order is added 
+		USER,// this is an order from a user, this flag is required when TAM is in "user controlling mode"
+		END
+	}
+	void addAction(Action action, PriorityLevel priorityLevel)
+	{
+		switch (priorityLevel)
+		{
+			case PriorityLevel.DEFAULT:
+				actions.Add(action);
+				break;
+			case PriorityLevel.FIRST:
+				actions.Insert(0,action);
+				break;
+			case PriorityLevel.FOCUSE:
+				actions.Clear();
+				actions.Add(action);
+				break;
+			case PriorityLevel.USER:
+				break;
+			case PriorityLevel.END:
+				break;
+			default:
+				break;
+		}
+	}
 	public List<Action> actions = new List<Action>();
 	public ThingActionManager()
 	{
@@ -73,9 +110,10 @@ public class ThingActionManager
 	}
 
 
-	public void Flee(Thing fleeFromThisThing, float minFleeDistance)
+	public void Flee(Thing fleeFromThisThing, float minFleeDistance, PriorityLevel priorityLevel = PriorityLevel.DEFAULT)
 	{
-		this.actions.Add(new Flee(fleeFromThisThing, minFleeDistance));
+		var action = new Flee(fleeFromThisThing, minFleeDistance);
+		addAction(action, priorityLevel);
 	}
 
 	internal void RequestKeywordTransfer(Thing bestTargetThing, Game.Keyword requiredKeyword, float v)
@@ -83,16 +121,23 @@ public class ThingActionManager
 
 	}
 
-	internal void MoveToTarget(Thing bestTargetThing, float distanceThatsCloseEnough, bool isPriority = false)
+	internal void MoveToTarget(Thing bestTargetThing, float distanceThatsCloseEnough, PriorityLevel priorityLevel = PriorityLevel.DEFAULT)
 	{
 		var action = new MoveToTarget(bestTargetThing, distanceThatsCloseEnough);
-		if (isPriority) actions.Insert(0, action);
-		else actions.Add(action);
+		addAction(action, priorityLevel);
 	}
 
-	public void MoveTo(float x, float y)
+	public void MoveTo(float x, float y, bool isPrioritiy = false)
 	{
-		actions.Add(new MoveToPosition(x, y));
+		if (isPrioritiy)
+		{
+			actions.Insert(0,new MoveToPosition(x, y));
+		}
+		else
+		{
+			actions.Add(new MoveToPosition(x, y));
+
+		}
 
 	}
 

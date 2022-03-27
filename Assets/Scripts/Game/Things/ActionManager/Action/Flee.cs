@@ -12,6 +12,7 @@ public class Flee : Action
 	bool isNewPathNeeded = true;
 	public Flee(Thing thingToRunAwayFrom, float minDistanceToPutBetween)
 	{
+		this.name = "Flee";
 		this.thingToRunAwayFrom = thingToRunAwayFrom;
 		this.minDistanceToPutBetween = minDistanceToPutBetween;
 	}
@@ -21,31 +22,37 @@ public class Flee : Action
 		if (isNewPathNeeded)
 		{
 			//get new path
-			int xMin = Mathf.Max(0, Mathf.RoundToInt(thing.X - minDistanceToPutBetween));
-			int xMax = Mathf.Min(world.width, Mathf.RoundToInt(thing.X + minDistanceToPutBetween));
-			int yMin = Mathf.Max(0, Mathf.RoundToInt(thing.Y - minDistanceToPutBetween));
-			int yMax = Mathf.Min(world.height, Mathf.RoundToInt(thing.Y + minDistanceToPutBetween));
-			List<Vector2> availablePositions = new List<Vector2>();
-			for (int i =  xMin; i < xMax;i++  )
-				for(int j = yMin; j < yMax; j++)
-				{
-					if(!world.terrain.GetPieceAt(i,j).IsWalkable || !world.terrain.GetPieceAt(i, j).IsSightable)
-					{
-						continue;
-					}
-					availablePositions.Insert(Random.Range(0, 1 + availablePositions.Count),new Vector2(i,j) );
-				}
-			if (availablePositions.Count == 0) {
-				Debug.LogError(this + " ERROR::UnavailablePosition");
-				finish();
-				return;
-
-			}
-			Vector2 pos = getTheBestPosition(availablePositions, thing.XY, thingToRunAwayFrom.XY);
+			
 			//world.
 			//isNewPathNeeded = false;
-			finish();
 		}
+		if( (thing.XY - thingToRunAwayFrom.XY).magnitude >= minDistanceToPutBetween)
+		{
+			finish();
+			return;
+		}
+		int xMin = Mathf.Max(0, Mathf.RoundToInt(thing.X - minDistanceToPutBetween));
+		int xMax = Mathf.Min(world.width, Mathf.RoundToInt(thing.X + minDistanceToPutBetween));
+		int yMin = Mathf.Max(0, Mathf.RoundToInt(thing.Y - minDistanceToPutBetween));
+		int yMax = Mathf.Min(world.height, Mathf.RoundToInt(thing.Y + minDistanceToPutBetween));
+		List<Vector2> availablePositions = new List<Vector2>();
+		for (int i = xMin; i < xMax; i++)
+			for (int j = yMin; j < yMax; j++)
+			{
+				if (!world.terrain.GetPieceAt(i, j).IsWalkable || !world.terrain.GetPieceAt(i, j).IsSightable)
+				{
+					continue;
+				}
+				availablePositions.Insert(Random.Range(0, 1 + availablePositions.Count), new Vector2(i, j));
+			}
+		if (availablePositions.Count == 0)
+		{
+			Debug.LogError(this + " ERROR::UnavailablePosition");
+			finish();
+			return;
+		}
+		Vector2 pos = getTheBestPosition(availablePositions, thing.XY, thingToRunAwayFrom.XY);
+		thing.TAM.MoveTo(pos.x, pos.y, true);
 	}
 
 	Vector2 getTheBestPosition(List<Vector2> availablePositions, Vector2 myPosition, Vector2 threatsPosition)

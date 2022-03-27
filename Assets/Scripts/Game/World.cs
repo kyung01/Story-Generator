@@ -36,6 +36,8 @@ namespace StoryGenerator.World
 	public class World
 	{
 		public PathFinder.PathFinderSystem pathFinder = new PathFinder.PathFinderSystem();
+
+
 		public TerrainInstance terrain = new TerrainInstance();
 		public int width = 50;
 		public int height = 50;
@@ -111,6 +113,12 @@ namespace StoryGenerator.World
 		{
 			return n >= minInclusive && n < maxExclusive;
 		}
+
+		public List<Thing> GetEdibleThings(Thing thing)
+		{
+			return new List<Thing>();
+		}
+
 		public List<Thing> GetSightableThings(ThingAlive thing, float sight)
 		{
 			List<Thing> things = new List<Thing>();
@@ -177,65 +185,73 @@ namespace StoryGenerator.World
 		{
 			if (thing.type == Thing.TYPE.RABBIT)
 			{
-				return 3f;
+				return 5f;
 			}
 			if (thing.type == Thing.TYPE.BEAR)
 			{
-				return 5f;
+				return 3f;
 			}
 			return 1;
 		}
-
+		Vector2 getApprorpiateRandomPosition()
+		{
+			float x=0, y=0;
+			bool isAppropriateLocationFound = false;
+			while (!isAppropriateLocationFound)
+			{
+				x = Random.Range(0, width);
+				y = Random.Range(0, height);
+				var terrainType = terrain.pieces[(int)x + (int)y * width].Type;
+				if (terrainType == Piece.KType.MOUNTAIN || terrainType == Piece.KType.WATER_DEEP || terrainType == Piece.KType.WATER_SHALLOW)
+				{
+					continue;
+				}
+				break;
+			}
+			return new Vector2(x, y);
+		}
 		public void InitAnimals()
 		{
 			int numRabbit = 1;
 			int numBear = 1;
+			int numHumans = 1;
 
 			for (int i = 0; i < numRabbit; i++)
 			{
-				float x = 0, y = 0;
-				bool isAppropriateLocationFound = false;
-				while (!isAppropriateLocationFound)
-				{
-					x = Random.Range(0, width);
-					y = Random.Range(0, height);
-					var terrainType = terrain.pieces[(int)x + (int)y * width].Type;
-					if (terrainType == Piece.KType.MOUNTAIN || terrainType == Piece.KType.WATER_DEEP || terrainType == Piece.KType.WATER_SHALLOW)
-					{
-						continue;
-					}
-					break;
-				}
+				Vector2 randomPos = getApprorpiateRandomPosition();
 				Rabbit rabbit = new Rabbit();
-				rabbit.SetPosition(x, y);
+				rabbit.SetPosition(randomPos.x, randomPos.y);
 				rabbit.Init(this);
 				allThings.Add(rabbit);
-				things[(int)x + (int)y * width].Add(rabbit);
-				thingsToKeepTracking.Add(new ThingXY( rabbit,(int)x,(int)y));
+				things[(int)randomPos.x + (int)randomPos.y * width].Add(rabbit);
+				thingsToKeepTracking.Add(new ThingXY( rabbit,(int)randomPos.x, (int)randomPos.y));
 
 			}
 
 			for (int i = 0; i < numBear; i++)
 			{
-				float x = 0, y = 0;
-				bool isAppropriateLocationFound = false;
-				while (!isAppropriateLocationFound)
-				{
-					x = Random.Range(0, width);
-					y = Random.Range(0, height);
-					var terrainType = terrain.pieces[(int)x + (int)y * width].Type;
-					if (terrainType == Piece.KType.MOUNTAIN || terrainType == Piece.KType.WATER_DEEP || terrainType == Piece.KType.WATER_SHALLOW)
-					{
-						continue;
-					}
-					break;
-				}
+
+				Vector2 randomPos = getApprorpiateRandomPosition();
+
 				Bear bear = new Bear();
-				bear.SetPosition(x, y);
+				bear.SetPosition(randomPos);
 				bear.Init(this);
 				allThings.Add(bear);
-				things[(int)x + (int)y * width].Add(bear);
-				thingsToKeepTracking.Add(new ThingXY( bear,(int)x,(int)y));
+				things[(int)randomPos.x + (int)randomPos.y * width].Add(bear);
+				thingsToKeepTracking.Add(new ThingXY(bear, (int)randomPos.x, (int)randomPos.y));
+
+			}
+			for (int i = 0; i < numHumans; i++)
+			{
+
+				Vector2 randomPos = getApprorpiateRandomPosition();
+
+				Human Human = new Human();
+				Human.SetPosition(randomPos);
+				Human.Init(this);
+				allThings.Add(Human);
+				things[(int)randomPos.x + (int)randomPos.y * width].Add(Human);
+				thingsToKeepTracking.Add(new ThingXY(Human, (int)randomPos.x, (int)randomPos.y));
 
 			}
 		}

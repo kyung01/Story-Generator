@@ -7,5 +7,9 @@ using System.Threading.Tasks;
 
 public class Human : Rabbit
 {
+	public Human()
+	{
+		this.type = TYPE.HUMAN;
+	}
 
 }

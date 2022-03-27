@@ -17,6 +17,10 @@ public class ThingDestructable : Thing
 			OnHealthChanged[i](this, other, amount, healthBefore, healthAfter);
 		}
 		health += amount;
-		ReceiveKeyword(other, Game.Keyword.NEGATIVE_HEALTH_CHANGE, amount);
+		if (amount < 0)
+		{
+			ReceiveKeyword(other, Game.Keyword.NEGATIVE_HEALTH_CHANGE, Mathf.Abs(amount));
+
+		}
 	}
 }
