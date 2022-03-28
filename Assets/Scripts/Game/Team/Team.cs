@@ -17,7 +17,7 @@ public partial class Team
 	//Things I have
 	List<ThingClassification> things = new List<ThingClassification>();
 
-	WorkManagaer workManager;
+	WorkManagaer workManager = new WorkManagaer();
 	public Team()
 	{
 	}

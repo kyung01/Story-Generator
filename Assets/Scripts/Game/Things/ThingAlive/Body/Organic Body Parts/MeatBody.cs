@@ -16,7 +16,7 @@ public class MeatBody : Body
 			allKeywords.Add(Game.Keyword.FOOD_MEAT, 0);
 		}
 		allKeywords[Game.Keyword.FOOD_MEAT] += meat;
-		Debug.Log("get keywords " + meat);
+		//Debug.Log("get keywords " + meat);
 		return allKeywords;
 	}
 	public override void ConsumeKeyword(Game.Keyword keyword, float amount)

@@ -91,7 +91,7 @@ public partial class Thing
 		{
 			return false;
 		}
-		this.XY = new Vector2(x, Y);
+		this.XY = new Vector2(x, y);
 		return true;
 	}
 

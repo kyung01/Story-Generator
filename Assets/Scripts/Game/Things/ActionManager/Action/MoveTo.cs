@@ -40,7 +40,7 @@ public abstract class MoveTo : Action
 			return;
 		}
 
-		Debug.Log("AvailablePaths " + pathRegistered.Count);
+		//Debug.Log("AvailablePaths " + pathRegistered.Count);
 
 
 		move(world, thing, timeElapsed);

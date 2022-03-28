@@ -19,7 +19,7 @@ public class Work
 	}
 	public bool IsWorkerAssigned
 	{
-		get { return this.assignedWorker != null}
+		get { return this.assignedWorker != null; }
 	}
 
 	internal void finish()

@@ -157,10 +157,6 @@ namespace StoryGenerator.World
 			return things;
 		}
 
-		private List<Thing> GetThingsAt(int i, int j)
-		{
-			return things[i + j * width];
-		}
 
 		bool hprIsSameCell(Vector2 a, Vector2 b)
 		{

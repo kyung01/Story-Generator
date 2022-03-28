@@ -65,7 +65,11 @@ public class WorkManagaer
 			{
 				continue;
 			}
-			works[i].Update(world, timeElapsed);
+			if (work.assignedWorker.TAM.IsIdl)
+			{
+				works[i].Update(world, timeElapsed);
+
+			}
 		}
 	}
 

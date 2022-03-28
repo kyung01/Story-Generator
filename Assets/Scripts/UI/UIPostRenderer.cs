@@ -47,7 +47,7 @@ public class UIPostRenderer : MonoBehaviour
 
 	void OnPostRender()
 	{
-		//Debug.Log("Post Renderer " + listRenderSquare.Count);
+		Debug.Log("Post Renderer " + listRenderSquare.Count);
 		if (!mat)
 		{
 			Debug.LogError("Please Assign a material on the inspector");
@@ -63,6 +63,7 @@ public class UIPostRenderer : MonoBehaviour
 		for (int i = 0; i < listRenderSquare.Count; i++)
 		{
 			var renderSquareCall = listRenderSquare[i];
+			Debug.Log("Post Renderer " + renderSquareCall.from + " " + renderSquareCall.to);
 			GL.Vertex(renderSquareCall.from);
 			GL.Vertex(new Vector3(renderSquareCall.to.x, renderSquareCall.from.y, 0));
 			GL.Vertex(renderSquareCall.from);
@@ -87,6 +88,11 @@ public class UIPostRenderer : MonoBehaviour
 
 
 
+	public static void RenderSquare(Vector2 screenSpaceFrom, Vector2 screenSpaceTo)
+	{
+		RenderSquare(new Vector3(screenSpaceFrom.x, screenSpaceFrom.y, 0), new Vector3(screenSpaceTo.x, screenSpaceTo.y, 0));
+	}
+	
 	public static void RenderSquare(Vector3 screenSpaceFrom, Vector3 screenSpaceTo)
 	{
 		screenSpaceFrom = new Vector3(screenSpaceFrom.x, screenSpaceFrom.y, 0);

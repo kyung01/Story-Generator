@@ -8,7 +8,7 @@ public partial class Thing{
 	//Things that this thing is carrying
 	List<Thing> carryingThings = new List<Thing>();
 	//Thing carrying me
-	Thing thingCarryingThis;
+	Thing thingCarryingThis = null;
 	public Thing Carrier { get { return thingCarryingThis; } }
 
 	public void Drop()
