@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 public class PainReactionModelBody : Body
 {
 	float minimumPainToTrigger = 1;
-	float minDistanceToFlee = 5;
+	float minDistanceToFlee = 10;
 	public override void Init(ThingWithBody thing)
 	{
 		base.Init(thing);

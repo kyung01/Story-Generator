@@ -43,7 +43,23 @@ namespace StoryGenerator.World
 		public int height = 50;
 		public List<Thing>[] things;
 		public List<Thing> allThings = new List<Thing>();
+
+		internal List<Thing> GetThingsAt(int x, int y)
+		{
+			return things[x + width * y];
+		}
+
 		public List<ThingXY> thingsToKeepTracking = new List<ThingXY>();
+		public List<Team> teams = new List<Team>();
+
+
+		Team playerTeam;
+
+		public World()
+		{
+			playerTeam = new Team();
+			teams.Add(playerTeam);
+		}
 
 		public void InitTerrain()
 		{
@@ -109,6 +125,7 @@ namespace StoryGenerator.World
 				}
 
 		}
+		
 		bool hprIsWithinRange(float n, float minInclusive, float maxExclusive)
 		{
 			return n >= minInclusive && n < maxExclusive;
@@ -253,9 +270,16 @@ namespace StoryGenerator.World
 				things[(int)randomPos.x + (int)randomPos.y * width].Add(Human);
 				thingsToKeepTracking.Add(new ThingXY(Human, (int)randomPos.x, (int)randomPos.y));
 
+				playerTeam.AddThing(Human, Team.ThingRole.HOWLER);
+
+
 			}
 		}
 
+		public void InitFakeWorksForTesting()
+		{
+
+		}
 		public virtual void Update(float timeElapsed)
 		{
 			for (int i = 0; i < allThings.Count; i++)
@@ -270,6 +294,10 @@ namespace StoryGenerator.World
 					things[t.xOld + t.yOld * width].Remove(t.thing);
 					things[t.x + t.y * width].Add(t.thing);
 				}
+			}
+			for(int i = 0; i< teams.Count; i++)
+			{
+				teams[i].Update(this, timeElapsed);
 			}
 		}
 	}

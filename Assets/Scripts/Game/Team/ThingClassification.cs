@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 public class ThingClassification
 {
 	public Thing thing;
-	public Team.ThingRole role;
+	public List<Team.ThingRole> roles = new List<Team.ThingRole>();
+	public ThingClassification(Thing thing, Team.ThingRole role)
+	{
+		this.thing = thing;
+		this.roles.Add( role);
+
+	}
 
 }

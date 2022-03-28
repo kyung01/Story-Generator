@@ -92,11 +92,12 @@ namespace StoryGenerator.Terrain
 					}
 					if (perlinMap_Mountain[i][j] > (1 - probToBeMountainGround))
 					{
-						pieces[i + j * width].SetType(Piece.KType.MOUNTAIN);
+						pieces[i + j * width].SetType(Piece.KType.MOUNTAIN_GROUND);
 					}
 					if (perlinMap_Mountain[i][j] > (1 - probToBeMountainRocks))
 					{
 						mountain[i + j * width] = true;
+						pieces[i + j * width].SetType(Piece.KType.MOUNTAIN);
 					}
 					/*
 					 * */

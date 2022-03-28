@@ -94,6 +94,18 @@ public class ThingActionManager
 		}
 	}
 
+	internal void Drop()
+	{
+		Drop action = new Drop();
+		addAction(action, PriorityLevel.DEFAULT);
+	}
+
+	public void Carry(Thing thingToCarry)
+	{
+		Carry action = new Carry(thingToCarry);
+		addAction(action, PriorityLevel.DEFAULT);
+	}
+
 	public void Hunt(
 		Thing bestTargetThing, 
 		Game.Keyword requiredKeyword, float desiredKeywordAmount)
@@ -126,7 +138,10 @@ public class ThingActionManager
 		var action = new MoveToTarget(bestTargetThing, distanceThatsCloseEnough);
 		addAction(action, priorityLevel);
 	}
-
+	public void MoveTo(Vector2 pos, bool isPriority = false)
+	{
+		this.MoveTo(pos.x, pos.y, isPriority);
+	}
 	public void MoveTo(float x, float y, bool isPrioritiy = false)
 	{
 		if (isPrioritiy)

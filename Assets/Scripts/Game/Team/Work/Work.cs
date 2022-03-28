@@ -7,19 +7,28 @@ using StoryGenerator.World;
 
 public class Work
 {
-	public Thing assignedThing;
+	public Thing assignedWorker;
 
 	public static float ZEROf = 0.01f;
-	public virtual bool IsFinished
+	bool isFinished = false;
+	public bool IsFinished
 	{
 		get {
-			return true;
+			return isFinished;
 		}
 	}
+	public bool IsWorkerAssigned
+	{
+		get { return this.assignedWorker != null}
+	}
 
+	internal void finish()
+	{
+		isFinished = true;
+	}
 	public Work(Thing assignedThing)
 	{
-		this.assignedThing = assignedThing;
+		this.assignedWorker = assignedThing;
 	}
 
 	public void Update(World world, float timeElapsed)

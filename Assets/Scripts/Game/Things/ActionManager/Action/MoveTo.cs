@@ -76,6 +76,6 @@ public abstract class MoveTo : Action
 		float maxDistanceToMove = (thing.XY - nextDestinationXY).magnitude;
 		float distanceApplied = Mathf.Min(speed * timeElapsed, maxDistanceToMove);
 		var thingsNewPosition = thing.XY + (nextDestinationXY - thing.XY).normalized * distanceApplied;
-		thing.XY = thingsNewPosition;
+		thing.MoveTo( thingsNewPosition);
 	}
 }

@@ -19,7 +19,7 @@ public class Action
 		isFinished = true;
 	}
 
-	public virtual void Update(World world, Thing thing, float timeElapsed)
+	public void Update(World world, Thing thing, float timeElapsed)
 	{
 		if (!IsFinished) Do(world,thing,timeElapsed);
 	}

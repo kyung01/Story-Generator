@@ -8,8 +8,10 @@ namespace StoryGenerator.Terrain
 	/// </summary>
 	public class Piece
 	{
-		public enum KType { DIRT = 0 , ROCKY = 1, FERTILE = 2,
+		public enum KType { 
+			DIRT = 0 , ROCKY = 1, FERTILE = 2,
 			MOUNTAIN = 3,
+			MOUNTAIN_GROUND =3,
 			CLAY = 4,
 			WATER_SHALLOW = 5,
 			WATER_DEEP = 6

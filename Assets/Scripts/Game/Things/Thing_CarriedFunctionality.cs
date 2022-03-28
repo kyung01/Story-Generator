@@ -8,8 +8,40 @@ public partial class Thing{
 	//Things that this thing is carrying
 	List<Thing> carryingThings = new List<Thing>();
 	//Thing carrying me
-	Thing beingCarriedBy;
+	Thing thingCarryingThis;
+	public Thing Carrier { get { return thingCarryingThis; } }
 
+	public void Drop()
+	{
+		for(int i = carryingThings.Count-1; i >=0; i--)
+		{
+			dropCarryingThing(carryingThings[i]);
+		}
+	}
+
+	private void dropCarryingThing(Thing thing)
+	{
+		carryingThings.Remove(thing);
+		thing.freeFromCarrier();
+	}
+
+	void freeFromCarrier()
+	{
+		this.thingCarryingThis = null;
+	}
+
+	public bool IsBeingCarried
+	{
+		get { return thingCarryingThis != null; }
+	}
+	public bool IsCarrying
+	{
+		get
+		{
+			return carryingThings.Count != 0;
+
+		}
+	}
 	void initCarryingFunctionality()
 	{
 		this.OnPositionChanged.Add(hdrUpdateCarryingThingsPositions);
@@ -23,17 +55,22 @@ public partial class Thing{
 		}
 	}
 
-	public bool IsBeingCarried
+	public virtual float GetGrapRange()
 	{
-		get{ return beingCarriedBy != null; }
+		return 1;
 	}
+
+
 	public void Carry(Thing thingToCarry)
 	{
 		carryingThings.Add(thingToCarry);
-		thingToCarry.beingCarriedBy = this;
+		thingToCarry.thingCarryingThis = this;
 		thingToCarry.XY = this.XY;
 		
 	}
 
-
+	public virtual bool CheckGetCarriedBy(Thing thing)
+	{
+		return !IsBeingCarried;
+	}
 }

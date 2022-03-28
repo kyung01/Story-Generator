@@ -81,6 +81,20 @@ public partial class Thing
 		}
 	}
 
+	public bool MoveTo(Vector2 position)
+	{
+		return this.MoveTo(position.x, position.y);
+	}
+	public bool MoveTo(float x, float y)
+	{
+		if (IsBeingCarried)
+		{
+			return false;
+		}
+		this.XY = new Vector2(x, Y);
+		return true;
+	}
+
 	public virtual void Init(World world)
 	{
 
