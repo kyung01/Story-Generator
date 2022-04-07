@@ -8,6 +8,16 @@ using UnityEngine.EventSystems;
 
 public class UISelectBox : MonoBehaviour
 {
+	public delegate void DEL_SELECTED(int xBeing, int yBegin, int xEnd, int yEnd);
+	public static List<DEL_SELECTED> OnSelected = new List<DEL_SELECTED>();
+	void raiseOnSelected(int xBegin, int yBegin, int xEnd, int yEnd)
+	{
+		for(int i = 0; i < OnSelected.Count; i++)
+		{
+			OnSelected[i](xBegin, yBegin, xEnd, yEnd);
+		}
+	}
+
 	bool isDraw = false;
 	Vector2 rectBegin = new Vector2();
 	Vector2 rectEnd = new Vector2();
@@ -46,7 +56,10 @@ public class UISelectBox : MonoBehaviour
 	}
 	private void Update()
 	{
-
+		if (isMouseOverUI())
+		{
+			return;
+		}
 
 		if (Input.GetMouseButtonDown(0))
 		{
@@ -76,12 +89,20 @@ public class UISelectBox : MonoBehaviour
 			}
 			var p1 = Camera.main.WorldToViewportPoint(new Vector3(drawbegin.x-0.5f, drawbegin.y - 0.5f, 0));
 			var p2 = Camera.main.WorldToViewportPoint(new Vector3(drawEnd.x + 0.5f, drawEnd.y + 0.5f, 0));
-			UIPostRenderer.RenderSquare( p1, p2);
+			UIPostRenderer.RenderSquareLines( p1, p2);
 			Debug.Log("Drwaing");
 		}
 		if (Input.GetMouseButtonUp(0))
 		{
 			isDraw = false;
+
+			var r1 = rectBegin;
+			var r2 = rectEnd;
+			var vec2Begin = new Vector2(Mathf.Min(r1.x, r2.x), Mathf.Min(r1.y, r2.y));
+			var vec2End = new Vector2(Mathf.Max(r1.x, r2.x), Mathf.Max(r1.y, r2.y));
+
+			Debug.Log("Selected " + r1 + " " + r2);
+			raiseOnSelected(Mathf.RoundToInt(vec2Begin.x), Mathf.RoundToInt(vec2Begin.y), Mathf.RoundToInt(vec2End.x), Mathf.RoundToInt(vec2End.y));
 
 		}
 

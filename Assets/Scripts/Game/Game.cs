@@ -5,7 +5,7 @@ using UnityEngine;
 public partial class Game : MonoBehaviour
 {
 	public World world;
-
+	public UIMain uiMain;
 	public void StartGame()
 	{
 		world = new World();

@@ -12,7 +12,8 @@ public class UIPostRenderer : MonoBehaviour
 	static UIPostRenderer me;
 
 	// Draws a line from "startVertex" var to the curent mouse position.
-	static List<RenderSquareCall> listRenderSquare = new List<RenderSquareCall>();
+	static List<RenderSquareCall> ListRenderSquareLines = new List<RenderSquareCall>();
+	static List<RenderSquareCall> ListRenderSquares = new List<RenderSquareCall>();
 	[SerializeField]
 	Material mat;
 	Vector3 startVertex;
@@ -47,7 +48,7 @@ public class UIPostRenderer : MonoBehaviour
 
 	void OnPostRender()
 	{
-		Debug.Log("Post Renderer " + listRenderSquare.Count);
+		//Debug.Log("Post Renderer " + ListRenderSquareLines.Count);
 		if (!mat)
 		{
 			Debug.LogError("Please Assign a material on the inspector");
@@ -57,13 +58,26 @@ public class UIPostRenderer : MonoBehaviour
 		mat.SetPass(0);
 		GL.LoadOrtho();
 
+		GL.Begin(GL.TRIANGLES);
+		GL.Color(Color.blue);
+		for (int i = 0; i < ListRenderSquares.Count; i++)
+		{
+			var renderSquareCall = ListRenderSquares[i];
+			Debug.Log("Post Renderer " + renderSquareCall.from + " " + renderSquareCall.to);
+			GL.Vertex(renderSquareCall.from);
+			GL.Vertex(new Vector3(renderSquareCall.to.x, renderSquareCall.from.y, 0));
+			GL.Vertex(renderSquareCall.to);
+			GL.Vertex(renderSquareCall.to);
+			GL.Vertex(new Vector3(renderSquareCall.from.x, renderSquareCall.to.y, 0));
+			GL.Vertex(renderSquareCall.from);
+		}
+		GL.End();
 		GL.Begin(GL.LINES);
 
 		GL.Color(Color.red);
-		for (int i = 0; i < listRenderSquare.Count; i++)
+		for (int i = 0; i < ListRenderSquareLines.Count; i++)
 		{
-			var renderSquareCall = listRenderSquare[i];
-			Debug.Log("Post Renderer " + renderSquareCall.from + " " + renderSquareCall.to);
+			var renderSquareCall = ListRenderSquareLines[i];
 			GL.Vertex(renderSquareCall.from);
 			GL.Vertex(new Vector3(renderSquareCall.to.x, renderSquareCall.from.y, 0));
 			GL.Vertex(renderSquareCall.from);
@@ -73,7 +87,7 @@ public class UIPostRenderer : MonoBehaviour
 			GL.Vertex(renderSquareCall.to);
 			GL.Vertex(new Vector3(renderSquareCall.from.x, renderSquareCall.to.y, 0));
 		}
-		foreach (var renderSquareCall in listRenderSquare)
+		foreach (var renderSquareCall in ListRenderSquareLines)
 		{
 
 		}
@@ -83,23 +97,27 @@ public class UIPostRenderer : MonoBehaviour
 		GL.End();
 
 		GL.PopMatrix();
-		listRenderSquare.Clear();
+		ListRenderSquareLines.Clear();
+		ListRenderSquares.Clear();
 	}
 
 
 
 	public static void RenderSquare(Vector2 screenSpaceFrom, Vector2 screenSpaceTo)
 	{
-		RenderSquare(new Vector3(screenSpaceFrom.x, screenSpaceFrom.y, 0), new Vector3(screenSpaceTo.x, screenSpaceTo.y, 0));
+		screenSpaceFrom = new Vector3(screenSpaceFrom.x, screenSpaceFrom.y, 0);
+		screenSpaceTo = new Vector3(screenSpaceTo.x, screenSpaceTo.y, 0);
+		var r =new RenderSquareCall() { from = screenSpaceFrom, to = screenSpaceTo };
+		ListRenderSquares.Add(r);
 	}
 	
-	public static void RenderSquare(Vector3 screenSpaceFrom, Vector3 screenSpaceTo)
+	public static void RenderSquareLines(Vector3 screenSpaceFrom, Vector3 screenSpaceTo)
 	{
 		screenSpaceFrom = new Vector3(screenSpaceFrom.x, screenSpaceFrom.y, 0);
 		screenSpaceTo = new Vector3(screenSpaceTo.x, screenSpaceTo.y, 0);
 		//Debug.Log("Screen space from" + screenSpaceFrom);
 		//Debug.Log("Screen space to" + screenSpaceTo);
 
-		listRenderSquare.Add(new RenderSquareCall() { from = screenSpaceFrom, to = screenSpaceTo });
+		ListRenderSquareLines.Add(new RenderSquareCall() { from = screenSpaceFrom, to = screenSpaceTo });
 	}
 }
