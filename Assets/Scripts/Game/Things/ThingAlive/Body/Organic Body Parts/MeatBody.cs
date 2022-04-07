@@ -21,7 +21,7 @@ public class MeatBody : Body
 	}
 	public override void ConsumeKeyword(Game.Keyword keyword, float amount)
 	{
-		Debug.Log("ConsumeKeyword " + amount);
+		//Debug.Log("ConsumeKeyword " + amount);
 		base.ConsumeKeyword(keyword, amount);
 		this.meat += amount;
 

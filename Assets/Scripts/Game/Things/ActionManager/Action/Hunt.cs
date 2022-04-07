@@ -25,7 +25,7 @@ public class Hunt : Action
 		base.Do(world, thing, timeElapsed);
 		float attackDistance = 1;
 
-		Debug.Log(this + "BEFORE  " + keywordAmountToRequest);
+		//Debug.Log(this + "BEFORE  " + keywordAmountToRequest);
 		float distance = (thing.XY - targetThing.XY).magnitude;
 		if (distance > attackDistance)
 		{

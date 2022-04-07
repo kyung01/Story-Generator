@@ -93,7 +93,7 @@ namespace PathFinder
 
 		public void Log(object obj)
 		{
-			Debug.Log(obj);
+			//Debug.Log(obj);
 		}
 
 		float hprCalculatePathWeight(Vector2 from, Vector2 to, Vector2 destination)

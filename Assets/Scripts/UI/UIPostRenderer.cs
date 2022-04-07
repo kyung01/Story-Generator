@@ -5,10 +5,16 @@ using UnityEngine;
 //Singletone class
 public class UIPostRenderer : MonoBehaviour
 {
-
-	
-	public struct RenderSquareCall
+	static int colorsMax = 100;
+	Color[] colors;
+	public static Color GetColor(int n)
 	{
+		return me.colors[n % colorsMax];
+	}
+
+	public class RenderSquareCall
+	{
+		public bool isColored = false;
 		public Color color;
 		public Vector3
 			from,
@@ -46,6 +52,11 @@ public class UIPostRenderer : MonoBehaviour
 	private void Awake()
 	{
 		me = this;
+		colors = new Color[colorsMax];
+		for(int i = 0; i< colorsMax; i++)
+		{
+			colors[i] = GetRandomColor();
+		}
 	}
 	void Start()
 	{
@@ -86,7 +97,14 @@ public class UIPostRenderer : MonoBehaviour
 		for (int i = 0; i < ListRenderSquares.Count; i++)
 		{
 			var renderSquareCall = ListRenderSquares[i];
-			GL.Color(renderSquareCall.color);
+			if (!renderSquareCall.isColored)
+			{
+				GL.Color(GetColor(i));
+			}
+			else if(renderSquareCall.isColored ) {
+				GL.Color(renderSquareCall.color);
+
+			}
 			Debug.Log("Post Renderer " + renderSquareCall.from + " " + renderSquareCall.to);
 			GL.Vertex(renderSquareCall.from);
 			GL.Vertex(new Vector3(renderSquareCall.to.x, renderSquareCall.from.y, 0));
@@ -101,7 +119,15 @@ public class UIPostRenderer : MonoBehaviour
 		for (int i = 0; i < ListRenderSquareLines.Count; i++)
 		{
 			var renderSquareCall = ListRenderSquareLines[i];
-			GL.Color(renderSquareCall.color);
+			if (!renderSquareCall.isColored)
+			{
+
+				GL.Color(GetColor(i));
+			}
+			else
+			{
+				GL.Color(renderSquareCall.color);
+			}
 			GL.Vertex(renderSquareCall.from);
 			GL.Vertex(new Vector3(renderSquareCall.to.x, renderSquareCall.from.y, 0));
 			GL.Vertex(renderSquareCall.from);
@@ -132,6 +158,11 @@ public class UIPostRenderer : MonoBehaviour
 		screenSpaceFrom = new Vector3(screenSpaceFrom.x, screenSpaceFrom.y, 0);
 		screenSpaceTo = new Vector3(screenSpaceTo.x, screenSpaceTo.y, 0);
 		var r = new RenderSquareCall() { color = color, from = screenSpaceFrom, to = screenSpaceTo };
+		if (color != null)
+		{
+			r.isColored = true;
+
+		}
 		ListRenderSquares.Add(r);
 	}
 	

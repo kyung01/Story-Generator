@@ -7,7 +7,9 @@ public class UIMain : MonoBehaviour
 	public enum State { 
 		DEFAULT,
 		SELECT_ITEMS,
-		BUILD_ZONE,
+		CREATE_ZONE,
+		SELECT_ZONE,
+		DELETE_ZONE,
 		END
 	}
 
@@ -17,7 +19,9 @@ public class UIMain : MonoBehaviour
 	public ZoneOrganizer zOrg;
 	[SerializeField] UISelectBox UISelectBox;
 
-	[SerializeField] UnityEngine.UI.Button bttnSelectRegion;
+	[SerializeField] UnityEngine.UI.Button bttnSelectZone;
+	[SerializeField] UnityEngine.UI.Button bttnCreateZone;
+	[SerializeField] UnityEngine.UI.Button bttnDeleteZone;
 
 
 	List<Thing> thingsSelected = new List<Thing>();
@@ -36,31 +40,26 @@ public class UIMain : MonoBehaviour
 
 		//UISelectBox.enabled = false;
 
-		bttnSelectRegion.onClick.AddListener(hdrBttnCreatRegion);
+		bttnCreateZone.onClick.AddListener(hdrBttnZone_Create);
+		bttnDeleteZone.onClick.AddListener(hdrBttnZone_Delete);
+		bttnSelectZone.onClick.AddListener(hdrBttnZone_Select);
 	}
 
-	private void hdrBttnCreatRegion()
+	private void hdrBttnZone_Create()
 	{
-		switch (state)
-		{
-			case State.SELECT_ITEMS:
-			case State.BUILD_ZONE:
-				state = State.BUILD_ZONE;
-				zoneSelected = null;
-				break;
-			case State.DEFAULT:
-				state = State.DEFAULT;
-
-				break;
-			case State.END:
-				break;
-			default:
-				break;
-		}
+		state = State.CREATE_ZONE;
+	}
+	private void hdrBttnZone_Select()
+	{
+		state = State.SELECT_ZONE;
+	}
+	private void hdrBttnZone_Delete()
+	{
+		state = State.DELETE_ZONE;
 	}
 	private void hdrUISelectBox_Selected(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
-		if(state == State.BUILD_ZONE)
+		if(state == State.CREATE_ZONE)
 		{
 			zOrg.BuildZone(xBegin, yBegin, xEnd, yEnd);
 		}
@@ -108,12 +107,12 @@ public class UIMain : MonoBehaviour
 			var squareTo = hprToViewport(p2);
 			UIPostRenderer.RenderSquareLines(squareFrom, squareTo);
 		}
-		/*
-		for(int i =0; i < zones.Count; i++)
+		//Debug.Log(this + " " + zOrg.zones.Count);
+		for(int i =0; i < zOrg.zones.Count; i++)
 		{
-			Debug.Log("Zone " + zones.Count);
-			var zone = zones[i];
-			var c = UIPostRenderer.GetRandomColor();
+			var zone = zOrg.zones[i];
+			var c = UIPostRenderer.GetColor(i);
+			
 			foreach(var p in zone.positions)
 			{
 				var p1 = hprToViewport(new Vector2(p.x - .5f, p.y - .5f));
@@ -123,6 +122,6 @@ public class UIMain : MonoBehaviour
 
 			}
 
-		}*/
+		}
 	}
 }
