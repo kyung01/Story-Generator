@@ -4,13 +4,17 @@ using UnityEngine;
 
 public partial class Game : MonoBehaviour
 {
+
+
 	public World world;
-	public UIMain uiMain;
+	public ZoneOrganizer zoneOrganizer;
+
 	public void StartGame()
 	{
 		world = new World();
 		world.InitTerrain();
 		world.InitAnimals();
+		zoneOrganizer = new ZoneOrganizer();
 
 
 	}

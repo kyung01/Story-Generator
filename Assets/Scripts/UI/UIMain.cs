@@ -1,6 +1,4 @@
 ﻿using StoryGenerator.World;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +14,7 @@ public class UIMain : MonoBehaviour
 	State state = State.DEFAULT;
 
 	public World world;
+	public ZoneOrganizer zOrg;
 	[SerializeField] UISelectBox UISelectBox;
 
 	[SerializeField] UnityEngine.UI.Button bttnSelectRegion;
@@ -23,9 +22,9 @@ public class UIMain : MonoBehaviour
 
 	List<Thing> thingsSelected = new List<Thing>();
 
-	List<Zone> zones = new List<Zone>();
+	//List<Zone> zones = new List<Zone>();
 
-	Zone zoneSelected = null;
+	//Zone zoneSelected = null;
 
 	public void Init(int widthg, int height)
 	{
@@ -59,36 +58,26 @@ public class UIMain : MonoBehaviour
 				break;
 		}
 	}
-	Zone addToA_AnyZone(int x, int y)
+	private void hdrUISelectBox_Selected(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
-		if (zones.Count == 0)
+		if(state == State.BUILD_ZONE)
 		{
-			zones.Add(new Zone());
+			zOrg.BuildZone(xBegin, yBegin, xEnd, yEnd);
 		}
-		for(int i = 0; i < zones.Count; i++)
-		{
-			if(zones[i].CanYouAddTo(x, y))
-			{
-				zones[i].addZone(x, y);
-				return zones[i];
-			}
-		}
-		return null ;
-	}
-	private void hdrUISelectBox_Selected(int xBeing, int yBegin, int xEnd, int yEnd)
-	{
+		/*
 		//Createa a new zone, if a cell of a zone is included in a zone then include this new zone to the old zone
 		for(int j = yBegin; j<= yEnd; j++)
 		{
-			for (int i = xBeing; i <= xEnd; i++)
+			for (int i = xBegin; i <= xEnd; i++)
 			{
 				Debug.Log("Selected " + i + " " +j);
 				if (zoneSelected == null)
 					zoneSelected = addToA_AnyZone(i, j);
-				else zoneSelected.addZone(i, j);
+				else zoneSelected.ExpandZone(i, j);
 			}
 
 		}
+		 * */
 	}
 
 	public void Init(World world)
@@ -119,20 +108,21 @@ public class UIMain : MonoBehaviour
 			var squareTo = hprToViewport(p2);
 			UIPostRenderer.RenderSquareLines(squareFrom, squareTo);
 		}
-
+		/*
 		for(int i =0; i < zones.Count; i++)
 		{
 			Debug.Log("Zone " + zones.Count);
 			var zone = zones[i];
+			var c = UIPostRenderer.GetRandomColor();
 			foreach(var p in zone.positions)
 			{
 				var p1 = hprToViewport(new Vector2(p.x - .5f, p.y - .5f));
 				var p2 = hprToViewport(new Vector2(p.x + .5f, p.y + .5f));
 
-				UIPostRenderer.RenderSquare(p1, p2);
+				UIPostRenderer.RenderSquare(c,p1, p2);
 
 			}
 
-		}
+		}*/
 	}
 }

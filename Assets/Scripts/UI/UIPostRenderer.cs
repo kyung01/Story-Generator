@@ -5,9 +5,14 @@ using UnityEngine;
 //Singletone class
 public class UIPostRenderer : MonoBehaviour
 {
+
+	
 	public struct RenderSquareCall
 	{
-		public Vector3 from, to;
+		public Color color;
+		public Vector3
+			from,
+			to;
 	}
 	static UIPostRenderer me;
 
@@ -18,6 +23,25 @@ public class UIPostRenderer : MonoBehaviour
 	Material mat;
 	Vector3 startVertex;
 	Vector3 mousePos;
+	public static Color GetRandomColor()
+	{
+		int n = Random.Range(0, 3);
+		float f1 = Random.Range(0, 1.0f);
+		float f2 = 1 - f1;
+		switch (n)
+		{
+			default:
+			case 0:
+				return new Color(1, f1, f2);
+				break;
+			case 1:
+				return new Color(f1, 1, f2);
+				break;
+			case 2:
+				return new Color(f1, f2, 1);
+				break;
+		}
+	}
 
 	private void Awake()
 	{
@@ -59,10 +83,10 @@ public class UIPostRenderer : MonoBehaviour
 		GL.LoadOrtho();
 
 		GL.Begin(GL.TRIANGLES);
-		GL.Color(Color.blue);
 		for (int i = 0; i < ListRenderSquares.Count; i++)
 		{
 			var renderSquareCall = ListRenderSquares[i];
+			GL.Color(renderSquareCall.color);
 			Debug.Log("Post Renderer " + renderSquareCall.from + " " + renderSquareCall.to);
 			GL.Vertex(renderSquareCall.from);
 			GL.Vertex(new Vector3(renderSquareCall.to.x, renderSquareCall.from.y, 0));
@@ -74,10 +98,10 @@ public class UIPostRenderer : MonoBehaviour
 		GL.End();
 		GL.Begin(GL.LINES);
 
-		GL.Color(Color.red);
 		for (int i = 0; i < ListRenderSquareLines.Count; i++)
 		{
 			var renderSquareCall = ListRenderSquareLines[i];
+			GL.Color(renderSquareCall.color);
 			GL.Vertex(renderSquareCall.from);
 			GL.Vertex(new Vector3(renderSquareCall.to.x, renderSquareCall.from.y, 0));
 			GL.Vertex(renderSquareCall.from);
@@ -103,11 +127,11 @@ public class UIPostRenderer : MonoBehaviour
 
 
 
-	public static void RenderSquare(Vector2 screenSpaceFrom, Vector2 screenSpaceTo)
+	public static void RenderSquare(Color color, Vector2 screenSpaceFrom, Vector2 screenSpaceTo)
 	{
 		screenSpaceFrom = new Vector3(screenSpaceFrom.x, screenSpaceFrom.y, 0);
 		screenSpaceTo = new Vector3(screenSpaceTo.x, screenSpaceTo.y, 0);
-		var r =new RenderSquareCall() { from = screenSpaceFrom, to = screenSpaceTo };
+		var r = new RenderSquareCall() { color = color, from = screenSpaceFrom, to = screenSpaceTo };
 		ListRenderSquares.Add(r);
 	}
 	
@@ -118,6 +142,6 @@ public class UIPostRenderer : MonoBehaviour
 		//Debug.Log("Screen space from" + screenSpaceFrom);
 		//Debug.Log("Screen space to" + screenSpaceTo);
 
-		ListRenderSquareLines.Add(new RenderSquareCall() { from = screenSpaceFrom, to = screenSpaceTo });
+		ListRenderSquareLines.Add(new RenderSquareCall() { color = GetRandomColor(), from = screenSpaceFrom, to = screenSpaceTo });
 	}
 }

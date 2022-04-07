@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 public partial class Game
 {
+
 	public enum Keyword
 	{
 		FOOD,
