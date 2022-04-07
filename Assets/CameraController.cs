@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+	[SerializeField] float moveSpeed = 5;
 	Vector3 targetPosition;
 	private void Awake()
 	{
@@ -15,7 +16,6 @@ public class CameraController : MonoBehaviour
 
 	}
 	Vector3 velocity = new Vector3();
-	float moveSpeed = 5;
 
 	// Update is called once per frame
 	void Update()
@@ -23,9 +23,9 @@ public class CameraController : MonoBehaviour
 		Vector3 dir = new Vector3();
 		var keys = new Dictionary<KeyCode, Vector3>() {
 			{KeyCode.A, Vector3.left},
-			{KeyCode.S, Vector3.back},
+			{KeyCode.S, Vector3.down},
 			{KeyCode.D, Vector3.right},
-			{KeyCode.W, Vector3.forward}
+			{KeyCode.W, Vector3.up}
 		};
 		foreach(var pair in keys)
 		{
@@ -34,6 +34,7 @@ public class CameraController : MonoBehaviour
 		dir.Normalize();
 		
 		this.targetPosition += dir* moveSpeed * Time.deltaTime;
+		
 		//Debug.Log(dir + " " + moveSpeed);
 		this.transform.position= Vector3.SmoothDamp(this.transform.position, targetPosition, ref velocity, .1f);
 	}

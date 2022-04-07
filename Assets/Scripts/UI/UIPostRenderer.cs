@@ -31,6 +31,11 @@ public class UIPostRenderer : MonoBehaviour
 	Vector3 mousePos;
 	public static Color GetRandomColor()
 	{
+		var c = GetRandomColorRaw();
+		return new Color(c.r, c.g, c.b, 0.3f);
+	}
+	public static Color GetRandomColorRaw()
+	{
 		int n = Random.Range(0, 3);
 		float f1 = Random.Range(0, 1.0f);
 		float f2 = 1 - f1;

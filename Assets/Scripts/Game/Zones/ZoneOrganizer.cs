@@ -14,11 +14,21 @@ public class ZoneOrganizer
 		{
 			for (int j = yBeing; j <= yEnd; j++)
 			{
+				if (isInAnotherZone(i, j)) continue;
 				zoneSelected.positions.Add(new Vector2(i, j));
 
 			}
 		}
 		zones.Add(zoneSelected);
+	}
+	bool isInAnotherZone(int x, int y)
+	{
+		for (int i = 0; i < zones.Count; i++)
+		{
+			if (zones[i].IsInZone(x, y)) return true;
+
+		}
+		return false;
 	}
 
 }
