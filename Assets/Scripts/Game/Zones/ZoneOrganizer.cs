@@ -39,7 +39,7 @@ public class ZoneOrganizer
 	public List<Zone> zonesSelected = new List<Zone>();
 
 	public void BuildZone (int xBeing, int yBeing, int xEnd, int yEnd){
-		Zone zoneSelected = new Zone();
+		Zone zoneSelected = new StockpileZone();
 		for (int i = xBeing; i <= xEnd; i++)
 		{
 			for (int j = yBeing; j <= yEnd; j++)

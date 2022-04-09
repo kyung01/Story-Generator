@@ -15,7 +15,7 @@ public class GameRenderer : MonoBehaviour
 		terrainMeshGenerator.Init(game.world.terrain);
 		for(int i = 0; i < game.world.width; i++)for(int j = 0; j < game.world.height; j++)
 			{
-				if(game.world.terrain.mountain[i + j * game.world.width])
+				if(game.world.terrain.GetPieceAt(i,j).Type == StoryGenerator.Terrain.Piece.KType.MOUNTAIN)
 				{
 					var rock = Instantiate(tempMountainRock);
 					rock.transform.position = new Vector3(i, j, 0);

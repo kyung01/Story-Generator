@@ -82,7 +82,7 @@ namespace StoryGenerator.World
 			for(int i  = 0; i < width;i ++)for(int j = 0; j < height; j++)
 				{
 					things[i + j * width] = new List<Thing>();
-					if (terrain.mountain[i + j * width])
+					if (terrain.GetPieceAt(i , j).Type == Piece.KType.MOUNTAIN )
 					{
 						//mountain is here
 						continue;
@@ -296,5 +296,6 @@ namespace StoryGenerator.World
 				teams[i].Update(this, timeElapsed);
 			}
 		}
+
 	}
 }
