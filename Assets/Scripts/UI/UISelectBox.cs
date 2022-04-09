@@ -90,7 +90,7 @@ public class UISelectBox : MonoBehaviour
 			var p1 = Camera.main.WorldToViewportPoint(new Vector3(drawbegin.x-0.5f, drawbegin.y - 0.5f, 0));
 			var p2 = Camera.main.WorldToViewportPoint(new Vector3(drawEnd.x + 0.5f, drawEnd.y + 0.5f, 0));
 			UIPostRenderer.RenderSquareLines( p1, p2);
-			Debug.Log("Drwaing");
+			//Debug.Log("Drwaing");
 		}
 		if (Input.GetMouseButtonUp(0))
 		{
@@ -101,7 +101,7 @@ public class UISelectBox : MonoBehaviour
 			var vec2Begin = new Vector2(Mathf.Min(r1.x, r2.x), Mathf.Min(r1.y, r2.y));
 			var vec2End = new Vector2(Mathf.Max(r1.x, r2.x), Mathf.Max(r1.y, r2.y));
 
-			Debug.Log("Selected " + r1 + " " + r2);
+			//Debug.Log("Selected " + r1 + " " + r2);
 			raiseOnSelected(Mathf.RoundToInt(vec2Begin.x), Mathf.RoundToInt(vec2Begin.y), Mathf.RoundToInt(vec2End.x), Mathf.RoundToInt(vec2End.y));
 
 		}

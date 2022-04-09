@@ -6,6 +6,10 @@ public class Zone
 {
 	public List<Vector2> positions = new List<Vector2>();
 
+	public bool IsEmpty
+	{
+		get { return positions.Count == 0; }
+	}
 	public bool IsInZone(int x, int y)
 	{
 		foreach (var p in positions)

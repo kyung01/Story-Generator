@@ -6,6 +6,15 @@ using System.Threading.Tasks;
 
 public class ZoneOrganizer
 {
+	public delegate void DEL_ZONE_REMOVED(Zone zone);
+	public List<DEL_ZONE_REMOVED> OnZoneRemoved = new List<DEL_ZONE_REMOVED>();
+	void raiseZoneRemoved(Zone zone)
+	{
+		for(int i = 0; i < OnZoneRemoved.Count; i++)
+		{
+			OnZoneRemoved[i](zone);
+		}
+	}
 	public List<Zone> zones = new List<Zone>();
 
 	public void BuildZone (int xBeing, int yBeing, int xEnd, int yEnd){
@@ -31,4 +40,32 @@ public class ZoneOrganizer
 		return false;
 	}
 
+	internal void DeleteZone(int xBegin, int yBegin, int xEnd, int yEnd)
+	{
+		for (int i = xBegin; i <= xEnd; i++)
+		{
+			for (int j = yBegin; j <= yEnd; j++)
+			{
+				for (int k = 0; k < zones.Count;k++)
+				{
+					if (zones[k].IsInZone(i, j))
+					{
+						zones[k].positions.Remove(new Vector2(i, j));
+					}
+
+				}
+
+			}
+		}
+
+		for (int k = 0; k < zones.Count; k++)
+		{
+			if (zones[k].IsEmpty)
+			{
+				raiseZoneRemoved(zones[k]);
+				zones.RemoveAt(k);
+			}
+
+		}
+	}
 }

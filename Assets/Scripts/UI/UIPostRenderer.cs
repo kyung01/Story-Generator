@@ -110,7 +110,7 @@ public class UIPostRenderer : MonoBehaviour
 				GL.Color(renderSquareCall.color);
 
 			}
-			Debug.Log("Post Renderer " + renderSquareCall.from + " " + renderSquareCall.to);
+			//Debug.Log("Post Renderer " + renderSquareCall.from + " " + renderSquareCall.to);
 			GL.Vertex(renderSquareCall.from);
 			GL.Vertex(new Vector3(renderSquareCall.to.x, renderSquareCall.from.y, 0));
 			GL.Vertex(renderSquareCall.to);

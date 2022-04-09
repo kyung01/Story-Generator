@@ -16,6 +16,8 @@ public partial class Thing
 	}
 	public TYPE type = TYPE.UNDEFINED;
 
+	bool isValid = true;
+
 	float x, y;
 	ThingActionManager thingActManager;
 	public ThingActionManager TAM
