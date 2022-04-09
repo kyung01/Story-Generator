@@ -8,12 +8,7 @@ using System;
 public partial class Thing
 {
 	static float ZEROf = 0.01f;
-	public enum TYPE { UNDEFINED, ROCK, GRASS, BUSH,
-		REED,
-		RABBIT,
-		BEAR,
-		HUMAN
-	}
+
 	public TYPE type = TYPE.UNDEFINED;
 
 	bool isValid = true;

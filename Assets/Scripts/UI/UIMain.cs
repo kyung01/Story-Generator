@@ -85,6 +85,10 @@ public class UIMain : MonoBehaviour
 		{
 			wrdThingSelector.Select(world, xBegin, yBegin, 1 + xEnd - xBegin, 1 + yEnd - yBegin);
 		}
+		if(state == State.SELECT_ZONE)
+		{
+			zOrg.Select(xBegin, yBegin,xEnd,yEnd);
+		}
 		/*
 		//Createa a new zone, if a cell of a zone is included in a zone then include this new zone to the old zone
 		for(int j = yBegin; j<= yEnd; j++)
@@ -130,17 +134,35 @@ public class UIMain : MonoBehaviour
 			UIPostRenderer.RenderSquareLines(squareFrom, squareTo);
 		}
 		//Debug.Log(this + " " + zOrg.zones.Count);
-		for(int i =0; i < zOrg.zones.Count; i++)
+		for (int i = 0; i < zOrg.zones.Count; i++)
 		{
 			var zone = zOrg.zones[i];
 			var c = UIPostRenderer.GetColor(i);
-			
-			foreach(var p in zone.positions)
+			c = new Color(c.r, c.g, c.b, 0.25f);
+
+			foreach (var p in zone.positions)
 			{
 				var p1 = hprToViewport(new Vector2(p.x - .5f, p.y - .5f));
 				var p2 = hprToViewport(new Vector2(p.x + .5f, p.y + .5f));
 
-				UIPostRenderer.RenderSquare(c,p1, p2);
+				UIPostRenderer.RenderSquare(c, p1, p2);
+
+			}
+
+		}
+		//Debug.Log(zOrg.zonesSelected.Count);
+		for (int i = 0; i < zOrg.zonesSelected.Count; i++)
+		{
+			var zone = zOrg.zonesSelected[i];
+			var c = UIPostRenderer.GetColor(i);
+			c = new Color(1,1,1, 0.8f);
+
+			foreach (var p in zone.positions)
+			{
+				var p1 = hprToViewport(new Vector2(p.x - .5f, p.y - .5f));
+				var p2 = hprToViewport(new Vector2(p.x + .5f, p.y + .5f));
+
+				UIPostRenderer.RenderSquare(c, p1, p2);
 
 			}
 

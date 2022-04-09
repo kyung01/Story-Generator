@@ -16,6 +16,7 @@ public class ZoneOrganizer
 		}
 	}
 	public List<Zone> zones = new List<Zone>();
+	public List<Zone> zonesSelected = new List<Zone>();
 
 	public void BuildZone (int xBeing, int yBeing, int xEnd, int yEnd){
 		Zone zoneSelected = new Zone();
@@ -67,5 +68,24 @@ public class ZoneOrganizer
 			}
 
 		}
+	}
+
+	internal void Select(int xBegin, int yBegin, int xEnd, int yEnd)
+	{
+		List<Zone> zonesWithin = new List<Zone>();
+		for(int x = xBegin; x <= xEnd; x++)
+		{
+			for(int y = yBegin; y <= yEnd; y++)
+			{
+				for(int i = 0; i < zones.Count; i++)
+				{
+					if(zones[i].IsInZone(x, y))
+					{
+						zonesWithin.Add(this.zones[i]);
+					}
+				}
+			}
+		}
+		zonesSelected = zonesWithin;
 	}
 }
