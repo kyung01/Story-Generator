@@ -17,8 +17,8 @@ public class UIMain : MonoBehaviour
 
 	State state = State.DEFAULT;
 
-	public World world;
-	public ZoneOrganizer zOrg;
+	World world;
+	ZoneOrganizer zOrg;
 	[SerializeField] UISelectBox UISelectBox;
 
 	[SerializeField] UnityEngine.UI.Button bttnSelectThings;
@@ -26,6 +26,9 @@ public class UIMain : MonoBehaviour
 	[SerializeField] UnityEngine.UI.Button bttnSelectZone;
 	[SerializeField] UnityEngine.UI.Button bttnCreateZone;
 	[SerializeField] UnityEngine.UI.Button bttnDeleteZone;
+
+
+	[SerializeField] UIZoneSetting uiZoneSetting;
 
 
 	List<Thing> thingsSelected = new List<Thing>();
@@ -37,16 +40,24 @@ public class UIMain : MonoBehaviour
 
 	private void Awake()
 	{
-		UISelectBox = GetComponentInChildren<UISelectBox>();
-		UISelectBox.OnSelected.Add(hdrUISelectBox_Selected);
+	
+	}
 
-		//UISelectBox.enabled = false;
+	#region hprFunctions
+	#endregion
 
-		bttnSelectThings.onClick.AddListener(hdrSelectThings);
-		bttnHowl.onClick.AddListener(hdrBttnHowl);
-		bttnCreateZone.onClick.AddListener(hdrBttnZone_Create);
-		bttnDeleteZone.onClick.AddListener(hdrBttnZone_Delete);
-		bttnSelectZone.onClick.AddListener(hdrBttnZone_Select);
+	#region hdr
+
+	private void hdrNoZoneSelected()
+	{
+		uiZoneSetting.enabled = false;
+		uiZoneSetting.Unlink();
+	}
+
+	private void hdrSingleZoneSelected(Zone zone)
+	{
+		uiZoneSetting.enabled = true;
+		uiZoneSetting.Link(zone);
 	}
 
 	private void hdrSelectThings()
@@ -63,14 +74,17 @@ public class UIMain : MonoBehaviour
 	{
 		state = State.CREATE_ZONE;
 	}
+
 	private void hdrBttnZone_Select()
 	{
 		state = State.SELECT_ZONE;
 	}
+
 	private void hdrBttnZone_Delete()
 	{
 		state = State.DELETE_ZONE;
 	}
+
 	private void hdrUISelectBox_Selected(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
 		if (state == State.CREATE_ZONE)
@@ -81,13 +95,13 @@ public class UIMain : MonoBehaviour
 		{
 			zOrg.DeleteZone(xBegin, yBegin, xEnd, yEnd);
 		}
-		if(state == State.SELECT_THINGS)
+		if (state == State.SELECT_THINGS)
 		{
 			wrdThingSelector.Select(world, xBegin, yBegin, 1 + xEnd - xBegin, 1 + yEnd - yBegin);
 		}
-		if(state == State.SELECT_ZONE)
+		if (state == State.SELECT_ZONE)
 		{
-			zOrg.Select(xBegin, yBegin,xEnd,yEnd);
+			zOrg.Select(xBegin, yBegin, xEnd, yEnd);
 		}
 		/*
 		//Createa a new zone, if a cell of a zone is included in a zone then include this new zone to the old zone
@@ -105,9 +119,30 @@ public class UIMain : MonoBehaviour
 		 * */
 	}
 
-	public void Init(World world)
+
+	#endregion
+
+	public void Init(World world, ZoneOrganizer zOrg)
 	{
 		this.world = world;
+		this.zOrg = zOrg;
+
+		UISelectBox = GetComponentInChildren<UISelectBox>();
+		UISelectBox.OnSelected.Add(hdrUISelectBox_Selected);
+
+		//UISelectBox.enabled = false;
+
+		bttnSelectThings.onClick.AddListener(hdrSelectThings);
+		bttnHowl.onClick.AddListener(hdrBttnHowl);
+		bttnCreateZone.onClick.AddListener(hdrBttnZone_Create);
+		bttnDeleteZone.onClick.AddListener(hdrBttnZone_Delete);
+		bttnSelectZone.onClick.AddListener(hdrBttnZone_Select);
+
+		zOrg.OnSingleZoneSelected.Add(hdrSingleZoneSelected);
+		zOrg.OnNO_ZONE_SELECTED.Add(hdrNoZoneSelected);
+
+
+
 	}
 
 	// Use this for initialization

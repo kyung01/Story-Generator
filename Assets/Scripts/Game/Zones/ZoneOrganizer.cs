@@ -7,7 +7,27 @@ using System.Threading.Tasks;
 public class ZoneOrganizer
 {
 	public delegate void DEL_ZONE_REMOVED(Zone zone);
+	public delegate void DEL_SINGLE_ZONE_SELECTED(Zone zone);
+	public delegate void DEL_NO_ZONE_SELECTED();
+
 	public List<DEL_ZONE_REMOVED> OnZoneRemoved = new List<DEL_ZONE_REMOVED>();
+	public List<DEL_SINGLE_ZONE_SELECTED> OnSingleZoneSelected = new List<DEL_SINGLE_ZONE_SELECTED>();
+	public List<DEL_NO_ZONE_SELECTED> OnNO_ZONE_SELECTED = new List<DEL_NO_ZONE_SELECTED>();
+
+	void raiseSingleZoneSelected(Zone zone)
+	{
+		for (int i = 0; i < OnSingleZoneSelected.Count; i++)
+		{
+			OnSingleZoneSelected[i](zone);
+		}
+	}
+	void raiseNoZoneSelected()
+	{
+		for (int i = 0; i < OnNO_ZONE_SELECTED.Count; i++)
+		{
+			OnNO_ZONE_SELECTED[i]();
+		}
+	}
 	void raiseZoneRemoved(Zone zone)
 	{
 		for(int i = 0; i < OnZoneRemoved.Count; i++)
@@ -85,6 +105,14 @@ public class ZoneOrganizer
 					}
 				}
 			}
+		}
+		if (zonesWithin.Count == 1)
+		{
+			raiseSingleZoneSelected(zonesWithin[0]);
+		}
+		else if (zonesWithin.Count == 0)
+		{
+			raiseNoZoneSelected();
 		}
 		zonesSelected = zonesWithin;
 	}

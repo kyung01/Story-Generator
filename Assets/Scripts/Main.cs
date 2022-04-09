@@ -14,8 +14,8 @@ public class Main : MonoBehaviour
 	{
 		game.StartGame();
 		gameRenderer.RenderGame(game);
-		UIMain.Init(game.world);
-		UIMain.zOrg = game.zoneOrganizer;
+		UIMain.Init(game.world, game.zoneOrganizer);
+		//UIMain.zOrg = game.zoneOrganizer;
 	}
 
 	// Update is called once per frame
