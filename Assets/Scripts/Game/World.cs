@@ -207,7 +207,7 @@ namespace StoryGenerator.World
 			{
 				return 3f;
 			}
-			return 10;
+			return 7;
 		}
 		Vector2 getApprorpiateRandomPosition()
 		{
@@ -228,9 +228,9 @@ namespace StoryGenerator.World
 		}
 		public void InitAnimals()
 		{
-			int numRabbit = 0;
-			int numBear = 0;
-			int numHumans = 1;
+			int numRabbit = 5;
+			int numBear = 1;
+			int numHumans = 3;
 
 			for (int i = 0; i < numRabbit; i++)
 			{

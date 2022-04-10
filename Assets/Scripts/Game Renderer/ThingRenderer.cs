@@ -4,7 +4,7 @@ using UnityEngine;
 public class ThingRenderer : MonoBehaviour
 {
 	public static float Z_AXIS_LAYER = -0.001f;
-	public static float SMOOTH_TIME = .2f;
+	public static float SMOOTH_TIME = .05f;
 
 	[SerializeField] InWorldTextFeedback PREFAB_IN_WORLD_TEXT_FEEDBACk;
 	public Thing thing;
