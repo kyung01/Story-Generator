@@ -22,13 +22,13 @@ public static class ThingExtensions
 		var dicTaskAvailableBodies = new Dictionary<Game.TaskType, List<BodyTaskable>>();
 		if (!IsThisThing_ThingBodyWithTask)
 		{
-			UnityEngine.Debug.Log( " GetBodiesForTask :: Thing doesn't have a body");
+			//UnityEngine.Debug.Log( " GetBodiesForTask :: Thing doesn't have a body");
 			//Cnannot proceed because thing is not a body with a task
 			return dicTaskAvailableBodies;
 		}
 		var twb = (ThingWithBody)thing;
 		sortBodiesForTask(ref dicTaskAvailableBodies, twb.body);
-		UnityEngine.Debug.Log(" GetBodiesForTask :: " + dicTaskAvailableBodies.Count);
+		//UnityEngine.Debug.Log(" GetBodiesForTask :: " + dicTaskAvailableBodies.Count);
 
 
 		return dicTaskAvailableBodies;

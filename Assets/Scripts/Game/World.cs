@@ -207,7 +207,7 @@ namespace StoryGenerator.World
 			{
 				return 3f;
 			}
-			return 1;
+			return 10;
 		}
 		Vector2 getApprorpiateRandomPosition()
 		{
@@ -228,8 +228,8 @@ namespace StoryGenerator.World
 		}
 		public void InitAnimals()
 		{
-			int numRabbit = 1;
-			int numBear = 1;
+			int numRabbit = 0;
+			int numBear = 0;
 			int numHumans = 1;
 
 			for (int i = 0; i < numRabbit; i++)
@@ -270,7 +270,7 @@ namespace StoryGenerator.World
 				thingsToKeepTracking.Add(new ThingXY(Human, (int)randomPos.x, (int)randomPos.y));
 
 				playerTeam.AddThing(Human, Team.ThingRole.HOWLER);
-
+				playerTeam.WorkManager.AddWorker(new Worker( Human));
 
 			}
 		}

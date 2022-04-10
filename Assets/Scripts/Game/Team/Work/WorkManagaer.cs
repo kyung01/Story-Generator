@@ -14,6 +14,10 @@ public class Worker {
 			return workIAmDoing == null || workIAmDoing.IsFinished;
 				}
 	}
+	public Worker(Thing thing)
+	{
+		this.thing = thing;
+	}
 }
 
 public class WorkManagaer
@@ -27,6 +31,10 @@ public class WorkManagaer
 	void addWork(Work work)
 	{
 		works.Add(work);
+	}
+	public void AddWorker(Worker worker)
+	{
+		workers.Add(worker);
 	}
 
 	public bool Howl(Thing ThingToHowl)

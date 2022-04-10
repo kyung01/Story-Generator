@@ -6,22 +6,22 @@ using System.Threading.Tasks;
 
 public partial class Thing{
 	//Things that this thing is carrying
-	List<Thing> carryingThings = new List<Thing>();
+	List<Thing> thingsIAmCarrying = new List<Thing>();
 	//Thing carrying me
 	Thing thingCarryingThis = null;
 	public Thing Carrier { get { return thingCarryingThis; } }
 
 	public void Drop()
 	{
-		for(int i = carryingThings.Count-1; i >=0; i--)
+		for(int i = thingsIAmCarrying.Count-1; i >=0; i--)
 		{
-			dropCarryingThing(carryingThings[i]);
+			dropCarryingThing(thingsIAmCarrying[i]);
 		}
 	}
 
 	private void dropCarryingThing(Thing thing)
 	{
-		carryingThings.Remove(thing);
+		thingsIAmCarrying.Remove(thing);
 		thing.freeFromCarrier();
 	}
 
@@ -38,7 +38,7 @@ public partial class Thing{
 	{
 		get
 		{
-			return carryingThings.Count != 0;
+			return thingsIAmCarrying.Count != 0;
 
 		}
 	}
@@ -47,11 +47,11 @@ public partial class Thing{
 		this.OnPositionChanged.Add(hdrUpdateCarryingThingsPositions);
 	}
 
-	private void hdrUpdateCarryingThingsPositions(Thing thing, int xBefore, int yBefore, int xNew, int yNew)
+	private void hdrUpdateCarryingThingsPositions(Thing thing, float xBefore, float yBefore, float xNew, float yNew)
 	{
-		for(int i = 0; i < carryingThings.Count; i++)
+		for(int i = 0; i < thingsIAmCarrying.Count; i++)
 		{
-			carryingThings[i].XY = this.XY;
+			thingsIAmCarrying[i].XY = this.XY;
 		}
 	}
 
@@ -63,10 +63,11 @@ public partial class Thing{
 
 	public void Carry(Thing thingToCarry)
 	{
-		carryingThings.Add(thingToCarry);
+		thingsIAmCarrying.Add(thingToCarry);
 		thingToCarry.thingCarryingThis = this;
 		thingToCarry.XY = this.XY;
-		
+
+
 	}
 
 	public virtual bool CheckGetCarriedBy(Thing thing)

@@ -96,10 +96,17 @@ public partial class Thing
 	{
 
 	}
-	public delegate void DEL_POSITIONCHANGED(Thing thing, int xBefore, int yBefore, int xNew, int yNew);
-	public List<DEL_POSITIONCHANGED> OnPositionChanged = new List<DEL_POSITIONCHANGED>();
+	public delegate void DEL_POSITION_INDEX_CHANGED(Thing thing, int xBefore, int yBefore, int xNew, int yNew);
+	public delegate void DEL_POSITION_CHANGED(Thing thing, float xBefore, float yBefore, float xNew, float yNew);
+	public List<DEL_POSITION_INDEX_CHANGED> OnPositionIndexChanged = new List<DEL_POSITION_INDEX_CHANGED>();
+	public List<DEL_POSITION_CHANGED> OnPositionChanged = new List<DEL_POSITION_CHANGED>();
+
 	public void SetPosition(float x, float y)
 	{
+		float xOld = this.x;
+		float yOld = this.y;
+
+		//Debug.Log("SetPosition");
 		int xBefore = Mathf.RoundToInt(x);
 		int yBefore = Mathf.RoundToInt(y);
 
@@ -112,10 +119,16 @@ public partial class Thing
 		if(xBefore!= xNew || yBefore != yNew)
 		{
 			//position is chagned 
-			for(int i = 0; i< OnPositionChanged.Count; i++)
+			Debug.Log("SetPosition Changed");
+			for (int i = 0; i< OnPositionIndexChanged.Count; i++)
 			{
-				OnPositionChanged[i](this, xBefore, yBefore, xNew, yNew);
+				OnPositionIndexChanged[i](this, xBefore, yBefore, xNew, yNew);
 			}
+		}
+
+		for (int i = 0; i < OnPositionChanged.Count; i++)
+		{
+			OnPositionChanged[i](this, xOld,yOld, x, y);
 		}
 	}
 	public void SetPosition(Vector2 vec2)

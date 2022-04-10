@@ -68,8 +68,12 @@ public class Haul : Work
 				return;
 			}
 		}
-		if(this.assignedWorker.TAM.IsIdl)
+		if (this.assignedWorker.TAM.IsIdl)
+		{
+
+			Debug.Log("Work : Haul Commanded");
 			this.assignedWorker.TAM.Haul(thingToHowl, destination.x, destination.y);
+		}
 	
 
 	}

@@ -65,7 +65,7 @@ public class UIMain : MonoBehaviour
 		state = State.SELECT_THINGS;
 	}
 
-	private void hdrBttnHowl()
+	private void hdrBttnHaul()
 	{
 		state = State.HOWL;
 		var things = wrdThingSelector.ThingsCurrentlySelected;
@@ -139,7 +139,7 @@ public class UIMain : MonoBehaviour
 		//UISelectBox.enabled = false;
 
 		bttnSelectThings.onClick.AddListener(hdrSelectThings);
-		bttnHowl.onClick.AddListener(hdrBttnHowl);
+		bttnHowl.onClick.AddListener(hdrBttnHaul);
 		bttnCreateZone.onClick.AddListener(hdrBttnZone_Create);
 		bttnDeleteZone.onClick.AddListener(hdrBttnZone_Delete);
 		bttnSelectZone.onClick.AddListener(hdrBttnZone_Select);
