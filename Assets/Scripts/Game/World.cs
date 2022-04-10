@@ -38,7 +38,8 @@ namespace StoryGenerator.World
 		public PathFinder.PathFinderSystem pathFinder = new PathFinder.PathFinderSystem();
 
 
-		public TerrainInstance terrain = new TerrainInstance();
+		public TerrainInstance terrain;
+		public ZoneOrganizer zoneOrganizer;
 		public int width = 50;
 		public int height = 50;
 		public List<Thing>[] things;
@@ -59,6 +60,8 @@ namespace StoryGenerator.World
 		{
 			playerTeam = new Team();
 			teams.Add(playerTeam);
+			terrain = new TerrainInstance();
+			zoneOrganizer = new ZoneOrganizer();
 		}
 
 		public void InitTerrain()
@@ -276,7 +279,7 @@ namespace StoryGenerator.World
 		{
 
 		}
-		public virtual void Update(float timeElapsed)
+		public virtual void Update( float timeElapsed)
 		{
 			for (int i = 0; i < allThings.Count; i++)
 			{

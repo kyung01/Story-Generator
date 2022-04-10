@@ -28,6 +28,13 @@ public class WorkManagaer
 	{
 		works.Add(work);
 	}
+
+	public bool Howl(Thing ThingToHowl)
+	{
+		var work = new Haul(null, ThingToHowl);
+		addWork(work);
+		return true;
+	}
 	public bool Howl(Thing ThingToHowl, Vector2 position)
 	{
 		/*
@@ -47,12 +54,12 @@ public class WorkManagaer
 			}
 		}
 		*/
-		var work = new Howl(null, ThingToHowl, position);
+		var work = new HowlOld(null, ThingToHowl, position);
 		addWork(work);
 		return true;
 	}
 
-	internal void Update(World world, float timeElapsed)
+	internal void Update( World world, float timeElapsed)
 	{
 		for(int i = 0; i< works.Count; i++)
 		{
@@ -65,10 +72,13 @@ public class WorkManagaer
 			{
 				continue;
 			}
-			if (work.assignedWorker.TAM.IsIdl)
+			works[i].Update(world, timeElapsed);
+		}
+		for (int i = works.Count - 1; i >= 0; i--)
+		{
+			if (works[i].IsFinished)
 			{
-				works[i].Update(world, timeElapsed);
-
+				works.RemoveAt(i);
 			}
 		}
 	}

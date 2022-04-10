@@ -7,14 +7,12 @@ public partial class Game : MonoBehaviour
 
 
 	public World world;
-	public ZoneOrganizer zoneOrganizer;
 
 	public void StartGame()
 	{
 		world = new World();
 		world.InitTerrain();
 		world.InitAnimals();
-		zoneOrganizer = new ZoneOrganizer();
 
 
 	}
@@ -28,6 +26,6 @@ public partial class Game : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		world.Update(Time.deltaTime);
+		world.Update( Time.deltaTime);
 	}
 }

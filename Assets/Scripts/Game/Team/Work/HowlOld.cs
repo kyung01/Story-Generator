@@ -3,14 +3,14 @@ using StoryGenerator.World;
 using System.Collections.Generic;
 using System;
 
-public class Howl :Work
+public class HowlOld :Work
 {
 	public Thing thingToHowl;
 	public Vector2 positionToHowlTo;
 	public int positionToHowlToXInt { get { return Mathf.RoundToInt(positionToHowlTo.x); } }
 	public int positionToHowlToYInt { get { return Mathf.RoundToInt(positionToHowlTo.y); } }
 
-	public Howl(Thing assignedWorker, Thing thingToHowl, Vector2 positionToHowlTo) : base(assignedWorker)
+	public HowlOld(Thing assignedWorker, Thing thingToHowl, Vector2 positionToHowlTo) : base(assignedWorker)
 	{
 		this.thingToHowl = thingToHowl;
 		this.positionToHowlTo = positionToHowlTo;

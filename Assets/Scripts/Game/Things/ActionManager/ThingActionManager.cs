@@ -94,16 +94,22 @@ public class ThingActionManager
 		}
 	}
 
-	internal void Drop()
+	internal void Haul(Thing thingToHowl, float x, float y)
 	{
-		Drop action = new Drop();
+		var action = new ActionManagerAction.Haul(thingToHowl,x,y);
 		addAction(action, PriorityLevel.DEFAULT);
 	}
 
-	public void Carry(Thing thingToCarry)
+	internal void Drop(PriorityLevel priority = PriorityLevel.DEFAULT)
+	{
+		Drop action = new Drop();
+		addAction(action, priority);
+	}
+
+	public void Carry(Thing thingToCarry, PriorityLevel priority = PriorityLevel.DEFAULT)
 	{
 		Carry action = new Carry(thingToCarry);
-		addAction(action, PriorityLevel.DEFAULT);
+		addAction(action, priority);
 	}
 
 	public void Hunt(
@@ -138,22 +144,14 @@ public class ThingActionManager
 		var action = new MoveToTarget(bestTargetThing, distanceThatsCloseEnough);
 		addAction(action, priorityLevel);
 	}
-	public void MoveTo(Vector2 pos, bool isPriority = false)
+	public void MoveTo(Vector2 pos, PriorityLevel priorityLevel = PriorityLevel.DEFAULT)
 	{
-		this.MoveTo(pos.x, pos.y, isPriority);
+		this.MoveTo(pos.x, pos.y, priorityLevel);
 	}
-	public void MoveTo(float x, float y, bool isPrioritiy = false)
+	public void MoveTo(float x, float y, PriorityLevel priorityLevel = PriorityLevel.DEFAULT)
 	{
-		if (isPrioritiy)
-		{
-			actions.Insert(0,new MoveToPosition(x, y));
-		}
-		else
-		{
-			actions.Add(new MoveToPosition(x, y));
-
-		}
-
+		var action = new MoveToPosition(x, y);
+		addAction(action, priorityLevel);
 	}
 
 	public void Update(World world, Thing thing, float timeElapsed)

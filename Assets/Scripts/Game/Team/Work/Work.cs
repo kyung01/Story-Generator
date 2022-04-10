@@ -31,14 +31,14 @@ public class Work
 		this.assignedWorker = assignedThing;
 	}
 
-	public void Update(World world, float timeElapsed)
+	public void Update( World world,   float timeElapsed)
 	{
 		if (!IsFinished)
 		{
 			Do(world, timeElapsed);
 		}
 	}
-	public virtual void Do(World world, float timeElapsed){
+	public virtual void Do( World world, float timeElapsed){
 
 	}
 

@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Zone
 {
+	public enum TYPE { DEFAULT,STOCKPILE}
+	internal TYPE type = TYPE.DEFAULT;
 	public List<Vector2> positions = new List<Vector2>();
 
-	public bool IsEmpty
+	public bool IsNotAlive
 	{
 		get { return positions.Count == 0; }
 	}

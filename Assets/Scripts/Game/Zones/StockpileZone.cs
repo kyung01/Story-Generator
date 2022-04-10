@@ -10,7 +10,7 @@ public class StockpileZone : Zone
 	List<Thing.TYPE> acceptableTypes = new List<Thing.TYPE>();
 	public StockpileZone()
 	{
-
+		this.type = TYPE.STOCKPILE;
 		var values = System.Enum.GetValues(typeof(Thing.TYPE));
 		foreach(Thing.TYPE v in values)
 		{

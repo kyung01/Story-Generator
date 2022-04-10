@@ -14,6 +14,19 @@ public class ZoneOrganizer
 	public List<DEL_SINGLE_ZONE_SELECTED> OnSingleZoneSelected = new List<DEL_SINGLE_ZONE_SELECTED>();
 	public List<DEL_NO_ZONE_SELECTED> OnNO_ZONE_SELECTED = new List<DEL_NO_ZONE_SELECTED>();
 
+	public List<StockpileZone> GetStockpiles()
+	{
+		List<StockpileZone> stockpileZones = new List<StockpileZone>();
+		foreach(Zone zone in zones)
+		{
+			if(zone is StockpileZone)
+			{
+				stockpileZones.Add((StockpileZone) zone);
+			}
+		}
+		return stockpileZones;
+	}
+
 	void raiseSingleZoneSelected(Zone zone)
 	{
 		for (int i = 0; i < OnSingleZoneSelected.Count; i++)
@@ -81,7 +94,7 @@ public class ZoneOrganizer
 
 		for (int k = 0; k < zones.Count; k++)
 		{
-			if (zones[k].IsEmpty)
+			if (zones[k].IsNotAlive)
 			{
 				raiseZoneRemoved(zones[k]);
 				zones.RemoveAt(k);

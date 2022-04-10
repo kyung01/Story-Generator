@@ -18,7 +18,7 @@ public class UIMain : MonoBehaviour
 	State state = State.DEFAULT;
 
 	World world;
-	ZoneOrganizer zOrg;
+	//ZoneOrganizer zOrg;
 	[SerializeField] UISelectBox UISelectBox;
 
 	[SerializeField] UnityEngine.UI.Button bttnSelectThings;
@@ -68,6 +68,12 @@ public class UIMain : MonoBehaviour
 	private void hdrBttnHowl()
 	{
 		state = State.HOWL;
+		var things = wrdThingSelector.ThingsCurrentlySelected;
+		foreach(var thing in things)
+		{
+			world.teams[0].WorkManager.Howl(thing);
+
+		}
 	}
 
 	private void hdrBttnZone_Create()
@@ -89,11 +95,11 @@ public class UIMain : MonoBehaviour
 	{
 		if (state == State.CREATE_ZONE)
 		{
-			zOrg.BuildZone(xBegin, yBegin, xEnd, yEnd);
+			world.zoneOrganizer.BuildZone(xBegin, yBegin, xEnd, yEnd);
 		}
 		if (state == State.DELETE_ZONE)
 		{
-			zOrg.DeleteZone(xBegin, yBegin, xEnd, yEnd);
+			world.zoneOrganizer.DeleteZone(xBegin, yBegin, xEnd, yEnd);
 		}
 		if (state == State.SELECT_THINGS)
 		{
@@ -101,7 +107,7 @@ public class UIMain : MonoBehaviour
 		}
 		if (state == State.SELECT_ZONE)
 		{
-			zOrg.Select(xBegin, yBegin, xEnd, yEnd);
+			world.zoneOrganizer.Select(xBegin, yBegin, xEnd, yEnd);
 		}
 		/*
 		//Createa a new zone, if a cell of a zone is included in a zone then include this new zone to the old zone
@@ -122,10 +128,10 @@ public class UIMain : MonoBehaviour
 
 	#endregion
 
-	public void Init(World world, ZoneOrganizer zOrg)
+	public void Init(World world)
 	{
 		this.world = world;
-		this.zOrg = zOrg;
+		//this.zOrg = zOrg;
 
 		UISelectBox = GetComponentInChildren<UISelectBox>();
 		UISelectBox.OnSelected.Add(hdrUISelectBox_Selected);
@@ -138,8 +144,8 @@ public class UIMain : MonoBehaviour
 		bttnDeleteZone.onClick.AddListener(hdrBttnZone_Delete);
 		bttnSelectZone.onClick.AddListener(hdrBttnZone_Select);
 
-		zOrg.OnSingleZoneSelected.Add(hdrSingleZoneSelected);
-		zOrg.OnNO_ZONE_SELECTED.Add(hdrNoZoneSelected);
+		world.zoneOrganizer.OnSingleZoneSelected.Add(hdrSingleZoneSelected);
+		world.zoneOrganizer.OnNO_ZONE_SELECTED.Add(hdrNoZoneSelected);
 
 
 
@@ -169,9 +175,9 @@ public class UIMain : MonoBehaviour
 			UIPostRenderer.RenderSquareLines(squareFrom, squareTo);
 		}
 		//Debug.Log(this + " " + zOrg.zones.Count);
-		for (int i = 0; i < zOrg.zones.Count; i++)
+		for (int i = 0; i < world.zoneOrganizer.zones.Count; i++)
 		{
-			var zone = zOrg.zones[i];
+			var zone = world.zoneOrganizer.zones[i];
 			var c = UIPostRenderer.GetColor(i);
 			c = new Color(c.r, c.g, c.b, 0.25f);
 
@@ -186,9 +192,9 @@ public class UIMain : MonoBehaviour
 
 		}
 		//Debug.Log(zOrg.zonesSelected.Count);
-		for (int i = 0; i < zOrg.zonesSelected.Count; i++)
+		for (int i = 0; i < world.zoneOrganizer.zonesSelected.Count; i++)
 		{
-			var zone = zOrg.zonesSelected[i];
+			var zone = world.zoneOrganizer.zonesSelected[i];
 			var c = UIPostRenderer.GetColor(i);
 			c = new Color(1,1,1, 0.8f);
 

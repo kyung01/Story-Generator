@@ -52,7 +52,7 @@ public class Flee : Action
 			return;
 		}
 		Vector2 pos = getTheBestPosition(availablePositions, thing.XY, thingToRunAwayFrom.XY);
-		thing.TAM.MoveTo(pos.x, pos.y, true);
+		thing.TAM.MoveTo(pos.x, pos.y, ThingActionManager.PriorityLevel.FIRST);
 	}
 
 	Vector2 getTheBestPosition(List<Vector2> availablePositions, Vector2 myPosition, Vector2 threatsPosition)

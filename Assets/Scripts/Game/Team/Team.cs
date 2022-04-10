@@ -18,6 +18,7 @@ public partial class Team
 	List<ThingClassification> things = new List<ThingClassification>();
 
 	WorkManagaer workManager = new WorkManagaer();
+	public WorkManagaer WorkManager { get { return this.workManager; } }
 	public Team()
 	{
 	}
@@ -27,9 +28,9 @@ public partial class Team
 		things.Add(new ThingClassification(thing, role));
 	}
 
-	internal void Update(World world, float timeElapsed)
+	internal void Update( World world, float timeElapsed)
 	{
-		workManager.Update(world, timeElapsed);
+		workManager.Update( world, timeElapsed);
 	}
 
 }
