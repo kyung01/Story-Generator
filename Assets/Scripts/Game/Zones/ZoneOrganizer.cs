@@ -103,6 +103,24 @@ public class ZoneOrganizer
 		}
 	}
 
+	public List<Zone> GetZonesAt(int xBegin, int yBegin, int xEnd, int yEnd)
+	{
+		List<Zone> zonesWithin = new List<Zone>();
+		for (int x = xBegin; x <= xEnd; x++)
+		{
+			for (int y = yBegin; y <= yEnd; y++)
+			{
+				for (int i = 0; i < zones.Count; i++)
+				{
+					if (zones[i].IsInZone(x, y))
+					{
+						zonesWithin.Add(this.zones[i]);
+					}
+				}
+			}
+		}
+		return zonesWithin;
+	}
 	internal void Select(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
 		List<Zone> zonesWithin = new List<Zone>();

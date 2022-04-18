@@ -72,14 +72,14 @@ public class WorkManagaer
 		for(int i = 0; i< works.Count; i++)
 		{
 			var work = works[i];
-			Debug.Log("Updating Work " + (1 + i) + " / " + works.Count + " Worker status " + work.IsWorkerAssigned);
+			//Debug.Log("Updating Work " + (1 + i) + " / " + works.Count + " Worker status " + work.IsWorkerAssigned);
 			if (!work.IsWorkerAssigned)
 			{
 				assignWorker(work);
 			}
 			if (!work.IsWorkerAssigned)
 			{
-				Debug.Log("Updating Work continue " + (1 + i) + " / " + works.Count);
+				//Debug.Log("Updating Work continue " + (1 + i) + " / " + works.Count);
 				continue;
 			}
 			work.Update(world, timeElapsed);
@@ -100,7 +100,7 @@ public class WorkManagaer
 			var worker = workers[i];
 			if (worker.IsFree)
 			{
-				Debug.Log("Assinging Worker " + (1+i)+ " / " + workers.Count);
+				//Debug.Log("Assinging Worker " + (1+i)+ " / " + workers.Count);
 				work.assignedWorker = worker.thing;
 				worker.workIAmDoing = work;
 				return;

@@ -50,7 +50,7 @@ namespace StoryGenerator.World
 			return things[x + width * y];
 		}
 
-		public List<ThingXY> thingsToKeepTracking = new List<ThingXY>();
+		//public List<ThingXY> thingsToKeepTracking = new List<ThingXY>();
 		public List<Team> teams = new List<Team>();
 
 
@@ -121,9 +121,9 @@ namespace StoryGenerator.World
 					
 					var obj = thing;
 					obj.SetPosition(i, j);
-					things[i + j * width].Add(obj);
-					allThings.Add(obj);
+
 					obj.Init(this);
+					addThing(obj);
 					//things[i+j*width] 
 				}
 
@@ -228,8 +228,8 @@ namespace StoryGenerator.World
 		}
 		public void InitAnimals()
 		{
-			int numRabbit = 5;
-			int numBear = 1;
+			int numRabbit = 0;
+			int numBear = 0;
 			int numHumans = 3;
 
 			for (int i = 0; i < numRabbit; i++)
@@ -238,9 +238,10 @@ namespace StoryGenerator.World
 				Rabbit rabbit = new Rabbit();
 				rabbit.SetPosition(randomPos.x, randomPos.y);
 				rabbit.Init(this);
-				allThings.Add(rabbit);
-				things[(int)randomPos.x + (int)randomPos.y * width].Add(rabbit);
-				thingsToKeepTracking.Add(new ThingXY( rabbit,(int)randomPos.x, (int)randomPos.y));
+				addThing(rabbit);
+				//allThings.Add(rabbit);
+				//things[(int)randomPos.x + (int)randomPos.y * width].Add(rabbit);
+				//thingsToKeepTracking.Add(new ThingXY( rabbit,(int)randomPos.x, (int)randomPos.y));
 
 			}
 
@@ -252,9 +253,10 @@ namespace StoryGenerator.World
 				Bear bear = new Bear();
 				bear.SetPosition(randomPos);
 				bear.Init(this);
-				allThings.Add(bear);
-				things[(int)randomPos.x + (int)randomPos.y * width].Add(bear);
-				thingsToKeepTracking.Add(new ThingXY(bear, (int)randomPos.x, (int)randomPos.y));
+				addThing(bear);
+				//allThings.Add(bear);
+				//things[(int)randomPos.x + (int)randomPos.y * width].Add(bear);
+				//thingsToKeepTracking.Add(new ThingXY(bear, (int)randomPos.x, (int)randomPos.y));
 
 			}
 			for (int i = 0; i < numHumans; i++)
@@ -265,14 +267,31 @@ namespace StoryGenerator.World
 				Human Human = new Human();
 				Human.SetPosition(randomPos);
 				Human.Init(this);
-				allThings.Add(Human);
-				things[(int)randomPos.x + (int)randomPos.y * width].Add(Human);
-				thingsToKeepTracking.Add(new ThingXY(Human, (int)randomPos.x, (int)randomPos.y));
+				addThing(Human);
+				//allThings.Add(Human);
+				//things[(int)randomPos.x + (int)randomPos.y * width].Add(Human);
+				//thingsToKeepTracking.Add(new ThingXY(Human, (int)randomPos.x, (int)randomPos.y));
 
 				playerTeam.AddThing(Human, Team.ThingRole.HOWLER);
 				playerTeam.WorkManager.AddWorker(new Worker( Human));
 
 			}
+		}
+
+		private void addThing(Thing thing)
+		{
+			this.allThings.Add(thing);
+
+			things[Mathf.RoundToInt( thing.X)+ Mathf.RoundToInt( thing.Y) * width].Add(thing);
+			thing.OnPositionIndexChanged.Add(hdrThingPositionChanged);
+		}
+
+		private void hdrThingPositionChanged(Thing thing, int xBefore, int yBefore, int xNew, int yNew)
+		{
+			Debug.Log("Hdr Thing's position is changed " + thing + xBefore+ " "  + yBefore + " -> " +xNew + " " + yNew);
+			things[xBefore + yBefore * width].Remove(thing);
+			things[xNew + yNew * width].Add(thing);
+
 		}
 
 		public void InitFakeWorksForTesting()
@@ -285,6 +304,7 @@ namespace StoryGenerator.World
 			{
 				allThings[i].Update(this, timeElapsed);
 			}
+			/*
 			for (int i = 0; i < thingsToKeepTracking.Count; i++)
 			{
 				var t = thingsToKeepTracking[i];
@@ -294,7 +314,8 @@ namespace StoryGenerator.World
 					things[t.x + t.y * width].Add(t.thing);
 				}
 			}
-			for(int i = 0; i< teams.Count; i++)
+			 * */
+			for (int i = 0; i< teams.Count; i++)
 			{
 				teams[i].Update(this, timeElapsed);
 			}

@@ -18,6 +18,16 @@ public partial class Thing{
 			dropCarryingThing(thingsIAmCarrying[i]);
 		}
 	}
+	public int CountAllCarryingThings()
+	{
+		int num = 0;
+		num += thingsIAmCarrying.Count;
+		foreach(Thing t in thingsIAmCarrying)
+		{
+			num += t.CountAllCarryingThings();
+		}
+		return num;
+	}
 
 	private void dropCarryingThing(Thing thing)
 	{

@@ -101,25 +101,25 @@ public partial class Thing
 	public List<DEL_POSITION_INDEX_CHANGED> OnPositionIndexChanged = new List<DEL_POSITION_INDEX_CHANGED>();
 	public List<DEL_POSITION_CHANGED> OnPositionChanged = new List<DEL_POSITION_CHANGED>();
 
-	public void SetPosition(float x, float y)
+	public void SetPosition(float xValue, float yValue)
 	{
 		float xOld = this.x;
 		float yOld = this.y;
 
 		//Debug.Log("SetPosition");
-		int xBefore = Mathf.RoundToInt(x);
-		int yBefore = Mathf.RoundToInt(y);
+		int xBefore = Mathf.RoundToInt(this.x);
+		int yBefore = Mathf.RoundToInt(this.y);
 
-		this.x = x;
-		this.y = y;
+		this.x = xValue;
+		this.y = yValue;
 
-		int xNew = Mathf.RoundToInt(x);
-		int yNew = Mathf.RoundToInt(y);
+		int xNew = Mathf.RoundToInt(xValue);
+		int yNew = Mathf.RoundToInt(yValue);
 
 		if(xBefore!= xNew || yBefore != yNew)
 		{
 			//position is chagned 
-			Debug.Log("SetPosition Changed");
+			//Debug.Log("SetPosition Changed");
 			for (int i = 0; i< OnPositionIndexChanged.Count; i++)
 			{
 				OnPositionIndexChanged[i](this, xBefore, yBefore, xNew, yNew);
@@ -128,7 +128,7 @@ public partial class Thing
 
 		for (int i = 0; i < OnPositionChanged.Count; i++)
 		{
-			OnPositionChanged[i](this, xOld,yOld, x, y);
+			OnPositionChanged[i](this, xOld,yOld, xValue, yValue);
 		}
 	}
 	public void SetPosition(Vector2 vec2)

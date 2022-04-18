@@ -21,12 +21,13 @@ public class Haul : Work
 		//Dictionary<StockpileZone, Vector2> availableStockpileZones = new Dictionary<StockpileZone, Vector2>();
 		List<StockpileZone> availableZones = new List<StockpileZone>();
 		var stockpiles = world.zoneOrganizer.GetStockpiles();
-		foreach (var sp in stockpiles)
+		Debug.Log(this + " worker " +this.assignedWorker);
+		foreach (var a_stockpile in stockpiles)
 		{
-			if (sp.GetAcceptableEmptyPosition(world, ref x, ref y))
+			if (a_stockpile.GetBestAcceptableEmptyPositionForThing(world, ref x, ref y,this.assignedWorker))
 			{
 				//there was an acceptable position to put this item
-				availableZones.Add(sp);
+				availableZones.Add(a_stockpile);
 			}
 		}
 		if (availableZones.Count == 0)
@@ -35,16 +36,21 @@ public class Haul : Work
 			return false;
 		}
 		var zoneSelected = availableZones[Random.Range(0, availableZones.Count)];
-		zoneSelected.GetAcceptableEmptyPosition(world, ref x, ref y);
+		zoneSelected.GetBestAcceptableEmptyPositionForThing(world, ref x, ref y,this.assignedWorker);
 		this.destination = new Vector2(x, y);
 		this.destinationZone = zoneSelected;
 		return true;
 	}
 	bool isCompleted()
 	{
-		if( (thingToHowl.XY - destination).magnitude < ZEROf && !thingToHowl.IsBeingCarried)
+		if (destinationZone == null) return false;
+		if(destinationZone.IsInZone(Mathf.RoundToInt(thingToHowl.X), Mathf.RoundToInt(thingToHowl.Y)))
 		{
-			return true;
+			if (!thingToHowl.IsBeingCarried)
+			{
+				return true;
+			}
+
 		}
 		return false;
 	}

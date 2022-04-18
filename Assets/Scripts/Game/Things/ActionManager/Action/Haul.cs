@@ -31,8 +31,46 @@ namespace ActionManagerAction {
 			}
 			if(thingAtDestination && thingToHaul.Carrier == worker)
 			{
-				//Apple is at the destination and I need to drop this object 
+				//Package is at the destination and I need to drop this object 
 				Debug.Log("Action Haul Drop");
+				//Am I at the best spot? though?
+				var zones = world.zoneOrganizer.GetZonesAt(
+					Mathf.RoundToInt(destination.x), Mathf.RoundToInt(destination.y), Mathf.RoundToInt(destination.x), Mathf.RoundToInt(destination.y));
+				//bool amIDroppingItInTheStockpileZone = false;
+				StockpileZone stockpileZone = null;
+				foreach (var z in zones)
+				{
+					if (z is StockpileZone)
+					{
+						//amIDroppingItInTheStockpileZone = true;
+						stockpileZone = (StockpileZone)z;
+						break;
+					}
+				}
+				if (stockpileZone != null)
+				{
+					Debug.Log(this + " stockpile zone is detected");
+					int newX=0, newY=0;
+					if(stockpileZone.GetBestAcceptableEmptyPositionForThing(world, ref newX, ref newY, worker))
+					{
+						float distanceDiff = (this.destination - new Vector2(newX, newY)).magnitude;
+						if(distanceDiff >= ZEROf)
+						{
+							Debug.Log(this + " stockpile zone offering a new location " + destination + " -> " + new Vector2(newX, newY));
+							destination = new Vector2(newX, newY);
+							worker.TAM.MoveTo(destination, ThingActionManager.PriorityLevel.FIRST);
+							return;
+						}
+						Debug.Log(this + " current position is the best");
+
+					}
+				}
+				else
+				{
+
+					Debug.Log(this + " stockpile zone is not detected, dropping already");
+				}
+
 				worker.TAM.Drop(ThingActionManager.PriorityLevel.FIRST);
 				return;
 			}
