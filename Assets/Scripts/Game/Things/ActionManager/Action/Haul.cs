@@ -51,8 +51,9 @@ namespace ActionManagerAction {
 				{
 					Debug.Log(this + " stockpile zone is detected");
 					int newX=0, newY=0;
-					if(stockpileZone.GetBestAcceptableEmptyPositionForThing(world, ref newX, ref newY, worker))
+					if(!stockpileZone.IsPositionEfficient(world,  worker, Mathf.RoundToInt(destination.x), Mathf.RoundToInt(destination.y)) )
 					{
+						stockpileZone.GetBestAcceptableEmptyPositionForThing(world, ref newX, ref newY, worker);
 						float distanceDiff = (this.destination - new Vector2(newX, newY)).magnitude;
 						if(distanceDiff >= ZEROf)
 						{

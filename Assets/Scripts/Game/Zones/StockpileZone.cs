@@ -17,16 +17,49 @@ public class StockpileZone : Zone
 			acceptableTypes.Add(v);
 		}
 	}
-	bool hprGetBestAcceptableEmptyPosition(World world, ref int x, ref int y, Thing thingToConsiderWhenAddingScore = null)
+
+	float getScoreOfPosition(World world,Thing thingToConsiderWhenAddingScore, int x, int y)
 	{
-		//List<Vector2> availablePositionsOld = new List<Vector2>();
-		//x,y are positions
-		//Z value stores negative-score, the lower it is, better the position is
+		float score = 0;
+		var things = world.GetThingsAt(x,y);
+		bool isOccupied = false;
+		foreach (var thing in things)
+		{
+			if (thing is Item)
+			{
+				if (!thing.IsBeingCarried)
+				{
+					//this spot is occupied
+					isOccupied = true;
+					break;
+				}
+			}
+		}
+		if (isOccupied)
+		{
+			score += 1000;
+		}
+		score += things.Count;
+		if (thingToConsiderWhenAddingScore != null)
+		{
+			//Debug.Log("ThingToConsider is not null");
+			if ((new Vector2(x,y) - thingToConsiderWhenAddingScore.XY_Int).magnitude < 0.01f)
+			{
+				//Debug.Log("SubtractingSDcore -" + (1 + thingToConsiderWhenAddingScore.CountAllCarryingThings()));
+				score -= 1;
+				score -= thingToConsiderWhenAddingScore.CountAllCarryingThings();
+			}
+		}
+		return score;
+	}
+
+	public bool IsPositionEfficient(World world, Thing thingToConsiderWhenAddingScore, int x, int y)
+	{
 		List<Vector3> availablePositionsnew = new List<Vector3>();
 		foreach (var p in positions)
 		{
 			if (!world.terrain.IsEmptyAt((int)p.x, (int)p.y)) continue;
-			float score = 0;
+			float score = getScoreOfPosition(world, thingToConsiderWhenAddingScore, (int)p.x, (int)p.y);
 			var things = world.GetThingsAt((int)p.x, (int)p.y);
 			bool isOccupied = false;
 			foreach (var thing in things)
@@ -41,22 +74,48 @@ public class StockpileZone : Zone
 					}
 				}
 			}
-			if (isOccupied)
+			if (!isOccupied)
 			{
-				score += 1000;
+				//availablePositionsOld.Add(p);
+				availablePositionsnew.Add(new Vector3(p.x, p.y, score));
+				//Debug.Log(new Vector3(p.x, p.y, score));
 			}
+		}
+		if (availablePositionsnew.Count == 0) return false;
+		availablePositionsnew = availablePositionsnew.OrderBy(p => p.z).ToList();
+
+		float lowestScore = availablePositionsnew[0].z;
+		float askedPositionsScore = getScoreOfPosition(world, thingToConsiderWhenAddingScore, x, y);
+		return askedPositionsScore <= lowestScore;
+	}
+	bool hprGetBestAcceptableEmptyPosition(World world, ref int x, ref int y, 
+		Thing thingToConsiderWhenAddingScore = null)
+	{
+		//List<Vector2> availablePositionsOld = new List<Vector2>();
+		//x,y are positions
+		//Z value stores negative-score, the lower it is, better the position is
+		List<Vector3> availablePositionsnew = new List<Vector3>();
+		foreach (var p in positions)
+		{
+			if (!world.terrain.IsEmptyAt((int)p.x, (int)p.y)) continue;
+			float score = getScoreOfPosition(world,thingToConsiderWhenAddingScore,(int)p.x,(int)p.y);
 			var things = world.GetThingsAt((int)p.x, (int)p.y);
-			if(things)
-			score += world.GetThingsAt((int)p.x, (int)p.y).Count;
+			bool isOccupied = false;
+			foreach (var thing in things)
+			{
+				if (thing is Item)
+				{
+					if (!thing.IsBeingCarried)
+					{
+						//this spot is occupied
+						isOccupied = true;
+						break;
+					}
+				}
+			}
+			//if(things)
 			if (thingToConsiderWhenAddingScore != null)
 			{
-				Debug.Log("ThingToConsider is not null");
-				if((p-thingToConsiderWhenAddingScore.XY_Int).magnitude< 0.01f)
-				{
-					Debug.Log("SubtractingSDcore -"  + (1+ thingToConsiderWhenAddingScore.CountAllCarryingThings()));
-					score -= 1;
-					score -= thingToConsiderWhenAddingScore.CountAllCarryingThings();
-				}
 			}
 			else
 			{
@@ -73,7 +132,15 @@ public class StockpileZone : Zone
 		}
 		if (availablePositionsnew.Count == 0) return false;
 		availablePositionsnew = availablePositionsnew.OrderBy(p => p.z).ToList();
-		var pos = availablePositionsnew[0];
+		float lowestScore = availablePositionsnew[0].z;
+		for(int i = availablePositionsnew.Count-1;i >= 0; i--)
+		{
+			if(availablePositionsnew[i].z > lowestScore)
+			{
+				availablePositionsnew.RemoveAt(i);
+			}
+		}
+		var pos = availablePositionsnew[Random.Range(0, availablePositionsnew.Count)];
 		Debug.Log(this + "Returning a position " + pos );
 		x = (int)pos.x;
 		y = (int)pos.y;

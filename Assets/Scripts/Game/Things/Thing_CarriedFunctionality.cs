@@ -67,7 +67,7 @@ public partial class Thing{
 
 	public virtual float GetGrapRange()
 	{
-		return 1;
+		return 0.5f;
 	}
 
 

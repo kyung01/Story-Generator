@@ -288,7 +288,7 @@ namespace StoryGenerator.World
 
 		private void hdrThingPositionChanged(Thing thing, int xBefore, int yBefore, int xNew, int yNew)
 		{
-			Debug.Log("Hdr Thing's position is changed " + thing + xBefore+ " "  + yBefore + " -> " +xNew + " " + yNew);
+			//Debug.Log("Hdr Thing's position is changed " + thing + xBefore+ " "  + yBefore + " -> " +xNew + " " + yNew);
 			things[xBefore + yBefore * width].Remove(thing);
 			things[xNew + yNew * width].Add(thing);
 
