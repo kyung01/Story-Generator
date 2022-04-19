@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System;
 
 public class KPath
 {
@@ -75,5 +76,34 @@ public class KPath
 		this.after = newAfter;
 	}
 
+	public KPath GetCopy()
+	{
+		KPath copy = new KPath(this.x,this.y);
+		copy.id = this.id;
+		copy.weight = this.weight;
+		copy.before = this.before;
+		copy.after = this.after;
+		foreach (var n in neighbours)
+		{
+			copy.neighbours.Add(n);
+		}
+		foreach (var n in neighboursDiagonal)
+		{
+			copy.neighboursDiagonal.Add(n);
+		}
+		copy.location = this.location;
+		return copy;
+	}
+
+	/*
+	public int id = 0;
+	public float weight = 0;
+	public KPath before, after;
+	public List<KPath> neighbours = new List<KPath>();
+	public List<KPath> neighboursDiagonal = new List<KPath>();
+	Vector2 location;
+	public Vector2 Location { get { return location; } }
+		throw new NotImplementedException();
+	 * */
 
 }

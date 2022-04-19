@@ -14,6 +14,7 @@ namespace ActionManagerAction {
 		Vector2 destination;
 		public Haul(Thing thingToCarry, float x, float y)
 		{
+			this.name = "Haul";
 			this.thingToHaul = thingToCarry;
 			destination = new Vector2(x, y);
 
@@ -22,6 +23,8 @@ namespace ActionManagerAction {
 		{
 			base.Do(world, worker, timeElapsed);
 			bool thingAtDestination = (thingToHaul.XY - destination).magnitude < ZEROf;
+
+			
 			if (thingAtDestination && !thingToHaul.IsBeingCarried)
 			{
 				Debug.Log("Action Haul Finished");

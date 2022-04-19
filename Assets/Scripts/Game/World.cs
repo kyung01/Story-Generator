@@ -35,7 +35,8 @@ namespace StoryGenerator.World
 	/// </summary>
 	public class World
 	{
-		const int DOOR_WEIGHT_ON_PATHFINDER = 5;
+		const int DOOR_WEIGHT_ON_PATHFINDER = 3;
+		const int AVOID_ANIMAL_WEIGHT = 1;
 		public delegate void DEL_THING_ADDED(Thing thing);
 		public List<DEL_THING_ADDED> OnThingAdded = new List<DEL_THING_ADDED>();
 		void raiseOnThingAdded(Thing thing)
@@ -350,7 +351,7 @@ namespace StoryGenerator.World
 		{
 			int numRabbit = 0;
 			int numBear = 0;
-			int numHumans = 1;
+			int numHumans = 10;
 
 			for (int i = 0; i < numRabbit; i++)
 			{
@@ -413,7 +414,18 @@ namespace StoryGenerator.World
 				thing.OnPositionIndexChanged.Add(hdrThingPositionChanged);
 
 			}
+			if(thing is ThingAlive)
+			{
+				pathFinder.addCellWeightInt(thing.X_INT, thing.Y_INT, AVOID_ANIMAL_WEIGHT);
+				thing.OnPositionIndexChanged.Add(hdrAnimalMovedSoShouldWeightOnMap);
+			}
 			raiseOnThingAdded(thing);
+		}
+
+		private void hdrAnimalMovedSoShouldWeightOnMap(Thing thing, int xBefore, int yBefore, int xNew, int yNew)
+		{
+			pathFinder.addCellWeightInt(xBefore, yBefore, -AVOID_ANIMAL_WEIGHT);
+			pathFinder.addCellWeightInt(xNew, yNew, AVOID_ANIMAL_WEIGHT);
 		}
 
 		private void hdrStructurePositionChangedAdd(Thing thing,int x, int y)

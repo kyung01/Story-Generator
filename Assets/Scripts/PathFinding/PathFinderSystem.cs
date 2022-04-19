@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -121,15 +122,20 @@ namespace PathFinder
 					//And teleporter can be used to shrink the distance between two points
 
 					float distanceWeight = (neighbour.vec2 - path.vec2).sqrMagnitude;
-					Debug.Log("resetting a path with...");
-					Debug.Log(cells[path.x][path.y].Weight + " " + cells[neighbour.x][neighbour.y].Weight + " " + distanceWeight);
+					//Debug.Log("resetting a path with...");
+					//Debug.Log(cells[path.x][path.y].Weight + " " + cells[neighbour.x][neighbour.y].Weight + " " + distanceWeight);
 
 
 					neighbour.reset(pathID,
-						cells[path.x][path.y].Weight +
+						//path.weight +
+						//cells[path.x][path.y].Weight +
 						cells[neighbour.x][neighbour.y].Weight + distanceWeight, null, null);
-					neighbour.before = path;
-					availblePaths.Add(neighbour);
+
+					var neighBourCopy = neighbour.GetCopy();
+					removeThisFromNeighbours(neighBourCopy, path);
+					neighBourCopy.weight += neighbour.weight;
+					neighBourCopy.before = path;
+					availblePaths.Add(neighBourCopy);
 
 				}
 				else
@@ -152,11 +158,19 @@ namespace PathFinder
 					//Normally path -> the neighbouring path has distance of 1 or sqrt(2) but sometimes, a teleporter can be created
 					//And teleporter can be used to shrink the distance between two points
 
+					//Debug.Log("resetting a path(diagonal) with...");
+					//Debug.Log(cells[path.x][path.y].Weight + " " + cells[neighbourD.x][neighbourD.y].Weight + " " + (neighbourD.vec2 - path.vec2).sqrMagnitude);
+
 					neighbourD.reset(pathID,
-						cells[path.x][path.y].Weight +
+						//path.weight+
+						//cells[path.x][path.y].Weight +
 						cells[neighbourD.x][neighbourD.y].Weight + (neighbourD.vec2 - path.vec2).sqrMagnitude, null, null);
-					neighbourD.before = path;
-					availblePaths.Add(neighbourD);
+					
+					var neighBourDCopy = neighbourD.GetCopy();
+					removeThisFromNeighbours(neighBourDCopy, path);
+					neighBourDCopy.weight += neighbourD.weight;
+					neighBourDCopy.before = path;
+					availblePaths.Add(neighBourDCopy);
 
 				}
 				else
@@ -165,6 +179,25 @@ namespace PathFinder
 				}
 			}
 		}
+
+		private void removeThisFromNeighbours(KPath neighBourDCopy, KPath neighbourD)
+		{
+			for(int i = neighBourDCopy.neighbours.Count -1; i >= 0; i--)
+			{
+				KPath path = neighbourD;
+				while(path != null)
+				{
+					if (neighBourDCopy.neighbours[i].x == path.x && neighBourDCopy.neighbours[i].y == path.y)
+					{
+						neighBourDCopy.neighbours.RemoveAt(i);
+						break;
+					}
+					path = path.before;
+				}
+				
+			}
+		}
+
 		KPath hprChooseTheBestPath(List<KPath> availblePaths, Vector2 destination)
 		{
 			KPath chosenPath = null;
@@ -173,8 +206,8 @@ namespace PathFinder
 				//Debug.Log("Testing Path at  : " + availblePaths[i].vec2);
 				var neighbour = availblePaths[i];
 				//check whether this is a valid neighbour
-				float lowestWeightSoFar = (chosenPath == null) ? float.MaxValue : chosenPath.weight + (chosenPath.vec2 - destination).sqrMagnitude;
-				if (neighbour.weight + (neighbour.vec2 - destination).sqrMagnitude < lowestWeightSoFar)
+				float lowestWeightSoFar = (chosenPath == null) ? float.MaxValue : chosenPath.weight + (chosenPath.vec2 - destination).magnitude;
+				if (neighbour.weight + (neighbour.vec2 - destination).magnitude < lowestWeightSoFar)
 				{/*
 				if(chosenPath!=null)
 					
@@ -199,12 +232,13 @@ namespace PathFinder
 		void whileLoop(KPath path, Vector2 pathDestination, PathObject a, PathObject b)
 		{
 			availablePaths.Clear();
-			int whileBKP = 500; // While loop breaking point
+			int whileBKP = 2000; // While loop breaking point
 			bool pathFound = false;
 			while (!pathFound && path != null)
 			{
 				if (whileBKP-- <= 0)
 				{
+					Debug.LogError(this + "While Loop Limit Reached");
 					break;
 				}
 				//update the current path

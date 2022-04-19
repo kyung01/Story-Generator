@@ -8,11 +8,13 @@ using UnityEngine;
 
 public abstract class MoveTo : Action
 {
+	const float NEWPATH_UPDATING_INTERVAL = 3;
 	//position I am trying to go to
 	public virtual Vector2 destinationXY { get { return new Vector2(); } }
 	Vector2 nextDestinationXY { get { return pathRegistered[0]; } }
 
 	bool updateNewPath = true;
+	float timeElapsedForNewPathSearching = 0;
 	List<Vector2> pathRegistered = new List<Vector2>();
 	bool isOpenDoor = false;
 
@@ -26,6 +28,12 @@ public abstract class MoveTo : Action
 	public override void Do(World world, Thing thing, float timeElapsed)
 	{
 		base.Do(world, thing, timeElapsed);
+		timeElapsedForNewPathSearching += timeElapsed;
+		if(timeElapsedForNewPathSearching > NEWPATH_UPDATING_INTERVAL)
+		{
+			updateNewPath = true;
+			timeElapsedForNewPathSearching = 0;
+		}
 		if (updateNewPath)
 		{
 			pathRegistered = new List<Vector2>();
@@ -39,8 +47,18 @@ public abstract class MoveTo : Action
 		}
 		if(pathRegistered.Count == 0)
 		{
-			finish();
-			return;
+			if(Mathf.RoundToInt(destinationXY.x) == thing.X_INT && Mathf.RoundToInt(destinationXY.y) == thing.Y_INT)
+			{
+				pathRegistered.Add(destinationXY);
+
+			}
+			else
+			{
+				Debug.LogError(this + "MoveTo(base) found no path. Terminating due to no path found " + thing.XY + "->" + destinationXY);
+				finish();
+				return;
+
+			}
 		}
 
 		//Debug.Log("AvailablePaths " + pathRegistered.Count);

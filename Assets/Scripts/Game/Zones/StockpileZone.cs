@@ -141,7 +141,7 @@ public class StockpileZone : Zone
 			}
 		}
 		var pos = availablePositionsnew[Random.Range(0, availablePositionsnew.Count)];
-		Debug.Log(this + "Returning a position " + pos );
+		//Debug.Log(this + "Returning a position " + pos );
 		x = (int)pos.x;
 		y = (int)pos.y;
 		return true;

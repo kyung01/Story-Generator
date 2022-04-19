@@ -29,6 +29,15 @@ public partial class Thing{
 		return num;
 	}
 
+	internal bool AreYouCarrying(Thing thing)
+	{
+		foreach(Thing t in thingsIAmCarrying)
+		{
+			if (t == thing) return true;
+		}
+		return false;
+	}
+
 	private void dropCarryingThing(Thing thing)
 	{
 		thingsIAmCarrying.Remove(thing);
