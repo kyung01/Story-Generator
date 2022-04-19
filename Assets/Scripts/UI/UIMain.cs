@@ -36,6 +36,7 @@ public class UIMain : MonoBehaviour
 	[SerializeField] UnityEngine.UI.Button bttnBuild;
 	[SerializeField] UnityEngine.UI.Button bttnBuild_SelectWall;
 	[SerializeField] UnityEngine.UI.Button bttnBuild_SelectDoor;
+	[SerializeField] UnityEngine.UI.Button bttnBuild_SelectRoof;
 
 
 	[SerializeField] UIZoneSetting uiZoneSetting;
@@ -172,6 +173,7 @@ public class UIMain : MonoBehaviour
 		bttnBuild.onClick.AddListener(hdrBttnBuild);
 		bttnBuild_SelectWall.onClick.AddListener(hdrBttnBuild_SelectWall);
 		bttnBuild_SelectDoor.onClick.AddListener(hdrBttnBuild_SelectDoor);
+		bttnBuild_SelectRoof.onClick.AddListener(hdrBttnBuild_SelectRoof);
 
 
 		world.zoneOrganizer.OnSingleZoneSelected.Add(hdrSingleZoneSelected);
@@ -180,9 +182,17 @@ public class UIMain : MonoBehaviour
 
 
 	}
+
+
 	private void hdrBttnBuild()
 	{
 		this.state = State.BUILD;
+	}
+
+	private void hdrBttnBuild_SelectRoof()
+	{
+		this.state = State.BUILD;
+		thingToBuild = Thing.TYPE.ROOF;
 	}
 
 	private void hdrBttnBuild_SelectWall()

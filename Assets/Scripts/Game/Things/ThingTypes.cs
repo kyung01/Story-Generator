@@ -25,6 +25,7 @@ public partial class Thing
 		FLOOR,
 
 		END,
-		STRUCTURE
+		STRUCTURE,
+		ROOF
 	}
 }

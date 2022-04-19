@@ -157,17 +157,31 @@ namespace StoryGenerator.World
 			{
 				structure = new Wall();
 			}
+			else if (thingToBuild == Thing.TYPE.ROOF)
+			{
+				structure = new Roof();
+			}
 			else if(thingToBuild == Thing.TYPE.DOOR)
 			{
 				structure = new Door();
 			}
 			else
 			{
-				Debug.LogError("Unacceptable input received");
+				Debug.LogError("Unacceptable input received " + thingToBuild);
 				return;
 			}
-			bool isStructureAt = hprIsStructureAt(x, y);
-			if (isStructureAt)
+			bool isNotBuildable = true;
+			if (thingToBuild == Thing.TYPE.ROOF)
+			{
+
+				isNotBuildable = hprIsRoofAt(x, y);
+			}
+			else
+			{
+				isNotBuildable = hprIsStructureAt(x, y);
+
+			}
+			if (isNotBuildable)
 			{
 				return;
 			}
@@ -175,7 +189,7 @@ namespace StoryGenerator.World
 			structure.Install();
 			initAddThing(structure);
 
-			if(thingToBuild == Thing.TYPE.WALL)
+			if (thingToBuild == Thing.TYPE.WALL)
 			{
 				pathFinder.setCellOccupied(x, y, true);
 			}
@@ -183,6 +197,22 @@ namespace StoryGenerator.World
 
 
 
+		}
+
+		private bool hprIsRoofAt(int x, int y)
+		{
+			var things = GetThingsAt(x, y);
+			foreach (Thing t in things)
+			{
+				if (t.type == Thing.TYPE.ROOF)
+				{
+					if (((Structure)t).IsInstalled)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
 		}
 
 		private bool hprIsStructureAt(int x, int y)
@@ -193,6 +223,11 @@ namespace StoryGenerator.World
 				if(t is Structure)
 				{
 					var s = (Structure)t;
+					if(s.type == Thing.TYPE.ROOF)
+					{
+						//Roof is not considered as a structure that blocks building of another structure
+						continue;
+					}
 					if (s.IsInstalled)
 					{
 						return true;

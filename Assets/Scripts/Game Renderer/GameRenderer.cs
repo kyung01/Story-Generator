@@ -12,6 +12,7 @@ public class GameRenderer : MonoBehaviour
 
 	[SerializeField] WallRenderer PREFAB_WALL_RENDERER;
 	[SerializeField] DoorRenderer PREFAB_DOOR_RENDERER;
+	[SerializeField] RoofRenderer PREFAB_ROOF_RENDERER;
 
 	[SerializeField] TerrainMeshGenerator terrainMeshGenerator;
 	[SerializeField] GameObject tempMountainRock;
@@ -53,6 +54,12 @@ public class GameRenderer : MonoBehaviour
 		else if (t.type == Thing.TYPE.DOOR)
 		{
 			var doorRenderer = Instantiate(PREFAB_DOOR_RENDERER);
+			doorRenderer.RenderThing(t);
+
+		}
+		else if (t.type == Thing.TYPE.ROOF)
+		{
+			var doorRenderer = Instantiate(PREFAB_ROOF_RENDERER);
 			doorRenderer.RenderThing(t);
 
 		}
