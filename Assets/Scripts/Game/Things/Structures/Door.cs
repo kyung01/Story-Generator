@@ -69,6 +69,7 @@ public class Door : Structure
 				var things = world.GetThingsAt(this.X_INT, this.Y_INT);
 				if (hprCheckIfSomethingStuck(things))
 				{
+					Open();
 					return;
 				}
 				else
