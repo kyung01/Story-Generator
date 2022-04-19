@@ -35,6 +35,7 @@ namespace StoryGenerator.World
 	/// </summary>
 	public class World
 	{
+		const int DOOR_WEIGHT_ON_PATHFINDER = 5;
 		public delegate void DEL_THING_ADDED(Thing thing);
 		public List<DEL_THING_ADDED> OnThingAdded = new List<DEL_THING_ADDED>();
 		void raiseOnThingAdded(Thing thing)
@@ -74,6 +75,7 @@ namespace StoryGenerator.World
 			terrain = new TerrainInstance();
 			zoneOrganizer = new ZoneOrganizer();
 		}
+		
 		public void InitDefaultVariables()
 		{
 			pathFinder.Init(width, height);
@@ -150,6 +152,11 @@ namespace StoryGenerator.World
 
 		}
 
+		internal bool IsWalkableAt(int x_INT, int y_INT)
+		{
+			return terrain.IsEmptyAt(x_INT, y_INT) && !this.IsStructureAt(x_INT, y_INT);
+		}
+
 		public void Build(Thing.TYPE thingToBuild, int x, int y)
 		{
 			Structure structure;
@@ -178,7 +185,7 @@ namespace StoryGenerator.World
 			}
 			else
 			{
-				isNotBuildable = hprIsStructureAt(x, y);
+				isNotBuildable = IsStructureAt(x, y);
 
 			}
 			if (isNotBuildable)
@@ -192,6 +199,11 @@ namespace StoryGenerator.World
 			if (thingToBuild == Thing.TYPE.WALL)
 			{
 				pathFinder.setCellOccupied(x, y, true);
+			}
+			if(thingToBuild == Thing.TYPE.DOOR)
+			{
+				Debug.Log("Adding cell weight");
+				pathFinder.addCellWeightInt(x, y, DOOR_WEIGHT_ON_PATHFINDER);
 			}
 
 
@@ -215,7 +227,7 @@ namespace StoryGenerator.World
 			return false;
 		}
 
-		private bool hprIsStructureAt(int x, int y)
+		public bool IsStructureAt(int x, int y)
 		{
 			var things = GetThingsAt(x, y);
 			foreach(Thing t in things)

@@ -120,9 +120,14 @@ namespace PathFinder
 					//Normally path -> the neighbouring path has distance of 1 or sqrt(2) but sometimes, a teleporter can be created
 					//And teleporter can be used to shrink the distance between two points
 
+					float distanceWeight = (neighbour.vec2 - path.vec2).sqrMagnitude;
+					Debug.Log("resetting a path with...");
+					Debug.Log(cells[path.x][path.y].Weight + " " + cells[neighbour.x][neighbour.y].Weight + " " + distanceWeight);
+
+
 					neighbour.reset(pathID,
 						cells[path.x][path.y].Weight +
-						cells[neighbour.x][neighbour.y].Weight + (neighbour.vec2 - path.vec2).sqrMagnitude, null, null);
+						cells[neighbour.x][neighbour.y].Weight + distanceWeight, null, null);
 					neighbour.before = path;
 					availblePaths.Add(neighbour);
 

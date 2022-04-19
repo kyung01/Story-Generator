@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class Hunger_General : Need
 {
+	const float LOOKING_FOR_FOOD_DISTNACE = 10;
 	float demandThreshold = 100;
 	float desiredKeywordTransfer_To_CalmDownDemandCall = 30;
 	bool isHuntersHunger = false;
@@ -24,7 +25,7 @@ public class Hunger_General : Need
 	public bool passiveResolution(World world, ThingAlive thing, float timeElapsed, bool isHunter = false)
 	{
 		var thingsIsee = world.GetSightableThings(thing, (isHunter)?50: thing.body.GetSight());
-		Thing bestTargetThing = getBestTargetThing(thingsIsee, requiredKeyword, isHunter);
+		Thing bestTargetThing = getBestTargetThing(world, thingsIsee, requiredKeyword, isHunter);
 		if (isHunter)
 		{
 			UnityEngine.Debug.Log("Engaging a hunter mode");
@@ -34,6 +35,8 @@ public class Hunger_General : Need
 		if (bestTargetThing == null)
 		{
 			UnityEngine.Debug.LogError(this + " CANNOT BE COMPLETED::BestTargetThing was null");
+
+			thing.TAM.MoveToRandomLocationOfDistance(world, thing, LOOKING_FOR_FOOD_DISTNACE);
 			return false;
 		}
 
@@ -74,13 +77,14 @@ public class Hunger_General : Need
 		return false;
 	}
 
-	private Thing getBestTargetThing(List<Thing> thingsIsee, Game.Keyword requiredKeyword, bool hunterMode = false)
+	private Thing getBestTargetThing(World world, List<Thing> thingsIsee, Game.Keyword requiredKeyword, bool hunterMode = false)
 	{
 		Thing thingSelected = null;
 		float amountOfKeyword_of_thingCurrentlySelected = 0;
 		for(int i = 0; i< thingsIsee.Count; i++)
 		{
 			var thing = thingsIsee[i];
+			if (!world.IsWalkableAt(thing.X_INT, thing.Y_INT)) continue;
 			Dictionary<Game.Keyword, float> thingsKeywords = (hunterMode) ? thing.GetKeywordsForHunter():thing.GetKeywords();
 			
 			if (!thingsKeywords.ContainsKey(requiredKeyword)) continue;
