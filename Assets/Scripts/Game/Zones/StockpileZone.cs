@@ -127,7 +127,7 @@ public class StockpileZone : Zone
 			{
 				//availablePositionsOld.Add(p);
 				availablePositionsnew.Add(new Vector3(p.x, p.y, score));
-				Debug.Log(new Vector3(p.x, p.y, score));
+				//Debug.Log(new Vector3(p.x, p.y, score));
 			}
 		}
 		if (availablePositionsnew.Count == 0) return false;

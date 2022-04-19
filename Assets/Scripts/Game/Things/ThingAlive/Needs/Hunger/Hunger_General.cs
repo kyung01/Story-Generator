@@ -31,9 +31,14 @@ public class Hunger_General : Need
 		}
 		if (isHunter) UnityEngine.Debug.Log(this + " thingsIsee " + thingsIsee.Count);
 		if (isHunter) UnityEngine.Debug.Log(this + " Resolving hunger " + (bestTargetThing != null));
-		if (bestTargetThing == null) return false;
+		if (bestTargetThing == null)
+		{
+			UnityEngine.Debug.LogError(this + " CANNOT BE COMPLETED::BestTargetThing was null");
+			return false;
+		}
 
 		thing.TAM.MoveToTarget(bestTargetThing, thing.GetEatingDistance());
+		UnityEngine.Debug.Log(this + " MoveToTarget");
 		float desiredKeywordAmount = (demand - demandThreshold) + desiredKeywordTransfer_To_CalmDownDemandCall;
 		if (isHunter)
 		{
@@ -46,6 +51,7 @@ public class Hunger_General : Need
 		}
 		else
 		{
+			UnityEngine.Debug.Log(this + " Eat " + bestTargetThing + bestTargetThing.XY);
 			thing.TAM.Eat(
 			   bestTargetThing,
 			   requiredKeyword,

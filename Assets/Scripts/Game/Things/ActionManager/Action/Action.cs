@@ -24,7 +24,7 @@ public class Action
 
 	public void Update(World world, Thing thing, float timeElapsed)
 	{
-		this.timeProcessed = timeElapsed;
+		this.timeProcessed += timeElapsed;
 		if(this.timeProcessed > MAX_PROCESSING_TIME)
 		{
 			UnityEngine.Debug.LogError(this + " TAKING TOO LONG!");

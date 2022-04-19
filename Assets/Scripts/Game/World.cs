@@ -338,7 +338,7 @@ namespace StoryGenerator.World
 		{
 			int numRabbit = 0;
 			int numBear = 0;
-			int numHumans = 3;
+			int numHumans = 1;
 
 			for (int i = 0; i < numRabbit; i++)
 			{

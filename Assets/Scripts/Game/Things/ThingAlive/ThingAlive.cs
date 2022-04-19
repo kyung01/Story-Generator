@@ -47,6 +47,7 @@ public class ThingAlive : ThingWithBody
 			{
 				if (needs[i].ResolveNeed(world, this, timeElapsed))
 				{
+					Debug.Log("Resolving a need " + needs[i].name);
 					var resolvingNeed = needs[i];
 					needs.RemoveAt(i);
 					needs.Add(resolvingNeed);
