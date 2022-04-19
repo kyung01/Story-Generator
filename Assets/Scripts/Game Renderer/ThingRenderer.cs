@@ -48,9 +48,6 @@ public class ThingRenderer : MonoBehaviour
 				meshRenderer.material.mainTexture = SPRITE_LIST.Bear;
 				break;
 			case Thing.TYPE.WALL:
-				var wall = Instantiate(SPRITE_LIST.Wall);
-				wall.transform.parent = this.transform;
-				wall.transform.localPosition = Vector3.zero;
 				break;
 			case Thing.TYPE.DOOR:
 				break;
