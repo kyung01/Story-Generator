@@ -15,6 +15,7 @@ public class Main : MonoBehaviour
 		game.StartGame();
 		gameRenderer.RenderGame(game);
 		UIMain.Init(game.world);
+		game.world.OnThingAdded.Add(gameRenderer.hdrWorldThingAdded);
 		//UIMain.zOrg = game.zoneOrganizer;
 	}
 

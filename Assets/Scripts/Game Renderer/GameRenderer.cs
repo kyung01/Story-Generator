@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using StoryGenerator.World;
+using System;
 
 public class GameRenderer : MonoBehaviour
 {
@@ -10,6 +11,13 @@ public class GameRenderer : MonoBehaviour
 
 	[SerializeField] TerrainMeshGenerator terrainMeshGenerator;
 	[SerializeField] GameObject tempMountainRock;
+
+	internal void hdrWorldThingAdded(Thing thing)
+	{
+		var thingRenderer = Instantiate(PREFAB_THING_RENDERER);
+		thingRenderer.RenderThing(thing, SPRITE_LIST);
+	}
+
 	public void RenderGame(Game game)
 	{
 		terrainMeshGenerator.Init(game.world.terrain);

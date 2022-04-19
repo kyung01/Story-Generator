@@ -35,6 +35,16 @@ namespace StoryGenerator.World
 	/// </summary>
 	public class World
 	{
+		public delegate void DEL_THING_ADDED(Thing thing);
+		public List<DEL_THING_ADDED> OnThingAdded = new List<DEL_THING_ADDED>();
+		void raiseOnThingAdded(Thing thing)
+		{
+			foreach(var d in OnThingAdded)
+			{
+				d(thing);
+			}
+		}
+
 		public PathFinder.PathFinderSystem pathFinder = new PathFinder.PathFinderSystem();
 
 
@@ -44,6 +54,7 @@ namespace StoryGenerator.World
 		public int height = 50;
 		public List<Thing>[] things;
 		public List<Thing> allThings = new List<Thing>();
+		//public List<Structure>[] structures;
 
 		internal List<Thing> GetThingsAt(int x, int y)
 		{
@@ -63,12 +74,25 @@ namespace StoryGenerator.World
 			terrain = new TerrainInstance();
 			zoneOrganizer = new ZoneOrganizer();
 		}
+		public void InitDefaultVariables()
+		{
+			pathFinder.Init(width, height);
+			things = new List<Thing>[width * height];
+			//structures = new List<Structure>[width * height];
+
+			for (int i = 0; i < width; i++) 
+				for (int j = 0; j < height; j++)
+				{
+					int index = i + j * width;
+					things[index] = new List<Thing>();
+					//structures[index] = new List<Structure>();
+				}
+		}
 
 		public void InitTerrain()
 		{
 			//initialize the world 
 			terrain.Init(width,height);
-			pathFinder.Init(width, height);
 
 			for(int i = 0; i < width; i++)
 			{
@@ -81,10 +105,8 @@ namespace StoryGenerator.World
 				}
 			}
 
-			things = new List<Thing>[width * height];
 			for(int i  = 0; i < width;i ++)for(int j = 0; j < height; j++)
 				{
-					things[i + j * width] = new List<Thing>();
 					if (terrain.GetPieceAt(i , j).Type == Piece.KType.MOUNTAIN )
 					{
 						//mountain is here
@@ -122,13 +144,64 @@ namespace StoryGenerator.World
 					var obj = thing;
 					obj.SetPosition(i, j);
 
-					obj.Init(this);
-					addThing(obj);
+					initAddThing(obj);
 					//things[i+j*width] 
 				}
 
 		}
-		
+
+		public void Build(Thing.TYPE thingToBuild, int x, int y)
+		{
+			Structure structure;
+			if(thingToBuild== Thing.TYPE.WALL)
+			{
+				structure = new Wall();
+			}
+			else if(thingToBuild == Thing.TYPE.DOOR)
+			{
+				structure = new Door();
+			}
+			else
+			{
+				Debug.LogError("Unacceptable input received");
+				return;
+			}
+			bool isStructureAt = hprIsStructureAt(x, y);
+			if (isStructureAt)
+			{
+				return;
+			}
+			structure.SetPosition(x, y);
+			structure.Install();
+			initAddThing(structure);
+
+			if(thingToBuild == Thing.TYPE.WALL)
+			{
+				pathFinder.setCellOccupied(x, y, true);
+			}
+
+
+
+
+		}
+
+		private bool hprIsStructureAt(int x, int y)
+		{
+			var things = GetThingsAt(x, y);
+			foreach(Thing t in things)
+			{
+				if(t is Structure)
+				{
+					var s = (Structure)t;
+					if (s.IsInstalled)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
 		bool hprIsWithinRange(float n, float minInclusive, float maxExclusive)
 		{
 			return n >= minInclusive && n < maxExclusive;
@@ -237,8 +310,7 @@ namespace StoryGenerator.World
 				Vector2 randomPos = getApprorpiateRandomPosition();
 				Rabbit rabbit = new Rabbit();
 				rabbit.SetPosition(randomPos.x, randomPos.y);
-				rabbit.Init(this);
-				addThing(rabbit);
+				initAddThing(rabbit);
 				//allThings.Add(rabbit);
 				//things[(int)randomPos.x + (int)randomPos.y * width].Add(rabbit);
 				//thingsToKeepTracking.Add(new ThingXY( rabbit,(int)randomPos.x, (int)randomPos.y));
@@ -252,8 +324,7 @@ namespace StoryGenerator.World
 
 				Bear bear = new Bear();
 				bear.SetPosition(randomPos);
-				bear.Init(this);
-				addThing(bear);
+				initAddThing(bear);
 				//allThings.Add(bear);
 				//things[(int)randomPos.x + (int)randomPos.y * width].Add(bear);
 				//thingsToKeepTracking.Add(new ThingXY(bear, (int)randomPos.x, (int)randomPos.y));
@@ -266,8 +337,7 @@ namespace StoryGenerator.World
 
 				Human Human = new Human();
 				Human.SetPosition(randomPos);
-				Human.Init(this);
-				addThing(Human);
+				initAddThing(Human);
 				//allThings.Add(Human);
 				//things[(int)randomPos.x + (int)randomPos.y * width].Add(Human);
 				//thingsToKeepTracking.Add(new ThingXY(Human, (int)randomPos.x, (int)randomPos.y));
@@ -278,12 +348,51 @@ namespace StoryGenerator.World
 			}
 		}
 
-		private void addThing(Thing thing)
+		private void initAddThing(Thing thing)
 		{
+			thing.Init(this);
 			this.allThings.Add(thing);
 
-			things[Mathf.RoundToInt( thing.X)+ Mathf.RoundToInt( thing.Y) * width].Add(thing);
-			thing.OnPositionIndexChanged.Add(hdrThingPositionChanged);
+
+			if(thing is Structure)
+			{
+				//add structure position chaning method
+				hdrStructurePositionChangedAdd(thing, Mathf.RoundToInt(thing.X),Mathf.RoundToInt( thing.Y) );
+				thing.OnPositionIndexChanged.Add(hdrStructurePositionChanged);
+			}
+			else
+			{
+				things[Mathf.RoundToInt(thing.X) + Mathf.RoundToInt(thing.Y) * width].Add(thing);
+				thing.OnPositionIndexChanged.Add(hdrThingPositionChanged);
+
+			}
+			raiseOnThingAdded(thing);
+		}
+
+		private void hdrStructurePositionChangedAdd(Thing thing,int x, int y)
+		{
+			Structure s = (Structure)thing;
+			for (int w = 0; w < s.Width; w++)
+			{
+				for (int h = 0; h < s.Height; h++)
+				{
+					things[x + w + (y + h) * width].Add(thing);
+
+				}
+			}
+		}
+		private void hdrStructurePositionChanged(Thing thing, int xBefore, int yBefore, int xNew, int yNew)
+		{
+			Structure s = (Structure)thing;
+			for(int w = 0; w < s.Width; w++)
+			{
+				for(int h = 0; h < s.Height; h++)
+				{
+					things[xBefore +w + (yBefore+h) * width].Remove(thing);
+
+				}
+			}
+			hdrStructurePositionChangedAdd(thing, xNew, yNew);
 		}
 
 		private void hdrThingPositionChanged(Thing thing, int xBefore, int yBefore, int xNew, int yNew)

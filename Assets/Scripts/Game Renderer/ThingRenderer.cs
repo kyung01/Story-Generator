@@ -11,6 +11,7 @@ public class ThingRenderer : MonoBehaviour
 	public MeshRenderer meshRenderer;
 	public TMPro.TextMeshPro textMesh;
 	Vector2 speed = new Vector2();
+
 	private void Awake()
 	{
 		meshRenderer = GetComponentInChildren<MeshRenderer>();
@@ -45,6 +46,13 @@ public class ThingRenderer : MonoBehaviour
 				break;
 			case Thing.TYPE.BEAR:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Bear;
+				break;
+			case Thing.TYPE.WALL:
+				var wall = Instantiate(SPRITE_LIST.Wall);
+				wall.transform.parent = this.transform;
+				wall.transform.localPosition = Vector3.zero;
+				break;
+			case Thing.TYPE.DOOR:
 				break;
 			default:
 				break;

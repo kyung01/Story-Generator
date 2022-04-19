@@ -9,12 +9,22 @@ public partial class Thing
 	public enum TYPE
 	{
 		UNDEFINED, 
+		//Animals
+		RABBIT,
+		BEAR,
+		HUMAN,
+		//Enviornment
 		ROCK, 
 		GRASS, 
 		BUSH,
 		REED,
-		RABBIT,
-		BEAR,
-		HUMAN
+		//Buildings
+		DOOR,
+		WALL,
+		CEILING,
+		FLOOR,
+
+		END,
+		STRUCTURE
 	}
 }

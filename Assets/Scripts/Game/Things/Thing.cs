@@ -58,6 +58,17 @@ public partial class Thing
 	}
 
 
+	public int X_INT
+	{
+		get { return Mathf.RoundToInt(this.x); }
+	}
+
+	public int Y_INT
+	{
+		get { return Mathf.RoundToInt(this.y); }
+	}
+
+
 	public Vector2 XY
 	{
 		set

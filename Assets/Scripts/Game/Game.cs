@@ -11,6 +11,7 @@ public partial class Game : MonoBehaviour
 	public void StartGame()
 	{
 		world = new World();
+		world.InitDefaultVariables();
 		world.InitTerrain();
 		world.InitAnimals();
 

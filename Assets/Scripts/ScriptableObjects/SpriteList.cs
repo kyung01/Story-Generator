@@ -12,4 +12,6 @@ public class SpriteList : ScriptableObject
 	public Texture2D Human;
 	public Texture2D Rabbit;
 	public Texture2D Bear;
+
+	public GameObject Wall;
 }

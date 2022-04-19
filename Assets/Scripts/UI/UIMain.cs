@@ -11,11 +11,16 @@ public class UIMain : MonoBehaviour
 		CREATE_ZONE,
 		SELECT_ZONE,
 		DELETE_ZONE,
-		HOWL,
+		
+		ORDER_HOWL,
+
+		BUILD,
+
 		END
 	}
 
 	State state = State.DEFAULT;
+	Thing.TYPE thingToBuild = Thing.TYPE.WALL;
 
 	World world;
 	//ZoneOrganizer zOrg;
@@ -26,6 +31,11 @@ public class UIMain : MonoBehaviour
 	[SerializeField] UnityEngine.UI.Button bttnSelectZone;
 	[SerializeField] UnityEngine.UI.Button bttnCreateZone;
 	[SerializeField] UnityEngine.UI.Button bttnDeleteZone;
+
+
+	[SerializeField] UnityEngine.UI.Button bttnBuild;
+	[SerializeField] UnityEngine.UI.Button bttnBuild_SelectWall;
+	[SerializeField] UnityEngine.UI.Button bttnBuild_SelectDoor;
 
 
 	[SerializeField] UIZoneSetting uiZoneSetting;
@@ -67,7 +77,7 @@ public class UIMain : MonoBehaviour
 
 	private void hdrBttnHaul()
 	{
-		state = State.HOWL;
+		state = State.ORDER_HOWL;
 		var things = wrdThingSelector.ThingsCurrentlySelected;
 		foreach(var thing in things)
 		{
@@ -109,6 +119,20 @@ public class UIMain : MonoBehaviour
 		{
 			world.zoneOrganizer.Select(xBegin, yBegin, xEnd, yEnd);
 		}
+
+
+		if (state == State.BUILD)
+		{
+			for(int x = xBegin; x <= xEnd; x++)
+			{
+				for(int y = yBegin; y<= yEnd; y++)
+				{
+
+					world.Build(this.thingToBuild, x, y);
+				}
+			}
+			//world.zoneOrganizer.Select(xBegin, yBegin, xEnd, yEnd);
+		}
 		/*
 		//Createa a new zone, if a cell of a zone is included in a zone then include this new zone to the old zone
 		for(int j = yBegin; j<= yEnd; j++)
@@ -140,9 +164,15 @@ public class UIMain : MonoBehaviour
 
 		bttnSelectThings.onClick.AddListener(hdrSelectThings);
 		bttnHowl.onClick.AddListener(hdrBttnHaul);
+
 		bttnCreateZone.onClick.AddListener(hdrBttnZone_Create);
 		bttnDeleteZone.onClick.AddListener(hdrBttnZone_Delete);
 		bttnSelectZone.onClick.AddListener(hdrBttnZone_Select);
+
+		bttnBuild.onClick.AddListener(hdrBttnBuild);
+		bttnBuild_SelectWall.onClick.AddListener(hdrBttnBuild_SelectWall);
+		bttnBuild_SelectDoor.onClick.AddListener(hdrBttnBuild_SelectDoor);
+
 
 		world.zoneOrganizer.OnSingleZoneSelected.Add(hdrSingleZoneSelected);
 		world.zoneOrganizer.OnNO_ZONE_SELECTED.Add(hdrNoZoneSelected);
@@ -150,6 +180,26 @@ public class UIMain : MonoBehaviour
 
 
 	}
+	private void hdrBttnBuild()
+	{
+		this.state = State.BUILD;
+	}
+
+	private void hdrBttnBuild_SelectWall()
+	{
+		this.state = State.BUILD;
+		thingToBuild = Thing.TYPE.WALL;
+	}
+
+	private void hdrBttnBuild_SelectDoor()
+	{
+		this.state = State.BUILD;
+		thingToBuild = Thing.TYPE.DOOR;
+	}
+
+
+
+	
 
 	// Use this for initialization
 	void Start()
