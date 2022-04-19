@@ -28,6 +28,8 @@ public class Door : Structure
 	
 	public bool IsOpen { get { return openNess == 1; } }
 
+	public float OpenLevel { get { return openNess; } }
+
 	public Door()
 	{
 		this.type = TYPE.DOOR;
