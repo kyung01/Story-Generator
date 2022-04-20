@@ -36,7 +36,7 @@ namespace StoryGenerator.World
 	public class World
 	{
 		const int DOOR_WEIGHT_ON_PATHFINDER = 3;
-		const int AVOID_ANIMAL_WEIGHT = 1;
+		const int AVOID_ANIMAL_WEIGHT = 0;
 		public delegate void DEL_THING_ADDED(Thing thing);
 		public List<DEL_THING_ADDED> OnThingAdded = new List<DEL_THING_ADDED>();
 		void raiseOnThingAdded(Thing thing)
@@ -60,7 +60,12 @@ namespace StoryGenerator.World
 
 		internal List<Thing> GetThingsAt(int x, int y)
 		{
-			return things[x + width * y];
+			List<Thing> list = new List<Thing>();
+			foreach(var t in things[x + width * y])
+			{
+				list.Add(t);
+			}
+			return list;
 		}
 
 		//public List<ThingXY> thingsToKeepTracking = new List<ThingXY>();
@@ -163,6 +168,7 @@ namespace StoryGenerator.World
 			Structure structure;
 			if(thingToBuild== Thing.TYPE.WALL)
 			{
+				clearSpotForConstruction(x, y);
 				structure = new Wall();
 			}
 			else if (thingToBuild == Thing.TYPE.ROOF)
@@ -209,6 +215,51 @@ namespace StoryGenerator.World
 
 
 
+
+		}
+
+		private void clearSpotForConstruction(int x, int y)
+		{
+			Debug.Log("ClearspotForConstruction");
+			var things = GetThingsAt(x, y);
+			int xMin = x,yMin = y,xMax = x,yMax = y;
+			bool isFoundAnEmptySpot = false;
+			int emptyX=0, emptyY=0;
+
+			while (!isFoundAnEmptySpot)
+			{
+				List<Vector2> availablePositions = new List<Vector2>();
+				for (int positionX = xMin; positionX <= xMax; positionX++)
+				{
+					for (int positionY = yMin; positionY <= yMax; positionY++)
+					{
+						if (positionX == x && positionY == y)
+						{
+							continue;
+						}
+						availablePositions.Insert(Random.Range(0, availablePositions.Count + 1), new Vector2(positionX, positionY));
+					}
+				}
+				foreach (var p in availablePositions)
+					{
+						int pX = (int)p.x;
+						int pY = (int)p.y;
+						if (!IsWalkableAt(pX,pY)) continue;
+						isFoundAnEmptySpot = true;
+						emptyX = pX;
+						emptyY = pY;
+					}
+				xMin = Mathf.Max(0, xMin - 1);
+				xMax = Mathf.Min(this.width - 1, xMax + 1);
+				yMin = Mathf.Max(0, yMin - 1);
+				yMax = Mathf.Min(this.height - 1, yMax + 1);
+			}
+
+			for(int i = 0; i < things.Count; i++)
+			{
+				//Debug.Log(i+ "/" + things.Count +" Setting position of " + things[i] + " to " + new Vector2(emptyX, emptyY));
+				things[i].SetPosition(emptyX, emptyY);
+			}
 
 		}
 

@@ -20,7 +20,7 @@ public class MotionDemander : Body
 	float happyDistanceIMoved = 0;
 	public override void Init(ThingWithBody thing)
 	{
-		Debug.Log("MotionDemander Init");
+		//Debug.Log("MotionDemander Init");
 		base.Init(thing);
 		position = thing.XY;
 	}

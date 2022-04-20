@@ -180,16 +180,16 @@ namespace PathFinder
 			}
 		}
 
-		private void removeThisFromNeighbours(KPath neighBourDCopy, KPath neighbourD)
+		private void removeThisFromNeighbours(KPath neighbourCopy, KPath startingPath)
 		{
-			for(int i = neighBourDCopy.neighbours.Count -1; i >= 0; i--)
+			for(int i = neighbourCopy.neighbours.Count -1; i >= 0; i--)
 			{
-				KPath path = neighbourD;
+				KPath path = startingPath;
 				while(path != null)
 				{
-					if (neighBourDCopy.neighbours[i].x == path.x && neighBourDCopy.neighbours[i].y == path.y)
+					if (neighbourCopy.neighbours[i].x == path.x && neighbourCopy.neighbours[i].y == path.y)
 					{
-						neighBourDCopy.neighbours.RemoveAt(i);
+						neighbourCopy.neighbours.RemoveAt(i);
 						break;
 					}
 					path = path.before;
