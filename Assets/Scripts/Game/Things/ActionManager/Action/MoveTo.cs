@@ -8,7 +8,7 @@ using UnityEngine;
 
 public abstract class MoveTo : Action
 {
-	const float NEWPATH_UPDATING_INTERVAL = 3;
+	const float NEWPATH_UPDATING_INTERVAL = 2.0f;
 	//position I am trying to go to
 	public virtual Vector2 destinationXY { get { return new Vector2(); } }
 	Vector2 nextDestinationXY { get { return pathRegistered[0]; } }

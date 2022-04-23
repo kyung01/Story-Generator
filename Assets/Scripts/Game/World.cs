@@ -36,7 +36,7 @@ namespace StoryGenerator.World
 	public class World
 	{
 		const int DOOR_WEIGHT_ON_PATHFINDER = 3;
-		const int AVOID_ANIMAL_WEIGHT = 0;
+		const int AVOID_ANIMAL_WEIGHT = 3;
 		public delegate void DEL_THING_ADDED(Thing thing);
 		public List<DEL_THING_ADDED> OnThingAdded = new List<DEL_THING_ADDED>();
 		void raiseOnThingAdded(Thing thing)

@@ -83,7 +83,9 @@ public class ThingRenderer : MonoBehaviour
 			var thingAlive = (ThingAlive)thing;
 			if (thingAlive == null) return;
 
-			if (!(thingAlive.type == Thing.TYPE.RABBIT  || thingAlive.type == Thing.TYPE.BEAR || thingAlive.type == Thing.TYPE.HUMAN)) return;
+			if (!(thingAlive.type == Thing.TYPE.RABBIT  || thingAlive.type == Thing.TYPE.BEAR 
+				//|| thingAlive.type == Thing.TYPE.HUMAN
+				)) return;
 			textMesh.text = "";
 			for (int i = 0; i < thing.TAM.actions.Count; i++)
 			{

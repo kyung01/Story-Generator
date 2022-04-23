@@ -29,7 +29,7 @@ public class PathObject
 	}
 
 	public float x, y;
-	public float exchangeRangePhysical = 1;
+	public float exchangeRangePhysical = 0.5f;
 
 	public int X { get { return Mathf.RoundToInt(X); } }
 	public int Y { get { return Mathf.RoundToInt(y); } }

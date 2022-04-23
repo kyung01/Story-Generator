@@ -112,7 +112,7 @@ namespace PathFinder
 			{
 				var neighbour = path.neighbours[i];
 				var neighbourCell = cells[neighbour.x][neighbour.y];
-				if (neighbour.id != pathID)
+				if ( neighbour.id != pathID)
 				{
 					if (neighbourCell.isOccupied)
 					{
@@ -129,13 +129,13 @@ namespace PathFinder
 					neighbour.reset(pathID,
 						//path.weight +
 						//cells[path.x][path.y].Weight +
-						cells[neighbour.x][neighbour.y].Weight + distanceWeight, null, null);
+						cells[neighbour.x][neighbour.y].Weight + distanceWeight , null, null);
 
-					var neighBourCopy = neighbour.GetCopy();
-					removeThisFromNeighbours(neighBourCopy, path);
-					neighBourCopy.weight += neighbour.weight;
-					neighBourCopy.before = path;
-					availblePaths.Add(neighBourCopy);
+					//var neighBourCopy = neighbour.GetCopy();
+					//removeThisFromNeighbours(neighBourCopy, path);
+					neighbour.weight += path.weight;
+					neighbour.before = path;
+					availblePaths.Add(neighbour);
 
 				}
 				else
@@ -152,7 +152,9 @@ namespace PathFinder
 				var neighbourCell_corner_X = cells[neighbourD.x - moveX][neighbourD.y];
 				var neighbourCell_corner_Y = cells[neighbourD.x][neighbourD.y - moveY];
 
-				if (neighbourD.id != pathID && !neighbourCell.isOccupied &&
+				if (
+					( neighbourD.id != pathID) 
+					&& !neighbourCell.isOccupied &&
 					!neighbourCell_corner_X.isOccupied && !neighbourCell_corner_Y.isOccupied)
 				{
 					//Normally path -> the neighbouring path has distance of 1 or sqrt(2) but sometimes, a teleporter can be created
@@ -165,12 +167,12 @@ namespace PathFinder
 						//path.weight+
 						//cells[path.x][path.y].Weight +
 						cells[neighbourD.x][neighbourD.y].Weight + (neighbourD.vec2 - path.vec2).sqrMagnitude, null, null);
-					
-					var neighBourDCopy = neighbourD.GetCopy();
-					removeThisFromNeighbours(neighBourDCopy, path);
-					neighBourDCopy.weight += neighbourD.weight;
-					neighBourDCopy.before = path;
-					availblePaths.Add(neighBourDCopy);
+
+					//var neighBourDCopy = neighbourD.GetCopy();
+					//removeThisFromNeighbours(neighBourDCopy, path);
+					neighbourD.weight += path.weight;
+					neighbourD.before = path;
+					availblePaths.Add(neighbourD);
 
 				}
 				else
@@ -185,14 +187,25 @@ namespace PathFinder
 			for(int i = neighbourCopy.neighbours.Count -1; i >= 0; i--)
 			{
 				KPath path = startingPath;
-				while(path != null)
+				var copysNeighbourX = neighbourCopy.neighbours[i];
+				while (path != null)
 				{
 					if (neighbourCopy.neighbours[i].x == path.x && neighbourCopy.neighbours[i].y == path.y)
 					{
 						neighbourCopy.neighbours.RemoveAt(i);
 						break;
 					}
-					path = path.before;
+					path = null;
+					//path = path.before;
+				}
+				foreach(var startingPathsNeighbour in startingPath.neighbours)
+				{
+					if(copysNeighbourX == startingPathsNeighbour)
+					{
+						neighbourCopy.neighbours.Remove(copysNeighbourX);
+						break;
+					}
+
 				}
 				
 			}
@@ -313,7 +326,7 @@ namespace PathFinder
 			}
 			pathID++; //update the path ID
 			KPath path = paths[Mathf.RoundToInt(posBegin.x)][Mathf.RoundToInt(posBegin.y)];
-			path.reset(pathID, 0, null, null);
+			path.reset(pathID, cells[path.x][path.y].weight, null, null);
 			return path;
 		}
 
