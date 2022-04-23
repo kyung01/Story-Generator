@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 
-public class ThingAlive : ThingWithBody
+public class ThingWithNeeds : ThingWithBody
 {
 	public List<Need> needs = new List<Need>();
 

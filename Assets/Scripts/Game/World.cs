@@ -311,7 +311,7 @@ namespace StoryGenerator.World
 			return new List<Thing>();
 		}
 
-		public List<Thing> GetSightableThings(ThingAlive thing, float sight)
+		public List<Thing> GetSightableThings(ThingWithNeeds thing, float sight)
 		{
 			List<Thing> things = new List<Thing>();
 			float xMin = Mathf.RoundToInt( thing.X - sight);
@@ -465,7 +465,7 @@ namespace StoryGenerator.World
 				thing.OnPositionIndexChanged.Add(hdrThingPositionChanged);
 
 			}
-			if(thing is ThingAlive)
+			if(thing is ThingWithNeeds)
 			{
 				pathFinder.addCellWeightInt(thing.X_INT, thing.Y_INT, AVOID_ANIMAL_WEIGHT);
 				thing.OnPositionIndexChanged.Add(hdrAnimalMovedSoShouldWeightOnMap);

@@ -80,7 +80,7 @@ public class ThingRenderer : MonoBehaviour
 		try
 		{
 
-			var thingAlive = (ThingAlive)thing;
+			var thingAlive = (ThingWithNeeds)thing;
 			if (thingAlive == null) return;
 
 			if (!(thingAlive.type == Thing.TYPE.RABBIT  || thingAlive.type == Thing.TYPE.BEAR 

@@ -16,13 +16,13 @@ public class Hunger_General : Need
 		this.name = "Hunger";
 		this.explanation = "A general need for food. It can be satisfied by any consumable that can be calssified as a food.";
 	}
-	public override void Init(ThingAlive thing)
+	public override void Init(ThingWithNeeds thing)
 	{
 		base.Init(thing);
 		this.demand = demandThreshold+1;
 		thing.OnConsumeKeyword.Add( hdrKeywordConsumed);
 	}
-	public bool passiveResolution(World world, ThingAlive thing, float timeElapsed, bool isHunter = false)
+	public bool passiveResolution(World world, ThingWithNeeds thing, float timeElapsed, bool isHunter = false)
 	{
 		var thingsIsee = world.GetSightableThings(thing, (isHunter)?50: thing.body.GetSight());
 		Thing bestTargetThing = getBestTargetThing(world, thingsIsee, requiredKeyword, isHunter);
@@ -66,7 +66,7 @@ public class Hunger_General : Need
 		return true;
 	}
 
-	public override bool ResolveNeed(World world, ThingAlive thing, float timeElapsed)
+	public override bool ResolveNeed(World world, ThingWithNeeds thing, float timeElapsed)
 	{
 		if (demand < demandThreshold) return false;
 		if (passiveResolution(world, thing, timeElapsed)){

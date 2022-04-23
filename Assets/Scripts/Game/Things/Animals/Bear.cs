@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Bear : ThingAlive
+public class Bear : ThingWithNeeds
 {
 	public Bear()
 	{

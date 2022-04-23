@@ -18,7 +18,7 @@ public class Wander : Need
 		this.stressKeyword = Game.Keyword.STILL;
 	}
 
-	public override void Init(ThingAlive thing)
+	public override void Init(ThingWithNeeds thing)
 	{
 		base.Init(thing);
 		thing.OnConsumeKeyword.Add(hdrConsumeKeyword);
@@ -37,7 +37,7 @@ public class Wander : Need
 		}
 	}
 
-	public override bool ResolveNeed(World world, ThingAlive thing, float timeElapsed)
+	public override bool ResolveNeed(World world, ThingWithNeeds thing, float timeElapsed)
 	{
 		//UnityEngine.Debug.Log("Wander Resolve Need " + demand);
 		if (this.demand > 100)
