@@ -45,6 +45,30 @@ public class ThingSheet
 		roof.type = Thing.TYPE.WALL;
 		return roof;
 	}
+	public static Thing Rabbit()
+	{
+		Thing thing = new Thing();
+
+		thing.InitBodyManager();
+		thing.InitThingNeedManager();
+
+		thing.MNGNeed.AddNeed(new Hunger_Vegi());
+		thing.MNGNeed.AddNeed(new Wander());
+
+		var meatBody = new MeatBody();
+		var stomach = new Stomach();
+		stomach.addNutrtionBody(meatBody);
+
+		thing.MNGBody.AddBody(new MotionDemander());
+		thing.MNGBody.AddBody(new PainCreator());
+		thing.MNGBody.AddBody(new PainReactionModelBody());
+		thing.MNGBody.AddBody(new Mouth());
+		thing.MNGBody.AddBody(meatBody);
+		thing.MNGBody.AddBody(stomach);
+
+		thing.type = Thing.TYPE.RABBIT;
+		return thing;
+	}
 	public static Thing GetBear()
 	{
 		Thing thing = new Thing();

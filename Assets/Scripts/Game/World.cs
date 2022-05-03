@@ -407,7 +407,7 @@ namespace StoryGenerator.World
 			for (int i = 0; i < numRabbit; i++)
 			{
 				Vector2 randomPos = getApprorpiateRandomPosition();
-				Rabbit rabbit = new Rabbit();
+				Thing rabbit = ThingSheet.Rabbit();
 				rabbit.SetPosition(randomPos.x, randomPos.y);
 				initAddThing(rabbit);
 				//allThings.Add(rabbit);
