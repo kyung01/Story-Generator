@@ -142,6 +142,7 @@ public partial class Thing
 			OnPositionChanged[i](this, xOld,yOld, xValue, yValue);
 		}
 	}
+
 	public void SetPosition(Vector2 vec2)
 	{
 		this.x = vec2.x;

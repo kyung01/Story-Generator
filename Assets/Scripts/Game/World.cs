@@ -131,14 +131,14 @@ namespace StoryGenerator.World
 						case Piece.KType.DIRT:
 							//grass bush or tree
 							Thing[] vegitarians = new Thing[] {
-								new Grass(), new Plant().SetType(Thing.TYPE.BUSH),new Thing().SetType(Thing.TYPE.ROCK)};
+								ThingSheet.GetGrass(), ThingSheet.GetBush(),ThingSheet.GetRock()};
 							thing = vegitarians[Random.Range(0, vegitarians.Length)];
 							break;
 						case Piece.KType.ROCKY:
-							thing = new Thing(Thing.TYPE.ROCK);
+							thing = ThingSheet.GetRock();
 							break;
 						case Piece.KType.CLAY:
-							thing = new Thing(Thing.TYPE.REED);
+							thing = ThingSheet.GetReed();
 							break;
 						case Piece.KType.MOUNTAIN:
 						case Piece.KType.WATER_SHALLOW:
@@ -169,11 +169,11 @@ namespace StoryGenerator.World
 			if(thingToBuild== Thing.TYPE.WALL)
 			{
 				clearSpotForConstruction(x, y);
-				structure = new Wall();
+				structure = ThingSheet.GetWall();
 			}
 			else if (thingToBuild == Thing.TYPE.ROOF)
 			{
-				structure = new Roof();
+				structure = ThingSheet.GetRoof();
 			}
 			else if(thingToBuild == Thing.TYPE.DOOR)
 			{
