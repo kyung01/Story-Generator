@@ -5,18 +5,10 @@ using UnityEngine;
 
 
 
-public class ThingWithNeeds : ThingWithBody
+public class ThingWithNeeds_ShouldBeJust_ThingWithBody : ThingWithBody
 {
 	public List<Need> needs = new List<Need>();
 
-	public override bool IsReadyToProvideWithBody
-	{
-		get
-		{
-			return health < 30;
-		}
-
-	}
 
 	public void addNeed(Need n)
 	{

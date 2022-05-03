@@ -23,7 +23,7 @@ public class BodyTaskable : Body
 
 
 
-	public override void Update(World world, ThingWithBody thing, float timeElapsed)
+	public override void Update(World world, Thing thing, float timeElapsed)
 	{
 		base.Update(world, thing, timeElapsed);
 		if (!isReady)

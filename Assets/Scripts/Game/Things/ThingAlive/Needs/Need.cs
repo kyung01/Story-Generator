@@ -15,17 +15,17 @@ public class Need
 	internal Game.Keyword stressKeyword;
 	internal float demand;
 
-	public virtual void Init(ThingWithNeeds thing)
+	public virtual void Init(Thing thing)
 	{
 
 	}
-	public virtual void updateStatic(World world, ThingWithNeeds thingAlive, float timeElapsed)
+	public virtual void updateStatic(World world, Thing thingAlive, float timeElapsed)
 	{
 		//UnityEngine.Debug.Log("UpdateStatic " + this.name + " " + this.explanation);
 	}
 
 	//Return true if it did resolve
-	public virtual bool ResolveNeed(World world, ThingWithNeeds thingAlive, float timeElapsed)
+	public virtual bool ResolveNeed(World world, Thing thingAlive, float timeElapsed)
 	{
 		return false;
 	}

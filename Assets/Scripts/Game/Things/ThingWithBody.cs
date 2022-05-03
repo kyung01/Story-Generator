@@ -7,22 +7,21 @@ using UnityEngine;
 
 public class ThingWithBody : ThingDestructable
 {
-	internal Body body = new Body();
+	internal Body bodyOld = new Body();
 
-	public virtual bool IsReadyToProvideWithBody
+	public virtual  bool IsBodyAvailableForKeywordExchanges
 	{
 		get
 		{
-			return false;
+			return health < 30;
 		}
-
 	}
 
 
 	public override Dictionary<Game.Keyword, float> GetKeywordsForHunter()
 	{
 		var keywords = base.GetKeywordsForHunter();
-		var keywordsBody = body.GetKeywords();
+		var keywordsBody = bodyOld.GetKeywords();
 		foreach (var pair in keywordsBody)
 		{
 			if (!keywords.ContainsKey(pair.Key))
@@ -35,41 +34,41 @@ public class ThingWithBody : ThingDestructable
 		}
 		return keywords;
 	}
-	public override float TakenKeyword(Game.Keyword keywordToRequest, float requestedAmount)
+	public override float TakenKeywordOld(Game.Keyword keywordToRequest, float requestedAmount)
 	{
-		float amountIProvidedWithItemsIHave = base.TakenKeyword(keywordToRequest, requestedAmount);
+		float amountIProvidedWithItemsIHave = base.TakenKeywordOld(keywordToRequest, requestedAmount);
 		float remainingDebt = requestedAmount - amountIProvidedWithItemsIHave;
 		float debtPaied = 0;
 		if(remainingDebt > 0)
 		{
 			//here I must provide things with my body lol
-			if (!IsReadyToProvideWithBody)
+			if (!IsBodyAvailableForKeywordExchanges)
 			{
 				//However some conditons must be mat
 				return amountIProvidedWithItemsIHave;
 			}
-			var availableKeywords = this.body.GetKeywords();
+			var availableKeywords = this.bodyOld.GetKeywords();
 			if(!availableKeywords.ContainsKey(keywordToRequest) || availableKeywords[keywordToRequest] == 0)
 			{
 				//my body does not have what's requested here
 				return amountIProvidedWithItemsIHave;
 			}
-			float paied = this.body.TakenKeyword(keywordToRequest, remainingDebt);
+			float paied = this.bodyOld.TakenKeyword(keywordToRequest, remainingDebt);
 
 		}
-		return base.TakenKeyword(keywordToRequest, requestedAmount);
+		return amountIProvidedWithItemsIHave;
 	}
 
 	public override void Init(World world)
 	{
 		base.Init(world);
-		this.body.Init(this);
+		this.bodyOld.Init(this);
 	}
 
 	public override void Update(World world, float timeElapsed)
 	{
 		base.Update(world, timeElapsed);
-		body.Update(world, this, timeElapsed);
+		bodyOld.Update(world, this, timeElapsed);
 
 	}
 

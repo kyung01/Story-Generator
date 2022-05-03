@@ -6,7 +6,7 @@ public class PainCreator : Body
 {
 
 
-	public override void Init(ThingWithBody thing)
+	public override void Init(Thing thing)
 	{
 		base.Init(thing);
 		thing.OnReceiveKeyword.Add(hdrReceiveKeyword);

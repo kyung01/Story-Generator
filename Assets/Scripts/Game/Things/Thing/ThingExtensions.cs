@@ -27,7 +27,7 @@ public static class ThingExtensions
 			return dicTaskAvailableBodies;
 		}
 		var twb = (ThingWithBody)thing;
-		sortBodiesForTask(ref dicTaskAvailableBodies, twb.body);
+		sortBodiesForTask(ref dicTaskAvailableBodies, twb.bodyOld);
 		//UnityEngine.Debug.Log(" GetBodiesForTask :: " + dicTaskAvailableBodies.Count);
 
 

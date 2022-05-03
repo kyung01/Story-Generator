@@ -8,7 +8,7 @@ public class Body
 {
 
 	public List<Body> otherBodyParts = new List<Body>();
-	public virtual void Init(ThingWithBody thing)
+	public virtual void Init(Thing thing)
 	{
 		for(int i = 0; i< otherBodyParts.Count; i++)
 		{
@@ -65,7 +65,7 @@ public class Body
 	}
 
 
-	public virtual void Update(StoryGenerator.World.World world, ThingWithBody thing, float timeElapsed)
+	public virtual void Update(StoryGenerator.World.World world, Thing thing, float timeElapsed)
 	{
 		for (int i = 0; i < otherBodyParts.Count; i++)
 		{

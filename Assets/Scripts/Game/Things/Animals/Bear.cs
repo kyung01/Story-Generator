@@ -1,22 +1,22 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Bear : ThingWithNeeds
+public class Bear : ThingWithNeeds_ShouldBeJust_ThingWithBody
 {
 	public Bear()
 	{
 		addNeed(new Hunger_Meat());
 		addNeed(new Wander());
 
-		body.addBody(new MotionDemander());
-		body.addBody(new PainCreator());
-		body.addBody(new Mouth());
+		bodyOld.addBody(new MotionDemander());
+		bodyOld.addBody(new PainCreator());
+		bodyOld.addBody(new Mouth());
 
 		var meatBody = new MeatBody();
 		var stomach = new Stomach();
 		stomach.addNutrtionBody(meatBody);
-		body.addBody(meatBody);
-		body.addBody(stomach);
+		bodyOld.addBody(meatBody);
+		bodyOld.addBody(stomach);
 
 		this.type = TYPE.BEAR;
 	}

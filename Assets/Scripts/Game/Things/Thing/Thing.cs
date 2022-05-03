@@ -7,6 +7,22 @@ using System;
 [Serializable]
 public partial class Thing
 {
+	public delegate void						DEL_UPDATE(World world, Thing thing, float timeElapsed);
+	public delegate List<KeywordInformation>	DEL_GET_KEYWORDS();
+	public delegate float						DEL_TAKEN_KEYWORD(Game.Keyword keywordToRequest, float requestedAmount);
+
+	public List<DEL_UPDATE> OnUpdate = new List<DEL_UPDATE>();
+	public List<DEL_GET_KEYWORDS> OnGetKeywords = new List<DEL_GET_KEYWORDS>();
+	public List<DEL_TAKEN_KEYWORD> OnTakenKeyword = new List<DEL_TAKEN_KEYWORD>();
+
+	void raiseOnUpdate(World world, Thing thing, float timeElapsed)
+	{
+		for(int i =  0;  i < OnUpdate.Count; i++)
+		{
+			OnUpdate[i](world, thing, timeElapsed);
+		}
+	}
+
 	static float ZEROf = 0.01f;
 
 	public TYPE type = TYPE.UNDEFINED;
@@ -105,6 +121,10 @@ public partial class Thing
 
 	public virtual void Init(World world)
 	{
+		if (TNM != null)
+		{
+			TNM.Init(this);
+		}
 
 	}
 	public delegate void DEL_POSITION_INDEX_CHANGED(Thing thing, int xBefore, int yBefore, int xNew, int yNew);
@@ -164,9 +184,9 @@ public partial class Thing
 	/// <summary>
 	/// My keyword is being taken from me
 	/// </summary>
-	public virtual float TakenKeyword(Game.Keyword keywordToRequest, float requestedAmount)
+	public virtual float TakenKeywordOld(Game.Keyword keywordToRequest, float requestedAmount)
 	{
-		var availableKeywords = this.GetKeywords();
+		var availableKeywords = this.GetKeywordsOld();
 		if (!availableKeywords.ContainsKey(keywordToRequest)) return 0;
 		float givenAmount = Mathf.Min(requestedAmount, availableKeywords[keywordToRequest]);
 		availableKeywords[keywordToRequest] -= givenAmount;
@@ -190,10 +210,43 @@ public partial class Thing
 	}
 
 
-	public virtual Dictionary<Game.Keyword, float> GetKeywords()
+	public virtual Dictionary<Game.Keyword, float> GetKeywordsOld()
 	{
 		Dictionary<Game.Keyword, float> d = new Dictionary<Game.Keyword, float>();
 		return d;
+	}
+	public List<KeywordInformation> GetKeyword()
+	{
+		var keywords = new List<KeywordInformation>();
+		for(int i = 0; i < OnGetKeywords.Count; i++)
+		{
+			var otherKeywords = OnGetKeywords[i]();
+			foreach(var otherKW in otherKeywords)
+			{
+				bool foundCorrectOne = false;
+				KeywordInformation info = null;
+				foreach (KeywordInformation kw in keywords)
+				{
+					if (kw.keyword == otherKW.keyword && kw.state == otherKW.state)
+					{
+						foundCorrectOne = true;
+						info = kw;
+						break;
+					}
+				}
+				if (foundCorrectOne)
+				{
+					info.Combine(otherKW);
+				}
+				else
+				{
+					keywords.Add(otherKW);
+				}
+			}			
+		}
+		return keywords;
+
+
 	}
 
 	/// Hunters need to check if the target has X when they become unconscious 
@@ -207,6 +260,7 @@ public partial class Thing
 	public virtual void Update(World world, float timeElapsed)
 	{
 		this.TAM.Update(world, this, timeElapsed);
+		raiseOnUpdate(world, this, timeElapsed);
 
 	}
 }

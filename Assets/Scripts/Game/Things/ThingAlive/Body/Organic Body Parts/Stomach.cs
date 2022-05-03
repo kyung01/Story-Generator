@@ -30,13 +30,13 @@ public class Stomach : Body
 		hunger -= amount;
 	}
 
-	public override void Init(ThingWithBody thing)
+	public override void Init(Thing thing)
 	{
 		base.Init(thing);
 		thing.OnConsumeKeyword.Add(hdrThingConsumedKeyword);
 	}
 
-	public override void Update(World world, ThingWithBody thing, float timeElapsed)
+	public override void Update(World world, Thing thing, float timeElapsed)
 	{
 		base.Update(world, thing, timeElapsed);
 		float hungerIncreased = hungerIncreaseSpeed * timeElapsed;

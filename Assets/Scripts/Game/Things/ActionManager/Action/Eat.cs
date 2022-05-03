@@ -28,7 +28,7 @@ public class Eat :Action
 		if (!world.TestLOS(thing, targetThing)) finish();
 		if (IsFinished) return;
 		float amountIAtePerTick = Mathf.Min(keywordAmount, thing.GetEatingSpeed() * timeElapsed);
-		float amountOfKeywordICouldTake = targetThing.TakenKeyword(keywordToRequest, amountIAtePerTick);
+		float amountOfKeywordICouldTake = targetThing.TakenKeywordOld(keywordToRequest, amountIAtePerTick);
 		if(amountOfKeywordICouldTake == 0)
 		{
 			//There was nothing to eat, I must finish the process

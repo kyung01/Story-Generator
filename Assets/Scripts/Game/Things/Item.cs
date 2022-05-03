@@ -8,7 +8,7 @@ public class Item : Thing
 {
 	//Items contain x amount of keyword
 	Dictionary<Game.Keyword, float> container = new Dictionary<Game.Keyword, float>();
-	public override Dictionary<Game.Keyword, float> GetKeywords()
+	public override Dictionary<Game.Keyword, float> GetKeywordsOld()
 	{
 		return container;
 	}

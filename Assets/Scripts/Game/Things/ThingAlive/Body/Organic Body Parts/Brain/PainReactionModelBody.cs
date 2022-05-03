@@ -8,7 +8,7 @@ public class PainReactionModelBody : Body
 {
 	float minimumPainToTrigger = 1;
 	float minDistanceToFlee = 10;
-	public override void Init(ThingWithBody thing)
+	public override void Init(Thing thing)
 	{
 		base.Init(thing);
 		thing.OnReceiveKeyword.Add(hdrReceiveKeyword);

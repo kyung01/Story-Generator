@@ -18,13 +18,13 @@ public class MotionDemander : Body
 	Vector2 position;
 
 	float happyDistanceIMoved = 0;
-	public override void Init(ThingWithBody thing)
+	public override void Init(Thing thing)
 	{
 		//Debug.Log("MotionDemander Init");
 		base.Init(thing);
 		position = thing.XY;
 	}
-	public override void Update(World world, ThingWithBody thing, float timeElapsed)
+	public override void Update(World world, Thing thing, float timeElapsed)
 	{
 		base.Update(world, thing, timeElapsed);
 		happyDistanceIMoved += (thing.XY - this.position).magnitude;

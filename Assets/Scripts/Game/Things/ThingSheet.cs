@@ -45,4 +45,8 @@ public class ThingSheet
 		roof.type = Thing.TYPE.WALL;
 		return roof;
 	}
+	public static Thing Bear()
+	{
+		return null;
+	}
 }
