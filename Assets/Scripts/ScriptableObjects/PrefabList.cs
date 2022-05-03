@@ -11,5 +11,5 @@ public class PrefabList : ScriptableObject
 	public Thing Rock00;
 	public Thing Reed00;
 
-	public Human Human;
+	public Thing Human;
 }

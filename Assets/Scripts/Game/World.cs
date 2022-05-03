@@ -400,9 +400,9 @@ namespace StoryGenerator.World
 		}
 		public void InitAnimals()
 		{
-			int numRabbit = 3;
-			int numBear = 1;
-			int numHumans = 10;
+			int numRabbit = 1;
+			int numBear = 0;
+			int numHumans = 0;
 
 			for (int i = 0; i < numRabbit; i++)
 			{
@@ -465,7 +465,7 @@ namespace StoryGenerator.World
 				thing.OnPositionIndexChanged.Add(hdrThingPositionChanged);
 
 			}
-			if(thing is ThingWithNeeds_ShouldBeJust_ThingWithBody)
+			if(thing.MNGBody != null)
 			{
 				pathFinder.addCellWeightInt(thing.X_INT, thing.Y_INT, AVOID_ANIMAL_WEIGHT);
 				thing.OnPositionIndexChanged.Add(hdrAnimalMovedSoShouldWeightOnMap);

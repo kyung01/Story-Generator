@@ -80,7 +80,7 @@ public class ThingRenderer : MonoBehaviour
 		try
 		{
 
-			var thingAlive = (ThingWithNeeds_ShouldBeJust_ThingWithBody)thing;
+			var thingAlive = thing;
 			if (thingAlive == null) return;
 
 			if (!(thingAlive.type == Thing.TYPE.RABBIT  || thingAlive.type == Thing.TYPE.BEAR 
@@ -93,12 +93,16 @@ public class ThingRenderer : MonoBehaviour
 				textMesh.text += n.name  +" \n";
 
 			}
-			for (int i = 0; i < thingAlive.needs.Count; i++)
+			if(thing.MNGNeed != null)
 			{
-				var n = thingAlive.needs[i];
-				textMesh.text += n.name + " " + n.demand + " \n";
+				for (int i = 0; i < thing.MNGNeed.needs.Count; i++)
+				{
+					var n = thing.MNGNeed.needs[i];
+					textMesh.text += n.name + " " + n.demand + " \n";
 
+				}
 			}
+			
 		}
 		catch
 		{

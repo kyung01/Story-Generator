@@ -10,6 +10,13 @@ public class KeywordInformation
 	public State state;
 	public float amount;
 	public enum State { AVAILABLE, LOCKED }
+
+	public KeywordInformation(Game.Keyword keyword, State state, float amount)
+	{
+		this.keyword = keyword;
+		this.state = state;
+		this.amount = amount;
+	}
 	public void Combine(KeywordInformation other)
 	{
 		this.amount += other.amount;

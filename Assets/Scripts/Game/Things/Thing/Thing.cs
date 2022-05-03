@@ -183,17 +183,36 @@ public partial class Thing
 	/// <summary>
 	/// My keyword is being taken from me
 	/// </summary>
+	/*
 	public virtual float TakenKeywordOld(Game.Keyword keywordToRequest, float requestedAmount)
 	{
-		var availableKeywords = this.GetKeywordsOld();
-		if (!availableKeywords.ContainsKey(keywordToRequest)) return 0;
-		float givenAmount = Mathf.Min(requestedAmount, availableKeywords[keywordToRequest]);
+		var availableKeywords = this.GetKeywords();
+		if (!availableKeywords.Contains(keywordToRequest)) return 0;
+		float givenAmount = Mathf.Min(requestedAmount, availableKeywords.Get(keywordToRequest));
 		availableKeywords[keywordToRequest] -= givenAmount;
 		if (availableKeywords[keywordToRequest] < ZEROf)
 		{
 			availableKeywords.Remove(keywordToRequest);
 		}
 		return givenAmount;
+	}
+	 * */
+	public float TakenKeyword(Game.Keyword keywordToRequest, float requestedAmount)
+	{
+		float remainingAmountToTakeFromMe = requestedAmount;
+		//Debug.Log("TakenKeywords Called " + keywordToRequest + " for " + requestedAmount);
+		//var availableKeywords = this.GetKeywords();
+		for(int i = 0; i < OnTakenKeyword.Count; i++)
+		{
+			var takenAmount = OnTakenKeyword[i](keywordToRequest, remainingAmountToTakeFromMe);
+			remainingAmountToTakeFromMe -= takenAmount;
+			if (remainingAmountToTakeFromMe == 0)
+			{
+				break;
+			}
+		}
+		return requestedAmount - remainingAmountToTakeFromMe;
+
 	}
 
 	public delegate void DEL_CONSUME_KEYWORD(Game.Keyword keyword, float amount);
@@ -208,13 +227,21 @@ public partial class Thing
 		}
 	}
 
-
+	/*
 	public virtual Dictionary<Game.Keyword, float> GetKeywordsOld()
 	{
 		Dictionary<Game.Keyword, float> d = new Dictionary<Game.Keyword, float>();
 		return d;
 	}
-	public List<KeywordInformation> GetKeyword()
+
+	public virtual Dictionary<Game.Keyword, float> GetKeywordsForHunter()
+	{
+		Dictionary<Game.Keyword, float> d = new Dictionary<Game.Keyword, float>();
+		return d;
+	}
+	 * */
+
+	public List<KeywordInformation> GetKeywords()
 	{
 		var keywords = new List<KeywordInformation>();
 		for(int i = 0; i < OnGetKeywords.Count; i++)
@@ -224,15 +251,7 @@ public partial class Thing
 			{
 				bool foundCorrectOne = false;
 				KeywordInformation info = null;
-				foreach (KeywordInformation kw in keywords)
-				{
-					if (kw.keyword == otherKW.keyword && kw.state == otherKW.state)
-					{
-						foundCorrectOne = true;
-						info = kw;
-						break;
-					}
-				}
+				foundCorrectOne = keywords.Contains(otherKW.keyword, otherKW.state);
 				if (foundCorrectOne)
 				{
 					info.Combine(otherKW);
@@ -243,17 +262,25 @@ public partial class Thing
 				}
 			}			
 		}
+		/*
+		if(keywords.Count != 0)
+		{
+			Debug.Log("GetKeywords DEBUG " + keywords.Count);
+			foreach (var info in keywords)
+			{
+				Debug.Log(info.keyword + " " + info.state + " " + info.amount);
+			}
+
+		}
+		 * */
+
 		return keywords;
 
 
 	}
 
 	/// Hunters need to check if the target has X when they become unconscious 
-	public virtual Dictionary<Game.Keyword, float> GetKeywordsForHunter()
-	{
-		Dictionary<Game.Keyword, float> d = new Dictionary<Game.Keyword, float>();
-		return d;
-	}
+	
 
 
 	public virtual void Update(World world, float timeElapsed)

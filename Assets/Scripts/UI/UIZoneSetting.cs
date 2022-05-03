@@ -16,7 +16,7 @@ public class UIZoneSetting : MonoBehaviour
 			var toggle = Instantiate(PREFAB_TOGGLE);
 			toggle.name = ""+t;
 			toggle.GetComponentInChildren<UnityEngine.UI.Text>().text = "" + t;
-			toggle.transform.parent = content.transform;
+			toggle.transform.SetParent( content.transform);
 			toggle.isOn = false;
 		}
 	}

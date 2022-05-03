@@ -49,7 +49,7 @@ public class Hunt : Action
 			if (bitingParts[i].IsReady)
 			{
 				((Mouth)bitingParts[i]).Bite(thing,targetThing);
-				if (((ThingWithBody)targetThing).IsBodyAvailableForKeywordExchanges)
+				if (targetThing.MNGBody.IsBodyAvailableForKeywordExchanges())
 				{
 					targetIsInSurrenderingState = true;
 					break;
@@ -58,7 +58,7 @@ public class Hunt : Action
 		}
 		if (targetIsInSurrenderingState)
 		{
-			targetThing.TakenKeywordOld(keywordToRequest, keywordAmountToRequest);
+			targetThing.TakenKeyword(keywordToRequest, keywordAmountToRequest);
 
 		}
 

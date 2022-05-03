@@ -20,12 +20,12 @@ public partial class Thing
 }
 public class ThingBodyManager
 {
-	Body bodyOld = new Body();
-	public Body MainBody { get { return this.bodyOld; } }
+	Body body = new Body();
+	public Body MainBody { get { return this.body; } }
 
 	public void AddBody(Body b)
 	{
-		bodyOld.addBody(b);
+		body.addBody(b);
 	}
 
 	public bool IsBodyAvailableForKeywordExchanges()
@@ -36,8 +36,14 @@ public class ThingBodyManager
 	}
 	public List<KeywordInformation> hdrGetKeywords()
 	{
+		var keywords = body.GetKeywords();
+		List<KeywordInformation> keywordsReturn = new List<KeywordInformation>();
+		foreach(var k in keywords)
+		{
+			keywordsReturn.Add(new KeywordInformation(k.Key, KeywordInformation.State.LOCKED, k.Value));
+		}
 		//return bodyOld.GetKeywords();
-		return null;
+		return keywordsReturn;
 	}
 
 	public float hdrTakenKeyword(Game.Keyword keywordToRequest, float requestedAmount)
@@ -53,13 +59,13 @@ public class ThingBodyManager
 				//However some conditons must be mat
 				return amountIProvidedWithItemsIHave;
 			}
-			var availableKeywords = this.bodyOld.GetKeywords();
+			var availableKeywords = this.body.GetKeywords();
 			if (!availableKeywords.ContainsKey(keywordToRequest) || availableKeywords[keywordToRequest] == 0)
 			{
 				//my body does not have what's requested here
 				return amountIProvidedWithItemsIHave;
 			}
-			float paied = this.bodyOld.TakenKeyword(keywordToRequest, remainingDebt);
+			float paied = this.body.TakenKeyword(keywordToRequest, remainingDebt);
 
 		}
 		return amountIProvidedWithItemsIHave;
@@ -67,7 +73,7 @@ public class ThingBodyManager
 
 	public void Init(Thing thing)
 	{
-		this.bodyOld.Init(thing);
+		this.body.Init(thing);
 		thing.OnUpdate.Add(this.hdrUpdate);
 		thing.OnGetKeywords.Add(this.hdrGetKeywords);
 		thing.OnTakenKeyword.Add(this.hdrTakenKeyword);
@@ -75,7 +81,7 @@ public class ThingBodyManager
 
 	internal void hdrUpdate(World world, Thing thing, float timeElapsed)
 	{
-		bodyOld.Update(world, thing, timeElapsed);
+		body.Update(world, thing, timeElapsed);
 
 	}
 

@@ -25,14 +25,7 @@ public class Hunger_General : Need
 	public bool passiveResolution(World world, Thing thing, float timeElapsed, bool isHunter = false)
 	{
 		Body bodyToPass = null;
-		if(thing is ThingWithBody)
-		{
-			bodyToPass = ((ThingWithBody)thing).bodyOld;
-		}
-		else
-		{
-			bodyToPass = thing.MNGBody.MainBody;
-		}
+		bodyToPass = thing.MNGBody.MainBody;
 		var thingsIsee = world.GetSightableThings(thing, (isHunter)? 50: bodyToPass.GetSight());
 		Thing bestTargetThing = getBestTargetThing(world, thingsIsee, requiredKeyword, isHunter);
 		if (isHunter)
@@ -64,7 +57,7 @@ public class Hunger_General : Need
 		}
 		else
 		{
-			UnityEngine.Debug.Log(this + " Eat " + bestTargetThing + bestTargetThing.XY);
+			UnityEngine.Debug.Log(this + " Eat " + bestTargetThing + bestTargetThing.XY + " wanted amount : " + desiredKeywordAmount);
 			thing.TAM.Eat(
 			   bestTargetThing,
 			   requiredKeyword,
@@ -95,7 +88,26 @@ public class Hunger_General : Need
 		{
 			var thing = thingsIsee[i];
 			if (!world.IsWalkableAt(thing.X_INT, thing.Y_INT)) continue;
-			Dictionary<Game.Keyword, float> thingsKeywords = (hunterMode) ? thing.GetKeywordsForHunter():thing.GetKeywordsOld();
+			List<KeywordInformation> keywordsIGot = thing.GetKeywords();
+			if (!hunterMode)
+			{
+				for(int j = keywordsIGot.Count-1; j>=0 ;j--)
+				{
+					if(keywordsIGot[j].state == KeywordInformation.State.LOCKED)
+					{
+						keywordsIGot.RemoveAt(j);
+					}
+				}
+			}
+			Dictionary<Game.Keyword, float> thingsKeywords = new Dictionary<Game.Keyword, float>();
+			foreach(var info in keywordsIGot)
+			{
+				if (!thingsKeywords.ContainsKey(info.keyword))
+				{
+					thingsKeywords.Add(info.keyword, info.amount);
+				}
+				thingsKeywords[info.keyword] += info.amount;
+			}
 			
 			if (!thingsKeywords.ContainsKey(requiredKeyword)) continue;
 			if(thingsKeywords[requiredKeyword] > amountOfKeyword_of_thingCurrentlySelected)

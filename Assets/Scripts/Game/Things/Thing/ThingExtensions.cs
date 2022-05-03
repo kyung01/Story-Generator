@@ -6,6 +6,35 @@ using System.Threading.Tasks;
 
 public static class ThingExtensions
 {
+	static public bool Contains(this List<KeywordInformation> list, Game.Keyword keyword)
+	{
+		foreach (var info in list)
+		{
+			if (info.keyword == keyword) return true;
+
+		}
+		return false;
+	}
+	static public bool Contains(this List<KeywordInformation> list, Game.Keyword keyword, KeywordInformation.State state)
+	{
+		foreach (var info in list)
+		{
+			if (info.keyword == keyword && info.state == state) return true;
+
+		}
+		return false;
+	}
+
+	static public float Get(this List<KeywordInformation> list, Game.Keyword keyword)
+	{
+		float amount = 0;
+		foreach (var info in list)
+		{
+			if (info.keyword == keyword) amount += info.amount;
+
+		}
+		return amount;
+	}
 	static public float GetEatingSpeed(this Thing thing)
 	{
 		return 50;
@@ -17,7 +46,7 @@ public static class ThingExtensions
 
 	static public Dictionary<Game.TaskType, List<BodyTaskable>> GetBodiesForTask(this Thing thing)
 	{
-		bool IsThisThing_ThingBodyWithTask = thing is ThingWithBody;
+		bool IsThisThing_ThingBodyWithTask = thing.MNGBody != null;
 
 		var dicTaskAvailableBodies = new Dictionary<Game.TaskType, List<BodyTaskable>>();
 		if (!IsThisThing_ThingBodyWithTask)
@@ -26,8 +55,8 @@ public static class ThingExtensions
 			//Cnannot proceed because thing is not a body with a task
 			return dicTaskAvailableBodies;
 		}
-		var twb = (ThingWithBody)thing;
-		sortBodiesForTask(ref dicTaskAvailableBodies, twb.bodyOld);
+		//var twb = (ThingWithBody)thing;
+		sortBodiesForTask(ref dicTaskAvailableBodies, thing.MNGBody.MainBody);
 		//UnityEngine.Debug.Log(" GetBodiesForTask :: " + dicTaskAvailableBodies.Count);
 
 
