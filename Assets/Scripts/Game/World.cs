@@ -434,7 +434,7 @@ namespace StoryGenerator.World
 
 				Vector2 randomPos = getApprorpiateRandomPosition();
 
-				Human Human = new Human();
+				Thing Human = ThingSheet.Human();
 				Human.SetPosition(randomPos);
 				initAddThing(Human);
 				//allThings.Add(Human);

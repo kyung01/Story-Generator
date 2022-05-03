@@ -69,6 +69,12 @@ public class ThingSheet
 		thing.type = Thing.TYPE.RABBIT;
 		return thing;
 	}
+	public static Thing Human()
+	{
+		var rabbit = Rabbit();
+		rabbit.type = Thing.TYPE.HUMAN;
+		return rabbit;
+	}
 	public static Thing GetBear()
 	{
 		Thing thing = new Thing();
