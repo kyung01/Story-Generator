@@ -24,7 +24,16 @@ public class Hunger_General : Need
 	}
 	public bool passiveResolution(World world, Thing thing, float timeElapsed, bool isHunter = false)
 	{
-		var thingsIsee = world.GetSightableThings(thing, (isHunter)? 50: ((ThingWithBody)thing).bodyOld.GetSight());
+		Body bodyToPass = null;
+		if(thing is ThingWithBody)
+		{
+			bodyToPass = ((ThingWithBody)thing).bodyOld;
+		}
+		else
+		{
+			bodyToPass = thing.MNGBody.MainBody;
+		}
+		var thingsIsee = world.GetSightableThings(thing, (isHunter)? 50: bodyToPass.GetSight());
 		Thing bestTargetThing = getBestTargetThing(world, thingsIsee, requiredKeyword, isHunter);
 		if (isHunter)
 		{
@@ -34,7 +43,8 @@ public class Hunger_General : Need
 		if (isHunter) UnityEngine.Debug.Log(this + " Resolving hunger " + (bestTargetThing != null));
 		if (bestTargetThing == null)
 		{
-			UnityEngine.Debug.LogError(this + " CANNOT BE COMPLETED::BestTargetThing was null");
+			//UnityEngine.Debug.LogError(this + ""+thing.type +" : " );
+			UnityEngine.Debug.LogWarning(this + " "+thing.type + " : CANNOT BE COMPLETED::BestTargetThing was null");
 
 			//thing.TAM.MoveToRandomLocationOfDistance(world, thing, LOOKING_FOR_FOOD_DISTNACE);
 			return false;

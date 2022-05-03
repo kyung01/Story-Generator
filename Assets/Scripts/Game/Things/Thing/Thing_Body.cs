@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 public partial class Thing
 {
 	ThingBodyManager thingBodyManager;
-	public ThingBodyManager BodyMNG { get { return this.thingBodyManager; } }
+	public ThingBodyManager MNGBody { get { return this.thingBodyManager; } }
 
 	public void InitBodyManager()
 	{
@@ -20,7 +20,13 @@ public partial class Thing
 }
 public class ThingBodyManager
 {
-	internal Body bodyOld = new Body();
+	Body bodyOld = new Body();
+	public Body MainBody { get { return this.bodyOld; } }
+
+	public void AddBody(Body b)
+	{
+		bodyOld.addBody(b);
+	}
 
 	public bool IsBodyAvailableForKeywordExchanges()
 	{
@@ -38,7 +44,7 @@ public class ThingBodyManager
 	{
 		float amountIProvidedWithItemsIHave = requestedAmount;
 		float remainingDebt = requestedAmount - amountIProvidedWithItemsIHave;
-		float debtPaied = 0;
+		//float debtPaied = 0;
 		if (remainingDebt > 0)
 		{
 			//here I must provide things with my body lol

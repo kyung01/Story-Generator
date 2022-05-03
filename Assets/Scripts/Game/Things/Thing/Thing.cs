@@ -3,8 +3,7 @@ using UnityEngine;
 using StoryGenerator.World;
 using System.Collections.Generic;
 using System;
-
-[Serializable]
+ 
 public partial class Thing
 {
 	public delegate void						DEL_UPDATE(World world, Thing thing, float timeElapsed);
@@ -121,9 +120,9 @@ public partial class Thing
 
 	public virtual void Init(World world)
 	{
-		if (TNM != null)
+		if (MNGNeed != null)
 		{
-			TNM.Init(this);
+			MNGNeed.Init(this);
 		}
 
 	}

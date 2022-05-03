@@ -400,8 +400,8 @@ namespace StoryGenerator.World
 		}
 		public void InitAnimals()
 		{
-			int numRabbit = 0;
-			int numBear = 0;
+			int numRabbit = 3;
+			int numBear = 1;
 			int numHumans = 10;
 
 			for (int i = 0; i < numRabbit; i++)
@@ -421,7 +421,7 @@ namespace StoryGenerator.World
 
 				Vector2 randomPos = getApprorpiateRandomPosition();
 
-				Bear bear = new Bear();
+				Thing bear = ThingSheet.GetBear();
 				bear.SetPosition(randomPos);
 				initAddThing(bear);
 				//allThings.Add(bear);

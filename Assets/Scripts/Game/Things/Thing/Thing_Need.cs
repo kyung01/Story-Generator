@@ -8,9 +8,9 @@ using UnityEngine;
 public partial class Thing
 {
 	ThingNeedManager thingNeedManager;
-	public ThingNeedManager TNM { get { return this.thingNeedManager; } }
+	public ThingNeedManager MNGNeed { get { return this.thingNeedManager; } }
 
-	public void InitTNM()
+	public void InitThingNeedManager()
 	{
 		thingNeedManager = new ThingNeedManager();
 		this.OnUpdate.Add(thingNeedManager.Update);

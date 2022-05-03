@@ -25,7 +25,7 @@ public class HowlOld :Work
 	{
 		base.Do(world, timeElapsed);
 		//check fail conditions
-		bool isItemSpotAlreadyOccupied = false;
+		//bool isItemSpotAlreadyOccupied = false;
 		if(this.thingToHowl is Item)
 		{
 			if(!getConditionForItem(world))

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 public class Stomach : Body
 {
-	static float THRESHOLD = 100;
-	float hungerFrustrationRate = 1;
+	//static float THRESHOLD = 100;
+	//float hungerFrustrationRate = 1;
 	float hungerIncreaseSpeed = 5;
 	float hunger = 0;
 	List<Body> nutritionReceivingBodies = new List<Body>();
@@ -27,7 +27,7 @@ public class Stomach : Body
 			//UnityEngine.Debug.Log("hdrThingConsumedKeyword "+(amount / nutritionReceivingBodies.Count));
 			nutritionReceivingBodies[i].ConsumeKeyword(Game.Keyword.NUTRITION, amount / nutritionReceivingBodies.Count);
 		}
-		hunger -= amount;
+		this.hunger -= amount;
 	}
 
 	public override void Init(Thing thing)
