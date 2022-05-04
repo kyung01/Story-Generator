@@ -106,7 +106,7 @@ public class UIMain : MonoBehaviour
 	{
 		if (state == State.CREATE_ZONE)
 		{
-			world.zoneOrganizer.BuildZone(xBegin, yBegin, xEnd, yEnd);
+			world.zoneOrganizer.BuildStockpileZone(xBegin, yBegin, xEnd, yEnd);
 		}
 		if (state == State.DELETE_ZONE)
 		{

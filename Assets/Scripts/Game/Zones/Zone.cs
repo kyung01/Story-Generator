@@ -12,6 +12,7 @@ public class Zone
 	{
 		get { return positions.Count == 0; }
 	}
+
 	public bool IsInZone(int x, int y)
 	{
 		foreach (var p in positions)
@@ -20,6 +21,25 @@ public class Zone
 		}
 		return false;
 	}
+
+	public bool IsInZone(Zone zone)
+	{
+		foreach(var p in zone.positions)
+		{
+			if (!IsInZone((int)p.x, (int)p.y)) return false;
+		}
+		return true;
+	}
+
+	public bool IsOverlapping(Zone zone)
+	{
+		foreach (var p in zone.positions)
+		{
+			if (IsInZone((int)p.x, (int)p.y)) return true;
+		}
+		return false;
+	}
+
 	public bool ExpandZone(int x, int y)
 	{
 		if (IsInZone(x, y)) return false;

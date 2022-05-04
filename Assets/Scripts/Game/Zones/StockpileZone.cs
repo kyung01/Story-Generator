@@ -8,6 +8,7 @@ using UnityEngine;
 public class StockpileZone : Zone
 {
 	List<Thing.TYPE> acceptableTypes = new List<Thing.TYPE>();
+	
 	public StockpileZone()
 	{
 		this.type = TYPE.STOCKPILE;
@@ -88,6 +89,7 @@ public class StockpileZone : Zone
 		float askedPositionsScore = getScoreOfPosition(world, thingToConsiderWhenAddingScore, x, y);
 		return askedPositionsScore <= lowestScore;
 	}
+	
 	bool hprGetBestAcceptableEmptyPosition(World world, ref int x, ref int y, 
 		Thing thingToConsiderWhenAddingScore = null)
 	{
@@ -146,6 +148,7 @@ public class StockpileZone : Zone
 		y = (int)pos.y;
 		return true;
 	}
+	
 	public bool GetBestAcceptableEmptyPosition(World world, ref int x,ref  int y)
 	{
 		return hprGetBestAcceptableEmptyPosition(world, ref x, ref y, null);

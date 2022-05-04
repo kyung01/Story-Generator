@@ -51,19 +51,94 @@ public class ZoneOrganizer
 	public List<Zone> zones = new List<Zone>();
 	public List<Zone> zonesSelected = new List<Zone>();
 
-	public void BuildZone (int xBeing, int yBeing, int xEnd, int yEnd){
-		Zone zoneSelected = new StockpileZone();
-		for (int i = xBeing; i <= xEnd; i++)
+	void addZone(Zone zone, int xBegin, int yBegin, int xEnd, int yEnd)
+	{
+		for (int i = xBegin; i <= xEnd; i++)
 		{
-			for (int j = yBeing; j <= yEnd; j++)
+			for (int j = yBegin; j <= yEnd; j++)
 			{
 				if (isInAnotherZone(i, j)) continue;
-				zoneSelected.positions.Add(new Vector2(i, j));
+				zone.positions.Add(new Vector2(i, j));
 
 			}
 		}
-		zones.Add(zoneSelected);
+		zones.Add(zone);
 	}
+
+	public void BuildHouseZone(int xBegin, int yBegin, int xEnd, int yEnd)
+	{
+		Zone houseZone = new HouseZone();
+		addZone(houseZone, xBegin, yBegin, xEnd, yEnd);
+	}	
+
+	public void BuildStockpileZone (int xBegin, int yBegin, int xEnd, int yEnd){
+		Zone spZone = new StockpileZone();
+		addZone(spZone, xBegin,yBegin,xEnd,yEnd);
+	}
+	public void BuildBedroom(int xBegin, int yBegin, int xEnd, int yEnd)
+	{
+		Zone bedroomZone = new RoomZone();
+		//a bedroom zone must be in one of the house zones
+		HouseZone houseBedroomBelongsTo = getHouseThisZoneIsIn(bedroomZone);
+		if (houseBedroomBelongsTo == null)
+		{
+			//couldn't find any house that this zone belogns to
+			return;
+		}
+		//a bedroom(inside a house) cannot overlap onto another room in the house
+		var rooms = houseBedroomBelongsTo.Rooms;
+		bool isOverlapping = false;
+		foreach(var houseRoom in rooms)
+		{
+			if(bedroomZone.IsOverlapping( houseRoom))
+			{
+				//room is overlapping
+				isOverlapping = true;
+				break;
+			}
+		}
+		if (isOverlapping)
+		{
+			//cannot add the bedroom to the house
+		}
+		else
+		{
+			houseBedroomBelongsTo.Add(bedroomZone);
+		}
+
+	}
+
+	private bool isOverlappingAny(Zone bedroomZone, Zone houseRoom)
+	{
+		throw new NotImplementedException();
+	}
+
+	private HouseZone getHouseThisZoneIsIn(Zone bedroomZone)
+	{
+		foreach(var zone in this.zones)
+		{
+			if(zone is HouseZone)
+			{
+				//we found a house zone
+				if (zone.IsInZone(bedroomZone))
+				{
+					return (HouseZone)zone;
+				}
+			}
+		}
+		return null;
+	}
+
+	bool isInAnotherZone(List<Zone> zones, int x, int y)
+	{
+		for (int i = 0; i < zones.Count; i++)
+		{
+			if (zones[i].IsInZone(x, y)) return true;
+
+		}
+		return false;
+	}
+
 	bool isInAnotherZone(int x, int y)
 	{
 		for (int i = 0; i < zones.Count; i++)
