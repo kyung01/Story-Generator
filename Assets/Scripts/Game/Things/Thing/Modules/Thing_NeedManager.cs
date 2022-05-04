@@ -13,11 +13,11 @@ public partial class Thing
 	public void InitThingNeedManager()
 	{
 		thingNeedManager = new ThingNeedManager();
-		this.OnUpdate.Add(thingNeedManager.Update);
+		thingNeedManager.Init(this);
 
 	}
 }
-public class ThingNeedManager {
+public class ThingNeedManager :ThingModule{
 	public List<Need> needs = new List<Need>();
 
 	public void AddNeed(Need n)
@@ -26,17 +26,19 @@ public class ThingNeedManager {
 		needs.Add(n);
 
 	}
-	internal void Init( Thing thing)
+	public override void Init( Thing thing)
 	{
+		base.Init(thing);
 		for (int i = 0; i < needs.Count; i++)
 		{
 			needs[i].Init(thing);
 		}
 
 	}
-
-	internal void Update(World world, Thing thing, float timeElapsed)
+	public override void hdrUpdate(World world, Thing thing, float timeElapsed)
 	{
+		base.hdrUpdate(world, thing, timeElapsed);
+
 		for (int i = 0; i < needs.Count; i++)
 		{
 			needs[i].updateStatic(world, thing, timeElapsed);

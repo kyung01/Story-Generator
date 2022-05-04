@@ -14,11 +14,9 @@ public partial class Thing
 	{
 		thingBodyManager = new ThingBodyManager();
 		thingBodyManager.Init(this);
-		//this.OnUpdate.Add(thingNeedManager.Update);
-
 	}
 }
-public class ThingBodyManager
+public class ThingBodyManager : ThingModule
 {
 	Body body = new Body();
 	public Body MainBody { get { return this.body; } }
@@ -34,11 +32,20 @@ public class ThingBodyManager
 		//if there is a consciousness, then refuse, if there is no consciousness, then give up
 		return false;
 	}
-	public List<KeywordInformation> hdrGetKeywords()
+
+
+	public override void Init(Thing thing)
+	{
+		base.Init(thing);
+
+		this.body.Init(thing);
+	}
+
+	public override List<KeywordInformation> hdrGetKeywords()
 	{
 		var keywords = body.GetKeywords();
 		List<KeywordInformation> keywordsReturn = new List<KeywordInformation>();
-		foreach(var k in keywords)
+		foreach (var k in keywords)
 		{
 			keywordsReturn.Add(new KeywordInformation(k.Key, KeywordInformation.State.LOCKED, k.Value));
 		}
@@ -46,7 +53,7 @@ public class ThingBodyManager
 		return keywordsReturn;
 	}
 
-	public float hdrTakenKeyword(Game.Keyword keywordToRequest, float requestedAmount)
+	public override float hdrTakenKeyword(Game.Keyword keywordToRequest, float requestedAmount)
 	{
 		float amountIProvidedWithItemsIHave = requestedAmount;
 		float remainingDebt = requestedAmount - amountIProvidedWithItemsIHave;
@@ -71,15 +78,8 @@ public class ThingBodyManager
 		return amountIProvidedWithItemsIHave;
 	}
 
-	public void Init(Thing thing)
-	{
-		this.body.Init(thing);
-		thing.OnUpdate.Add(this.hdrUpdate);
-		thing.OnGetKeywords.Add(this.hdrGetKeywords);
-		thing.OnTakenKeyword.Add(this.hdrTakenKeyword);
-	}
 
-	internal void hdrUpdate(World world, Thing thing, float timeElapsed)
+	public override void hdrUpdate(World world, Thing thing, float timeElapsed)
 	{
 		body.Update(world, thing, timeElapsed);
 
