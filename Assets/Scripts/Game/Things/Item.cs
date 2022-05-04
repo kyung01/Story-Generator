@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class Item : ThingWithContainer
+public class Item : Thing
 {
-
 }

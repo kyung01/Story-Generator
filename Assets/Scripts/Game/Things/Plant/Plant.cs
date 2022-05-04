@@ -4,7 +4,7 @@ using UnityEngine;
 
 //Plants provide basic keywords for free as a form of "fruit"
 
-public class Plant : ThingWithContainer
+public class Plant : Thing
 {
 	
 }

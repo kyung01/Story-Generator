@@ -10,7 +10,8 @@ public class ThingSheet
 	{
 		Plant plant = new Plant();
 		plant.type = Thing.TYPE.GRASS;
-		plant.container.Add(Game.Keyword.FOOD_VEGI, 100);
+		plant.InitContainer();
+		plant.Container.Add(Game.Keyword.FOOD_VEGI, 100);
 		return plant;
 	}
 	public static Thing GetBush()

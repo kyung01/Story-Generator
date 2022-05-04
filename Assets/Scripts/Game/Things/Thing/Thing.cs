@@ -247,6 +247,7 @@ public partial class Thing
 		for(int i = 0; i < OnGetKeywords.Count; i++)
 		{
 			var otherKeywords = OnGetKeywords[i]();
+			if(otherKeywords == null) continue;
 			foreach(var otherKW in otherKeywords)
 			{
 				bool foundCorrectOne = false;

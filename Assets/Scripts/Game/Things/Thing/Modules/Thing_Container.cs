@@ -40,4 +40,19 @@ public class Container : ThingModule
 		}
 		return returnList;
 	}
+	public float Get(Game.Keyword keyword)
+	{
+		return this.container.ContainsKey(keyword) ? this.container[keyword] : 0;
+	}
+	public bool Contains(Game.Keyword keyword)
+	{
+		return this.container.ContainsKey(keyword);
+	}
+
+	public void Add(Game.Keyword keyword, int v)
+	{
+		if (!this.container.ContainsKey(keyword)) this.container.Add(keyword,0);
+
+		this.container[keyword] += v;
+	}
 }

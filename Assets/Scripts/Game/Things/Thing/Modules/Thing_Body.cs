@@ -16,6 +16,7 @@ public partial class Thing
 		thingBodyManager.Init(this);
 	}
 }
+
 public class ThingBodyManager : ThingModule
 {
 	Body body = new Body();
