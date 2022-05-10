@@ -59,4 +59,83 @@ public class Zone
 		positions.Add(new Vector2(x, y));
 		return true;
 	}
+
+	public class Area {
+		public List<Vector2> positions = new List<Vector2>();
+
+		public bool IsConnected(Vector2 testVec2)
+		{
+			for (int i = 0; i < positions.Count; i++)
+			{
+				var p = positions[i];
+				Vector2[] neighbours = new Vector2[] { p + Vector2.up, p + Vector2.right, p + Vector2.down, p + Vector2.left };
+				for(int j = 0; j < neighbours.Length; j++)
+				{
+					if (testVec2.IsSame_INT(neighbours[j]))
+					{
+						return true;
+
+					}
+				}
+				
+			}
+			return false;
+		}
+	}
+
+	public void RefreshPositions()
+	{
+		if (this.positions.Count == 0) return;
+		List<Area> areas = new List<Area>();
+		Area area00 = new Area();
+		areas.Add(area00);
+
+		var availablePositions = this.Positions;
+		area00.positions.Add(availablePositions[0]);
+		availablePositions.RemoveAt(0);
+
+		hprSort(areas, area00, availablePositions);
+		Area bestArea = areas[0];
+		for(int i = 0; i < areas.Count; i++)
+		{
+			if(areas[i].positions.Count> bestArea.positions.Count)
+			{
+				bestArea = areas[i];
+			}
+		}
+		this.positions = new List<Vector2>();
+		foreach(var p in bestArea.positions)
+		{
+			this.positions.Add(p);
+		}
+	}
+
+	private void hprSort(List<Area> areas, Area selectedArea, List<Vector2> availablePositions)
+	{
+		bool isAreaEdited = false;
+		for(int i = availablePositions.Count-1; i >=0; i--)
+		{
+			if (selectedArea.IsConnected(availablePositions[i]))
+			{
+				isAreaEdited = true;
+				selectedArea.positions.Add(availablePositions[i]);
+				availablePositions.RemoveAt(i);
+			}
+		}
+		if (isAreaEdited)
+		{
+			hprSort(areas, selectedArea, availablePositions);
+		}
+		else
+		{
+			//area is not edited
+			if (availablePositions.Count == 0) return;
+			//There are more positions left
+			Area newArea = new Area();
+			areas.Add(newArea);
+			newArea.positions.Add(availablePositions[0]);
+			availablePositions.RemoveAt(0);
+			hprSort(areas, newArea, availablePositions);
+		}
+	}
 }

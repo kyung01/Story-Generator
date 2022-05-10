@@ -82,7 +82,7 @@ public class ZoneRenderer
 			var p1 = hprToViewport(new Vector2(p.x - .5f, p.y - .5f));
 			var p2 = hprToViewport(new Vector2(p.x + .5f, p.y + .5f));
 
-			UIPostRenderer.RenderSquare(new Color(Color.r, Color.g, Color.b,0.25f), p1, p2);
+			UIPostRenderer.RenderSquare(new Color(Color.r, Color.g, Color.b,0.1f), p1, p2);
 
 		}
 		foreach (var e in this.edges)

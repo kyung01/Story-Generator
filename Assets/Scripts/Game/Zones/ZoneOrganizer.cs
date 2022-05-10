@@ -72,6 +72,7 @@ public class ZoneOrganizer
 
 			}
 		}
+		zone.RefreshPositions();
 		zones.Add(zone);
 		raiseZoneAdded(zone);
 	}
