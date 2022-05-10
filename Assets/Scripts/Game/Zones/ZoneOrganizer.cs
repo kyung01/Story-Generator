@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 public class ZoneOrganizer
 {
+	public delegate void DEL_ZONE_ADDED(Zone zone);
 	public delegate void DEL_ZONE_REMOVED(Zone zone);
 	public delegate void DEL_SINGLE_ZONE_SELECTED(Zone zone);
 	public delegate void DEL_NO_ZONE_SELECTED();
 
+	public List<DEL_ZONE_ADDED> OnZoneAdded = new List<DEL_ZONE_ADDED>();
 	public List<DEL_ZONE_REMOVED> OnZoneRemoved = new List<DEL_ZONE_REMOVED>();
 	public List<DEL_SINGLE_ZONE_SELECTED> OnSingleZoneSelected = new List<DEL_SINGLE_ZONE_SELECTED>();
 	public List<DEL_NO_ZONE_SELECTED> OnNO_ZONE_SELECTED = new List<DEL_NO_ZONE_SELECTED>();
@@ -41,6 +43,14 @@ public class ZoneOrganizer
 			OnNO_ZONE_SELECTED[i]();
 		}
 	}
+	void raiseZoneAdded(Zone zone)
+	{
+		for (int i = 0; i < OnZoneAdded.Count; i++)
+		{
+			OnZoneAdded[i](zone);
+		}
+
+	}
 	void raiseZoneRemoved(Zone zone)
 	{
 		for(int i = 0; i < OnZoneRemoved.Count; i++)
@@ -63,6 +73,7 @@ public class ZoneOrganizer
 			}
 		}
 		zones.Add(zone);
+		raiseZoneAdded(zone);
 	}
 
 	public void BuildHouseZone(int xBegin, int yBegin, int xEnd, int yEnd)

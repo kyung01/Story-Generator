@@ -25,6 +25,7 @@ public class UIMain : MonoBehaviour
 	World world;
 	//ZoneOrganizer zOrg;
 	[SerializeField] UISelectBox UISelectBox;
+	List<ZoneRenderer> zoneRenderers = new List<ZoneRenderer>();
 
 	[SerializeField] UnityEngine.UI.Button bttnSelectThings;
 	[SerializeField] UnityEngine.UI.Button bttnHowl;
@@ -178,11 +179,16 @@ public class UIMain : MonoBehaviour
 
 		world.zoneOrganizer.OnSingleZoneSelected.Add(hdrSingleZoneSelected);
 		world.zoneOrganizer.OnNO_ZONE_SELECTED.Add(hdrNoZoneSelected);
+		world.zoneOrganizer.OnZoneAdded.Add(hdrUpdateZone);
 
 
 
 	}
 
+	private void hdrUpdateZone(Zone zone)
+	{
+		zoneRenderers.Add(new ZoneRenderer().Init(zone));
+	}
 
 	private void hdrBttnBuild()
 	{
@@ -220,21 +226,30 @@ public class UIMain : MonoBehaviour
 	{
 		return Camera.main.WorldToViewportPoint(new Vector3(WorldPos.x, WorldPos.y, 0));
 	}
-	// Update is called once per frame
-	void Update()
+	void UpdateZoneRenderers()
 	{
-		for(int i = 0; i < thingsSelected.Count; i++)
+		foreach (var zoneR in zoneRenderers)
 		{
-			float sizeOfSquare = 0.9f / 2.0f;
-			var pos = thingsSelected[i].XY;
-			var indent = new Vector2(sizeOfSquare, sizeOfSquare);
-			var p1 = pos - indent;
-			var p2 = pos + indent;
-			var squareFrom = hprToViewport(p1);
-			var squareTo = hprToViewport(p2);
-			UIPostRenderer.RenderSquareLines(squareFrom, squareTo);
+			zoneR.Update();
 		}
-		//Debug.Log(this + " " + zOrg.zones.Count);
+		return;
+		for (int i = 0; i < world.zoneOrganizer.zonesSelected.Count; i++)
+		{
+			var zone = world.zoneOrganizer.zonesSelected[i];
+			var c = UIPostRenderer.GetColor(i);
+			c = new Color(1, 1, 1, 0.8f);
+
+			foreach (var p in zone.positions)
+			{
+				var p1 = hprToViewport(new Vector2(p.x - .5f, p.y - .5f));
+				var p2 = hprToViewport(new Vector2(p.x + .5f, p.y + .5f));
+
+				UIPostRenderer.RenderSquare(c, p1, p2);
+
+			}
+
+		}
+
 		for (int i = 0; i < world.zoneOrganizer.zones.Count; i++)
 		{
 			var zone = world.zoneOrganizer.zones[i];
@@ -251,23 +266,29 @@ public class UIMain : MonoBehaviour
 			}
 
 		}
-		//Debug.Log(zOrg.zonesSelected.Count);
-		for (int i = 0; i < world.zoneOrganizer.zonesSelected.Count; i++)
+
+	}
+	// Update is called once per frame
+	void Update()
+	{
+		UpdateZoneRenderers();
+
+
+		for (int i = 0; i < thingsSelected.Count; i++)
 		{
-			var zone = world.zoneOrganizer.zonesSelected[i];
-			var c = UIPostRenderer.GetColor(i);
-			c = new Color(1,1,1, 0.8f);
-
-			foreach (var p in zone.positions)
-			{
-				var p1 = hprToViewport(new Vector2(p.x - .5f, p.y - .5f));
-				var p2 = hprToViewport(new Vector2(p.x + .5f, p.y + .5f));
-
-				UIPostRenderer.RenderSquare(c, p1, p2);
-
-			}
-
+			float sizeOfSquare = 0.9f / 2.0f;
+			var pos = thingsSelected[i].XY;
+			var indent = new Vector2(sizeOfSquare, sizeOfSquare);
+			var p1 = pos - indent;
+			var p2 = pos + indent;
+			var squareFrom = hprToViewport(p1);
+			var squareTo = hprToViewport(p2);
+			UIPostRenderer.RenderSquareLines(squareFrom, squareTo);
 		}
+		//Debug.Log(this + " " + zOrg.zones.Count);
+		
+		//Debug.Log(zOrg.zonesSelected.Count);
+		
 		var thingsISelected = wrdThingSelector.ThingsCurrentlySelected;
 		if(thingsISelected.Count!= 0)
 		{

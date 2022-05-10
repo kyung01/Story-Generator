@@ -32,7 +32,7 @@ public class UIPostRenderer : MonoBehaviour
 	public static Color GetRandomColor()
 	{
 		var c = GetRandomColorRaw();
-		return new Color(c.r, c.g, c.b, 0.3f);
+		return new Color(c.r, c.g, c.b,1);
 	}
 	public static Color GetRandomColorRaw()
 	{
@@ -102,6 +102,7 @@ public class UIPostRenderer : MonoBehaviour
 		for (int i = 0; i < ListRenderSquares.Count; i++)
 		{
 			var renderSquareCall = ListRenderSquares[i];
+			//Debug.Log(renderSquareCall.color);
 			if (!renderSquareCall.isColored)
 			{
 				GL.Color(GetColor(i));

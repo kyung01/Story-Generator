@@ -58,7 +58,7 @@ public class EdgeInformation
 
 }
 
-public class ZoneRenderer : MonoBehaviour
+public class ZoneRenderer 
 {
 	Zone zone;
 	List<EdgeInformation> edges = new List<EdgeInformation>();
@@ -75,28 +75,31 @@ public class ZoneRenderer : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update()
+	public void Update()
 	{
 		foreach (var p in zone.positions)
 		{
 			var p1 = hprToViewport(new Vector2(p.x - .5f, p.y - .5f));
 			var p2 = hprToViewport(new Vector2(p.x + .5f, p.y + .5f));
 
-			UIPostRenderer.RenderSquare(new Color(Color.r, Color.g, Color.b,0.5f), p1, p2);
+			UIPostRenderer.RenderSquare(new Color(Color.r, Color.g, Color.b,0.25f), p1, p2);
 
 		}
-		foreach(var e in this.edges)
+		foreach (var e in this.edges)
 		{
-			render(e);
+			render(e, this.Color, 0.2f);
+			render(e, Color.black, 0.1f);
 		}
+		return;
 
 	}
 
-	private void render(EdgeInformation e)
+	private void render(EdgeInformation e, Color color,float lineWidth)
 	{
-		float lineWidth = 0.3f;
+		//float lineWidth = 0.3f;
+		float edgeIndexWidth = 0.5f;
 		Vector2 p = e.position;
-		Vector2[] edgesLocations = new Vector2[] { p + Vector2.up, p + Vector2.right, p + Vector2.down, p + Vector2.left };
+		Vector2[] edgesLocations = new Vector2[] { p + Vector2.up* edgeIndexWidth, p + Vector2.right * edgeIndexWidth, p + Vector2.down* edgeIndexWidth, p + Vector2.left* edgeIndexWidth };
 		Vector2[][] edgesLine = new Vector2[][] {
 				new Vector2[] {
 					edgesLocations [0]+Vector2.left*0.5f + Vector2.down * lineWidth,
@@ -115,7 +118,8 @@ public class ZoneRenderer : MonoBehaviour
 			if (e.GetEdge(i))
 			{
 				var edgeLocation = edgesLocations[i];
-				UIPostRenderer.RenderSquare(this.Color, hprToViewport(edgesLine[0][0]), hprToViewport(edgesLine[0][1]));
+				
+				UIPostRenderer.RenderSquare(color, hprToViewport(edgesLine[i][0]), hprToViewport(edgesLine[i][1]));
 			}
 		}
 	}
@@ -150,7 +154,7 @@ public class ZoneRenderer : MonoBehaviour
 		}
 	}
 
-	public void Init(Zone zone)
+	public ZoneRenderer Init(Zone zone)
 	{
 		this.Color = UIPostRenderer.GetRandomColor();
 
@@ -159,7 +163,7 @@ public class ZoneRenderer : MonoBehaviour
 		//for each P in positions, check if it's a position with at least one empty adjacent
 		//Record which edge is empty because we need that information to render edges
 
-
+		return this;
 	}
 
 
