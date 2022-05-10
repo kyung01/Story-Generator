@@ -6,7 +6,20 @@ public class Zone
 {
 	public enum TYPE { DEFAULT,STOCKPILE}
 	internal TYPE type = TYPE.DEFAULT;
-	public List<Vector2> positions = new List<Vector2>();
+	internal List<Vector2> positions = new List<Vector2>();
+
+	public Color Color;
+
+	public List<Vector2> Positions {
+		get {
+			List<Vector2> l = new List<Vector2>(this.positions);
+			return l; 
+		} 
+	}
+	public void AddPosition(Vector2 p)
+	{
+		this.positions.Add(p);
+	}
 
 	public bool IsNotAlive
 	{

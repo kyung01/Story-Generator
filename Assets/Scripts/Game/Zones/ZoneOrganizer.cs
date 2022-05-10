@@ -58,7 +58,7 @@ public class ZoneOrganizer
 			for (int j = yBegin; j <= yEnd; j++)
 			{
 				if (isInAnotherZone(i, j)) continue;
-				zone.positions.Add(new Vector2(i, j));
+				zone.AddPosition(new Vector2(i, j));
 
 			}
 		}
