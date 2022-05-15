@@ -84,13 +84,22 @@ public class ThingRenderer : MonoBehaviour
 			if (thingAlive == null) return;
 
 			if (!(thingAlive.type == Thing.TYPE.RABBIT  || thingAlive.type == Thing.TYPE.BEAR 
-				//|| thingAlive.type == Thing.TYPE.HUMAN
+				|| thingAlive.type == Thing.TYPE.HUMAN
 				)) return;
 			textMesh.text = "";
 			for (int i = 0; i < thing.TAM.actions.Count; i++)
 			{
 				var n = thing.TAM.actions[i];
-				textMesh.text += n.name  +" \n";
+				if(n is MoveTo)
+				{
+
+					textMesh.text += n.name +" "+ ((MoveTo)n).NextDestinationXY+ " \n";
+				}
+				else
+				{
+					textMesh.text += n.name + " \n";
+
+				}
 
 			}
 			if(thing.MNGNeed != null)

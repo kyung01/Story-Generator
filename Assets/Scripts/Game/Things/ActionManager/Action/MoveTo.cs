@@ -161,8 +161,8 @@ public abstract class MoveTo : Action
 				return false;
 			}
 			bool isTryingToGoTOTheSamePosition = false;
-			var otherDir = otherDestination - otherThingBlocking.XY;
-			var myDir = this.NextDestinationXY - thing.XY;
+			Vector2 otherDir = hprGetDir( otherThingBlocking.XY, otherDestination);
+			var myDir = hprGetDir(thing.XY,this.NextDestinationXY ) ;
 			otherDir.Normalize();
 			myDir.Normalize();
 			Debug.Log(myDir + " / " + otherDir);
@@ -179,6 +179,29 @@ public abstract class MoveTo : Action
 		return false;
 
 	}
+
+	private Vector2 hprGetDir(Vector2 xY, Vector2 otherDestination)
+	{
+		var originalD = otherDestination - xY;
+		var d = otherDestination - xY;
+		Vector2[] dirs = new Vector2[] {Vector2.up,Vector2.right,Vector2.down,Vector2.left,
+			Vector2.up + Vector2.right ,Vector2.up + Vector2.left,
+			Vector2.down + Vector2.right,Vector2.down + Vector2.left
+		};
+		float distance = 999;
+		foreach(var exampleD in dirs)
+		{
+			var sqrM = (exampleD - originalD).sqrMagnitude;
+			if (sqrM < distance)
+			{
+				d = exampleD;
+				distance = sqrM;
+			}
+
+		}
+		return d;
+	}
+
 	private void move(World world, Thing thing, float timeElapsed)
 	{
 		//I am going to move thing to the target location
