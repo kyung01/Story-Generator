@@ -20,8 +20,8 @@ public class Door : Structure
 	State state = State.CLOSED;
 
 	float openNess = 0;
-	float doorOpenSpeed = 3;
-	float doorCloseSpeed = 1;
+	float doorOpenSpeed = 3f;
+	float doorCloseSpeed = 5;
 	float doorOpenDuration = 1.0f;
 
 	float doorOpenTimeElapsed = 0;

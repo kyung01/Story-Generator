@@ -12,6 +12,8 @@ public abstract class MoveTo : Action
 	//position I am trying to go to
 	public virtual Vector2 destinationXY { get { return new Vector2(); } }
 	Vector2 nextDestinationXY { get { return pathRegistered[0]; } }
+	public Vector2 NextDestinationXY { get { return pathRegistered[0]; } }
+	public bool IsNextDestAvail { get { return pathRegistered.Count != 0; } }
 
 	bool updateNewPath = true;
 	float timeElapsedForNewPathSearching = 0;
@@ -131,10 +133,57 @@ public abstract class MoveTo : Action
 	{
 		return true;
 	}
+	bool isBlocked(World world, Thing thing)
+	{
+		var thingsAtMyDestination = world.GetThingsMovingAt((int)nextDestinationXY.x, (int)nextDestinationXY.y);
+		bool blockedByOtherThing = false;
+		Thing otherThingBlocking = null;
+		if (thingsAtMyDestination.Count != 0)
+		{
+			foreach (var otherThing in thingsAtMyDestination)
+			{
+				if (otherThing != thing)
+				{
+					blockedByOtherThing = true;
+					otherThingBlocking = otherThing;
 
+					break;
+				}
+			}
+			//There are more than one thing 
+		}
+		if (blockedByOtherThing)
+		{
+			Vector2 otherDestination = Vector2.zero;
+			if (!otherThingBlocking.TAM.GetNextDestination(ref otherDestination))
+			{
+				//other thing had no next destination, thus it is not moving
+				return false;
+			}
+			bool isTryingToGoTOTheSamePosition = false;
+			var otherDir = otherDestination - otherThingBlocking.XY;
+			var myDir = this.NextDestinationXY - thing.XY;
+			otherDir.Normalize();
+			myDir.Normalize();
+			Debug.Log(myDir + " / " + otherDir);
+			bool isCrossPassing = false;
+			if (
+				(otherDir.x != 0 && myDir.x != 0 && otherDir.x == -myDir.x) ||
+				(otherDir.y != 0 && myDir.y != 0 && otherDir.y == -myDir.y)
+				)
+			{
+				isCrossPassing = true;
+			}
+			if (!isCrossPassing) return true;
+		}
+		return false;
+
+	}
 	private void move(World world, Thing thing, float timeElapsed)
 	{
 		//I am going to move thing to the target location
+		if (isBlocked(world, thing)) return;
+
 		float speed = world.GetThingsSpeed(thing);
 		float maxDistanceToMove = (thing.XY - nextDestinationXY).magnitude;
 		float distanceApplied = Mathf.Min(speed * timeElapsed, maxDistanceToMove);

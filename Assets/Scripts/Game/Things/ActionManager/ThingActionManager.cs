@@ -144,6 +144,19 @@ public class ThingActionManager
 		var action = new MoveToTarget(bestTargetThing, distanceThatsCloseEnough);
 		addAction(action, priorityLevel);
 	}
+
+	internal bool GetNextDestination(ref Vector2 dest)
+	{
+		if (this.actions.Count == 0) return false;
+		if (!(this.actions[0] is  MoveTo)) return false;
+		var move = (MoveTo)actions[0];
+		if (!move.IsNextDestAvail) return false;
+		dest = move.NextDestinationXY;
+
+		return true;
+
+	}
+
 	public void MoveTo(Vector2 pos, PriorityLevel priorityLevel = PriorityLevel.DEFAULT)
 	{
 		this.MoveTo(pos.x, pos.y, priorityLevel);

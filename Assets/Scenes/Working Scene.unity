@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &610512
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2934,7 +2934,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &365099112
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3286,7 +3286,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &475525041
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6087,7 +6087,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &777542380
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8832,7 +8832,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1023131454
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8875,8 +8875,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bttnAny: {fileID: 1309666743}
-  bttnHouse: {fileID: 0}
-  bttnStockpile: {fileID: 0}
+  bttnHouse: {fileID: 735830641}
+  bttnStockpile: {fileID: 675578151}
 --- !u!1 &1034857307
 GameObject:
   m_ObjectHideFlags: 0
@@ -10441,12 +10441,12 @@ GameObject:
   - component: {fileID: 1280224632}
   - component: {fileID: 1280224631}
   m_Layer: 5
-  m_Name: TaskMenu -2
+  m_Name: TaskMenu Edit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1280224630
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12487,13 +12487,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2731340686afd24ab27e4b5add38632, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  footer: {fileID: 0}
-  taskMenu: {fileID: 0}
-  taskMenu_edit: {fileID: 0}
-  zoneMenu: {fileID: 0}
-  stockpile_edit: {fileID: 0}
-  houseroomMenu: {fileID: 0}
-  houseroomMenu_edit: {fileID: 0}
+  footer: {fileID: 1034857309}
+  taskMenu: {fileID: 777542381}
+  taskMenu_edit: {fileID: 1280224631}
+  zoneMenu: {fileID: 1023131456}
+  stockpile_edit: {fileID: 365099113}
+  houseroomMenu: {fileID: 1771932976}
+  houseroomMenu_edit: {fileID: 2093952240}
 --- !u!114 &1616408752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13324,7 +13324,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1771932974
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15687,7 +15687,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2093952238
 RectTransform:
   m_ObjectHideFlags: 0

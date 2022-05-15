@@ -55,13 +55,23 @@ namespace StoryGenerator.World
 		public int width = 50;
 		public int height = 50;
 		public List<Thing>[] things;
+		public List<Thing>[] thingsMoving;
 		public List<Thing> allThings = new List<Thing>();
 		//public List<Structure>[] structures;
 
 		internal List<Thing> GetThingsAt(int x, int y)
 		{
 			List<Thing> list = new List<Thing>();
-			foreach(var t in things[x + width * y])
+			foreach (var t in things[x + width * y])
+			{
+				list.Add(t);
+			}
+			return list;
+		}
+		internal List<Thing> GetThingsMovingAt(int x, int y)
+		{
+			List<Thing> list = new List<Thing>();
+			foreach (var t in thingsMoving[x + width * y])
 			{
 				list.Add(t);
 			}
@@ -85,10 +95,18 @@ namespace StoryGenerator.World
 		public void InitDefaultVariables()
 		{
 			pathFinder.Init(width, height);
+			hprInitThingsIndex(ref things);
+			hprInitThingsIndex(ref thingsMoving);
+
+
+		}
+
+		private void hprInitThingsIndex(ref List<Thing>[] things)
+		{
 			things = new List<Thing>[width * height];
 			//structures = new List<Structure>[width * height];
 
-			for (int i = 0; i < width; i++) 
+			for (int i = 0; i < width; i++)
 				for (int j = 0; j < height; j++)
 				{
 					int index = i + j * width;
@@ -402,7 +420,7 @@ namespace StoryGenerator.World
 		{
 			int numRabbit = 1;
 			int numBear = 0;
-			int numHumans = 0;
+			int numHumans = 10;
 
 			for (int i = 0; i < numRabbit; i++)
 			{
@@ -467,8 +485,11 @@ namespace StoryGenerator.World
 			}
 			if(thing.MNGBody != null)
 			{
+				thingsMoving[Mathf.RoundToInt(thing.X) + Mathf.RoundToInt(thing.Y) * width].Add(thing);
 				pathFinder.addCellWeightInt(thing.X_INT, thing.Y_INT, AVOID_ANIMAL_WEIGHT);
+
 				thing.OnPositionIndexChanged.Add(hdrAnimalMovedSoShouldWeightOnMap);
+				thing.OnPositionIndexChanged.Add(hdrThingMovingPositionChanged);
 			}
 			raiseOnThingAdded(thing);
 		}
@@ -503,6 +524,14 @@ namespace StoryGenerator.World
 				}
 			}
 			hdrStructurePositionChangedAdd(thing, xNew, yNew);
+		}
+
+		private void hdrThingMovingPositionChanged(Thing thing, int xBefore, int yBefore, int xNew, int yNew)
+		{
+			//Debug.Log("Hdr Thing's position is changed " + thing + xBefore+ " "  + yBefore + " -> " +xNew + " " + yNew);
+			thingsMoving[xBefore + yBefore * width].Remove(thing);
+			thingsMoving[xNew + yNew * width].Add(thing);
+
 		}
 
 		private void hdrThingPositionChanged(Thing thing, int xBefore, int yBefore, int xNew, int yNew)
