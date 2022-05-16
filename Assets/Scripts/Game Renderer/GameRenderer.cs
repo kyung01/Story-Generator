@@ -107,7 +107,6 @@ public class GameRenderer : MonoBehaviour
 
 	void Render(Thing t)
 	{
-		return;
 		if (t.type == Thing.TYPE.GRASS)
 		{
 			var thingRenderer = Instantiate(PREFAB_GRASS_RENDERER);
