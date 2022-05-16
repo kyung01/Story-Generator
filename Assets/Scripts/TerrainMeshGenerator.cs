@@ -59,29 +59,31 @@ public class TerrainMeshGenerator : MonoBehaviour
 		{
 			//detailed vertex initialization 
 			int i = 0;
-			for (float z = 0; z <= ySize; z += 0.5f)
+			for (float y = 0; y <= ySize; y += 0.5f)
 			{
 				for (float x = 0; x <= xSize; x += 0.5f)
 				{
 					vertexEdgesAndCenters[i] = new TerrainVertex();
-					vertexEdgesAndCenters[i].position = new Vector3(-.5f + x, -.5f + z, 0);
+					vertexEdgesAndCenters[i].position = 
+						new Vector3(terrainInstance.PositionBegin.x, terrainInstance.PositionBegin.y,0)
+						+ new Vector3(-.5f + x, -.5f + y, 0);
 					i++;
 				}
 			}
-			Debug.Log(i);
+			//Debug.Log(i);
 			int oneLine = (1 + 2 * xSize);
-			for (int z = 0; z < ySize; z++) for (int x = 0; x < xSize; x++)
+			for (int y = 0; y < ySize; y++) for (int x = 0; x < xSize; x++)
 				{
-					int index = oneLine * (1 + z * 2) + (1 + 2 * x);
-					var p = terrainInstance.pieces[xSize * z + x];
+					int index = oneLine * (1 + y * 2) + (1 + 2 * x);
+					var p = terrainInstance.pieces[xSize * y + x];
 					//vertexEdgesAndCenters[index].type = (int)terrainInstance.pieces[xSize * z + x].Type;
 					//vertexEdgesAndCenters[index].addInfluencedType((int)terrainInstance.pieces[xSize * z + x].Type);
-					vertexEdgesAndCenters[index].renderWeight = (int)terrainInstance.pieces[xSize * z + x].RenderWeight;
-					vertexEdgesAndCenters[index].typeRendered.Add((int)terrainInstance.pieces[xSize * z + x].Type);
+					vertexEdgesAndCenters[index].renderWeight = (int)terrainInstance.pieces[xSize * y + x].RenderWeight;
+					vertexEdgesAndCenters[index].typeRendered.Add((int)terrainInstance.pieces[xSize * y + x].Type);
 					vertexEdgesAndCenters[index].typePower[(int)p.Type] = 1;
 				}
 		}
-		Debug.Log("detailed legnth " + vertexEdgesAndCenters.Length);
+		//Debug.Log("detailed legnth " + vertexEdgesAndCenters.Length);
 
 
 		#endregion

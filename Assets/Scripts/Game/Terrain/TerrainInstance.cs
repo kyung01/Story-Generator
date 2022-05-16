@@ -8,19 +8,22 @@ namespace StoryGenerator.Terrain
 	/// </summary>
 	public class TerrainInstance
 	{
-		int width, height;
+		public Vector2 PositionBegin = Vector2.zero;
+		//public Vector2 PositionBegin { get { return this.positionBegin; } }
 		
+		int width, height;
+		public Piece[] pieces;
+
+
 		public int Width
 		{
 			get { return this.width; }
 		}
 		public int Height
 		{
-			get { return this.height;}
+			get { return this.height; }
 		}
-		
 
-		public Piece[] pieces;
 		//public bool[] mountain;
 		public bool IsEmptyAt(int x, int y)
 		{
