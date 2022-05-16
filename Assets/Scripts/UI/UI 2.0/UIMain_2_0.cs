@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class UIMain_2_0 : MonoBehaviour
 {
+	[SerializeField] ZoneRenderer PREFAB_ZONERENDERER;
 	[SerializeField] UILinker uiLinker;
 	private UISelectBox UISelectBox;
 
@@ -16,6 +17,7 @@ public class UIMain_2_0 : MonoBehaviour
 	UILinker.FEEDBACK selectedEditMode;
 
 	List<StaticZoneRenderer> zoneRenderers = new List<StaticZoneRenderer>();
+	List<ZoneRenderer> zoneRendererPrefabs = new List<ZoneRenderer>();
 
 	// Use this for initialization
 	private void Awake()
@@ -186,6 +188,11 @@ public class UIMain_2_0 : MonoBehaviour
 
 	private void updateZoneRendererTo(params Zone.TYPE[] givenTypes)
 	{
+		foreach (var p in zoneRendererPrefabs)
+		{
+			Destroy(p.gameObject);
+		}
+		zoneRendererPrefabs = new List<ZoneRenderer>();
 		Color disabledColor = new Color(1f, 1f, 1f, 0.5f);
 		zoneRenderers = new List<StaticZoneRenderer>();
 		foreach (var zone in world.zoneOrganizer.zones)
@@ -214,11 +221,28 @@ public class UIMain_2_0 : MonoBehaviour
 	{
 		if (zone.type == Zone.TYPE.HOUSE)
 		{
-			addHouseZone((HouseZone)zone, isColored,color);
+			//addHouseZone((HouseZone)zone, isColored,color);
 
+			var prefab = Instantiate(PREFAB_ZONERENDERER);
+			prefab.Init(zone, color);
+			this.zoneRendererPrefabs.Add(prefab);
+
+			var hz= (HouseZone)zone;
+			foreach(var r in hz.Rooms)
+			{
+				Debug.Log("Positions "+r.positions.Count);
+				var zoneRendererChild = Instantiate(PREFAB_ZONERENDERER);
+				zoneRendererChild.Init(r, color);
+				prefab.AddZoneRenderer(zoneRendererChild);
+				//this.zoneRendererPrefabs.Add(prefab2);
+			}
 		}
 		else
 		{
+			var prefab = Instantiate(PREFAB_ZONERENDERER);
+			prefab.Init(zone, color);
+			this.zoneRendererPrefabs.Add(prefab);
+			/*
 			var r = new StaticZoneRenderer(zone);
 			zoneRenderers.Add(r);
 			if (isColored)
@@ -226,6 +250,7 @@ public class UIMain_2_0 : MonoBehaviour
 				r.Color = color;
 
 			}
+			 * */
 
 		}
 	}
@@ -249,6 +274,7 @@ public class UIMain_2_0 : MonoBehaviour
 	{
 
 	}
+
 	Vector3 hprToViewport(Vector2 WorldPos)
 	{
 		return Camera.main.WorldToViewportPoint(new Vector3(WorldPos.x, WorldPos.y, 0));

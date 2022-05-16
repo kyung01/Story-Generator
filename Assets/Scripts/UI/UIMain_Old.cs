@@ -188,7 +188,7 @@ public class UIMain_Old : MonoBehaviour
 
 	private void hdrUpdateZone(Zone zone)
 	{
-		zoneRenderers.Add(new ZoneRenderer().Init(zone));
+		zoneRenderers.Add(new ZoneRenderer().Init(zone, Color.red));
 	}
 
 	private void hdrBttnBuild()
