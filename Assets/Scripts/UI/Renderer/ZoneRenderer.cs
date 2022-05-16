@@ -90,7 +90,8 @@ public class Square {
 
 	internal bool expandToRight(bool[] checkAvaility, int width, int height)
 	{
-		for(int j = (int)begin.y; j <= end.y; j++)
+		if (end.x + 1 >= width) return false;
+		for (int j = (int)begin.y; j <= end.y; j++)
 		{
 			int index = (int)end.x+1 + j * width;
 			if (index >= checkAvaility.Length) return false;
@@ -103,6 +104,7 @@ public class Square {
 
 	internal bool expandToUp(bool[] checkAvaility, int width, int height)
 	{
+		if (end.y + 1 >= height) return false;
 		for (int i = (int)begin.x; i <= end.x; i++)
 		{
 			int index = i + ((int)end.y + 1) * width;;
@@ -306,12 +308,25 @@ public class ZoneRenderer :MonoBehaviour
 			}
 		}
 		this.transform.position = new Vector3(
-			square.begin.x+
+			square.begin.x +
 			min.x - 0.5f + square.Width/2.0f,
 			square.begin.y +
 			min.y-0.5f + square.Height / 2.0f, 0);
-		this.textMeshPro.rectTransform.sizeDelta = new Vector2(square.Width*10,square.Height*10);
+		Debug.Log(zone.type +  " ZoneRenderer begin at " + min);
+		Debug.Log(square.begin + " " + square.Width + " " + square.Height);
+		if (square.Width <3 && square.Height > square.Width)
+		{
+			this.textMeshPro.gameObject.transform.rotation = Quaternion.Euler(0, 0, -90f);
 
+			this.textMeshPro.rectTransform.sizeDelta = new Vector2(square.Height * 10, square.Width * 10);
+		}
+		else
+		{
+			this.textMeshPro.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0f);
+			this.textMeshPro.rectTransform.sizeDelta = new Vector2(square.Width * 10, square.Height * 10);
+
+		}
+		this.textMeshPro.color = this.Color;
 
 
 	}
