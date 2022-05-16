@@ -87,9 +87,29 @@ public class ZoneOrganizer
 		Zone spZone = new StockpileZone();
 		addZone(spZone, xBegin,yBegin,xEnd,yEnd);
 	}
+
 	public void BuildBedroom(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
 		Zone bedroomZone = new RoomZone();
+		bedroomZone.type = Zone.TYPE.BEDROOM;
+		BuildHouseRoom(bedroomZone, xBegin, yBegin, xEnd, yEnd);
+	}
+	public void BuildBathroom(int xBegin, int yBegin, int xEnd, int yEnd)
+	{
+		Zone bedroomZone = new RoomZone();
+		bedroomZone.type = Zone.TYPE.BATHROOM;
+		BuildHouseRoom(bedroomZone, xBegin, yBegin, xEnd, yEnd);
+	}
+	public void BuildLivingroom(int xBegin, int yBegin, int xEnd, int yEnd)
+	{
+		Zone bedroomZone = new RoomZone();
+		bedroomZone.type = Zone.TYPE.LIVINGROOM;
+		BuildHouseRoom(bedroomZone, xBegin, yBegin, xEnd, yEnd);
+	}
+
+
+	void BuildHouseRoom(Zone bedroomZone, int xBegin, int yBegin, int xEnd, int yEnd)
+	{
 		for (int i = xBegin; i <= xEnd; i++)
 		{
 			for (int j = yBegin; j <= yEnd; j++)

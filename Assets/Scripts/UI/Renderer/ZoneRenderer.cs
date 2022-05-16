@@ -119,12 +119,11 @@ public class ZoneRenderer :MonoBehaviour
 {
 	[SerializeField] TMPro.TextMeshPro textMeshPro;
 	List<ZoneRenderer> zoneRenderers = new List<ZoneRenderer>();
-	bool isUpdated = true;
-	public void AddZoneRenderer(ZoneRenderer zone)
+	public void AddZoneRenderer(ZoneRenderer zoneRen)
 	{
-		this.zoneRenderers.Add(zone);
-		zone.isUpdated = false;
-		zone.transform.SetParent(this.transform);
+		this.zoneRenderers.Add(zoneRen);
+		zoneRen.enabled = false;
+		zoneRen.transform.SetParent(this.transform);
 	}
 
 	Zone zone;
@@ -140,13 +139,13 @@ public class ZoneRenderer :MonoBehaviour
 	{
 		return Camera.main.WorldToViewportPoint(new Vector3(WorldPos.x, WorldPos.y, 0));
 	}
-	// Update is called once per frame
 	public void Update()
 	{
-		if (!isUpdated)
-		{
-			return;
-		}
+		Render();
+	}
+	// Update is called once per frame
+	public void Render()
+	{
 		foreach (var p in zone.positions)
 		{
 			var p1 = hprToViewport(new Vector2(p.x - .5f, p.y - .5f));
@@ -230,6 +229,7 @@ public class ZoneRenderer :MonoBehaviour
 
 	void UpdateText(Zone zone)
 	{
+		Debug.Log("ZoneR UpdateText " + zone.type);
 		switch (zone.type)
 		{
 			default:
@@ -244,6 +244,12 @@ public class ZoneRenderer :MonoBehaviour
 				break;
 			case Zone.TYPE.BEDROOM:
 				this.textMeshPro.text = "Bedroom";
+				break;
+			case Zone.TYPE.LIVINGROOM:
+				this.textMeshPro.text = "LivingRoom";
+				break;
+			case Zone.TYPE.BATHROOM:
+				this.textMeshPro.text = "Bathroom";
 				break;
 		}
 		var positions = zone.Positions;

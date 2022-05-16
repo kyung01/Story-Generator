@@ -165,7 +165,7 @@ public abstract class MoveTo : Action
 			var myDir = hprGetDir(thing.XY,this.NextDestinationXY ) ;
 			otherDir.Normalize();
 			myDir.Normalize();
-			Debug.Log(myDir + " / " + otherDir);
+			//Debug.Log(myDir + " / " + otherDir);
 			bool isCrossPassing = false;
 			if (
 				(otherDir.x != 0 && myDir.x != 0 && otherDir.x == -myDir.x) ||

@@ -105,6 +105,38 @@ public class UIMain_2_0 : MonoBehaviour
 
 			}
 		}
+		if (selectedMode == UILinker.FEEDBACK.HOUSING_BATHROOM_SELECTED)
+		{
+			switch (selectedEditMode)
+			{
+				default:
+				case UILinker.FEEDBACK.ANY: //Select mode?
+					world.zoneOrganizer.Select(xBegin, yBegin, xEnd, yEnd, Zone.TYPE.HOUSE);
+					break;
+				case UILinker.FEEDBACK.ADD:
+					world.zoneOrganizer.BuildBathroom(xBegin, yBegin, xEnd, yEnd);
+					break;
+				case UILinker.FEEDBACK.REMOVE:
+					break;
+
+			}
+		}
+		if (selectedMode == UILinker.FEEDBACK.HOUSING_LIVINGROOM_SELECTED)
+		{
+			switch (selectedEditMode)
+			{
+				default:
+				case UILinker.FEEDBACK.ANY: //Select mode?
+					world.zoneOrganizer.Select(xBegin, yBegin, xEnd, yEnd, Zone.TYPE.HOUSE);
+					break;
+				case UILinker.FEEDBACK.ADD:
+					world.zoneOrganizer.BuildLivingroom(xBegin, yBegin, xEnd, yEnd);
+					break;
+				case UILinker.FEEDBACK.REMOVE:
+					break;
+
+			}
+		}
 		if (selectedMode == UILinker.FEEDBACK.STOCKPILE_SELECTED)
 		{
 			switch (selectedEditMode)
