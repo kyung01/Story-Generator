@@ -90,6 +90,15 @@ public class ZoneOrganizer
 	public void BuildBedroom(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
 		Zone bedroomZone = new RoomZone();
+		for (int i = xBegin; i <= xEnd; i++)
+		{
+			for (int j = yBegin; j <= yEnd; j++)
+			{
+				bedroomZone.AddPosition(new Vector2(i, j));
+
+			}
+
+		}
 		//a bedroom zone must be in one of the house zones
 		HouseZone houseBedroomBelongsTo = getHouseThisZoneIsIn(bedroomZone);
 		if (houseBedroomBelongsTo == null)
@@ -97,6 +106,21 @@ public class ZoneOrganizer
 			//couldn't find any house that this zone belogns to
 			return;
 		}
+
+		bedroomZone.positions = new List<Vector2>();
+
+		for (int i = xBegin; i <= xEnd; i++)
+		{
+			for (int j = yBegin; j <= yEnd; j++)
+			{
+				if (isInAnotherZone(i, j, houseBedroomBelongsTo.Rooms)) continue;
+				bedroomZone.AddPosition(new Vector2(i, j));
+
+			}
+
+		}
+		bedroomZone.RefreshPositions();
+
 		//a bedroom(inside a house) cannot overlap onto another room in the house
 		var rooms = houseBedroomBelongsTo.Rooms;
 		bool isOverlapping = false;
@@ -116,6 +140,7 @@ public class ZoneOrganizer
 		else
 		{
 			houseBedroomBelongsTo.Add(bedroomZone);
+			raiseZoneAdded(bedroomZone);
 		}
 
 	}
@@ -152,6 +177,10 @@ public class ZoneOrganizer
 	}
 
 	bool isInAnotherZone(int x, int y)
+	{
+		return isInAnotherZone(x, y, this.zones);
+	}
+	bool isInAnotherZone(int x, int y,List<Zone> zones)
 	{
 		for (int i = 0; i < zones.Count; i++)
 		{
@@ -208,8 +237,55 @@ public class ZoneOrganizer
 		}
 		return zonesWithin;
 	}
+
+	bool hprIsZoneThisType(Zone.TYPE type, Zone.TYPE[] typeArray)
+	{
+		foreach(var t in typeArray)
+		{
+			if (type == t) return true;
+		}
+		return false;
+	}
+	internal void Select(int xBegin, int yBegin, int xEnd, int yEnd, params Zone.TYPE[] selectedZoneTypes)
+	{
+		List<Zone> zonesWithin = new List<Zone>();
+		for (int i = 0; i < zones.Count; i++)
+		{
+			if (!hprIsZoneThisType(zones[i].type, selectedZoneTypes))
+			{
+				continue;
+			}
+			bool isZoneAdded = false;
+			for (int x = xBegin; x <= xEnd && !isZoneAdded; x++)
+			{
+				for (int y = yBegin; y <= yEnd && !isZoneAdded; y++)
+				{
+					if (zones[i].IsInZone(x, y))
+					{
+						zonesWithin.Add(this.zones[i]);
+						isZoneAdded = true;
+					}
+				}
+			}
+			
+
+		}
+		
+		if (zonesWithin.Count == 1)
+		{
+			raiseSingleZoneSelected(zonesWithin[0]);
+		}
+		else if (zonesWithin.Count == 0)
+		{
+			raiseNoZoneSelected();
+		}
+		zonesSelected = zonesWithin;
+	}
 	internal void Select(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
+		var array = Enum.GetValues(typeof(Zone.TYPE)).Cast<Zone.TYPE>().ToArray();
+		Select(xBegin, yBegin, xEnd, yEnd, array);
+		return;
 		List<Zone> zonesWithin = new List<Zone>();
 		for(int x = xBegin; x <= xEnd; x++)
 		{

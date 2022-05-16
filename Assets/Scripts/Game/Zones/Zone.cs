@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Zone
 {
-	public enum TYPE { DEFAULT,STOCKPILE}
+	public enum TYPE { DEFAULT,STOCKPILE,
+		HOUSE,
+		BEDROOM
+	}
 	internal TYPE type = TYPE.DEFAULT;
 	internal List<Vector2> positions = new List<Vector2>();
 

@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 public class HouseZone : ResidentialZone
 {
 	List<Zone> innerRoomes = new List<Zone>();
+
+	public HouseZone()
+	{
+		this.type = TYPE.HOUSE;
+	}
 
 	public List<Zone> Rooms
 	{
@@ -37,6 +43,10 @@ public class HouseZone : ResidentialZone
 		{
 			innerRoomes.Add(zone);
 			return true;
+		}
+		else
+		{
+			Debug.LogError("Cannot add zone " + isWithinInMe + " " + isWithinAnyExitingRoom);
 		}
 		return false;
 

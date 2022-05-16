@@ -7,14 +7,23 @@ using UnityEngine;
 public class UILinker : MonoBehaviour
 {
 	public enum FEEDBACK { 
-	FOOTER_TASK_SELECTED,
-	FOOTER_ZONE_SELECTED,
-	END,
+		NONE,
+		FOOTER_TASK_SELECTED,
+		FOOTER_ZONE_SELECTED,
+		
 		STOCKPILE_SELECTED,
-		HOUSEMENU_SELECTED,
-		HOUSE_LIVINGROOM_SELECTED,
-		HOUSE_BATHROOM_SELECTED,
-		HOUSE_BEDROOM_SELECTED
+		HOUSING_SELECTED,
+
+		HOUSING_HOUSE_SELECTED,
+		HOUSING_LIVINGROOM_SELECTED,
+		HOUSING_BATHROOM_SELECTED,
+		HOUSING_BEDROOM_SELECTED,
+
+		ANY,
+		ADD,
+		REMOVE,
+
+		END
 	}
 	public delegate void DEL_FEEDBACK(FEEDBACK feedback);
 
@@ -30,10 +39,10 @@ public class UILinker : MonoBehaviour
 
 	[SerializeField] ZoneMenu zoneMenu;
 	[SerializeField] AnyAddRemoveButton stockpile_edit;
-	[SerializeField] HouseRoomMenu houseroomMenu;
+	[SerializeField] HousingMenu housingMenu;
 	[SerializeField] AnyAddRemoveButton houseroomMenu_edit;
 
-	HouseRoomMenu.SELECTED roomSelected;
+	HousingMenu.SELECTED roomSelected;
 	private TaskMenu.SELECTED selectedTask;
 
 	// Sta
@@ -45,11 +54,11 @@ public class UILinker : MonoBehaviour
 
 		zoneMenu.OnSelected.Add(hdrZoneMenuSelected);
 		taskMenu.OnSelected.Add(hdrTaskSelected);
-		houseroomMenu.OnSelected.Add(hdrHouseRoomMenuSelected);
+		housingMenu.OnSelected.Add(hdrHouseRoomMenuSelected);
 
-		stockpile_edit.OnSelected.Add(hdrStockpileEditSelected);
-		taskMenu_edit.OnSelected.Add(hdrTaskMenuEditSelected);
-		houseroomMenu_edit.OnSelected.Add(hdrHouseRoomMenuEditSelected);
+		stockpile_edit.OnSelected.Add(hdrEdit);
+		taskMenu_edit.OnSelected.Add(hdrEdit);
+		houseroomMenu_edit.OnSelected.Add(hdrEdit);
 		/*
 		taskMenu.bttnAny.onClick.hdr(taskMenuAnyClicked);
 		taskMenu.bttnHaul.onClick.hdr(taskMenuHaulClicked);
@@ -61,45 +70,18 @@ public class UILinker : MonoBehaviour
 
 	}
 
-	private void hdrHouseRoomMenuEditSelected(AnyAddRemoveButton.SELECTED sel)
+	private void hdrEdit(AnyAddRemoveButton.SELECTED sel)
 	{
 		switch (sel)
 		{
 			case AnyAddRemoveButton.SELECTED.ANY:
+				raiseFeedback(FEEDBACK.ANY);
 				break;
 			case AnyAddRemoveButton.SELECTED.ADD:
+				raiseFeedback(FEEDBACK.ADD);
 				break;
 			case AnyAddRemoveButton.SELECTED.REMOVE:
-				break;
-			default:
-				break;
-		}
-	}
-
-	private void hdrTaskMenuEditSelected(AnyAddRemoveButton.SELECTED sel)
-	{
-		switch (sel)
-		{
-			case AnyAddRemoveButton.SELECTED.ANY:
-				break;
-			case AnyAddRemoveButton.SELECTED.ADD:
-				break;
-			case AnyAddRemoveButton.SELECTED.REMOVE:
-				break;
-			default:
-				break;
-		}
-	}
-
-	private void hdrStockpileEditSelected(AnyAddRemoveButton.SELECTED sel)
-	{
-		switch (sel)
-		{
-			case AnyAddRemoveButton.SELECTED.ANY:
-				break;
-			case AnyAddRemoveButton.SELECTED.ADD:
-				break;
-			case AnyAddRemoveButton.SELECTED.REMOVE:
+				raiseFeedback(FEEDBACK.REMOVE);
 				break;
 			default:
 				break;
@@ -129,6 +111,7 @@ public class UILinker : MonoBehaviour
 		}
 		else
 		{
+			raiseFeedback(FEEDBACK.NONE);
 			closeAllMenus();
 
 		}
@@ -137,12 +120,15 @@ public class UILinker : MonoBehaviour
 	{
 		if (!zoneMenu.IsActive)
 		{
+			//Open
 			closeAllMenus();
 			zoneMenu.Open();
 			raiseFeedback(FEEDBACK.FOOTER_ZONE_SELECTED);
 		}
 		else
 		{
+			//Close
+			raiseFeedback(FEEDBACK.NONE);
 			closeAllMenus();
 
 		}
@@ -159,7 +145,7 @@ public class UILinker : MonoBehaviour
 	void closeZoneMenus()
 	{
 		zoneMenu.Close();
-		houseroomMenu.Close();
+		housingMenu.Close();
 		houseroomMenu_edit.Close();
 		stockpile_edit.Close();
 
@@ -167,7 +153,7 @@ public class UILinker : MonoBehaviour
 	void closeAllZoneMenuSelectMenus()
 	{
 		stockpile_edit.Close();
-		houseroomMenu.Close();
+		housingMenu.Close();
 		houseroomMenu_edit.Close();
 
 	}
@@ -177,8 +163,8 @@ public class UILinker : MonoBehaviour
 		{
 			case ZoneMenu.SELECTED.HOUSE:
 				closeAllZoneMenuSelectMenus();
-				houseroomMenu.Open();
-				raiseFeedback(FEEDBACK.HOUSEMENU_SELECTED);
+				housingMenu.Open();
+				raiseFeedback(FEEDBACK.HOUSING_SELECTED);
 				break;
 			case ZoneMenu.SELECTED.STOCKPILE:
 				closeAllZoneMenuSelectMenus();
@@ -190,20 +176,23 @@ public class UILinker : MonoBehaviour
 		}
 	}
 
-	private void hdrHouseRoomMenuSelected(HouseRoomMenu.SELECTED sel)
+	private void hdrHouseRoomMenuSelected(HousingMenu.SELECTED sel)
 	{
 		houseroomMenu_edit.Open();
 		roomSelected = sel;
 		switch (sel)
 		{
-			case HouseRoomMenu.SELECTED.BEDROOM:
-				raiseFeedback(FEEDBACK.HOUSE_BEDROOM_SELECTED);
+			case HousingMenu.SELECTED.HOUSE:
+				raiseFeedback(FEEDBACK.HOUSING_HOUSE_SELECTED);
 				break;
-			case HouseRoomMenu.SELECTED.BATHROOM:
-				raiseFeedback(FEEDBACK.HOUSE_BATHROOM_SELECTED);
+			case HousingMenu.SELECTED.BEDROOM:
+				raiseFeedback(FEEDBACK.HOUSING_BEDROOM_SELECTED);
 				break;
-			case HouseRoomMenu.SELECTED.LIVINGROOM:
-				raiseFeedback(FEEDBACK.HOUSE_LIVINGROOM_SELECTED);
+			case HousingMenu.SELECTED.BATHROOM:
+				raiseFeedback(FEEDBACK.HOUSING_BATHROOM_SELECTED);
+				break;
+			case HousingMenu.SELECTED.LIVINGROOM:
+				raiseFeedback(FEEDBACK.HOUSING_LIVINGROOM_SELECTED);
 				break;
 			default:
 				break;

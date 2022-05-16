@@ -8,13 +8,15 @@ public class Main : MonoBehaviour
 	public Game game;
 	public GameRenderer gameRenderer;
 	public UIMain UIMain;
+	public UIMain_2_0 UIMain2;
 
 	// Use this for initialization
 	void Start()
 	{
 		game.StartGame();
 		gameRenderer.RenderGame(game);
-		UIMain.Init(game.world);
+		//UIMain.Init(game.world); // Obsolete
+		UIMain2.Init(game.world);
 		game.world.OnThingAdded.Add(gameRenderer.hdrWorldThingAdded);
 		//UIMain.zOrg = game.zoneOrganizer;
 	}
