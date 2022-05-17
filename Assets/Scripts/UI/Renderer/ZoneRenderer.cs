@@ -307,6 +307,7 @@ public class ZoneRenderer :MonoBehaviour
 				square = s;
 			}
 		}
+		Debug.Log(this.transform + " Square" + square +  "min " + min);
 		this.transform.position = new Vector3(
 			square.begin.x +
 			min.x - 0.5f + square.Width/2.0f,

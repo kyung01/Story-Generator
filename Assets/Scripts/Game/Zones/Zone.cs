@@ -21,14 +21,30 @@ public class Zone
 			return l; 
 		} 
 	}
+	public virtual void RemovePosition(Vector2 v)
+	{
+		for(int i = positions.Count-1;i >= 0; i--)
+		{
+			if(positions[i] == v)
+			{
+				positions.RemoveAt(i);
+				break;
+			}
+		}
+		RefreshPositions();
+	}
 	public void AddPosition(Vector2 p)
 	{
 		this.positions.Add(p);
 	}
 
-	public bool IsNotAlive
+	public bool IsDead
 	{
 		get { return positions.Count == 0; }
+	}
+	public bool IsAlive
+	{
+		get { return positions.Count != 0; }
 	}
 
 	public bool IsInZone(int x, int y)

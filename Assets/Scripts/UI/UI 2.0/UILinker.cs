@@ -10,6 +10,8 @@ public class UILinker : MonoBehaviour
 		NONE,
 		FOOTER_TASK_SELECTED,
 		FOOTER_ZONE_SELECTED,
+
+		TASK_HAUL,
 		
 		STOCKPILE_SELECTED,
 		HOUSING_SELECTED,
@@ -95,6 +97,7 @@ public class UILinker : MonoBehaviour
 		{
 			case TaskMenu.SELECTED.HAUL:
 				this.taskMenu_edit.Open();
+				raiseFeedback(FEEDBACK.TASK_HAUL);
 				break;
 			default:
 				break;

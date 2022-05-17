@@ -18,6 +18,7 @@ public class UIMain_2_0 : MonoBehaviour
 
 	List<StaticZoneRenderer> zoneRenderers = new List<StaticZoneRenderer>();
 	List<ZoneRenderer> zoneRendererPrefabs = new List<ZoneRenderer>();
+	WorldThingSelector wrdThingSelector = new WorldThingSelector();
 
 	// Use this for initialization
 	private void Awake()
@@ -34,12 +35,14 @@ public class UIMain_2_0 : MonoBehaviour
 
 		world.zoneOrganizer.OnSingleZoneSelected.Add(hdrSingleZoneSelected);
 		world.zoneOrganizer.OnNO_ZONE_SELECTED.Add(hdrNoZoneSelected);
-		world.zoneOrganizer.OnZoneAdded.Add(hdrZoneAdded);
+		world.zoneOrganizer.OnZoneAdded.Add(hdrZoneAddedRemoved);
+		world.zoneOrganizer.OnZoneRemoved.Add(hdrZoneAddedRemoved);
+		world.zoneOrganizer.OneZoneEdited.Add(hdrZoneAddedRemoved);
 	}
 
 	#region zoneOrganizerHdrs
 
-	private void hdrZoneAdded(Zone zone)
+	private void hdrZoneAddedRemoved(Zone zone)
 	{
 		updateZoneRenderers();
 
@@ -73,6 +76,28 @@ public class UIMain_2_0 : MonoBehaviour
 			world.zoneOrganizer.Select(xBegin, yBegin, xEnd, yEnd);
 			return;
 		}
+
+		if (selectedMode == UILinker.FEEDBACK.TASK_HAUL)
+		{
+			wrdThingSelector.Select(world, xBegin, yBegin, 1 + xEnd - xBegin, 1 + yEnd - yBegin);
+			var things = wrdThingSelector.ThingsCurrentlySelected;
+			switch (selectedEditMode)
+			{
+				default:
+				case UILinker.FEEDBACK.ANY: //Select mode?
+					break;
+				case UILinker.FEEDBACK.ADD:
+					foreach (var thing in things)
+					{
+						world.teams[0].WorkManager.Howl(thing);
+
+					}
+					break;
+				case UILinker.FEEDBACK.REMOVE:
+					break;
+
+			}
+		}
 		if (selectedMode == UILinker.FEEDBACK.HOUSING_HOUSE_SELECTED)
 		{
 			switch (selectedEditMode)
@@ -85,6 +110,7 @@ public class UIMain_2_0 : MonoBehaviour
 					world.zoneOrganizer.BuildHouseZone(xBegin, yBegin, xEnd, yEnd);
 					break;
 				case UILinker.FEEDBACK.REMOVE:
+					world.zoneOrganizer.DeleteZone(xBegin, yBegin, xEnd, yEnd, Zone.TYPE.HOUSE);
 					break;
 
 			}
@@ -149,6 +175,7 @@ public class UIMain_2_0 : MonoBehaviour
 					world.zoneOrganizer.BuildStockpileZone(xBegin, yBegin, xEnd, yEnd);
 					break;
 				case UILinker.FEEDBACK.REMOVE:
+					world.zoneOrganizer.DeleteZone(xBegin, yBegin, xEnd, yEnd, Zone.TYPE.STOCKPILE);
 					break;
 
 			}
@@ -322,6 +349,15 @@ public class UIMain_2_0 : MonoBehaviour
 		if(selectedMode == UILinker.FEEDBACK.FOOTER_TASK_SELECTED)
 		{
 			//render all tasks
+		}
+
+		var thingsISelected = wrdThingSelector.ThingsCurrentlySelected;
+		foreach (var thing in thingsISelected)
+		{
+			var p1 = hprToViewport(new Vector2(thing.X - .5f, thing.Y - .5f));
+			var p2 = hprToViewport(new Vector2(thing.X + .5f, thing.Y + .5f));
+			UIPostRenderer.RenderSquare(new Color(1, 1, 1, 0.3f), p1, p2);
+
 		}
 
 	}

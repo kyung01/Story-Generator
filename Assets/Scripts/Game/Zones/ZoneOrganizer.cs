@@ -4,16 +4,28 @@ using System.Linq;
 using UnityEngine;
 using System.Threading.Tasks;
 
+public static class StaticZoneOrganizer
+{
+	public static void Raise(this List<ZoneOrganizer.DEL_ZONE> list, Zone zone)
+	{
+		foreach (var l in list)
+		{
+			l(zone);
+		}
+	}
+}
 public class ZoneOrganizer
 {
-	public delegate void DEL_ZONE_ADDED(Zone zone);
-	public delegate void DEL_ZONE_REMOVED(Zone zone);
-	public delegate void DEL_SINGLE_ZONE_SELECTED(Zone zone);
+	public delegate void DEL_ZONE(Zone zone);
+	
+	//public delegate void DEL_ZONE_REMOVED(Zone zone);
+	//public delegate void DEL_SINGLE_ZONE_SELECTED(Zone zone);
 	public delegate void DEL_NO_ZONE_SELECTED();
 
-	public List<DEL_ZONE_ADDED> OnZoneAdded = new List<DEL_ZONE_ADDED>();
-	public List<DEL_ZONE_REMOVED> OnZoneRemoved = new List<DEL_ZONE_REMOVED>();
-	public List<DEL_SINGLE_ZONE_SELECTED> OnSingleZoneSelected = new List<DEL_SINGLE_ZONE_SELECTED>();
+	public List<DEL_ZONE> OnZoneAdded			= new List<DEL_ZONE>();
+	public List<DEL_ZONE> OnZoneRemoved			= new List<DEL_ZONE>();
+	public List<DEL_ZONE> OneZoneEdited			= new List<DEL_ZONE>();
+	public List<DEL_ZONE> OnSingleZoneSelected	= new List<DEL_ZONE>();
 	public List<DEL_NO_ZONE_SELECTED> OnNO_ZONE_SELECTED = new List<DEL_NO_ZONE_SELECTED>();
 
 	public List<StockpileZone> GetStockpiles()
@@ -29,21 +41,21 @@ public class ZoneOrganizer
 		return stockpileZones;
 	}
 
-	void raiseSingleZoneSelected(Zone zone)
+	internal void raiseSingleZoneSelected(Zone zone)
 	{
 		for (int i = 0; i < OnSingleZoneSelected.Count; i++)
 		{
 			OnSingleZoneSelected[i](zone);
 		}
 	}
-	void raiseNoZoneSelected()
+	internal void raiseNoZoneSelected()
 	{
 		for (int i = 0; i < OnNO_ZONE_SELECTED.Count; i++)
 		{
 			OnNO_ZONE_SELECTED[i]();
 		}
 	}
-	void raiseZoneAdded(Zone zone)
+	internal void raiseZoneAdded(Zone zone)
 	{
 		for (int i = 0; i < OnZoneAdded.Count; i++)
 		{
@@ -51,13 +63,14 @@ public class ZoneOrganizer
 		}
 
 	}
-	void raiseZoneRemoved(Zone zone)
+	internal void raiseZoneRemoved(Zone zone)
 	{
 		for(int i = 0; i < OnZoneRemoved.Count; i++)
 		{
 			OnZoneRemoved[i](zone);
 		}
 	}
+	
 	public List<Zone> zones = new List<Zone>();
 	public List<Zone> zonesSelected = new List<Zone>();
 
@@ -165,6 +178,7 @@ public class ZoneOrganizer
 
 	}
 
+
 	private bool isOverlappingAny(Zone bedroomZone, Zone houseRoom)
 	{
 		throw new NotImplementedException();
@@ -230,10 +244,56 @@ public class ZoneOrganizer
 
 		for (int k = 0; k < zones.Count; k++)
 		{
-			if (zones[k].IsNotAlive)
+			if (!zones[k].IsAlive)
 			{
-				raiseZoneRemoved(zones[k]);
 				zones.RemoveAt(k);
+				raiseZoneRemoved(zones[k]);
+			}
+
+		}
+	}
+
+	internal void DeleteZone(int xBegin, int yBegin, int xEnd, int yEnd, Zone.TYPE zoneType)
+	{
+		List<Zone> zonesEdited = new List<Zone>();
+		for (int i = xBegin; i <= xEnd; i++)
+		{
+			for (int j = yBegin; j <= yEnd; j++)
+			{
+				for (int k = 0; k < zones.Count; k++)
+				{
+					if(zones[k].type == zoneType)
+					{
+						if (zones[k].IsInZone(i, j))
+						{
+							zones[k].RemovePosition(new Vector2(i, j));
+							zonesEdited.Add(zones[k]);
+						}
+					}
+					
+
+				}
+
+			}
+		}
+
+		for (int k = zones.Count-1; k >=0; k--)
+		{
+			var zone = zones[k];
+			if (zone.IsDead)
+			{
+				zones.RemoveAt(k);
+				raiseZoneRemoved(zone);
+			}
+
+		}
+
+		for (int i = 0; i < zonesEdited.Count; i++)
+		{
+			if (zonesEdited[i].IsAlive)
+			{
+				OneZoneEdited.Raise(zonesEdited[i]);
+				//raiseZoneEdited(zones[i]);
 			}
 
 		}
