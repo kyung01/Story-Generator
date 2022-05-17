@@ -45,7 +45,6 @@ public class UIMain_Old : MonoBehaviour
 
 
 	List<Thing> thingsSelected = new List<Thing>();
-	InWorldUIRenderer inWorldUIRendere = new InWorldUIRenderer();
 	WorldThingSelector wrdThingSelector = new WorldThingSelector();
 	//List<Zone> zones = new List<Zone>();
 
