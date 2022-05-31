@@ -42,7 +42,7 @@ public class GameRenderer : MonoBehaviour
 	private void RenderTerrain(TerrainInstance terrain)
 	{
 		//terrainMeshGenerator.Init(terrain);
-		int maxSize = 1;
+		int maxSize = 10;
 		int numTMGWidth = terrain.Width / maxSize;
 		int numTMGHeight = terrain.Height / maxSize;
 		int xBegin = 0;
@@ -171,7 +171,7 @@ public class GameRenderer : MonoBehaviour
 			var screenRect = new Rect(worldMin.x, worldMin.y, worldMax.x-worldMin.x ,worldMax.y-worldMin.y);
 			foreach(var tPiece in this.renderedTerrainPieceInfo)
 			{
-				//tPiece.obj.SetActive(tPiece.rect.Overlaps(screenRect));
+				tPiece.obj.SetActive(tPiece.rect.Overlaps(screenRect));
 
 			}
 		}

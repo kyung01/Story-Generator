@@ -72,7 +72,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 		//sterrain = instance;
 		var mesh = new Mesh();
 		mesh.name = "Terrain Mesh " + new Vector2(x0,y0) + " " + new Vector2(x1Inclu, y1Inclu) ;
-		Debug.Log("Terrain Mesh " + new Vector2(x0, y0) + " " + new Vector2(x1Inclu, y1Inclu));
+		//Debug.Log("Terrain Mesh " + new Vector2(x0, y0) + " " + new Vector2(x1Inclu, y1Inclu));
 		GetComponent<MeshFilter>().mesh = mesh;
 
 
@@ -84,11 +84,11 @@ public class TerrainMeshGenerator : MonoBehaviour
 		int index = 0;
 		for (int y = y0*2; y <= (1+y1Inclu)*2; y++)
 		{
-			Debug.Log("new Y");
+			//Debug.Log("new Y");
 			for (int x = x0 * 2; x <= (1 + x1Inclu) * 2; x++)
 			{
 				vertices.Add(terrainVertices[x + y * width]);
-				Debug.Log("Vertice index at " +(index++) +"" + terrainVertices[x + y * width].position);
+				//Debug.Log("Vertice index at " +(index++) +"" + terrainVertices[x + y * width].position);
 			}
 		}
 		var triangles = UpdateTriangleIndices(0, 0,x1Inclu-x0,y1Inclu-y0);
@@ -208,7 +208,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 					distance *= distance;
 					var currentValue = surroundingVertices[k].influenceOfEachType[(int)terrainPiece.Type];
 					//surroundingVertices[k].influenceOfEachType[(int)terrainPiece.Type] = Mathf.Max(distance, currentValue);
-					surroundingVertices[k].influenceOfEachType[(int)terrainPiece.Type] += 1.0f/8.0f;
+					surroundingVertices[k].influenceOfEachType[(int)terrainPiece.Type]++;
 				}
 				hprUpdateInfluencedVertexs(terrainPiece, surroundingVertices);
 
