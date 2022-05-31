@@ -52,8 +52,8 @@ namespace StoryGenerator.World
 
 		public TerrainInstance terrain;
 		public ZoneOrganizer zoneOrganizer;
-		public int width	= 30;
-		public int height	= 30;
+		public int width	= 100;
+		public int height	= 100;
 		public List<Thing>[] things;
 		public List<Thing>[] thingsMoving;
 		public List<Thing> allThings = new List<Thing>();

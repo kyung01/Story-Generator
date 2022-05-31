@@ -5,12 +5,12 @@ using System;
 using StoryGenerator.Terrain;
 using System.Collections.Generic;
 
-public class TerrainPieceCullingInfo
+public class RenderedTerrainPieceInfo
 {
 	public GameObject obj;
 	public Rect rect;
 
-	public TerrainPieceCullingInfo(GameObject obj, Vector2 bl, Vector2 tR)
+	public RenderedTerrainPieceInfo(GameObject obj, Vector2 bl, Vector2 tR)
 	{
 		this.obj = obj;
 		rect = new Rect(bl.x, bl.y, tR.x - bl.x, tR.y - bl.y);
@@ -31,7 +31,7 @@ public class GameRenderer : MonoBehaviour
 	//[SerializeField] TerrainMeshGenerator terrainMeshGenerator;
 	[SerializeField] GameObject tempMountainRock;
 
-	List<TerrainPieceCullingInfo> brokenTerrainPieces = new List<TerrainPieceCullingInfo>();
+	List<RenderedTerrainPieceInfo> renderedTerrainPieceInfo = new List<RenderedTerrainPieceInfo>();
 
 	internal void hdrWorldThingAdded(Thing thing)
 	{
@@ -42,12 +42,13 @@ public class GameRenderer : MonoBehaviour
 	private void RenderTerrain(TerrainInstance terrain)
 	{
 		//terrainMeshGenerator.Init(terrain);
-		int maxSize = 10;
+		int maxSize = 50;
 		int numTMGWidth = terrain.Width / maxSize;
 		int numTMGHeight = terrain.Height / maxSize;
 		int xBegin = 0;
 		int yBegin = 0;
 		//Debug.Log("numTMGWidth " + numTMGWidth + " " + numTMGHeight);
+		
 		List<TerrainInstance> terrainBrokenInto = new List<TerrainInstance>();
 		for (int j = 0; j < numTMGHeight; j++)
 		{
@@ -61,6 +62,14 @@ public class GameRenderer : MonoBehaviour
 				terrainBrokenInto.Add(newTerrain);
 				newTerrain.Init(maxSize, maxSize);
 				newTerrain.PositionBegin = positionBegin;
+				for(int x = 0; x< terrain.Width; x++)
+				{
+					for(int y = 0; y < terrain.Height; y++)
+					{
+
+						newTerrain.pieces[x +y * maxSize] = terrain.pieces[x + y * terrain.Width];
+					}
+				}
 
 				for (int x = xBegin; x -xBegin <   maxSize && x < terrain.Width; x++)
 				{
@@ -74,11 +83,11 @@ public class GameRenderer : MonoBehaviour
 				}
 				{
 
-					var tmg = Instantiate(PREFAB_TMG);
-					tmg.transform.position = Vector3.zero;
-					tmg.Init(newTerrain);
-					tmg.gameObject.SetActive(false);
-					this.brokenTerrainPieces.Add(new TerrainPieceCullingInfo(tmg.gameObject, positionBegin, positionBegin + new Vector2(maxSize,maxSize)));
+					var terrainMeshGenerator = Instantiate(PREFAB_TMG);
+					terrainMeshGenerator.transform.position = Vector3.zero;
+					terrainMeshGenerator.Init(newTerrain);
+					terrainMeshGenerator.gameObject.SetActive(false);
+					this.renderedTerrainPieceInfo.Add(new RenderedTerrainPieceInfo(terrainMeshGenerator.gameObject, positionBegin, positionBegin + new Vector2(maxSize,maxSize)));
 				}
 				xBegin += maxSize;
 
@@ -154,11 +163,12 @@ public class GameRenderer : MonoBehaviour
 		//Debug.Log("M " + Input.mousePosition);
 		var worldMin = Camera.main.ViewportToWorldPoint(new Vector3(-.1f, -.1f, 0));
 		var worldMax = Camera.main.ViewportToWorldPoint(new Vector3(1.1f, 1.1f, 0));
-		if(this.worldMin!= worldMin || this.worldMax != worldMax)
+		bool shouldRefreshScreen = (this.worldMin != worldMin || this.worldMax != worldMax);
+		if (shouldRefreshScreen)
 		{
-			//refresh
+			//refresh the game
 			var screenRect = new Rect(worldMin.x, worldMin.y, worldMax.x-worldMin.x ,worldMax.y-worldMin.y);
-			foreach(var tPiece in this.brokenTerrainPieces)
+			foreach(var tPiece in this.renderedTerrainPieceInfo)
 			{
 				tPiece.obj.SetActive(tPiece.rect.Overlaps(screenRect));
 

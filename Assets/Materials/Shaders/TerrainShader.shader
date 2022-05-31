@@ -85,7 +85,7 @@ Shader "Custom/UnLitTerrainShader"{
 		
 		//hotfix
 
-		float powV = 3;
+		float powV = 1;
 		power01 = pow(power01,powV);
 		power02 = pow(power02,powV);
 		power03 = pow(power03,powV);
