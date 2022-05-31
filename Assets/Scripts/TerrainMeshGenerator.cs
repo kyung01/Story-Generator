@@ -49,7 +49,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 		var mesh = new Mesh();
 		mesh.name = "Terrain Mesh";
 		objWithMeshFilter.GetComponent<MeshFilter>().mesh = mesh;
-		var newTriangles = UpdateTriangles(xBegin, yBegin, xEnd, yEnd);
+		var newTriangles = UpdateTriangleIndices(xBegin, yBegin, xEnd, yEnd);
 		UpdateMesh(mesh, terrainVerticesSaved, newTriangles);
 
 	}
@@ -63,15 +63,16 @@ public class TerrainMeshGenerator : MonoBehaviour
 
 		var terrainVertices = InitVerticies(instance);
 
-		var triangles = UpdateTriangles(0, 0, instance.Width - 1, instance.Height - 1);
+		var triangles = UpdateTriangleIndices(0, 0, instance.Width - 1, instance.Height - 1);
 		UpdateMesh(mesh, terrainVertices, triangles);
 	}
 
-	public void InitWithinRange(StoryGenerator.Terrain.TerrainInstance instance, int x0,int y0, int x1,int y1)
+	public void InitWithinRange(StoryGenerator.Terrain.TerrainInstance instance, int x0,int y0, int x1Inclu,int y1Inclu)
 	{
 		//sterrain = instance;
 		var mesh = new Mesh();
-		mesh.name = "Terrain Mesh";
+		mesh.name = "Terrain Mesh " + new Vector2(x0,y0) + " " + new Vector2(x1Inclu, y1Inclu) ;
+		Debug.Log("Terrain Mesh " + new Vector2(x0, y0) + " " + new Vector2(x1Inclu, y1Inclu));
 		GetComponent<MeshFilter>().mesh = mesh;
 
 
@@ -80,15 +81,29 @@ public class TerrainMeshGenerator : MonoBehaviour
 		List<TerrainVertex> vertices = new List<TerrainVertex>();
 
 		int width = instance.Width * 2 + 1;
-		for(int x = x0*2+1-1; x < x1*2+1; x++)
+		int index = 0;
+		for (int y = y0*2; y <= (1+y1Inclu)*2; y++)
 		{
-			for(int y = y0*2+1-1; y< y1*2+1; y++)
+			Debug.Log("new Y");
+			for (int x = x0 * 2; x <= (1 + x1Inclu) * 2; x++)
 			{
 				vertices.Add(terrainVertices[x + y * width]);
+				Debug.Log("Vertice index at " +(index++) +"" + terrainVertices[x + y * width].position);
 			}
 		}
-		var triangles = UpdateTriangles(x0, y0,x1-x0+1,y1-y0+1);
-		UpdateMesh(mesh, terrainVertices, triangles);
+		var triangles = UpdateTriangleIndices(0, 0,x1Inclu-x0,y1Inclu-y0);
+
+		int minT = 999;
+		int maxT = 0;
+
+		foreach (var t in triangles)
+		{
+			Debug.Log(t + " "+vertices[t].position);
+			maxT = Mathf.Max(t, maxT);
+			minT = Mathf.Min(t, minT);
+		}
+		Debug.Log("Max " + maxT + " Min " + minT + " " + vertices.Count);
+		UpdateMesh(mesh, vertices.ToArray(), triangles);
 	}
 
 
@@ -270,11 +285,11 @@ public class TerrainMeshGenerator : MonoBehaviour
 
 	}
 
-	int[] UpdateTriangles(int xBegin, int yBegin, int xEnd, int yEnd)
+	int[] UpdateTriangleIndices(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
 		//verticies = new Vector3[(xSize + 1) * (zSize + 1)];
 		int xSize = (xEnd - xBegin + 1);
-		int ySize = (1+yEnd - yBegin);
+		int ySize = (yEnd - yBegin + 1);
 		var triangles = new int[(xSize) * (ySize) * 8 * 3]; // I need 8 triangles for each square
 
 
@@ -368,6 +383,12 @@ public class TerrainMeshGenerator : MonoBehaviour
 		mesh.Clear();
 
 		var passPositions = vertexEdgesAndCenters.Select(s => s.position).ToArray();
+		//Debug.Log("UpdateMesh : " );
+		//foreach (var p in passPositions)
+		//{
+		//	Debug.Log("TerrainMeshGen : " + p);
+		//}
+		//Debug.Log("UpdateMesh END ");
 
 		var passColors = vertexEdgesAndCenters.Select(s => hprIntToColor(s.type)).ToArray();
 

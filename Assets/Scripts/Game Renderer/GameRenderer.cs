@@ -42,7 +42,7 @@ public class GameRenderer : MonoBehaviour
 	private void RenderTerrain(TerrainInstance terrain)
 	{
 		//terrainMeshGenerator.Init(terrain);
-		int maxSize = 50;
+		int maxSize = 1;
 		int numTMGWidth = terrain.Width / maxSize;
 		int numTMGHeight = terrain.Height / maxSize;
 		int xBegin = 0;
@@ -60,14 +60,15 @@ public class GameRenderer : MonoBehaviour
 				Vector2 positionBegin = new Vector2(xBegin, yBegin);
 				var newTerrain = new TerrainInstance();
 				terrainBrokenInto.Add(newTerrain);
-				newTerrain.Init(maxSize, maxSize);
-				newTerrain.PositionBegin = positionBegin;
-				for(int x = 0; x< terrain.Width; x++)
+				//newTerrain.Init(maxSize, maxSize);
+				newTerrain.Init(terrain.Width,terrain.Height);
+				//newTerrain.PositionBegin = positionBegin;
+				for (int x = 0; x< terrain.Width; x++)
 				{
 					for(int y = 0; y < terrain.Height; y++)
 					{
 
-						newTerrain.pieces[x +y * maxSize] = terrain.pieces[x + y * terrain.Width];
+						newTerrain.pieces[x + y * terrain.Width] = terrain.pieces[x + y * terrain.Width];
 					}
 				}
 
@@ -77,7 +78,7 @@ public class GameRenderer : MonoBehaviour
 					{
 						//Debug.Log(x + " " + y);
 						//Debug.Log("MAX"+(xBegin + maxSize) + " " + (yBegin + maxSize));
-						newTerrain.pieces[(x - xBegin) + (y - yBegin) * maxSize] =  terrain.pieces[x + y * terrain.Width];
+						//newTerrain.pieces[(x - xBegin) + (y - yBegin) * maxSize] =  terrain.pieces[x + y * terrain.Width];
 
 					}
 				}
@@ -85,8 +86,8 @@ public class GameRenderer : MonoBehaviour
 
 					var terrainMeshGenerator = Instantiate(PREFAB_TMG);
 					terrainMeshGenerator.transform.position = Vector3.zero;
-					terrainMeshGenerator.Init(newTerrain);
-					terrainMeshGenerator.gameObject.SetActive(false);
+					terrainMeshGenerator.InitWithinRange(terrain, xBegin,yBegin,xBegin+maxSize-1, yBegin+maxSize-1);
+					//terrainMeshGenerator.gameObject.SetActive(false);
 					this.renderedTerrainPieceInfo.Add(new RenderedTerrainPieceInfo(terrainMeshGenerator.gameObject, positionBegin, positionBegin + new Vector2(maxSize,maxSize)));
 				}
 				xBegin += maxSize;
@@ -170,7 +171,7 @@ public class GameRenderer : MonoBehaviour
 			var screenRect = new Rect(worldMin.x, worldMin.y, worldMax.x-worldMin.x ,worldMax.y-worldMin.y);
 			foreach(var tPiece in this.renderedTerrainPieceInfo)
 			{
-				tPiece.obj.SetActive(tPiece.rect.Overlaps(screenRect));
+				//tPiece.obj.SetActive(tPiece.rect.Overlaps(screenRect));
 
 			}
 		}
