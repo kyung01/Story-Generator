@@ -24,7 +24,7 @@ public class ZoneOrganizer
 
 	public List<DEL_ZONE> OnZoneAdded			= new List<DEL_ZONE>();
 	public List<DEL_ZONE> OnZoneRemoved			= new List<DEL_ZONE>();
-	public List<DEL_ZONE> OneZoneEdited			= new List<DEL_ZONE>();
+	public List<DEL_ZONE> OnZoneEdited			= new List<DEL_ZONE>();
 	public List<DEL_ZONE> OnSingleZoneSelected	= new List<DEL_ZONE>();
 	public List<DEL_NO_ZONE_SELECTED> OnNO_ZONE_SELECTED = new List<DEL_NO_ZONE_SELECTED>();
 
@@ -173,7 +173,8 @@ public class ZoneOrganizer
 		else
 		{
 			houseBedroomBelongsTo.Add(bedroomZone);
-			raiseZoneAdded(bedroomZone);
+			//raiseZoneAdded(bedroomZone);
+			OnZoneEdited.Raise(houseBedroomBelongsTo);
 		}
 
 	}
@@ -292,7 +293,7 @@ public class ZoneOrganizer
 		{
 			if (zonesEdited[i].IsAlive)
 			{
-				OneZoneEdited.Raise(zonesEdited[i]);
+				OnZoneEdited.Raise(zonesEdited[i]);
 				//raiseZoneEdited(zones[i]);
 			}
 

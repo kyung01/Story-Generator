@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EasyTools;
 
 public class EdgeInformation
 {
@@ -368,6 +369,21 @@ public class ZoneRenderer :MonoBehaviour
 		this.zone = zone;
 		updateEdges(zone);
 		UpdateText(zone);
+
+		foreach(var zr in this.zoneRenderers)
+		{
+			Destroy(zr.gameObject);
+		}
+		this.zoneRenderers = new List<ZoneRenderer>();
+		if(zone is HouseZone){
+			var house = (HouseZone)zone;
+			foreach(var h in house.Rooms)
+			{
+				var newZoneRend = Instantiate(this);
+				this.zoneRenderers.Add(newZoneRend);
+				newZoneRend.Init(h, EzT.GetRandomColor());
+			}
+		}
 		//for each P in positions, check if it's a position with at least one empty adjacent
 		//Record which edge is empty because we need that information to render edges
 

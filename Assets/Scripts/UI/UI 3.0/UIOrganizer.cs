@@ -99,6 +99,7 @@ public class UIOrganizer : MonoBehaviour
 			case UIEnums.FEEDBACK.ZONES_HOUSING:
 				break;
 			case UIEnums.FEEDBACK.ZONES_HOUSING_HOUSE:
+				world.zoneOrganizer.BuildHouseZone(xBegin, yBegin, xEnd, yEnd);
 				break;
 			case UIEnums.FEEDBACK.ZONES_HOUSING_BEDROOM:
 				world.zoneOrganizer.BuildBedroom(xBegin, yBegin, xEnd, yEnd);

@@ -27,11 +27,15 @@ public class GameRenderer : MonoBehaviour
 	[SerializeField] DoorRenderer PREFAB_DOOR_RENDERER;
 	[SerializeField] RoofRenderer PREFAB_ROOF_RENDERER;
 
+	[SerializeField] ZoneRenderer PREFAB_ZONE_RENDERER;
+
 	[SerializeField] TerrainMeshGenerator PREFAB_TMG;
 	//[SerializeField] TerrainMeshGenerator terrainMeshGenerator;
 	[SerializeField] GameObject tempMountainRock;
 
 	List<RenderedTerrainPieceInfo> renderedTerrainPieceInfo = new List<RenderedTerrainPieceInfo>();
+
+	Dictionary<Zone, ZoneRenderer> dicZone_ZoneRen = new Dictionary<Zone, ZoneRenderer>();
 
 	internal void hdrWorldThingAdded(Thing thing)
 	{
@@ -113,6 +117,32 @@ public class GameRenderer : MonoBehaviour
 
 			}
 		RenderWorld(game.world);
+		RenderZoneOrganizer(game.world.zoneOrganizer);
+	}
+
+	private void RenderZoneOrganizer(ZoneOrganizer zoneOrganizer)
+	{
+		zoneOrganizer.OnZoneAdded.Add(hdrZoneAdded);
+		zoneOrganizer.OnZoneEdited.Add(hdrZoneEdited);
+		zoneOrganizer.OnZoneRemoved.Add(hdrZoneRemoved);
+
+	}
+
+
+	private void hdrZoneAdded(Zone zone)
+	{
+		var renderer = Instantiate(PREFAB_ZONE_RENDERER);
+		renderer.Init(zone, UIPostRenderer.GetRandomColor());
+		this.dicZone_ZoneRen.Add(zone, renderer);
+	}
+	private void hdrZoneEdited(Zone zone)
+	{
+		dicZone_ZoneRen[zone].Init(zone, zone.Color);
+	}
+
+	private void hdrZoneRemoved(Zone zone)
+	{
+		dicZone_ZoneRen.Remove(zone);
 	}
 
 	void Render(Thing t)

@@ -38,7 +38,7 @@ public class UIMain_2_0 : MonoBehaviour
 		world.zoneOrganizer.OnNO_ZONE_SELECTED.Add(hdrNoZoneSelected);
 		world.zoneOrganizer.OnZoneAdded.Add(hdrZoneAddedRemoved);
 		world.zoneOrganizer.OnZoneRemoved.Add(hdrZoneAddedRemoved);
-		world.zoneOrganizer.OneZoneEdited.Add(hdrZoneAddedRemoved);
+		world.zoneOrganizer.OnZoneEdited.Add(hdrZoneAddedRemoved);
 	}
 
 	#region zoneOrganizerHdrs
