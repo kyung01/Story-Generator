@@ -81,7 +81,7 @@ namespace PathFinder
 
 		public void setCellWeight(int x, int y, float weight)
 		{
-			cells[x][y].Weight = weight;
+			cells[x][y].weight = weight;
 		}
 		public void addCellWeightInt(int x, int y, int weight)
 		{
@@ -105,7 +105,26 @@ namespace PathFinder
 		{
 			return (int)path.x == (int)destination.x && (int)path.y == (int)destination.y;
 		}
-		void hprUpdateNeighbouringPaths(KPath path, List<KPath> availblePaths)
+
+		private void hprAddCell(List<KPath> availablePaths, KPath path, KPath neighbour)
+		{
+			float distanceWeight = (neighbour.vec2 - path.vec2).sqrMagnitude;
+
+
+			neighbour.reset(pathID,
+				//path.weight +
+				//cells[path.x][path.y].Weight +
+				cells[neighbour.x][neighbour.y].Weight 
+				//+ distanceWeight
+				, null, null);
+
+			//var neighBourCopy = neighbour.GetCopy();
+			//removeThisFromNeighbours(neighBourCopy, path);
+			neighbour.weight += path.weight;
+			neighbour.before = path;
+			availablePaths.Add(neighbour);
+		}
+		void hprUpdateNeighbouringPaths(KPath path, List<KPath> availablePaths)
 		{
 
 			for (int i = 0; i < path.neighbours.Count; i++)
@@ -120,22 +139,23 @@ namespace PathFinder
 					}
 					//Normally path -> the neighbouring path has distance of 1 or sqrt(2) but sometimes, a teleporter can be created
 					//And teleporter can be used to shrink the distance between two points
-
-					float distanceWeight = (neighbour.vec2 - path.vec2).sqrMagnitude;
+					hprAddCell(availablePaths, path, neighbour);
 					//Debug.Log("resetting a path with...");
 					//Debug.Log(cells[path.x][path.y].Weight + " " + cells[neighbour.x][neighbour.y].Weight + " " + distanceWeight);
+					/*
 
-
+					float distanceWeight = (neighbour.vec2 - path.vec2).sqrMagnitude;
 					neighbour.reset(pathID,
 						//path.weight +
 						//cells[path.x][path.y].Weight +
 						cells[neighbour.x][neighbour.y].Weight + distanceWeight , null, null);
+					neighbour.weight += path.weight;
+					neighbour.before = path;
+					availablePaths.Add(neighbour);
+					 * */
 
 					//var neighBourCopy = neighbour.GetCopy();
 					//removeThisFromNeighbours(neighBourCopy, path);
-					neighbour.weight += path.weight;
-					neighbour.before = path;
-					availblePaths.Add(neighbour);
 
 				}
 				else
@@ -163,6 +183,8 @@ namespace PathFinder
 					//Debug.Log("resetting a path(diagonal) with...");
 					//Debug.Log(cells[path.x][path.y].Weight + " " + cells[neighbourD.x][neighbourD.y].Weight + " " + (neighbourD.vec2 - path.vec2).sqrMagnitude);
 
+					hprAddCell(availablePaths, path, neighbourD);
+					/*
 					neighbourD.reset(pathID,
 						//path.weight+
 						//cells[path.x][path.y].Weight +
@@ -172,7 +194,8 @@ namespace PathFinder
 					//removeThisFromNeighbours(neighBourDCopy, path);
 					neighbourD.weight += path.weight;
 					neighbourD.before = path;
-					availblePaths.Add(neighbourD);
+					availablePaths.Add(neighbourD);
+					 */
 
 				}
 				else
@@ -181,6 +204,7 @@ namespace PathFinder
 				}
 			}
 		}
+
 
 		private void removeThisFromNeighbours(KPath neighbourCopy, KPath startingPath)
 		{
@@ -241,9 +265,20 @@ namespace PathFinder
 			return chosenPath;
 		}
 
-
+		void writeDebugLog(object obj)
+		{
+			this.debugLog.Add((string)obj);
+		}
+		void printDebugLogIntoUnity()
+		{
+			for(int i = 0; i< debugLog.Count; i++)
+			{
+				Debug.Log(this.debugLog[i]);
+			}
+		}
 		void whileLoop(KPath path, Vector2 pathDestination, PathObject a, PathObject b)
 		{
+			writeDebugLog("beginning a while loop");
 			availablePaths.Clear();
 			int whileBKP = 2000; // While loop breaking point
 			bool pathFound = false;
@@ -251,6 +286,7 @@ namespace PathFinder
 			{
 				if (whileBKP-- <= 0)
 				{
+					printDebugLogIntoUnity();
 					Debug.LogError(this + "While Loop Limit Reached");
 					break;
 				}
@@ -294,11 +330,13 @@ namespace PathFinder
 
 				hprUpdateNeighbouringPaths(path, availablePaths);
 				KPath nextPath = hprChooseTheBestPath(availablePaths, pathDestination);
+				writeDebugLog("number of availablePaths after lookup " + availablePaths.Count + " " + nextPath.x + " " + nextPath.y);
 				availablePaths.Remove(nextPath);
 
 
 				if (nextPath == null)
 				{
+					writeDebugLog("Dead end reached");
 					//this is a dead end
 					Log("Dead end");
 					path.weight = float.MaxValue;
@@ -329,10 +367,15 @@ namespace PathFinder
 			path.reset(pathID, cells[path.x][path.y].weight, null, null);
 			return path;
 		}
-
+		List<string> debugLog = new List<string>();
+		void startDebugLog()
+		{
+			debugLog = new List<string>();
+		}
 		public KPath getPath(Vector2 posBegin, Vector2 pathDestination)
 		{
 			var path = getNewPathSeed(posBegin, pathDestination);
+			startDebugLog();
 			whileLoop(path, pathDestination, null, null);
 			int BKP = 100;
 			//Debug.Log("getPathWithPathObjects " );

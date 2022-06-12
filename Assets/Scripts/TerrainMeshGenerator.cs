@@ -98,7 +98,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 
 		foreach (var t in triangles)
 		{
-			Debug.Log(t + " "+vertices[t].position);
+			//Debug.Log(t + " "+vertices[t].position);
 			maxT = Mathf.Max(t, maxT);
 			minT = Mathf.Min(t, minT);
 		}
