@@ -59,6 +59,12 @@ namespace StoryGenerator.World
 		public List<Thing> allThings = new List<Thing>();
 		//public List<Structure>[] structures;
 
+		public List<Team> teams = new List<Team>();
+
+
+		Team playerTeam;
+		public Team PlayerTeam { get { return this.playerTeam; } }
+
 		internal List<Thing> GetThingsAt(int x, int y)
 		{
 			List<Thing> list = new List<Thing>();
@@ -79,10 +85,7 @@ namespace StoryGenerator.World
 		}
 
 		//public List<ThingXY> thingsToKeepTracking = new List<ThingXY>();
-		public List<Team> teams = new List<Team>();
-
-
-		Team playerTeam;
+	
 
 		public World()
 		{
@@ -418,9 +421,9 @@ namespace StoryGenerator.World
 		}
 		public void InitAnimals()
 		{
-			int numRabbit = 1;
+			int numRabbit = 0;
 			int numBear = 0;
-			int numHumans = 10;
+			int numHumans = 1;
 
 			for (int i = 0; i < numRabbit; i++)
 			{

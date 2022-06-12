@@ -104,7 +104,7 @@ public class Door : Structure
 				//installed structure 
 
 			}
-			if (t.type == TYPE.FLOOR || t.type == TYPE.DOOR || t.type == TYPE.CEILING)
+			if (t.type == TYPE.FLOOR || t.type == TYPE.DOOR || t.type == TYPE.ROOF)
 			{
 				//these dont get stuck
 				continue;

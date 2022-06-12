@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class UILinker : MonoBehaviour
+public class UILinkerOLD : MonoBehaviour
 {
 	public enum FEEDBACK { 
 		NONE,

@@ -42,7 +42,7 @@ public class GameRenderer : MonoBehaviour
 	private void RenderTerrain(TerrainInstance terrain)
 	{
 		//terrainMeshGenerator.Init(terrain);
-		int maxSize = 10;
+		int maxSize = 100;
 		int numTMGWidth = terrain.Width / maxSize;
 		int numTMGHeight = terrain.Height / maxSize;
 		int xBegin = 0;

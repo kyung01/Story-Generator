@@ -8,13 +8,13 @@ using UnityEngine;
 public class UIMain_2_0 : MonoBehaviour
 {
 	[SerializeField] ZoneRenderer PREFAB_ZONERENDERER;
-	[SerializeField] UILinker uiLinker;
+	[SerializeField] UILinkerOLD uiLinker;
 	private UISelectBox UISelectBox;
 
 	World world;
 
-	UILinker.FEEDBACK selectedMode;
-	UILinker.FEEDBACK selectedEditMode;
+	UILinkerOLD.FEEDBACK selectedMode;
+	UILinkerOLD.FEEDBACK selectedEditMode;
 
 	List<StaticZoneRenderer> zoneRenderers = new List<StaticZoneRenderer>();
 	List<ZoneRenderer> zoneRendererPrefabs = new List<ZoneRenderer>();
@@ -23,6 +23,7 @@ public class UIMain_2_0 : MonoBehaviour
 	// Use this for initialization
 	private void Awake()
 	{
+
 		uiLinker.OnFeedback.Add(hdrUILinkerFeedback);
 
 	}
@@ -71,110 +72,127 @@ public class UIMain_2_0 : MonoBehaviour
 	private void SelectInGame(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
 		Debug.Log(this + " " + selectedMode + " " + selectedEditMode);
-		if (selectedMode == UILinker.FEEDBACK.FOOTER_ZONE_SELECTED)
+		if (selectedMode == UILinkerOLD.FEEDBACK.FOOTER_ZONE_SELECTED)
 		{
 			world.zoneOrganizer.Select(xBegin, yBegin, xEnd, yEnd);
 			return;
 		}
-
-		if (selectedMode == UILinker.FEEDBACK.TASK_HAUL)
+		if (selectedMode == UILinkerOLD.FEEDBACK.TASK_HAUL)
 		{
 			wrdThingSelector.Select(world, xBegin, yBegin, 1 + xEnd - xBegin, 1 + yEnd - yBegin);
 			var things = wrdThingSelector.ThingsCurrentlySelected;
 			switch (selectedEditMode)
 			{
 				default:
-				case UILinker.FEEDBACK.ANY: //Select mode?
+				case UILinkerOLD.FEEDBACK.ANY: //Select mode?
 					break;
-				case UILinker.FEEDBACK.ADD:
+				case UILinkerOLD.FEEDBACK.ADD:
 					foreach (var thing in things)
 					{
 						world.teams[0].WorkManager.Howl(thing);
 
 					}
 					break;
-				case UILinker.FEEDBACK.REMOVE:
+				case UILinkerOLD.FEEDBACK.REMOVE:
 					break;
 
 			}
 		}
-		if (selectedMode == UILinker.FEEDBACK.HOUSING_HOUSE_SELECTED)
+		if (selectedMode == UILinkerOLD.FEEDBACK.HOUSING_HOUSE_SELECTED)
 		{
 			switch (selectedEditMode)
 			{
 				default:
-				case UILinker.FEEDBACK.ANY: //Select mode?
+				case UILinkerOLD.FEEDBACK.ANY: //Select mode?
 					world.zoneOrganizer.Select(xBegin, yBegin, xEnd, yEnd, Zone.TYPE.HOUSE);
 					break;
-				case UILinker.FEEDBACK.ADD:
+				case UILinkerOLD.FEEDBACK.ADD:
 					world.zoneOrganizer.BuildHouseZone(xBegin, yBegin, xEnd, yEnd);
 					break;
-				case UILinker.FEEDBACK.REMOVE:
+				case UILinkerOLD.FEEDBACK.REMOVE:
 					world.zoneOrganizer.DeleteZone(xBegin, yBegin, xEnd, yEnd, Zone.TYPE.HOUSE);
 					break;
 
 			}
 		}
-		if (selectedMode == UILinker.FEEDBACK.HOUSING_BEDROOM_SELECTED)
+		if (selectedMode == UILinkerOLD.FEEDBACK.HOUSING_BEDROOM_SELECTED)
 		{
 			switch (selectedEditMode)
 			{
 				default:
-				case UILinker.FEEDBACK.ANY: //Select mode?
+				case UILinkerOLD.FEEDBACK.ANY: //Select mode?
 					world.zoneOrganizer.Select(xBegin, yBegin, xEnd, yEnd, Zone.TYPE.HOUSE);
 					break;
-				case UILinker.FEEDBACK.ADD:
+				case UILinkerOLD.FEEDBACK.ADD:
 					world.zoneOrganizer.BuildBedroom(xBegin, yBegin, xEnd, yEnd);
 					break;
-				case UILinker.FEEDBACK.REMOVE:
+				case UILinkerOLD.FEEDBACK.REMOVE:
 					break;
 
 			}
 		}
-		if (selectedMode == UILinker.FEEDBACK.HOUSING_BATHROOM_SELECTED)
+		if (selectedMode == UILinkerOLD.FEEDBACK.HOUSING_BATHROOM_SELECTED)
 		{
 			switch (selectedEditMode)
 			{
 				default:
-				case UILinker.FEEDBACK.ANY: //Select mode?
+				case UILinkerOLD.FEEDBACK.ANY: //Select mode?
 					world.zoneOrganizer.Select(xBegin, yBegin, xEnd, yEnd, Zone.TYPE.HOUSE);
 					break;
-				case UILinker.FEEDBACK.ADD:
+				case UILinkerOLD.FEEDBACK.ADD:
 					world.zoneOrganizer.BuildBathroom(xBegin, yBegin, xEnd, yEnd);
 					break;
-				case UILinker.FEEDBACK.REMOVE:
+				case UILinkerOLD.FEEDBACK.REMOVE:
 					break;
 
 			}
 		}
-		if (selectedMode == UILinker.FEEDBACK.HOUSING_LIVINGROOM_SELECTED)
+		if (selectedMode == UILinkerOLD.FEEDBACK.HOUSING_LIVINGROOM_SELECTED)
 		{
 			switch (selectedEditMode)
 			{
 				default:
-				case UILinker.FEEDBACK.ANY: //Select mode?
+				case UILinkerOLD.FEEDBACK.ANY: //Select mode?
 					world.zoneOrganizer.Select(xBegin, yBegin, xEnd, yEnd, Zone.TYPE.HOUSE);
 					break;
-				case UILinker.FEEDBACK.ADD:
+				case UILinkerOLD.FEEDBACK.ADD:
 					world.zoneOrganizer.BuildLivingroom(xBegin, yBegin, xEnd, yEnd);
 					break;
-				case UILinker.FEEDBACK.REMOVE:
+				case UILinkerOLD.FEEDBACK.REMOVE:
 					break;
 
 			}
 		}
-		if (selectedMode == UILinker.FEEDBACK.STOCKPILE_SELECTED)
+		if (selectedMode == UILinkerOLD.FEEDBACK.STOCKPILE_SELECTED)
 		{
 			switch (selectedEditMode)
 			{
 				default:
-				case UILinker.FEEDBACK.ANY: //Select mode?
+				case UILinkerOLD.FEEDBACK.ANY: //Select mode?
 					world.zoneOrganizer.Select(xBegin, yBegin, xEnd, yEnd, Zone.TYPE.STOCKPILE);
 					break;
-				case UILinker.FEEDBACK.ADD:
+				case UILinkerOLD.FEEDBACK.ADD:
 					world.zoneOrganizer.BuildStockpileZone(xBegin, yBegin, xEnd, yEnd);
 					break;
-				case UILinker.FEEDBACK.REMOVE:
+				case UILinkerOLD.FEEDBACK.REMOVE:
+					world.zoneOrganizer.DeleteZone(xBegin, yBegin, xEnd, yEnd, Zone.TYPE.STOCKPILE);
+					break;
+
+			}
+		}
+
+		if (selectedMode == UILinkerOLD.FEEDBACK.STOCKPILE_SELECTED)
+		{
+			switch (selectedEditMode)
+			{
+				default:
+				case UILinkerOLD.FEEDBACK.ANY: //Select mode?
+					world.zoneOrganizer.Select(xBegin, yBegin, xEnd, yEnd, Zone.TYPE.STOCKPILE);
+					break;
+				case UILinkerOLD.FEEDBACK.ADD:
+					world.zoneOrganizer.BuildStockpileZone(xBegin, yBegin, xEnd, yEnd);
+					break;
+				case UILinkerOLD.FEEDBACK.REMOVE:
 					world.zoneOrganizer.DeleteZone(xBegin, yBegin, xEnd, yEnd, Zone.TYPE.STOCKPILE);
 					break;
 
@@ -183,11 +201,11 @@ public class UIMain_2_0 : MonoBehaviour
 
 	}
 
-	private void hdrUILinkerFeedback(UILinker.FEEDBACK feedback)
+	private void hdrUILinkerFeedback(UILinkerOLD.FEEDBACK feedback)
 	{
 
 
-		if (feedback != UILinker.FEEDBACK.ANY && feedback != UILinker.FEEDBACK.ADD && feedback != UILinker.FEEDBACK.REMOVE)
+		if (feedback != UILinkerOLD.FEEDBACK.ANY && feedback != UILinkerOLD.FEEDBACK.ADD && feedback != UILinkerOLD.FEEDBACK.REMOVE)
 		{
 			selectedMode = feedback;
 		}
@@ -205,14 +223,14 @@ public class UIMain_2_0 : MonoBehaviour
 	{
 		Debug.Log("updateZoneRenderers");
 
-		UILinker.FEEDBACK[] housingZone = new UILinker.FEEDBACK[] {
-			UILinker.FEEDBACK.HOUSING_SELECTED,
-			UILinker.FEEDBACK.HOUSING_BATHROOM_SELECTED,
-			UILinker.FEEDBACK.HOUSING_BEDROOM_SELECTED,
-			UILinker.FEEDBACK.HOUSING_HOUSE_SELECTED,
-			UILinker.FEEDBACK.HOUSING_LIVINGROOM_SELECTED
+		UILinkerOLD.FEEDBACK[] housingZone = new UILinkerOLD.FEEDBACK[] {
+			UILinkerOLD.FEEDBACK.HOUSING_SELECTED,
+			UILinkerOLD.FEEDBACK.HOUSING_BATHROOM_SELECTED,
+			UILinkerOLD.FEEDBACK.HOUSING_BEDROOM_SELECTED,
+			UILinkerOLD.FEEDBACK.HOUSING_HOUSE_SELECTED,
+			UILinkerOLD.FEEDBACK.HOUSING_LIVINGROOM_SELECTED
 		};
-		if (selectedMode == UILinker.FEEDBACK.FOOTER_ZONE_SELECTED)
+		if (selectedMode == UILinkerOLD.FEEDBACK.FOOTER_ZONE_SELECTED)
 		{
 			//render all zones
 
@@ -225,7 +243,7 @@ public class UIMain_2_0 : MonoBehaviour
 
 			updateZoneRendererTo(Zone.TYPE.HOUSE);
 		}
-		else if (selectedMode == UILinker.FEEDBACK.STOCKPILE_SELECTED)
+		else if (selectedMode == UILinkerOLD.FEEDBACK.STOCKPILE_SELECTED)
 		{
 			//render all stockpiles
 			updateZoneRendererTo(Zone.TYPE.STOCKPILE);
@@ -236,7 +254,7 @@ public class UIMain_2_0 : MonoBehaviour
 		}
 	}
 
-	private bool hprIsOneOfThese(UILinker.FEEDBACK check, UILinker.FEEDBACK[] testTo)
+	private bool hprIsOneOfThese(UILinkerOLD.FEEDBACK check, UILinkerOLD.FEEDBACK[] testTo)
 	{
 		foreach (var t in testTo)
 		{
@@ -346,7 +364,7 @@ public class UIMain_2_0 : MonoBehaviour
 		{
 			zone.Update();
 		}
-		if(selectedMode == UILinker.FEEDBACK.FOOTER_TASK_SELECTED)
+		if(selectedMode == UILinkerOLD.FEEDBACK.FOOTER_TASK_SELECTED)
 		{
 			//render all tasks
 		}

@@ -11263,7 +11263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PREFAB_ZONERENDERER: {fileID: 6180705938983230175, guid: 1c2cc0b45773fed42bfe9197a739f742, type: 3}
-  uiLinker: {fileID: 1616408751}
+  uiLinker: {fileID: 0}
 --- !u!4 &1199624079
 Transform:
   m_ObjectHideFlags: 0
@@ -13931,18 +13931,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1616408750}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2731340686afd24ab27e4b5add38632, type: 3}
+  m_Script: {fileID: 11500000, guid: c24e1ae1fdcb859449b983cd73cb3c1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  footer: {fileID: 1034857309}
-  taskMenu: {fileID: 777542381}
-  taskMenu_edit: {fileID: 1280224631}
-  zoneMenu: {fileID: 1023131456}
-  stockpile_edit: {fileID: 365099113}
-  housingMenu: {fileID: 1771932976}
-  houseroomMenu_edit: {fileID: 2093952240}
 --- !u!114 &1616408752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16090,6 +16083,7 @@ MonoBehaviour:
   gameRenderer: {fileID: 1251271835}
   UIMain: {fileID: 1595815405}
   UIMain2: {fileID: 1199624078}
+  uiOrganizer: {fileID: 1616408751}
 --- !u!4 &1939045755
 Transform:
   m_ObjectHideFlags: 0

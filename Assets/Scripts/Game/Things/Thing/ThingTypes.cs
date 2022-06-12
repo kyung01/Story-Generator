@@ -21,11 +21,10 @@ public partial class Thing
 		//Buildings
 		DOOR,
 		WALL,
-		CEILING,
 		FLOOR,
+		ROOF,
 
 		END,
-		STRUCTURE,
-		ROOF
+		STRUCTURE
 	}
 }

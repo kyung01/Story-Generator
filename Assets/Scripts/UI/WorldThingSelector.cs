@@ -16,6 +16,7 @@ public class WorldThingSelector
 	}
 	Thing.TYPE typeOfThingSelected = Thing.TYPE.UNDEFINED;
 	int countOfThingsSelected = -1;
+	
 	List<List<Thing>> getAllThingsInWorld(World world, int x, int y, int width, int height)
 	{
 		List<Thing> things = new List<Thing>();
@@ -46,6 +47,7 @@ public class WorldThingSelector
 		var d = thingsByCount.OrderByDescending(x => x.Count).ToList();
 		return d;
 	}
+
 	bool hprIsSame (List<Thing> a, List<Thing> b)
 	{
 		if (a.Count == b.Count)
@@ -82,6 +84,7 @@ public class WorldThingSelector
 		this.countOfThingsSelected = things.Count;
 		this.typeOfThingSelected = things[0].type;
 	}
+
 	public void Select(World world, int x, int y, int width, int height)
 	{
 		var thingsList = getAllThingsInWorld(world, x, y, width, height);

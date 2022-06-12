@@ -39,6 +39,7 @@ public class WorkManagaer
 
 	public bool Howl(Thing ThingToHowl)
 	{
+		Debug.Log(this + " HOWL : " + ThingToHowl);
 		var work = new Haul(null, ThingToHowl);
 		addWork(work);
 		return true;

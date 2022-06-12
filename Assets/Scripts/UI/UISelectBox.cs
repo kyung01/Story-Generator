@@ -8,8 +8,9 @@ using UnityEngine.EventSystems;
 
 public class UISelectBox : MonoBehaviour
 {
-	public delegate void DEL_SELECTED(int xBeing, int yBegin, int xEnd, int yEnd);
+	public delegate void DEL_SELECTED(int xBegin, int yBegin, int xEnd, int yEnd);
 	public static List<DEL_SELECTED> OnSelected = new List<DEL_SELECTED>();
+
 	void raiseOnSelected(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
 		for(int i = 0; i < OnSelected.Count; i++)

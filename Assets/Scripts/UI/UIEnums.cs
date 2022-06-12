@@ -14,20 +14,58 @@ public static class UIEnums
 			d(value);
 		}
 	}
+
+	public static bool isZONES(this FEEDBACK value)
+	{
+		switch (value)
+		{
+			case FEEDBACK.ZONES:
+			case FEEDBACK.ZONES_HOUSING:
+			case FEEDBACK.ZONES_HOUSING_BATHROOM:
+			case FEEDBACK.ZONES_HOUSING_BEDROOM:
+			case FEEDBACK.ZONES_HOUSING_HOUSE:
+			case FEEDBACK.ZONES_HOUSING_LIVINGROOM:
+			case FEEDBACK.ZONES_STOCKPILE:
+				return true;
+		}
+		return false;
+	}
+	public static bool isBUILDS(this FEEDBACK value)
+	{
+		switch (value)
+		{
+			case FEEDBACK.BUILDS:
+			case FEEDBACK.BUILDS_ROOF:
+			case FEEDBACK.BUILDS_DOOR:
+			case FEEDBACK.BUILDS_WALL:
+				return true;
+		}
+		return false;
+	}
+	public static bool isTASK(this FEEDBACK value)
+	{
+		switch (value)
+		{
+			case FEEDBACK.TASKS:
+			case FEEDBACK.TASKS_HAUL:
+				return true;
+		}
+		return false;
+	}
 	public enum FEEDBACK
 	{
 		NONE,
 
 		BUILDS,
 		TASKS,
-		ZONES,
+		TASKS_HAUL,
 
 		BUILDS_WALL,
 		BUILDS_DOOR,
-		BUILDS_CEILING,
+		BUILDS_ROOF,
 
-		TASK_HAUL,
 
+		ZONES,
 		ZONES_STOCKPILE,
 		ZONES_HOUSING,
 
