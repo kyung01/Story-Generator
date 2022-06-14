@@ -304,7 +304,7 @@ public class UIMain_2_0 : MonoBehaviour
 			prefab.Init(zone, color);
 			this.zoneRendererPrefabs.Add(prefab);
 
-			var hz= (HouseZone)zone;
+			var hz= (BaseHousingZone)zone;
 			foreach(var r in hz.Rooms)
 			{
 				Debug.Log("Positions "+r.positions.Count);
@@ -332,7 +332,7 @@ public class UIMain_2_0 : MonoBehaviour
 		}
 	}
 
-	private void addHouseZone(HouseZone zone, bool isColored, Color color)
+	private void addHouseZone(BaseHousingZone zone, bool isColored, Color color)
 	{
 		var rooms = zone.Rooms;
 		var houseZoneRenderer = new StaticZoneRenderer(zone);

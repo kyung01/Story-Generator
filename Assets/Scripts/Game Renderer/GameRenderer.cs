@@ -2,7 +2,7 @@
 using UnityEngine;
 using StoryGenerator.World;
 using System;
-using StoryGenerator.Terrain;
+using StoryGenerator.NTerrain;
 using System.Collections.Generic;
 
 public class RenderedTerrainPieceInfo
@@ -43,7 +43,7 @@ public class GameRenderer : MonoBehaviour
 	}
 
 
-	private void RenderTerrain(TerrainInstance terrain)
+	private void RenderTerrain(StoryGenerator.NTerrain.TerrainSystem terrain)
 	{
 		//terrainMeshGenerator.Init(terrain);
 		int maxSize = 100;
@@ -52,8 +52,8 @@ public class GameRenderer : MonoBehaviour
 		int xBegin = 0;
 		int yBegin = 0;
 		//Debug.Log("numTMGWidth " + numTMGWidth + " " + numTMGHeight);
-		
-		List<TerrainInstance> terrainBrokenInto = new List<TerrainInstance>();
+
+		List<StoryGenerator.NTerrain.TerrainSystem> terrainBrokenInto = new List<StoryGenerator.NTerrain.TerrainSystem>();
 		for (int j = 0; j < numTMGHeight; j++)
 		{
 			//Debug.Log("CycleBegin j");
@@ -62,7 +62,7 @@ public class GameRenderer : MonoBehaviour
 			{
 				//Debug.Log("CycleBegin i");
 				Vector2 positionBegin = new Vector2(xBegin, yBegin);
-				var newTerrain = new TerrainInstance();
+				var newTerrain = new StoryGenerator.NTerrain.TerrainSystem();
 				terrainBrokenInto.Add(newTerrain);
 				//newTerrain.Init(maxSize, maxSize);
 				newTerrain.Init(terrain.Width,terrain.Height);
@@ -109,7 +109,7 @@ public class GameRenderer : MonoBehaviour
 
 		for (int i = 0; i < game.world.width; i++) for (int j = 0; j < game.world.height; j++)
 			{
-				if (game.world.terrain.GetPieceAt(i, j).Type == StoryGenerator.Terrain.Piece.KType.MOUNTAIN)
+				if (game.world.terrain.GetPieceAt(i, j).Type == StoryGenerator.NTerrain.Piece.KType.MOUNTAIN)
 				{
 					var rock = Instantiate(tempMountainRock);
 					rock.transform.position = new Vector3(i, j, 0);

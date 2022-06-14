@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using StoryGenerator.Terrain;
+using StoryGenerator.NTerrain;
 
 namespace StoryGenerator.World.Mountain
 {

@@ -17,9 +17,9 @@ public partial class Thing
 }
 public class HouseModule : ThingModule
 {
-	HouseZone house;
+	BaseHousingZone house;
 
-	public void SetHouseZone(HouseZone houseZone)
+	public void SetHouseZone(BaseHousingZone houseZone)
 	{
 		this.house = houseZone;
 	}

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StoryGenerator.World;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,13 @@ using System.Threading.Tasks;
 
 public static class ThingExtensions
 {
+	public static void Raise(this List<Thing.DEL_UPDATE> list, World world, Thing thing, float timeElapsed)
+	{
+		for (int i = 0; i < list.Count; i++)
+		{
+			list[i](world, thing, timeElapsed);
+		}
+	}
 	static public bool Contains(this List<KeywordInformation> list, Game.Keyword keyword)
 	{
 		foreach (var info in list)

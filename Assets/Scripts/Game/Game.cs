@@ -11,9 +11,6 @@ public partial class Game : MonoBehaviour
 	public void StartGame()
 	{
 		world = new World();
-		world.InitDefaultVariables();
-		world.InitTerrain();
-		world.InitAnimals();
 
 
 	}
@@ -22,11 +19,14 @@ public partial class Game : MonoBehaviour
 	{
 		
 	}
+	private void FixedUpdate()
+	{
+		world.Update(Time.fixedDeltaTime);
 
+	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		world.Update( Time.deltaTime);
 	}
 }

@@ -207,7 +207,7 @@ public abstract class MoveTo : Action
 		//I am going to move thing to the target location
 		if (isBlocked(world, thing)) return;
 
-		float speed = world.GetThingsSpeed(thing);
+		float speed = world.GetThingSpeed(thing);
 		float maxDistanceToMove = (thing.XY - nextDestinationXY).magnitude;
 		float distanceApplied = Mathf.Min(speed * timeElapsed, maxDistanceToMove);
 		var thingsNewPosition = thing.XY + (nextDestinationXY - thing.XY).normalized * distanceApplied;

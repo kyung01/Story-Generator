@@ -92,7 +92,7 @@ public class ZoneOrganizer
 
 	public void BuildHouseZone(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
-		Zone houseZone = new HouseZone();
+		Zone houseZone = new BaseHousingZone();
 		addZone(houseZone, xBegin, yBegin, xEnd, yEnd);
 	}	
 
@@ -103,19 +103,19 @@ public class ZoneOrganizer
 
 	public void BuildBedroom(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
-		Zone bedroomZone = new RoomZone();
+		Zone bedroomZone = new BaseHousingZone();
 		bedroomZone.type = Zone.TYPE.BEDROOM;
 		BuildHouseRoom(bedroomZone, xBegin, yBegin, xEnd, yEnd);
 	}
 	public void BuildBathroom(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
-		Zone bedroomZone = new RoomZone();
+		Zone bedroomZone = new BaseHousingZone();
 		bedroomZone.type = Zone.TYPE.BATHROOM;
 		BuildHouseRoom(bedroomZone, xBegin, yBegin, xEnd, yEnd);
 	}
 	public void BuildLivingroom(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
-		Zone bedroomZone = new RoomZone();
+		Zone bedroomZone = new BaseHousingZone();
 		bedroomZone.type = Zone.TYPE.LIVINGROOM;
 		BuildHouseRoom(bedroomZone, xBegin, yBegin, xEnd, yEnd);
 	}
@@ -133,7 +133,7 @@ public class ZoneOrganizer
 
 		}
 		//a bedroom zone must be in one of the house zones
-		HouseZone houseBedroomBelongsTo = getHouseThisZoneIsIn(bedroomZone);
+		BaseHousingZone houseBedroomBelongsTo = getHouseThisZoneIsIn(bedroomZone);
 		if (houseBedroomBelongsTo == null)
 		{
 			//couldn't find any house that this zone belogns to
@@ -172,7 +172,7 @@ public class ZoneOrganizer
 		}
 		else
 		{
-			houseBedroomBelongsTo.Add(bedroomZone);
+			houseBedroomBelongsTo.AddRoom(bedroomZone);
 			//raiseZoneAdded(bedroomZone);
 			OnZoneEdited.Raise(houseBedroomBelongsTo);
 		}
@@ -185,16 +185,16 @@ public class ZoneOrganizer
 		throw new NotImplementedException();
 	}
 
-	private HouseZone getHouseThisZoneIsIn(Zone bedroomZone)
+	private BaseHousingZone getHouseThisZoneIsIn(Zone bedroomZone)
 	{
 		foreach(var zone in this.zones)
 		{
-			if(zone is HouseZone)
+			if(zone is BaseHousingZone)
 			{
 				//we found a house zone
 				if (zone.IsInZone(bedroomZone))
 				{
-					return (HouseZone)zone;
+					return (BaseHousingZone)zone;
 				}
 			}
 		}

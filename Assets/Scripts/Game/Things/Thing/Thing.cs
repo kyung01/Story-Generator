@@ -6,21 +6,26 @@ using System;
  
 public partial class Thing
 {
-	public delegate void						DEL_UPDATE(World world, Thing thing, float timeElapsed);
+	public delegate void						DEL_UPDATE(World world, Thing thing, float timeElapsed);	
 	public delegate List<KeywordInformation>	DEL_GET_KEYWORDS();
 	public delegate float						DEL_TAKEN_KEYWORD(Game.Keyword keywordToRequest, float requestedAmount);
 
-	public List<DEL_UPDATE> OnUpdate = new List<DEL_UPDATE>();
-	public List<DEL_GET_KEYWORDS> OnGetKeywords = new List<DEL_GET_KEYWORDS>();
-	public List<DEL_TAKEN_KEYWORD> OnTakenKeyword = new List<DEL_TAKEN_KEYWORD>();
+	public delegate void DEL_POSITION_INDEX_CHANGED	(Thing thing, int xBefore, int yBefore, int xNew, int yNew);
+	public delegate void DEL_POSITION_CHANGED		(Thing thing, float xBefore, float yBefore, float xNew, float yNew);
 
-	void raiseOnUpdate(World world, Thing thing, float timeElapsed)
-	{
-		for(int i =  0;  i < OnUpdate.Count; i++)
-		{
-			OnUpdate[i](world, thing, timeElapsed);
-		}
-	}
+	public delegate void DEL_RECEIVE_KEYWORD(Thing me, Thing giver, Game.Keyword keyword, float amount);
+	public delegate void DEL_CONSUME_KEYWORD(Game.Keyword keyword, float amount);
+
+	public List<DEL_UPDATE>			OnUpdate		= new List<DEL_UPDATE>();
+	public List<DEL_GET_KEYWORDS>	OnGetKeywords	= new List<DEL_GET_KEYWORDS>();
+	public List<DEL_TAKEN_KEYWORD>	OnTakenKeyword	= new List<DEL_TAKEN_KEYWORD>();
+
+	public List<DEL_POSITION_INDEX_CHANGED> OnPositionIndexChanged = new List<DEL_POSITION_INDEX_CHANGED>();
+	public List<DEL_POSITION_CHANGED> OnPositionChanged = new List<DEL_POSITION_CHANGED>();
+
+	public List<DEL_RECEIVE_KEYWORD> OnReceiveKeyword = new List<DEL_RECEIVE_KEYWORD>();
+	public List<DEL_CONSUME_KEYWORD> OnConsumeKeyword = new List<DEL_CONSUME_KEYWORD>();
+
 
 	static float ZEROf = 0.01f;
 
@@ -30,6 +35,9 @@ public partial class Thing
 
 	float x, y;
 	ThingActionManager thingActManager;
+	
+	#region properties
+
 	public ThingActionManager TAM
 	{
 		get
@@ -38,31 +46,7 @@ public partial class Thing
 		}
 	}
 
-	void baseInit()
-	{
-		initCarryingFunctionality();
-		this.thingActManager = new ThingActionManager();
-		this.type = TYPE.UNDEFINED;
-		this.x = 0;
-		this.y = 0;
-	}
-	public Thing()
-	{
-		baseInit();
 
-	}
-	public Thing (TYPE type = TYPE.UNDEFINED , float x = 0, float y=0)
-	{
-		baseInit();
-		this.type = type;
-		this.x = x;
-		this.y = y;
-	}
-	public Thing SetType(TYPE type)
-	{
-		this.type = type;
-		return this;
-	}
 	public float X
 	{
 		get { return this.x; }
@@ -104,10 +88,41 @@ public partial class Thing
 		}
 	}
 
+	#endregion
+
+
+	void baseInit()
+	{
+		initCarryingFunctionality();
+		this.thingActManager = new ThingActionManager();
+		this.type = TYPE.UNDEFINED;
+		this.x = 0;
+		this.y = 0;
+	}
+	public Thing()
+	{
+		baseInit();
+
+	}
+	public Thing (TYPE type = TYPE.UNDEFINED , float x = 0, float y=0)
+	{
+		baseInit();
+		this.type = type;
+		this.x = x;
+		this.y = y;
+	}
+	public Thing SetType(TYPE type)
+	{
+		this.type = type;
+		return this;
+	}
+
+
 	public bool MoveTo(Vector2 position)
 	{
 		return this.MoveTo(position.x, position.y);
 	}
+
 	public bool MoveTo(float x, float y)
 	{
 		if (IsBeingCarried)
@@ -126,11 +141,6 @@ public partial class Thing
 		}
 
 	}
-	public delegate void DEL_POSITION_INDEX_CHANGED(Thing thing, int xBefore, int yBefore, int xNew, int yNew);
-	public delegate void DEL_POSITION_CHANGED(Thing thing, float xBefore, float yBefore, float xNew, float yNew);
-	public List<DEL_POSITION_INDEX_CHANGED> OnPositionIndexChanged = new List<DEL_POSITION_INDEX_CHANGED>();
-	public List<DEL_POSITION_CHANGED> OnPositionChanged = new List<DEL_POSITION_CHANGED>();
-
 	public void SetPosition(float xValue, float yValue)
 	{
 		float xOld = this.x;
@@ -168,8 +178,6 @@ public partial class Thing
 		this.y = vec2.y;
 	}
 
-	public delegate void DEL_RECEIVE_KEYWORD(Thing me , Thing giver, Game.Keyword keyword, float amount);
-	public List<DEL_RECEIVE_KEYWORD> OnReceiveKeyword = new List<DEL_RECEIVE_KEYWORD>();
 	//Giver game me keyword of X amount
 	public virtual void ReceiveKeyword(Thing giver, Game.Keyword keyword, float amount)
 	{
@@ -214,9 +222,6 @@ public partial class Thing
 		return requestedAmount - remainingAmountToTakeFromMe;
 
 	}
-
-	public delegate void DEL_CONSUME_KEYWORD(Game.Keyword keyword, float amount);
-	public List<DEL_CONSUME_KEYWORD> OnConsumeKeyword = new List<DEL_CONSUME_KEYWORD>();
 
 	public virtual void ConsumeKeyword(Game.Keyword keyword, float amount)
 	{
@@ -276,18 +281,12 @@ public partial class Thing
 		 * */
 
 		return keywords;
-
-
 	}
-
-	/// Hunters need to check if the target has X when they become unconscious 
-	
-
 
 	public virtual void Update(World world, float timeElapsed)
 	{
 		this.TAM.Update(world, this, timeElapsed);
-		raiseOnUpdate(world, this, timeElapsed);
+		OnUpdate.Raise(world, this, timeElapsed);
 
 	}
 }

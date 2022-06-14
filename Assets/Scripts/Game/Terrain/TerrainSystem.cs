@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace StoryGenerator.Terrain
+namespace StoryGenerator.NTerrain
 {
 	/// <summary>
 	/// Piece of terrain, contains information about the particular terrain piece 
 	/// </summary>
-	public class TerrainInstance
+	public class TerrainSystem
 	{
 		public Vector2 PositionBegin = Vector2.zero;
 		//public Vector2 PositionBegin { get { return this.positionBegin; } }

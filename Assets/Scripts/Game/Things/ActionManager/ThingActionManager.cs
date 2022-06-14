@@ -86,7 +86,7 @@ public class ThingActionManager
 			var p = positions[i];
 			if (p.x < 0 || p.x >= world.width || p.y < 0 || p.y >= world.height) continue;
 			//var piece = world.IsWalkableAt((int)p.x, (int)p.y);
-			if (world.IsWalkableAt((int)p.x, (int)p.y))
+			if (world.hprIsWalkableAt((int)p.x, (int)p.y))
 			{
 				this.MoveTo(p.x, p.y);
 				break;

@@ -87,7 +87,7 @@ public class Hunger_General : Need
 		for(int i = 0; i< thingsIsee.Count; i++)
 		{
 			var thing = thingsIsee[i];
-			if (!world.IsWalkableAt(thing.X_INT, thing.Y_INT)) continue;
+			if (!world.hprIsWalkableAt(thing.X_INT, thing.Y_INT)) continue;
 			List<KeywordInformation> keywordsIGot = thing.GetKeywords();
 			if (!hunterMode)
 			{

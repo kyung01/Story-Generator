@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace StoryGenerator.Terrain
+namespace StoryGenerator.NTerrain
 {
 	/// <summary>
 	/// Piece of terrain, contains information about the particular terrain piece 

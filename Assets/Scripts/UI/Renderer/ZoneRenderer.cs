@@ -375,8 +375,8 @@ public class ZoneRenderer :MonoBehaviour
 			Destroy(zr.gameObject);
 		}
 		this.zoneRenderers = new List<ZoneRenderer>();
-		if(zone is HouseZone){
-			var house = (HouseZone)zone;
+		if(zone is BaseHousingZone){
+			var house = (BaseHousingZone)zone;
 			foreach(var h in house.Rooms)
 			{
 				var newZoneRend = Instantiate(this);

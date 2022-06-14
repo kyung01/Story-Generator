@@ -1,4 +1,4 @@
-﻿using StoryGenerator.Terrain;
+﻿using StoryGenerator.NTerrain;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -36,7 +36,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 	TerrainVertex[] terrainVerticesSaved;
 	//int[] trianglesSaved;
 
-	public void InitNew(StoryGenerator.Terrain.TerrainInstance instance)
+	public void InitNew(StoryGenerator.NTerrain.TerrainSystem instance)
 	{
 		//var mesh = new Mesh();
 		//mesh.name = "Terrain Mesh";
@@ -53,7 +53,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 		UpdateMesh(mesh, terrainVerticesSaved, newTriangles);
 
 	}
-	public void Init(StoryGenerator.Terrain.TerrainInstance instance)
+	public void Init(StoryGenerator.NTerrain.TerrainSystem instance)
 	{
 		//sterrain = instance;
 		var mesh = new Mesh();
@@ -67,7 +67,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 		UpdateMesh(mesh, terrainVertices, triangles);
 	}
 
-	public void InitWithinRange(StoryGenerator.Terrain.TerrainInstance instance, int x0,int y0, int x1Inclu,int y1Inclu)
+	public void InitWithinRange(StoryGenerator.NTerrain.TerrainSystem instance, int x0,int y0, int x1Inclu,int y1Inclu)
 	{
 		//sterrain = instance;
 		var mesh = new Mesh();
@@ -116,7 +116,7 @@ public class TerrainMeshGenerator : MonoBehaviour
 	{
 		return (int)x + (int)y * (1 + 2 * xSize);
 	}
-	TerrainVertex[] InitVerticies(StoryGenerator.Terrain.TerrainInstance terrainInstance)
+	TerrainVertex[] InitVerticies(StoryGenerator.NTerrain.TerrainSystem terrainInstance)
 	{
 		int xSize = terrainInstance.Width;
 		int ySize = terrainInstance.Height;
