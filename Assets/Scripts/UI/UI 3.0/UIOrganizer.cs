@@ -17,7 +17,7 @@ public class UIOrganizer : MonoBehaviour
 			Debug.Log(this + "Init " + b.gameObject.name);
 			b.OnFeedback.Add(hdrBttnFeedback);
 		}
-		UISelectBox.OnSelected.Add(hdrSelectedWorld);
+		UISelectBox.OnSelectedEnd.Add(hdrSelectedWorld);
 	}
 	private void hdrSelectedWorld(int xBegin, int yBegin, int xEnd, int yEnd)
 	{

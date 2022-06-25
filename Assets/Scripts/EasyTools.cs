@@ -6,6 +6,7 @@ namespace EasyTools
 
 	public class EzT
 	{
+
 		public static Color GetRandomColorRaw()
 		{
 			int n = Random.Range(0, 3);
@@ -22,10 +23,18 @@ namespace EasyTools
 					return new Color(f1, f2, 1);
 			}
 		}
+
 		public static Color GetRandomColor()
 		{
 			var c = GetRandomColorRaw();
 			return new Color(c.r, c.g, c.b, 1);
+		}
+
+		public static void Separte(Vector2 vec1, Vector2 vec2, out Vector2 bottomLeft, out Vector2 topRight)
+		{
+
+			bottomLeft = new Vector2(Mathf.Min(vec1.x, vec2.x), Mathf.Min(vec1.y, vec2.y));
+			topRight = new Vector2(Mathf.Max(vec1.x, vec2.x), Mathf.Max(vec1.y, vec2.y));
 		}
 		public static bool ChkWithinBoundaries(int value, int min, int max)
 		{

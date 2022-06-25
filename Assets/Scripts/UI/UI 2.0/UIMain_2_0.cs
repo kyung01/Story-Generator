@@ -30,7 +30,7 @@ public class UIMain_2_0 : MonoBehaviour
 		this.world = world;
 
 		UISelectBox = GetComponentInChildren<UISelectBox>();
-		UISelectBox.OnSelected.Add(hdrUISelectBox_Selected);
+		UISelectBox.OnSelectedEnd.Add(hdrUISelectBox_Selected);
 
 		world.zoneOrganizer.OnSingleZoneSelected.Add(hdrSingleZoneSelected);
 		world.zoneOrganizer.OnNO_ZONE_SELECTED.Add(hdrNoZoneSelected);
@@ -372,7 +372,7 @@ public class UIMain_2_0 : MonoBehaviour
 		{
 			var p1 = hprToViewport(new Vector2(thing.X - .5f, thing.Y - .5f));
 			var p2 = hprToViewport(new Vector2(thing.X + .5f, thing.Y + .5f));
-			UIPostRenderer.RenderSquare(new Color(1, 1, 1, 0.3f), p1, p2);
+			UIPostRenderer.RenderSquareViewportSpace(new Color(1, 1, 1, 0.3f), p1, p2);
 
 		}
 

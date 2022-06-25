@@ -160,7 +160,7 @@ public class UIMain_Old : MonoBehaviour
 		//this.zOrg = zOrg;
 
 		UISelectBox = GetComponentInChildren<UISelectBox>();
-		UISelectBox.OnSelected.Add(hdrUISelectBox_Selected);
+		UISelectBox.OnSelectedEnd.Add(hdrUISelectBox_Selected);
 
 		//UISelectBox.enabled = false;
 
@@ -244,7 +244,7 @@ public class UIMain_Old : MonoBehaviour
 				var p1 = hprToViewport(new Vector2(p.x - .5f, p.y - .5f));
 				var p2 = hprToViewport(new Vector2(p.x + .5f, p.y + .5f));
 
-				UIPostRenderer.RenderSquare(c, p1, p2);
+				UIPostRenderer.RenderSquareViewportSpace(c, p1, p2);
 
 			}
 
@@ -261,7 +261,7 @@ public class UIMain_Old : MonoBehaviour
 				var p1 = hprToViewport(new Vector2(p.x - .5f, p.y - .5f));
 				var p2 = hprToViewport(new Vector2(p.x + .5f, p.y + .5f));
 
-				UIPostRenderer.RenderSquare(c, p1, p2);
+				UIPostRenderer.RenderSquareViewportSpace(c, p1, p2);
 
 			}
 
@@ -283,7 +283,7 @@ public class UIMain_Old : MonoBehaviour
 			var p2 = pos + indent;
 			var squareFrom = hprToViewport(p1);
 			var squareTo = hprToViewport(p2);
-			UIPostRenderer.RenderSquareLines(squareFrom, squareTo);
+			UIPostRenderer.RenderSquareLinesViewportSpace(squareFrom, squareTo);
 		}
 		//Debug.Log(this + " " + zOrg.zones.Count);
 
@@ -299,7 +299,7 @@ public class UIMain_Old : MonoBehaviour
 		{
 			var p1 = hprToViewport(new Vector2(thing.X - .5f, thing.Y - .5f));
 			var p2 = hprToViewport(new Vector2(thing.X + .5f, thing.Y + .5f));
-			UIPostRenderer.RenderSquare(new Color(1, 1, 1, 0.3f), p1, p2);
+			UIPostRenderer.RenderSquareViewportSpace(new Color(1, 1, 1, 0.3f), p1, p2);
 
 		}
 	}

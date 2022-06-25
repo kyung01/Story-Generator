@@ -44,7 +44,7 @@ public class WorldThingSelector
 		{
 			thingsByCount.Add(pair.Value);
 		}
-		var d = thingsByCount.OrderByDescending(x => x.Count).ToList();
+		var d = thingsByCount.OrderByDescending(s => s.Count).ToList();
 		return d;
 	}
 

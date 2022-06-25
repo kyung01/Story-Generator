@@ -40,7 +40,7 @@ public class StaticZoneRenderer
 			var p1 = hprToViewport(new Vector2(p.x - .5f, p.y - .5f));
 			var p2 = hprToViewport(new Vector2(p.x + .5f, p.y + .5f));
 
-			UIPostRenderer.RenderSquare(new Color(Color.r, Color.g, Color.b, Color.a*0.1f), p1, p2);
+			UIPostRenderer.RenderSquareViewportSpace(new Color(Color.r, Color.g, Color.b, Color.a*0.1f), p1, p2);
 
 		}
 		float darkenedEdge = 0.1f;
@@ -87,7 +87,7 @@ public class StaticZoneRenderer
 			{
 				var edgeLocation = edgesLocations[i];
 
-				UIPostRenderer.RenderSquare(color, hprToViewport(edgesLine[i][0]), hprToViewport(edgesLine[i][1]));
+				UIPostRenderer.RenderSquareViewportSpace(color, hprToViewport(edgesLine[i][0]), hprToViewport(edgesLine[i][1]));
 			}
 		}
 	}

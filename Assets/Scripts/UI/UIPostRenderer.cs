@@ -14,7 +14,6 @@ public class UIPostRenderer : MonoBehaviour
 
 	public class RenderSquareCall
 	{
-		public bool isColored = false;
 		public Color color;
 		public Vector3
 			from,
@@ -103,14 +102,8 @@ public class UIPostRenderer : MonoBehaviour
 		{
 			var renderSquareCall = ListRenderSquares[i];
 			//Debug.Log(renderSquareCall.color);
-			if (!renderSquareCall.isColored)
-			{
-				GL.Color(GetColor(i));
-			}
-			else if(renderSquareCall.isColored ) {
-				GL.Color(renderSquareCall.color);
 
-			}
+			GL.Color(renderSquareCall.color);
 			//Debug.Log("Post Renderer " + renderSquareCall.from + " " + renderSquareCall.to);
 			GL.Vertex(renderSquareCall.from);
 			GL.Vertex(new Vector3(renderSquareCall.to.x, renderSquareCall.from.y, 0));
@@ -125,15 +118,8 @@ public class UIPostRenderer : MonoBehaviour
 		for (int i = 0; i < ListRenderSquareLines.Count; i++)
 		{
 			var renderSquareCall = ListRenderSquareLines[i];
-			if (!renderSquareCall.isColored)
-			{
 
-				GL.Color(GetColor(i));
-			}
-			else
-			{
-				GL.Color(renderSquareCall.color);
-			}
+			GL.Color(renderSquareCall.color);
 			GL.Vertex(renderSquareCall.from);
 			GL.Vertex(new Vector3(renderSquareCall.to.x, renderSquareCall.from.y, 0));
 			GL.Vertex(renderSquareCall.from);
@@ -158,21 +144,22 @@ public class UIPostRenderer : MonoBehaviour
 	}
 
 
-
-	public static void RenderSquare(Color color, Vector2 screenSpaceFrom, Vector2 screenSpaceTo)
+	/// <summary>
+	/// deprecated 
+	/// </summary>
+	public static void RenderSquareViewportSpace(Color color, Vector2 screenSpaceFrom, Vector2 screenSpaceTo)
 	{
 		screenSpaceFrom = new Vector3(screenSpaceFrom.x, screenSpaceFrom.y, 0);
 		screenSpaceTo = new Vector3(screenSpaceTo.x, screenSpaceTo.y, 0);
 		var r = new RenderSquareCall() { color = color, from = screenSpaceFrom, to = screenSpaceTo };
-		if (color != null)
-		{
-			r.isColored = true;
-
-		}
+		
 		ListRenderSquares.Add(r);
 	}
 	
-	public static void RenderSquareLines(Vector3 screenSpaceFrom, Vector3 screenSpaceTo)
+	/// <summary>
+	/// deprecated 
+	/// </summary>
+	public static void RenderSquareLinesViewportSpace(Vector3 screenSpaceFrom, Vector3 screenSpaceTo)
 	{
 		screenSpaceFrom = new Vector3(screenSpaceFrom.x, screenSpaceFrom.y, 0);
 		screenSpaceTo = new Vector3(screenSpaceTo.x, screenSpaceTo.y, 0);
@@ -180,5 +167,21 @@ public class UIPostRenderer : MonoBehaviour
 		//Debug.Log("Screen space to" + screenSpaceTo);
 
 		ListRenderSquareLines.Add(new RenderSquareCall() { color = GetRandomColor(), from = screenSpaceFrom, to = screenSpaceTo });
+	}
+
+	static void hprWorldToView_XY0(ref Vector3 vec3)
+	{
+		vec3 = Camera.main.WorldToViewportPoint(vec3);
+		vec3 = new Vector3(vec3.x, vec3.y, 0);
+	}
+	public static void RenderSquareLines(Color color, Vector3 from, Vector3 to)
+	{
+		hprWorldToView_XY0(ref from); 
+		hprWorldToView_XY0(ref to);
+		
+		//Debug.Log("Screen space from" + screenSpaceFrom);
+		//Debug.Log("Screen space to" + screenSpaceTo);
+
+		ListRenderSquareLines.Add(new RenderSquareCall() { color = color, from = from, to = to });
 	}
 }
