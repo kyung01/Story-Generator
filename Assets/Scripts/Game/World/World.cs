@@ -112,10 +112,6 @@ namespace StoryGenerator.World
 			return aX == bX && aY == bY;
 		}
 
-		bool hprIsWalkableAt(int x_INT, int y_INT)
-		{
-			return terrain.IsEmptyAt(x_INT, y_INT) && !this.hprIsStructureAt(x_INT, y_INT);
-		}
 
 		Vector2 hprGetApprorpiateRandomPosition()
 		{
@@ -364,7 +360,7 @@ namespace StoryGenerator.World
 				{
 					int pX = (int)p.x;
 					int pY = (int)p.y;
-					if (!hprIsWalkableAt(pX, pY)) continue;
+					if (!IsWalkableAt(pX, pY)) continue;
 					isFoundAnEmptySpot = true;
 					emptyX = pX;
 					emptyY = pY;
@@ -515,7 +511,7 @@ namespace StoryGenerator.World
 			return things;
 		}
 
-		public float		GetThingSpeed(Thing thing)
+		public float	GetThingSpeed(Thing thing)
 		{
 			if (thing.type == Thing.TYPE.RABBIT)
 			{
@@ -555,6 +551,13 @@ namespace StoryGenerator.World
 
 
 		}
+
+
+		public bool IsWalkableAt(int x_INT, int y_INT)
+		{
+			return terrain.IsEmptyAt(x_INT, y_INT) && !this.hprIsStructureAt(x_INT, y_INT);
+		}
+
 
 		public virtual void Update( float timeElapsed)
 		{

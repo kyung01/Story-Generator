@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using UnityEngine;
-using StoryGenerator.World;
-using System;
-using StoryGenerator.NTerrain;
+﻿using StoryGenerator.World;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class RenderedTerrainPieceInfo
 {
@@ -39,11 +36,11 @@ public class GameRenderer : MonoBehaviour
 
 	internal void hdrWorldThingAdded(Thing thing)
 	{
-		Render(thing);
+		InitRender(thing);
 	}
 
 
-	private void RenderTerrain(StoryGenerator.NTerrain.TerrainSystem terrain)
+	private void InitRenderTerrain(StoryGenerator.NTerrain.TerrainSystem terrain)
 	{
 		//terrainMeshGenerator.Init(terrain);
 		int maxSize = 100;
@@ -102,10 +99,9 @@ public class GameRenderer : MonoBehaviour
 	}
 
 
-	public void RenderGame(Game game)
+	public void InitRender(Game game)
 	{
-		RenderTerrain(game.world.terrain);
-
+		InitRenderTerrain(game.world.terrain);
 
 		for (int i = 0; i < game.world.width; i++) for (int j = 0; j < game.world.height; j++)
 			{
@@ -116,16 +112,16 @@ public class GameRenderer : MonoBehaviour
 				}
 
 			}
-		RenderWorld(game.world);
-		RenderZoneOrganizer(game.world.zoneOrganizer);
+
+		InitRenderWorld(game.world);
+		InitRenderZoneOrganizer(game.world.zoneOrganizer);
 	}
 
-	private void RenderZoneOrganizer(ZoneOrganizer zoneOrganizer)
+	private void InitRenderZoneOrganizer(ZoneOrganizer zoneOrganizer)
 	{
 		zoneOrganizer.OnZoneAdded.Add(hdrZoneAdded);
 		zoneOrganizer.OnZoneEdited.Add(hdrZoneEdited);
 		zoneOrganizer.OnZoneRemoved.Add(hdrZoneRemoved);
-
 	}
 
 
@@ -145,7 +141,7 @@ public class GameRenderer : MonoBehaviour
 		dicZone_ZoneRen.Remove(zone);
 	}
 
-	void Render(Thing t)
+	void InitRender(Thing t)
 	{
 		if (t.type == Thing.TYPE.GRASS)
 		{
@@ -178,12 +174,12 @@ public class GameRenderer : MonoBehaviour
 
 		}
 	}
-	public void RenderWorld(World world)
+	public void InitRenderWorld(World world)
 	{
 		for (int i = 0; i < world.allThings.Count; i++)
 		{
 			var t = world.allThings[i];
-			Render(t);
+			InitRender(t);
 
 		}
 	}

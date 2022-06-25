@@ -15,7 +15,7 @@ public class Main : MonoBehaviour
 	void Start()
 	{
 		game.StartGame();
-		gameRenderer.RenderGame(game);
+		gameRenderer.InitRender(game);
 		//UIMain.Init(game.world); // Obsolete
 		//UIMain2.Init(game.world);
 		game.world.OnThingAdded.Add(gameRenderer.hdrWorldThingAdded);

@@ -23,9 +23,7 @@ public class UIMain_2_0 : MonoBehaviour
 	// Use this for initialization
 	private void Awake()
 	{
-
 		uiLinker.OnFeedback.Add(hdrUILinkerFeedback);
-
 	}
 	public void Init(World world)
 	{
