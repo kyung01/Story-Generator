@@ -1,12 +1,14 @@
 ﻿using StoryGenerator.World;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class UIOrganizer : MonoBehaviour
 {
 	public World world;
 	UIEnums.FEEDBACK bttnFeedback;
+	public List<UIEnums.DEL_FEEDBACK> OnBttnFeedback = new List<UIEnums.DEL_FEEDBACK>();
 
 	// Use this for initialization
 	public void Init()
@@ -14,10 +16,10 @@ public class UIOrganizer : MonoBehaviour
 		var buttons = GetComponentsInChildren<UIButtonFeedback>(true);
 		foreach(var b in buttons)
 		{
-			Debug.Log(this + "Init " + b.gameObject.name);
+			//Debug.Log(this + "Init " + b.gameObject.name);
 			b.OnFeedback.Add(hdrBttnFeedback);
 		}
-		UISelectBox.OnSelectedEnd.Add(hdrSelectedWorld);
+		//UISelectBox.OnSelectedEnd.Add(hdrSelectedWorld);
 	}
 	private void hdrSelectedWorld(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
@@ -117,6 +119,7 @@ public class UIOrganizer : MonoBehaviour
 
 	private void hdrBttnFeedback(UIEnums.FEEDBACK value)
 	{
+		OnBttnFeedback.Raise(value);
 		Debug.Log(this + " hdrBttnFeedback " + value);
 		bttnFeedback = value;
 	}

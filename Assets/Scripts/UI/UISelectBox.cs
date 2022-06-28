@@ -87,11 +87,11 @@ public class UISelectBox : MonoBehaviour
 			//rectEnd = rectEnd + new Vector2(0, 1);
 
 		}
-		UIPostRenderer.RenderSquareLines(Color.white, 
+		UIPostRenderer.Render_Line_Squares(Color.white, 
 			new Vector3(drawBegin.x - 0.5f, drawBegin.y - 0.5f, 0), 
 			new Vector3(drawEnd.x + 0.5f, drawEnd.y + 0.5f, 0)
 			);
-		UIPostRenderer.RenderSquareLines(new Color(1,1,1,0.5f), drawLightBegin, drawLightEnd);
+		UIPostRenderer.Render_Line_Squares(new Color(1,1,1,0.5f), drawLightBegin, drawLightEnd);
 		//Debug.Log("Drwaing");
 	}
 

@@ -24,6 +24,7 @@ public class UIButtonLinked : MonoBehaviour
 	[SerializeField] List<UIButtonBundle> bundlesOpen;
 
 	bool isEnabled = false;
+	public bool IsEnalbed { get { return this.isEnabled; } }
 	static Color colorSelected = Color.yellow;
 	static Color colorUnSelected = Color.white;
 
@@ -42,7 +43,7 @@ public class UIButtonLinked : MonoBehaviour
 		isEnabled = isOpen;
 		this.GetComponent<UnityEngine.UI.Image>().color = (isOpen) ? colorSelected : colorUnSelected;
 		OnSetOpen.Raise(isOpen);
-		Debug.Log(this.gameObject.name + " " +isOpen);
+		//Debug.Log(this.gameObject.name + " " +isOpen);
 		foreach(var b in bundlesOpen)
 		{
 			b.SetOpen(isOpen);

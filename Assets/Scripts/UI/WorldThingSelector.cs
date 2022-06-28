@@ -27,7 +27,7 @@ public class WorldThingSelector
 			{
 				int pX = x + i;
 				int pY = y + j;
-				Debug.Log(this + " " +pX + " " + pY+ "");
+				//Debug.Log(this + "::" +pX + " " + pY+ "");
 				things.AddRange(world.GetThingsAt(pX, pY));
 			}
 		}
@@ -85,6 +85,10 @@ public class WorldThingSelector
 		this.typeOfThingSelected = things[0].type;
 	}
 
+	public void SelectFromTo(World world, Vector2 from, Vector2 to)
+	{
+		this.Select(world, (int)from.x, (int)from.y, (int)(1 + to.x - from.x),(int)( 1 + to.y - from.y) );
+	}
 	public void Select(World world, int x, int y, int width, int height)
 	{
 		var thingsList = getAllThingsInWorld(world, x, y, width, height);

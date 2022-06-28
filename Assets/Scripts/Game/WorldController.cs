@@ -1,12 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using StoryGenerator.World;
+using System;
+
 public partial class WorldController
 {
+
+	public enum Command
+	{
+		NONE,
+		HAUL,
+		STOCKPILE,
+
+
+		END,
+	}
+
 	public static WorldController INSTANCE;
 
 	private static World World { get { return INSTANCE.world; } }
-	private static WorldThingSelector Selector { get { return INSTANCE.wrdThingSelector; } }
+	private static WorldThingSelector Selector { get { return INSTANCE.worldThingSelector; } }
 
 	public static void Init(World world)
 	{
@@ -19,12 +32,45 @@ public partial class WorldController
 	}
 	public static void Select(Vector2 from, Vector2 to)
 	{
-		Selector.Select(World, Mathf.RoundToInt(from.x), Mathf.RoundToInt(from.y), Mathf.RoundToInt(to.x), Mathf.RoundToInt(to.y));
+		if(INSTANCE.command == Command.HAUL)
+		{
+			Debug.Log("WorldController::Issuing a command Haul" + from + " " + to);
+			Selector.SelectFromTo(World, from, to);
+			//Selector.Select(World, Mathf.RoundToInt(from.x), Mathf.RoundToInt(from.y), Mathf.RoundToInt(to.x), Mathf.RoundToInt(to.y));
+			INSTANCE.apply();
+			INSTANCE.command = Command.NONE;
+		}
+
+		else if(INSTANCE.command == Command.STOCKPILE)
+		{
+			Debug.Log("WorldController::Building a stockpile zone " + from + " " + to );
+			World.zoneOrganizer.BuildStockpileZone((int)from.x, (int)from.y, (int)to.x, (int)to.y);
+			INSTANCE.command = Command.NONE;
+
+		}
+		else
+		{
+			Selector.SelectFromTo(World, from, to);
+
+
+		}
+
 	}
+
+	public static void SetCommand(Command command)
+	{
+		INSTANCE.command = command;
+
+		if(command == Command.HAUL && Selector.ThingsCurrentlySelected.Count != 0)
+		{
+			INSTANCE.apply();
+		}
+	}
+
 
 	public static List<Thing> GetCurrentlySelectedThings()
 	{
-		var selector = INSTANCE.wrdThingSelector;
+		var selector = INSTANCE.worldThingSelector;
 
 		return selector.ThingsCurrentlySelected;
 	}
@@ -33,26 +79,34 @@ public partial class WorldController
 
 }
 
-public partial class WorldController 
+public partial class WorldController
 {
+
 	World world;
-	WorldThingSelector wrdThingSelector = new WorldThingSelector();
+	WorldThingSelector worldThingSelector = new WorldThingSelector();
+	Command command;
 
 	private WorldController(World world)
 	{
 
+		this.world = world;
 		WorldController.INSTANCE = this;
 
 	}
-	// Use this for initialization
-	void Start()
+	public void apply()
 	{
-
+		var selected = worldThingSelector.ThingsCurrentlySelected;
+		switch (command)
+		{
+			case Command.HAUL:
+				foreach(var s in selected)
+				{
+					world.PlayerTeam.WorkManager.Howl(s);
+				}
+				break;
+			default:
+				break;
+		}
 	}
 
-	// Update is called once per frame
-	void Update()
-	{
-
-	}
 }

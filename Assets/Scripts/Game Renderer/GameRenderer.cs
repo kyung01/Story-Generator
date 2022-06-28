@@ -187,11 +187,20 @@ public class GameRenderer : MonoBehaviour
 	Vector3 worldMax = new Vector3();
 	public void Update()
 	{
+		var listOfThings = WorldController.GetCurrentlySelectedThings();
+		//Debug.Log(this + " : "+listOfThings.Count);
+		foreach (var entity in listOfThings)
+		{
+			Vector3 entityXYZ = new Vector3(entity.X, entity.Y,0);
+			Vector3 size = new Vector3(.5f,.5f,0);
+			UIPostRenderer.Render_Shape_Square(new Color(1,1,1,0.3f), entityXYZ - size, entityXYZ + size);
+
+		}
 		//Debug.Log("M " + Input.mousePosition);
 		var worldMin = Camera.main.ViewportToWorldPoint(new Vector3(-.1f, -.1f, 0));
 		var worldMax = Camera.main.ViewportToWorldPoint(new Vector3(1.1f, 1.1f, 0));
-		bool shouldRefreshScreen = (this.worldMin != worldMin || this.worldMax != worldMax);
-		if (shouldRefreshScreen)
+		bool shouldReloadEntityListAndTerrain = (this.worldMin != worldMin || this.worldMax != worldMax);
+		if (shouldReloadEntityListAndTerrain)
 		{
 			//refresh the game
 			var screenRect = new Rect(worldMin.x, worldMin.y, worldMax.x-worldMin.x ,worldMax.y-worldMin.y);

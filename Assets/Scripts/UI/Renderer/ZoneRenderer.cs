@@ -122,6 +122,7 @@ public class ZoneRenderer :MonoBehaviour
 {
 	[SerializeField] TMPro.TextMeshPro textMeshPro;
 	List<ZoneRenderer> zoneRenderers = new List<ZoneRenderer>();
+	
 	public void AddZoneRenderer(ZoneRenderer zoneRen)
 	{
 		this.zoneRenderers.Add(zoneRen);
@@ -133,6 +134,11 @@ public class ZoneRenderer :MonoBehaviour
 	List<EdgeInformation> edges = new List<EdgeInformation>();
 	Color Color;
 	// Use this for initialization
+
+	private void Awake()
+	{
+		Debug.Log(this + "::Awake");
+	}
 	void Start()
 	{
 
@@ -232,7 +238,7 @@ public class ZoneRenderer :MonoBehaviour
 
 	void UpdateText(Zone zone)
 	{
-		Debug.Log("ZoneR UpdateText " + zone.type);
+		Debug.Log(this+"::ZoneR UpdateText " + zone.type);
 		switch (zone.type)
 		{
 			default:
@@ -256,26 +262,28 @@ public class ZoneRenderer :MonoBehaviour
 				break;
 		}
 		var positions = zone.Positions;
-		Vector2 min = new Vector2(float.MaxValue,float.MaxValue), max = new Vector2(float.MinValue,float.MinValue);
+		Vector2 bottomLeft = new Vector2(float.MaxValue,float.MaxValue), topRight = new Vector2(float.MinValue,float.MinValue);
 		foreach(var p in positions)
 		{
-			min = new Vector2(Mathf.Min(min.x, p.x), Mathf.Min(min.y, p.y));
-			max = new Vector2(Mathf.Max(max.x, p.x), Mathf.Max(max.y, p.y));
+			bottomLeft = new Vector2(Mathf.Min(bottomLeft.x, p.x), Mathf.Min(bottomLeft.y, p.y));
+			topRight = new Vector2(Mathf.Max(topRight.x, p.x), Mathf.Max(topRight.y, p.y));
 		}
-		int width = 1 + (int)max.x - (int)min.x;
-		int height = 1 + (int)max.y - (int)min.y;
+		int width = 1 + (int)topRight.x - (int)bottomLeft.x;
+		int height = 1 + (int)topRight.y - (int)bottomLeft.y;
+
+		Debug.Log(this +"::Count("+ positions.Count +")"+"::width " + width + " height " + height + " " + bottomLeft + " " + topRight );
 
 		bool[] checkAvaility = new bool[(int)width * (int)height];
-		foreach(var p in positions)
+		foreach(var positions_p in positions)
 		{
-			var pp = p - min;
+			var pp = positions_p - bottomLeft;
 			checkAvaility[(int)(pp.x) + (int)(pp.y * width)] = true;
 		}
 		List<Square> squaresBegin = new List<Square>();
 		List<Square> squaresResult = new List<Square>();
-		foreach (var p in positions)
+		foreach (var positions_p in positions)
 		{
-			Vector2 seedPosition = p - min;
+			Vector2 seedPosition = positions_p - bottomLeft;
 			Square s = new Square(seedPosition, seedPosition);
 			squaresBegin.Add(s);
 		}
@@ -308,13 +316,13 @@ public class ZoneRenderer :MonoBehaviour
 				square = s;
 			}
 		}
-		Debug.Log(this.transform + " Square" + square +  "min " + min);
+		Debug.Log(this.transform + " Square" + square +  "min " + bottomLeft);
 		this.transform.position = new Vector3(
 			square.begin.x +
-			min.x - 0.5f + square.Width/2.0f,
+			bottomLeft.x - 0.5f + square.Width/2.0f,
 			square.begin.y +
-			min.y-0.5f + square.Height / 2.0f, 0);
-		Debug.Log(zone.type +  " ZoneRenderer begin at " + min);
+			bottomLeft.y-0.5f + square.Height / 2.0f, 0);
+		Debug.Log(zone.type +  " ZoneRenderer begin at " + bottomLeft);
 		Debug.Log(square.begin + " " + square.Width + " " + square.Height);
 		if (square.Width <3 && square.Height > square.Width)
 		{

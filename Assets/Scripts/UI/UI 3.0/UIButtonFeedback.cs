@@ -14,6 +14,20 @@ public class UIButtonFeedback : MonoBehaviour
 
 	private void hdrOnClick()
 	{
-		OnFeedback.Raise(feedback);
+		var bttnLinked = GetComponent<UIButtonLinked>();
+		if(bttnLinked == null)
+		{
+			OnFeedback.Raise(feedback);
+		}
+		else
+		{
+			if (bttnLinked.IsEnalbed)
+			{
+				OnFeedback.Raise(feedback);
+			}
+			else
+			{
+			}
+		}
 	}
 }

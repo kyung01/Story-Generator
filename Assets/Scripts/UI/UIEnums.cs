@@ -54,7 +54,7 @@ public static class UIEnums
 	}
 	public enum FEEDBACK
 	{
-		NONE,
+		NONE=0,
 
 		BUILDS,
 		TASKS,

@@ -156,6 +156,16 @@ public class UIPostRenderer : MonoBehaviour
 		ListRenderSquares.Add(r);
 	}
 	
+	public static void Render_Shape_Square(Color color, Vector3 screenSpaceFrom, Vector3 screenSpaceTo)
+	{
+		hprWorldToView_XY0(ref screenSpaceFrom);
+		hprWorldToView_XY0(ref screenSpaceTo);
+
+		var r = new RenderSquareCall() { color = color, from = screenSpaceFrom, to = screenSpaceTo };
+
+		ListRenderSquares.Add(r);
+	}
+
 	/// <summary>
 	/// deprecated 
 	/// </summary>
@@ -169,12 +179,7 @@ public class UIPostRenderer : MonoBehaviour
 		ListRenderSquareLines.Add(new RenderSquareCall() { color = GetRandomColor(), from = screenSpaceFrom, to = screenSpaceTo });
 	}
 
-	static void hprWorldToView_XY0(ref Vector3 vec3)
-	{
-		vec3 = Camera.main.WorldToViewportPoint(vec3);
-		vec3 = new Vector3(vec3.x, vec3.y, 0);
-	}
-	public static void RenderSquareLines(Color color, Vector3 from, Vector3 to)
+	public static void Render_Line_Squares(Color color, Vector3 from, Vector3 to)
 	{
 		hprWorldToView_XY0(ref from); 
 		hprWorldToView_XY0(ref to);
@@ -184,4 +189,11 @@ public class UIPostRenderer : MonoBehaviour
 
 		ListRenderSquareLines.Add(new RenderSquareCall() { color = color, from = from, to = to });
 	}
+
+	static void hprWorldToView_XY0(ref Vector3 vec3)
+	{
+		vec3 = Camera.main.WorldToViewportPoint(vec3);
+		vec3 = new Vector3(vec3.x, vec3.y, 0);
+	}
+
 }
