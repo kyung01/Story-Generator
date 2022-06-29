@@ -9,12 +9,14 @@ public partial class WorldController
 	public enum Command
 	{
 		NONE,
+		BUILD,
 		HAUL,
 		STOCKPILE,
 
 
 		END,
 	}
+	
 
 	public static WorldController INSTANCE;
 
@@ -40,7 +42,19 @@ public partial class WorldController
 			INSTANCE.apply();
 			INSTANCE.command = Command.NONE;
 		}
-
+		else if(INSTANCE.command == Command.BUILD)
+		{
+			for(int i = (int)from.x; i <= to.x; i++)
+			{
+				for(int j = (int)from.y; j <= to.y; j++)
+				{
+					World.Build(INSTANCE.thingToBuild, i, j);
+				}
+			}
+			INSTANCE.command = Command.NONE;
+			INSTANCE.thingToBuild = Thing.TYPE.UNDEFINED;
+			
+		}
 		else if(INSTANCE.command == Command.STOCKPILE)
 		{
 			Debug.Log("WorldController::Building a stockpile zone " + from + " " + to );
@@ -57,13 +71,18 @@ public partial class WorldController
 
 	}
 
-	public static void SetCommand(Command command)
+	public static void SetCommand(Command command, Thing.TYPE thingToBuild = Thing.TYPE.UNDEFINED)
 	{
 		INSTANCE.command = command;
 
 		if(command == Command.HAUL && Selector.ThingsCurrentlySelected.Count != 0)
 		{
 			INSTANCE.apply();
+			INSTANCE.command = Command.NONE;
+		}
+		if(command == Command.BUILD)
+		{
+			INSTANCE.thingToBuild = thingToBuild;
 		}
 	}
 
@@ -85,6 +104,8 @@ public partial class WorldController
 	World world;
 	WorldThingSelector worldThingSelector = new WorldThingSelector();
 	Command command;
+	Thing.TYPE thingToBuild = Thing.TYPE.UNDEFINED;
+
 
 	private WorldController(World world)
 	{

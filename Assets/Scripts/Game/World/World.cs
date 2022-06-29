@@ -413,7 +413,7 @@ namespace StoryGenerator.World
 		public void Build(Thing.TYPE thingToBuild, int x, int y)
 		{
 			Structure structure;
-			if(thingToBuild== Thing.TYPE.WALL)
+			if(thingToBuild == Thing.TYPE.WALL)
 			{
 				clearSpotForConstruction(x, y);
 				structure = ThingSheet.GetWall();

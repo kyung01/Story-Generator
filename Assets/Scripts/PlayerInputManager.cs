@@ -32,6 +32,24 @@ public class PlayerInputManager : MonoBehaviour
 			WorldController.SetCommand(WorldController.Command.STOCKPILE);
 
 		}
+		if (value.isBUILDS())
+		{
+			switch (value)
+			{
+				case UIEnums.FEEDBACK.BUILDS_WALL:
+					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: Thing.TYPE.WALL);
+					break;
+				case UIEnums.FEEDBACK.BUILDS_DOOR:
+					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: Thing.TYPE.DOOR);
+					break;
+				case UIEnums.FEEDBACK.BUILDS_ROOF:
+					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: Thing.TYPE.ROOF);
+					break;
+				default:
+					break;
+			}
+
+		}
 	}
 
 	private void hdrSelectedWorld(int xBegin, int yBegin, int xEnd, int yEnd)
