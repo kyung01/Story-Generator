@@ -102,11 +102,11 @@ public class ThingRenderer : MonoBehaviour
 				}
 
 			}
-			if(thing.MNGNeed != null)
+			if(thing.moduleNeeds != null)
 			{
-				for (int i = 0; i < thing.MNGNeed.needs.Count; i++)
+				for (int i = 0; i < thing.moduleNeeds.needs.Count; i++)
 				{
-					var n = thing.MNGNeed.needs[i];
+					var n = thing.moduleNeeds.needs[i];
 					textMesh.text += n.name + " " + n.demand + " \n";
 
 				}

@@ -6,6 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+/// <summary>
+/// Assigns a target to perform the action "eat"
+/// If the target is unable to be eatten, it attempts to assign appropriate actions that are required to perform eat
+/// </summary>
 public class Eat :Action
 {
 	Thing targetThing;

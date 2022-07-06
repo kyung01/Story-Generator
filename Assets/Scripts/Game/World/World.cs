@@ -397,7 +397,7 @@ namespace StoryGenerator.World
 				thing.OnPositionIndexChanged.Add(hdrThingPositionChanged);
 
 			}
-			if (thing.MNGBody != null)
+			if (thing.moduleBody != null)
 			{
 				thingsMoving[Mathf.RoundToInt(thing.X) + Mathf.RoundToInt(thing.Y) * width].Add(thing);
 				pathFinder.addCellWeightInt(thing.X_INT, thing.Y_INT, WEIGHT_AVOID_ANIMAL);
@@ -410,40 +410,26 @@ namespace StoryGenerator.World
 
 		//Public methods
 
+		Structure hprGetStructure(Thing.TYPE type)
+		{
+			switch (type)
+			{
+				case Thing.TYPE.WALL:
+					return ThingSheet.GetWall();
+				case Thing.TYPE.DOOR:
+					return new Door();
+				case Thing.TYPE.ROOF:
+					return ThingSheet.GetRoof();
+			}
+			return new Structure();
+		}
 		public void Build(Thing.TYPE thingToBuild, int x, int y)
 		{
-			Structure structure;
-			if(thingToBuild == Thing.TYPE.WALL)
-			{
-				clearSpotForConstruction(x, y);
-				structure = ThingSheet.GetWall();
-			}
-			else if (thingToBuild == Thing.TYPE.ROOF)
-			{
-				structure = ThingSheet.GetRoof();
-			}
-			else if(thingToBuild == Thing.TYPE.DOOR)
-			{
-				structure = new Door();
-			}
-			else
-			{
-				Debug.LogError("Unacceptable input received " + thingToBuild);
-				return;
-			}
-			bool isNotBuildable = true;
-			if (thingToBuild == Thing.TYPE.ROOF)
-			{
+			Structure structure = hprGetStructure(thingToBuild);
 
-				isNotBuildable = hprIsRoofAt(x, y);
-			}
-			else
+			if((thingToBuild == Thing.TYPE.ROOF) ? hprIsRoofAt(x, y): hprIsStructureAt(x, y))
 			{
-				isNotBuildable = hprIsStructureAt(x, y);
-
-			}
-			if (isNotBuildable)
-			{
+				//Not buildable
 				return;
 			}
 			structure.SetPosition(x, y);

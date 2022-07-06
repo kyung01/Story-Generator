@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 public partial class Thing
 {
 	ThingBodyManager thingBodyManager;
-	public ThingBodyManager MNGBody { get { return this.thingBodyManager; } }
+	public ThingBodyManager moduleBody { get { return this.thingBodyManager; } }
 
 	public void InitBodyManager()
 	{

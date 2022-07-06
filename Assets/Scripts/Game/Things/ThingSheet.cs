@@ -11,7 +11,7 @@ public class ThingSheet
 		Plant plant = new Plant();
 		plant.type = Thing.TYPE.GRASS;
 		plant.InitContainer();
-		plant.Container.Add(Game.Keyword.FOOD_VEGI, 100);
+		plant.moduleContainer.Add(Game.Keyword.FOOD_VEGI, 100);
 		return plant;
 	}
 	public static Thing GetBush()
@@ -53,19 +53,19 @@ public class ThingSheet
 		thing.InitBodyManager();
 		thing.InitThingNeedManager();
 
-		thing.MNGNeed.AddNeed(new Hunger_Vegi());
-		thing.MNGNeed.AddNeed(new Wander());
+		thing.moduleNeeds.AddNeed(new Hunger_Vegi());
+		thing.moduleNeeds.AddNeed(new Wander());
 
 		var meatBody = new MeatBody();
 		var stomach = new Stomach();
 		stomach.addNutrtionBody(meatBody);
 
-		thing.MNGBody.AddBody(new MotionDemander());
-		thing.MNGBody.AddBody(new PainCreator());
-		thing.MNGBody.AddBody(new PainReactionModelBody());
-		thing.MNGBody.AddBody(new Mouth());
-		thing.MNGBody.AddBody(meatBody);
-		thing.MNGBody.AddBody(stomach);
+		thing.moduleBody.AddBody(new MotionDemander());
+		thing.moduleBody.AddBody(new PainCreator());
+		thing.moduleBody.AddBody(new PainReactionModelBody());
+		thing.moduleBody.AddBody(new Mouth());
+		thing.moduleBody.AddBody(meatBody);
+		thing.moduleBody.AddBody(stomach);
 
 		thing.type = Thing.TYPE.RABBIT;
 		return thing;
@@ -83,18 +83,18 @@ public class ThingSheet
 		thing.InitBodyManager();
 		thing.InitThingNeedManager();
 
-		thing.MNGNeed.AddNeed(new Hunger_Meat());
-		thing.MNGNeed.AddNeed(new Wander());		
+		thing.moduleNeeds.AddNeed(new Hunger_Meat());
+		thing.moduleNeeds.AddNeed(new Wander());		
 
 		var meatBody = new MeatBody();
 		var stomach = new Stomach();
 		stomach.addNutrtionBody(meatBody);
 
-		thing.MNGBody.AddBody(new MotionDemander());
-		thing.MNGBody.AddBody(new PainCreator());
-		thing.MNGBody.AddBody(new Mouth());
-		thing.MNGBody.AddBody(meatBody);
-		thing.MNGBody.AddBody(stomach);
+		thing.moduleBody.AddBody(new MotionDemander());
+		thing.moduleBody.AddBody(new PainCreator());
+		thing.moduleBody.AddBody(new Mouth());
+		thing.moduleBody.AddBody(meatBody);
+		thing.moduleBody.AddBody(stomach);
 
 		thing.type = Thing.TYPE.BEAR;
 		return thing;

@@ -135,9 +135,9 @@ public partial class Thing
 
 	public virtual void Init(World world)
 	{
-		if (MNGNeed != null)
+		if (moduleNeeds != null)
 		{
-			MNGNeed.Init(this);
+			moduleNeeds.Init(this);
 		}
 
 	}

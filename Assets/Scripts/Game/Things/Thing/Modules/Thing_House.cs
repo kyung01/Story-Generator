@@ -7,7 +7,7 @@ using UnityEngine;
 public partial class Thing
 {
 	HouseModule houseModule;
-	public HouseModule House { get { return this.houseModule; } }
+	public HouseModule moduleHouse { get { return this.houseModule; } }
 
 	public void InitHouse()
 	{

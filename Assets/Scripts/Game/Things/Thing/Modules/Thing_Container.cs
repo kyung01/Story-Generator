@@ -7,7 +7,7 @@ using UnityEngine;
 public partial class Thing
 {
 	Container thingContainer;
-	public Container Container { get { return this.thingContainer; } }
+	public Container moduleContainer { get { return this.thingContainer; } }
 
 	public void InitContainer()
 	{

@@ -22,18 +22,40 @@ public class Hunger_General : Need
 		this.demand = demandThreshold+1;
 		thing.OnConsumeKeyword.Add( hdrKeywordConsumed);
 	}
-	public bool passiveResolution(World world, Thing thing, float timeElapsed, bool isHunter = false)
+	Thing getTheBestFoodSourceTarget(World world, Thing thing, bool isHunter)
 	{
-		Body bodyToPass = null;
-		bodyToPass = thing.MNGBody.MainBody;
-		var thingsIsee = world.GetSightableThings(thing, (isHunter)? 50: bodyToPass.GetSight());
-		Thing bestTargetThing = getBestTargetThing(world, thingsIsee, requiredKeyword, isHunter);
-		if (isHunter)
-		{
-			UnityEngine.Debug.Log("Engaging a hunter mode");
-		}
-		if (isHunter) UnityEngine.Debug.Log(this + " thingsIsee " + thingsIsee.Count);
-		if (isHunter) UnityEngine.Debug.Log(this + " Resolving hunger " + (bestTargetThing != null));
+		Body thingsBody = thing.moduleBody.MainBody;
+		var thingsIsee = world.GetSightableThings(thing, (isHunter) ? 50 : thingsBody.GetSight());
+		return getBestTargetThing(world, thingsIsee, requiredKeyword, isHunter);
+	}
+
+	//Passive resolution is to eat something that's available freely
+	public bool resolution_passive()
+	{
+
+	}
+
+	//Hunter's resolutiuon is to hunt an animal/target and gain the resource it requires
+	public bool resolution_hunter()
+	{
+
+	}
+
+	//Thief's resolution is to steal the resource from the target
+	public bool resolution_thief()
+	{
+
+	}
+	public bool eatResolution(World world, Thing thing, float timeElapsed, bool isHunter = false)
+	{
+		//Body thingsBody = thing.moduleBody.MainBody;
+		//var thingsIsee = world.GetSightableThings(thing, (isHunter)? 50: thingsBody.GetSight());
+		//Thing bestTargetThing = getBestTargetThing(world, thingsIsee, requiredKeyword, isHunter);
+		var bestTargetThing = getTheBestFoodSourceTarget(world, thing, isHunter);
+
+		
+		//if (isHunter) UnityEngine.Debug.Log(this + " thingsIsee " + thingsIsee.Count);
+		//if (isHunter) UnityEngine.Debug.Log(this + " Resolving hunger " + (bestTargetThing != null));
 		if (bestTargetThing == null)
 		{
 			//UnityEngine.Debug.LogError(this + ""+thing.type +" : " );
@@ -48,7 +70,6 @@ public class Hunger_General : Need
 		float desiredKeywordAmount = (demand - demandThreshold) + desiredKeywordTransfer_To_CalmDownDemandCall;
 		if (isHunter)
 		{
-			UnityEngine.Debug.Log("Hunt TAM called");
 			thing.TAM.Hunt(
 				bestTargetThing,
 				requiredKeyword,
@@ -57,7 +78,6 @@ public class Hunger_General : Need
 		}
 		else
 		{
-			UnityEngine.Debug.Log(this + " Eat " + bestTargetThing + bestTargetThing.XY + " wanted amount : " + desiredKeywordAmount);
 			thing.TAM.Eat(
 			   bestTargetThing,
 			   requiredKeyword,
@@ -72,11 +92,11 @@ public class Hunger_General : Need
 	public override bool ResolveNeed(World world, Thing thing, float timeElapsed)
 	{
 		if (demand < demandThreshold) return false;
-		if (passiveResolution(world, thing, timeElapsed)){
+		if (eatResolution(world, thing, timeElapsed)){
 			return true;
 		}
 		else if (isHuntersHunger)
-			return passiveResolution(world, thing, timeElapsed, isHuntersHunger);
+			return eatResolution(world, thing, timeElapsed, true);
 		return false;
 	}
 

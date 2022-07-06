@@ -54,7 +54,7 @@ public static class ThingExtensions
 
 	static public Dictionary<Game.TaskType, List<BodyTaskable>> GetBodiesForTask(this Thing thing)
 	{
-		bool IsThisThing_ThingBodyWithTask = thing.MNGBody != null;
+		bool IsThisThing_ThingBodyWithTask = thing.moduleBody != null;
 
 		var dicTaskAvailableBodies = new Dictionary<Game.TaskType, List<BodyTaskable>>();
 		if (!IsThisThing_ThingBodyWithTask)
@@ -64,7 +64,7 @@ public static class ThingExtensions
 			return dicTaskAvailableBodies;
 		}
 		//var twb = (ThingWithBody)thing;
-		sortBodiesForTask(ref dicTaskAvailableBodies, thing.MNGBody.MainBody);
+		sortBodiesForTask(ref dicTaskAvailableBodies, thing.moduleBody.MainBody);
 		//UnityEngine.Debug.Log(" GetBodiesForTask :: " + dicTaskAvailableBodies.Count);
 
 

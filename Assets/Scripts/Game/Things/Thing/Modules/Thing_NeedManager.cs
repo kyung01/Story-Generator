@@ -8,7 +8,7 @@ using UnityEngine;
 public partial class Thing
 {
 	ThingNeedManager thingNeedManager;
-	public ThingNeedManager MNGNeed { get { return this.thingNeedManager; } }
+	public ThingNeedManager moduleNeeds { get { return this.thingNeedManager; } }
 
 	public void InitThingNeedManager()
 	{
