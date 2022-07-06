@@ -30,20 +30,29 @@ public class Hunger_General : Need
 	}
 
 	//Passive resolution is to eat something that's available freely
-	public bool resolution_passive()
+	public bool resolution_passive(World world, Thing thing, ref Thing targetThing)
+	{
+		return false;
+	}
+
+	//Cooker's resolution is to create a possibly something I need from the available resources around me 
+	public bool resolution_cook(World world, Thing thing, ref Thing targetThing)
 	{
 
+		return false;
 	}
 
 	//Hunter's resolutiuon is to hunt an animal/target and gain the resource it requires
 	public bool resolution_hunter()
 	{
 
+		return false;
 	}
 
 	//Thief's resolution is to steal the resource from the target
 	public bool resolution_thief()
 	{
+		return false;
 
 	}
 	public bool eatResolution(World world, Thing thing, float timeElapsed, bool isHunter = false)
