@@ -35,7 +35,8 @@ public partial class Game
 		MOVED,
 		NUTRITION,
 		NEGATIVE_HEALTH_CHANGE,
-		PAIN
+		PAIN,
+		UNDEFINED
 	}
 
 	//Types of action
@@ -59,6 +60,17 @@ public partial class Game
 			return true;
 		}
 		return original == testKeyword;
+	}
+	public static bool IsKeywordCompatible(List<Keyword> originals, Keyword testKeyword)
+	{
+		foreach(var k in originals)
+		{
+			if (IsKeywordCompatible(k, testKeyword))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

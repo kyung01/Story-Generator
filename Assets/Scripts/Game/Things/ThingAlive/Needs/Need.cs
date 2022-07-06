@@ -11,13 +11,13 @@ public class Need
 	internal string name = "Need Title";
 	internal string explanation = "This is a need";
 
-	internal Game.Keyword requiredKeyword;
-	internal Game.Keyword stressKeyword;
+	internal List<Game.Keyword> requiredKeywords = new List<Game.Keyword>();
+	internal List<Game.Keyword> stressKeywords = new List<Game.Keyword>();
 	internal float demand;
+
 
 	public virtual void Init(Thing thing)
 	{
-
 	}
 	public virtual void updateStatic(World world, Thing thingAlive, float timeElapsed)
 	{

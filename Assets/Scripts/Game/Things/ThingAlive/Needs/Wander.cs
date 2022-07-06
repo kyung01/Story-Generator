@@ -14,8 +14,8 @@ public class Wander : Need
 		this.name = "Wander";
 		this.explanation = "Need to move around";
 		this.demand = 100;
-		this.requiredKeyword = Game.Keyword.MOVED;
-		this.stressKeyword = Game.Keyword.STILL;
+		this.requiredKeywords.Add( Game.Keyword.MOVED);
+		this.stressKeywords.Add(Game.Keyword.STILL);
 	}
 
 	public override void Init(Thing thing)
@@ -26,11 +26,11 @@ public class Wander : Need
 
 	private void hdrConsumeKeyword(Game.Keyword keyword, float amount)
 	{
-		if (Game.IsKeywordCompatible(this.requiredKeyword, keyword))
+		if (Game.IsKeywordCompatible(this.requiredKeywords, keyword))
 		{
 			this.demand -= amount;
 		}
-		if (Game.IsKeywordCompatible(this.stressKeyword, keyword))
+		if (Game.IsKeywordCompatible(this.stressKeywords, keyword))
 		{
 			this.demand += amount;
 

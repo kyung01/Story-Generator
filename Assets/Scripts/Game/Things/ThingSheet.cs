@@ -53,7 +53,8 @@ public class ThingSheet
 		thing.InitBodyManager();
 		thing.InitThingNeedManager();
 
-		thing.moduleNeeds.AddNeed(new Hunger_Vegi());
+		//thing.moduleNeeds.AddNeed(new Hunger_Vegi());
+		thing.moduleNeeds.AddNeed(Hunger_General.InitSimpleHunger(Game.Keyword.FOOD_VEGI, Hunger_General.HungerResolutionMethodType.PASSIVE));
 		thing.moduleNeeds.AddNeed(new Wander());
 
 		var meatBody = new MeatBody();
@@ -83,7 +84,9 @@ public class ThingSheet
 		thing.InitBodyManager();
 		thing.InitThingNeedManager();
 
-		thing.moduleNeeds.AddNeed(new Hunger_Meat());
+		//thing.moduleNeeds.AddNeed(new Hunger_Meat());
+		thing.moduleNeeds.AddNeed(Hunger_General.InitSimpleHunger(
+			Game.Keyword.FOOD_MEAT, Hunger_General.HungerResolutionMethodType.PASSIVE, Hunger_General.HungerResolutionMethodType.HUNT));
 		thing.moduleNeeds.AddNeed(new Wander());		
 
 		var meatBody = new MeatBody();
