@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-public class PainCreator : Body
+public class PainCreator : BodyBase
 {
 
 

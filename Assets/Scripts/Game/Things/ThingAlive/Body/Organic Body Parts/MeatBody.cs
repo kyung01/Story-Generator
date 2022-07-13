@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //part of the body that's of meat
-public class MeatBody : Body
+public class MeatBody : BodyBase
 {
 	float meat = 0;
 
@@ -19,6 +19,7 @@ public class MeatBody : Body
 		//Debug.Log("get keywords " + meat);
 		return allKeywords;
 	}
+
 	public override void ConsumeKeyword(Game.Keyword keyword, float amount)
 	{
 		//Debug.Log("ConsumeKeyword " + amount);

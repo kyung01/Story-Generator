@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class Stomach : Body
+public class Stomach : BodyBase
 {
 	//static float THRESHOLD = 100;
 	//float hungerFrustrationRate = 1;
 	float hungerIncreaseSpeed = 5;
 	float hunger = 0;
-	List<Body> nutritionReceivingBodies = new List<Body>();
+	List<BodyBase> nutritionReceivingBodies = new List<BodyBase>();
 
-	public void addNutrtionBody(Body b)
+	public void addNutrtionBody(BodyBase b)
 	{
 		nutritionReceivingBodies.Add(b);
 	}

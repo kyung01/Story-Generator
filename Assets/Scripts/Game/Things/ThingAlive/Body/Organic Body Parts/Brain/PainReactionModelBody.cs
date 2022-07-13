@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class PainReactionModelBody : Body
+public class PainReactionModelBody : BodyBase
 {
 	float minimumPainToTrigger = 1;
 	float minDistanceToFlee = 10;

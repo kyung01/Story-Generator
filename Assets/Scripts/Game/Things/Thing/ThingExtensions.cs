@@ -72,7 +72,7 @@ public static class ThingExtensions
 
 	}
 
-	static void sortBodiesForTask(ref Dictionary<Game.TaskType, List<BodyTaskable>> dicTaskAvailableBodies, Body body)
+	static void sortBodiesForTask(ref Dictionary<Game.TaskType, List<BodyTaskable>> dicTaskAvailableBodies, BodyBase body)
 	{
 		bool isBodyTaskable = body is BodyTaskable;
 		if (isBodyTaskable)

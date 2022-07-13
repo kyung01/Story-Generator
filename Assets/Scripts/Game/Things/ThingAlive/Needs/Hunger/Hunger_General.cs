@@ -44,8 +44,9 @@ public partial class Hunger_General : Need
 
 	void getTheBestFoodSourceTarget(World world, Thing thing, bool isHunter, ref Thing targetThing, ref Game.Keyword keywordSelected)
 	{
-		Body thingsBody = thing.moduleBody.MainBody;
-		var thingsIsee = world.GetSightableThings(thing, (isHunter) ? 50 : thingsBody.GetSight());
+		BodyBase thingsBody = thing.moduleBody.MainBody;
+		var thingsIsee = world.GetSightableThings(thing, thingsBody.GetSight());
+		//var thingsIsee = world.GetSightableThings(thing, (isHunter) ? 50 : thingsBody.GetSight());
 		getBestTargetThing(world, thingsIsee, requiredKeywords,ref targetThing,ref keywordSelected, isHunter);
 	}
 
@@ -170,7 +171,8 @@ public partial class Hunger_General : Need
 		
 		return true;
 	}
-	public struct Resolution {
+
+	public class Resolution {
 		public HungerResolutionMethodType resolutionType;
 		public Thing targetThing;
 		public Game.Keyword keyword;
@@ -210,10 +212,10 @@ public partial class Hunger_General : Need
 					break;
 			}
 			if(bestTargetThing != null)
-				resolutions.Add(new Resolution() { resolutionType = method, targetThing = bestTargetThing, keyword = keywordSelected });
+				resolutions.Add(new Resolution( method,  bestTargetThing,  keywordSelected ));
 		}
 		//Find the best target per method_of_feeding_hunger
-		Resolution? resolutionSelected = null;
+		Resolution resolutionSelected = null;
 		float score = float.MinValue;
 		foreach(var res in resolutions)
 		{
@@ -225,19 +227,19 @@ public partial class Hunger_General : Need
 			}
 		}
 		if (resolutionSelected != null)
-			switch (resolutionSelected.Value.resolutionType)
+			switch (resolutionSelected.resolutionType)
 			{
 				case HungerResolutionMethodType.PASSIVE:
 					thing.TAM.Eat(
-					   resolutionSelected.Value.targetThing,
-					   resolutionSelected.Value.keyword,
+					   resolutionSelected.targetThing,
+					   resolutionSelected.keyword,
 					   desiredKeywordAmount
 					   );
 					break;
 				case HungerResolutionMethodType.HUNT:
 					thing.TAM.Hunt(
-					   resolutionSelected.Value.targetThing,
-					   resolutionSelected.Value.keyword,
+					   resolutionSelected.targetThing,
+					   resolutionSelected.keyword,
 					   desiredKeywordAmount
 					   );
 					break;

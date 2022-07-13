@@ -4,10 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class Body
+/// <summary>
+/// Generic class for all body parts
+/// </summary>
+public class BodyBase
 {
+	string name = "BodyBase";
+	public List<BodyBase> otherBodyParts = new List<BodyBase>();
 
-	public List<Body> otherBodyParts = new List<Body>();
+	public BodyBase SetName(String s)
+	{
+		this.name = s;
+		return this;
+	}
+
 	public virtual void Init(Thing thing)
 	{
 		for(int i = 0; i< otherBodyParts.Count; i++)
@@ -16,7 +26,7 @@ public class Body
 		}
 	}
 
-	internal void addBody(Body body)
+	internal void addBody(BodyBase body)
 	{
 		otherBodyParts.Add(body);
 
@@ -57,11 +67,27 @@ public class Body
 	{
 
 	}
+	public void GetCertainBodyParts<T>(ref List<BodyBase> bodies)
+	{
 
+		foreach(var otherBody in otherBodyParts)
+		{
+			if (otherBody.GetType().GetGenericTypeDefinition() == typeof(List<T>) )
+				bodies.Add(otherBody);
+			otherBody.GetCertainBodyParts<T>(ref bodies);
+		}
+	}
 	internal float GetSight()
 	{
+		List<BodyBase> eyes = new List<BodyBase>();
+		GetCertainBodyParts<Eye>(ref eyes);
+		float sight = 0;
+		foreach(var eye in eyes)
+		{
+			sight += eye.GetSight();
+		}
 		//calculate sight by computing all the things that are "eye" in the body
-		return 5;
+		return sight;
 	}
 
 

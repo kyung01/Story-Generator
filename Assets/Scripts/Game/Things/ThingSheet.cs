@@ -61,6 +61,8 @@ public class ThingSheet
 		var stomach = new Stomach();
 		stomach.addNutrtionBody(meatBody);
 
+		thing.moduleBody.AddBody(new Eye().SetName("Left Eye"));
+		thing.moduleBody.AddBody(new Eye().SetName("Right Eye"));
 		thing.moduleBody.AddBody(new MotionDemander());
 		thing.moduleBody.AddBody(new PainCreator());
 		thing.moduleBody.AddBody(new PainReactionModelBody());
@@ -93,6 +95,8 @@ public class ThingSheet
 		var stomach = new Stomach();
 		stomach.addNutrtionBody(meatBody);
 
+		thing.moduleBody.AddBody(new Eye().SetName("Left Eye"));
+		thing.moduleBody.AddBody(new Eye().SetName("Right Eye"));
 		thing.moduleBody.AddBody(new MotionDemander());
 		thing.moduleBody.AddBody(new PainCreator());
 		thing.moduleBody.AddBody(new Mouth());

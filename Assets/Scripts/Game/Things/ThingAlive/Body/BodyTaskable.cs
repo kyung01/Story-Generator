@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BodyTaskable : Body
+public class BodyTaskable : BodyBase
 {
 	/// <summary>
 	/// This is the list of task this body part can perform

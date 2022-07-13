@@ -19,10 +19,10 @@ public partial class Thing
 
 public class ThingBodyManager : ThingModule
 {
-	Body body = new Body();
-	public Body MainBody { get { return this.body; } }
+	BodyBase body = new BodyBase();
+	public BodyBase MainBody { get { return this.body; } }
 
-	public void AddBody(Body b)
+	public void AddBody(BodyBase b)
 	{
 		body.addBody(b);
 	}

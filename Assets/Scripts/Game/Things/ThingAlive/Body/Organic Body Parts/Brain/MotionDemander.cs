@@ -8,7 +8,7 @@ using UnityEngine;
 
 //Part of the brain, it requires a thingAlive to keep moving
 //When a thing does not move it produces stress
-public class MotionDemander : Body
+public class MotionDemander : BodyBase
 {
 	static float REQUIRED_SPEED_TO_MOVE_AROUND = .3f;
 	static float ZERO = 0.01f;
