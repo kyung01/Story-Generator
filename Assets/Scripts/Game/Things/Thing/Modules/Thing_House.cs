@@ -23,4 +23,9 @@ public class HouseModule : ThingModule
 	{
 		this.house = houseZone;
 	}
+
+	internal List<Thing> GetThings(List<Game.Keyword> requiredKeywords)
+	{
+		return new List<Thing>();
+	}
 }

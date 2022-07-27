@@ -12,7 +12,11 @@ public class Stomach : BodyBase
 	float hungerIncreaseSpeed = 5;
 	float hunger = 0;
 	List<BodyBase> nutritionReceivingBodies = new List<BodyBase>();
+	public Stomach()
+	{
 
+		this.type = Type.STOMACH;
+	}
 	public void addNutrtionBody(BodyBase b)
 	{
 		nutritionReceivingBodies.Add(b);

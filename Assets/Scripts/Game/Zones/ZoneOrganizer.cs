@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using System.Threading.Tasks;
+using StoryGenerator.World;
 
 public static class StaticZoneOrganizer
 {
@@ -14,6 +15,7 @@ public static class StaticZoneOrganizer
 		}
 	}
 }
+
 public class ZoneOrganizer
 {
 	public delegate void DEL_ZONE(Zone zone);
@@ -41,13 +43,6 @@ public class ZoneOrganizer
 		return stockpileZones;
 	}
 
-	internal void raiseSingleZoneSelected(Zone zone)
-	{
-		for (int i = 0; i < OnSingleZoneSelected.Count; i++)
-		{
-			OnSingleZoneSelected[i](zone);
-		}
-	}
 	internal void raiseNoZoneSelected()
 	{
 		for (int i = 0; i < OnNO_ZONE_SELECTED.Count; i++)
@@ -55,23 +50,9 @@ public class ZoneOrganizer
 			OnNO_ZONE_SELECTED[i]();
 		}
 	}
-	internal void raiseZoneAdded(Zone zone)
-	{
-		for (int i = 0; i < OnZoneAdded.Count; i++)
-		{
-			OnZoneAdded[i](zone);
-		}
-
-	}
-	internal void raiseZoneRemoved(Zone zone)
-	{
-		for(int i = 0; i < OnZoneRemoved.Count; i++)
-		{
-			OnZoneRemoved[i](zone);
-		}
-	}
 	
 	public List<Zone> zones = new List<Zone>();
+	
 	public List<Zone> zonesSelected = new List<Zone>();
 
 	void addZone(Zone zone, int xBegin, int yBegin, int xEnd, int yEnd)
@@ -87,19 +68,19 @@ public class ZoneOrganizer
 		}
 		zone.RefreshPositions();
 		zones.Add(zone);
-		raiseZoneAdded(zone);
+		OnZoneAdded.Raise(zone);
 	}
-
-	public void BuildHouseZone(int xBegin, int yBegin, int xEnd, int yEnd)
-	{
-		Zone houseZone = new BaseHousingZone();
-		addZone(houseZone, xBegin, yBegin, xEnd, yEnd);
-	}	
 
 	public void BuildStockpileZone (int xBegin, int yBegin, int xEnd, int yEnd){
 		Zone spZone = new StockpileZone();
 		addZone(spZone, xBegin,yBegin,xEnd,yEnd);
 	}
+
+	public void BuildHouseZone(World world, int xBegin, int yBegin, int xEnd, int yEnd)
+	{
+		Zone houseZone = new BaseHousingZone(world);
+		addZone(houseZone, xBegin, yBegin, xEnd, yEnd);
+	}	
 
 	public void BuildBedroom(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
@@ -107,6 +88,7 @@ public class ZoneOrganizer
 		bedroomZone.type = Zone.TYPE.BEDROOM;
 		BuildHouseRoom(bedroomZone, xBegin, yBegin, xEnd, yEnd);
 	}
+
 	public void BuildBathroom(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
 		Zone bedroomZone = new BaseHousingZone();
@@ -248,7 +230,7 @@ public class ZoneOrganizer
 			if (!zones[k].IsAlive)
 			{
 				zones.RemoveAt(k);
-				raiseZoneRemoved(zones[k]);
+				OnZoneRemoved.Raise(zones[k]);
 			}
 
 		}
@@ -284,7 +266,7 @@ public class ZoneOrganizer
 			if (zone.IsDead)
 			{
 				zones.RemoveAt(k);
-				raiseZoneRemoved(zone);
+				OnZoneRemoved.Raise(zone);
 			}
 
 		}
@@ -354,7 +336,7 @@ public class ZoneOrganizer
 		
 		if (zonesWithin.Count == 1)
 		{
-			raiseSingleZoneSelected(zonesWithin[0]);
+			OnSingleZoneSelected.Raise(zonesWithin[0]);
 		}
 		else if (zonesWithin.Count == 0)
 		{
@@ -383,12 +365,20 @@ public class ZoneOrganizer
 		}
 		if (zonesWithin.Count == 1)
 		{
-			raiseSingleZoneSelected(zonesWithin[0]);
+			OnSingleZoneSelected.Raise(zonesWithin[0]);
 		}
 		else if (zonesWithin.Count == 0)
 		{
 			raiseNoZoneSelected();
 		}
 		zonesSelected = zonesWithin;
+	}
+
+	public void Update(World world, float timeElapsed)
+	{
+		for(int i = 0; i < zones.Count; i++)
+		{
+			this.zones[i].Update(world, timeElapsed);
+		}
 	}
 }

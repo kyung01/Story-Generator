@@ -3,5 +3,6 @@ using UnityEngine;
 
 public class Hand : BodyBase
 {
+	
 	Thing thingHolding;
 }

@@ -14,6 +14,7 @@ public class Eye : BodyBase
 	public Eye(float sight = 10.0f)
 	{
 		this.sight = sight;
+		this.type = Type.EYE;
 	}
 	public override void ConsumeKeyword(Game.Keyword keyword, float amount)
 	{

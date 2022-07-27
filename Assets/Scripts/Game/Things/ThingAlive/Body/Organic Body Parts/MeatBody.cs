@@ -7,6 +7,11 @@ public class MeatBody : BodyBase
 {
 	float meat = 0;
 
+	public MeatBody()
+	{
+		this.type = Type.MEATBODY;
+	}
+
 
 	public override Dictionary<Game.Keyword, float> GetKeywords()
 	{

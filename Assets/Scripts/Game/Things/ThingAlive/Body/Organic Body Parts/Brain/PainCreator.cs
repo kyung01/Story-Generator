@@ -6,6 +6,11 @@ public class PainCreator : BodyBase
 {
 
 
+	public PainCreator()
+	{
+
+		this.type = Type.BRAIN_PAIN_CREATOR;
+	}
 	public override void Init(Thing thing)
 	{
 		base.Init(thing);

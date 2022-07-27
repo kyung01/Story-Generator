@@ -42,11 +42,21 @@ public partial class Hunger_General : Need
 		thing.OnConsumeKeyword.Add( hdrKeywordConsumed);
 	}
 
-	void getTheBestFoodSourceTarget(World world, Thing thing, bool isHunter, ref Thing targetThing, ref Game.Keyword keywordSelected)
+	void getTheBestFoodSourceTarget(World world, Thing thing, bool isHunter, 
+		ref Thing targetThing, ref Game.Keyword keywordSelected)
 	{
-		BodyBase thingsBody = thing.moduleBody.MainBody;
-		var thingsIsee = world.GetSightableThings(thing, thingsBody.GetSight());
-		//var thingsIsee = world.GetSightableThings(thing, (isHunter) ? 50 : thingsBody.GetSight());
+		var thingsIsee = world.GetSightableThings(thing, thing.moduleBody.MainBody.GetSight());
+		if (thing.moduleHouse != null)
+		{
+			thingsIsee.AddRange(thing.moduleHouse.GetThings(requiredKeywords));
+		}
+
+		if(thing.moduleHouse!= null)
+		{
+			List<Thing> thingsInHouse = thing.moduleHouse.GetThings(requiredKeywords);
+
+		}
+
 		getBestTargetThing(world, thingsIsee, requiredKeywords,ref targetThing,ref keywordSelected, isHunter);
 	}
 
@@ -262,7 +272,9 @@ public partial class Hunger_General : Need
 		return (targetThing.XY - thing.XY).magnitude;
 	}
 
-	private void getBestTargetThing(World world, List<Thing> thingsIsee, List<Game.Keyword> requiredKeyword,ref Thing thingSelected, ref Game.Keyword keywordSelected ,bool hunterMode = false)
+	private void getBestTargetThing(
+		World world, List<Thing> thingsIsee, List<Game.Keyword> requiredKeyword,
+		ref Thing thingSelected, ref Game.Keyword keywordSelected ,bool hunterMode = false)
 	{
 		//Thing thingSelected = null;
 		//Game.Keyword keywordSelected = Game.Keyword.UNDEFINED;

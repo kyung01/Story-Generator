@@ -9,7 +9,15 @@ using System.Threading.Tasks;
 /// </summary>
 public class BodyBase
 {
+	public enum Type { BASE, EYE,HAND,MEATBODY,MOUTH,STOMACH,
+		BRAIN_MOTION_DEMANDER,
+		BRAIN_PAIN_CREATOR
+	}
+
 	string name = "BodyBase";
+	internal Type type = BodyBase.Type.BASE;
+	public Type T { get { return this.type; } }
+
 	public List<BodyBase> otherBodyParts = new List<BodyBase>();
 
 	public BodyBase SetName(String s)
@@ -67,25 +75,30 @@ public class BodyBase
 	{
 
 	}
-	public void GetCertainBodyParts<T>(ref List<BodyBase> bodies)
+	public void GetCertainBodyParts(ref List<BodyBase> bodies, BodyBase.Type type)
 	{
 
 		foreach(var otherBody in otherBodyParts)
 		{
-			if (otherBody.GetType().GetGenericTypeDefinition() == typeof(List<T>) )
+			if (otherBody.T== type )
 				bodies.Add(otherBody);
-			otherBody.GetCertainBodyParts<T>(ref bodies);
+			else
+			{
+				//UnityEngine.Debug.Log(otherBody.T);
+			}
+			otherBody.GetCertainBodyParts(ref bodies,type);
 		}
 	}
 	internal float GetSight()
 	{
 		List<BodyBase> eyes = new List<BodyBase>();
-		GetCertainBodyParts<Eye>(ref eyes);
-		float sight = 0;
+		GetCertainBodyParts(ref eyes, BodyBase.Type.EYE);
+		float sight = (this.type == Type.EYE)? ((Eye)this).Sight: 0;
 		foreach(var eye in eyes)
 		{
 			sight += eye.GetSight();
 		}
+		//UnityEngine.Debug.Log(sight);
 		//calculate sight by computing all the things that are "eye" in the body
 		return sight;
 	}

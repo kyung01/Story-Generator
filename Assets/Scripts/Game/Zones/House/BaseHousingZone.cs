@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StoryGenerator.World;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,10 +12,20 @@ public class BaseHousingZone : Zone
 {
 	public Dictionary<Thing, ResidentDescription> residents = new Dictionary<Thing, ResidentDescription>();
 	List<Zone> otherZones = new List<Zone>();
+	List<Thing> thingsIn = new List<Thing>();
 
-	public BaseHousingZone()
+	public override void Update(World world, float timeElapsed)
+	{
+		base.Update(world, timeElapsed);
+		for(int i = 0; i < otherZones.Count; i++)
+		{
+			this.otherZones[i].Update(world, timeElapsed);
+		}
+	}
+	public BaseHousingZone(World world)
 	{
 		this.type = TYPE.HOUSE;
+		
 	}
 
 	public List<Zone> Rooms

@@ -18,6 +18,12 @@ public class MotionDemander : BodyBase
 	Vector2 position;
 
 	float happyDistanceIMoved = 0;
+	public MotionDemander()
+	{
+
+		this.type = Type.BRAIN_MOTION_DEMANDER;
+		this.SetName("Brain Part (Motion Demander)");
+	}
 	public override void Init(Thing thing)
 	{
 		//Debug.Log("MotionDemander Init");

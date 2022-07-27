@@ -4,6 +4,8 @@ using StoryGenerator.NTerrain;
 using UnityEngine;
 namespace StoryGenerator.World
 {
+	#region helperClass
+	
 	public class ThingXY {
 		public Thing thing;
 		public int xOld, yOld;
@@ -28,6 +30,8 @@ namespace StoryGenerator.World
 			return true;
 		}
 	}
+	
+	#endregion
 
 	/// <summary>
 	/// Piece of terrain, contains information about the particular terrain piece 
@@ -423,6 +427,7 @@ namespace StoryGenerator.World
 			}
 			return new Structure();
 		}
+		
 		public void Build(Thing.TYPE thingToBuild, int x, int y)
 		{
 			Structure structure = hprGetStructure(thingToBuild);
@@ -547,6 +552,7 @@ namespace StoryGenerator.World
 
 		public virtual void Update( float timeElapsed)
 		{
+			zoneOrganizer.Update(this, timeElapsed);
 			for (int i = 0; i < allThings.Count; i++)
 			{
 				allThings[i].Update(this, timeElapsed);
