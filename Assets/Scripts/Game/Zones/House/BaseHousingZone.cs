@@ -13,6 +13,12 @@ public class BaseHousingZone : Zone
 	public Dictionary<Thing, ResidentDescription> residents = new Dictionary<Thing, ResidentDescription>();
 	List<Zone> otherZones = new List<Zone>();
 	List<Thing> thingsIn = new List<Thing>();
+	
+	public BaseHousingZone()
+	{
+		this.type = TYPE.HOUSE;
+
+	}
 
 	public override void Update(World world, float timeElapsed)
 	{
@@ -22,25 +28,7 @@ public class BaseHousingZone : Zone
 			this.otherZones[i].Update(world, timeElapsed);
 		}
 	}
-	public BaseHousingZone(World world)
-	{
-		this.type = TYPE.HOUSE;
-		
-	}
-
-	public List<Zone> Rooms
-	{
-		get
-		{
-			List<Zone> rooms = new List<Zone>();
-			foreach (var r in otherZones)
-			{
-				rooms.Add(r);
-			}
-			return rooms;
-		}
-	}
-
+	
 	public override void RemovePosition(Vector2 v)
 	{
 		base.RemovePosition(v);
@@ -49,7 +37,7 @@ public class BaseHousingZone : Zone
 			var r = this.otherZones[i];
 			r.RemovePosition(v);
 			r.RefreshPositions();
-			if(!r.IsAlive )
+			if(!r.IsHavePositions )
 			{
 				//room is no longer available
 				this.otherZones.RemoveAt(i);
@@ -59,6 +47,18 @@ public class BaseHousingZone : Zone
 
 		}
 	}
+
+	public override void MovedIn(Thing thing)
+	{
+		base.MovedIn(thing);
+		this.thingsIn.Add(thing);
+	}
+	public override void MovedOut(Thing thing)
+	{
+		base.MovedOut(thing);
+		this.thingsIn.Remove(thing);
+	}
+
 
 	public virtual bool AddRoom(Zone zone)
 	{
@@ -84,4 +84,18 @@ public class BaseHousingZone : Zone
 		return false;
 
 	}
+	public List<Zone> Rooms
+	{
+		get
+		{
+			List<Zone> rooms = new List<Zone>();
+			foreach (var r in otherZones)
+			{
+				rooms.Add(r);
+			}
+			return rooms;
+		}
+	}
+
+
 }

@@ -58,7 +58,7 @@ public class Hunt : Action
 		}
 		if (targetIsInSurrenderingState)
 		{
-			targetThing.TakenKeyword(keywordToRequest, keywordAmountToRequest);
+			targetThing.Keyword_Taken(keywordToRequest, keywordAmountToRequest);
 
 		}
 

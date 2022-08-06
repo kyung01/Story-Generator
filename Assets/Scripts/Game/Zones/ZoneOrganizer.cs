@@ -30,6 +30,43 @@ public class ZoneOrganizer
 	public List<DEL_ZONE> OnSingleZoneSelected	= new List<DEL_ZONE>();
 	public List<DEL_NO_ZONE_SELECTED> OnNO_ZONE_SELECTED = new List<DEL_NO_ZONE_SELECTED>();
 
+	public List<Zone> zones = new List<Zone>();
+
+	public List<Zone> zonesSelected = new List<Zone>();
+
+	public Dictionary<Vector2, List<Zone>> zoneMap = new Dictionary<Vector2, List<Zone>>();
+
+
+	public ZoneOrganizer(World world)
+	{
+		world.OnThingMoved.Add(hdrWorldThingMoved);
+
+	}
+
+	private void hdrWorldThingMoved(World world, Thing thing, int xBefore, int yBefore, int xNew, int yNew)
+	{
+		if (!zoneMap.ContainsKey(new Vector2(xBefore, yBefore)))
+		{
+			zoneMap[new Vector2(xBefore, yBefore)] = new List<Zone>();
+		}
+		if (!zoneMap.ContainsKey(new Vector2(xNew, yNew)))
+		{
+			zoneMap[new Vector2(xNew, yNew)] = new List<Zone>();
+		}
+		var zonesBefore = zoneMap[new Vector2(xBefore, yBefore)];
+		var zonesAfter = zoneMap[new Vector2(xNew, yNew)];
+
+		for(int i = 0; i < zonesBefore.Count; i++)
+		{
+			zonesBefore[i].MovedOut(thing);
+		}
+		for(int i = 0; i < zonesAfter.Count; i++)
+		{
+			zonesBefore[i].MovedIn(thing);
+
+		}
+	}
+
 	public List<StockpileZone> GetStockpiles()
 	{
 		List<StockpileZone> stockpileZones = new List<StockpileZone>();
@@ -51,9 +88,6 @@ public class ZoneOrganizer
 		}
 	}
 	
-	public List<Zone> zones = new List<Zone>();
-	
-	public List<Zone> zonesSelected = new List<Zone>();
 
 	void addZone(Zone zone, int xBegin, int yBegin, int xEnd, int yEnd)
 	{
@@ -67,18 +101,111 @@ public class ZoneOrganizer
 			}
 		}
 		zone.RefreshPositions();
+		if (!zone.IsHavePositions) return;
 		zones.Add(zone);
+		foreach(var p in zone.positions)
+		{
+			if (!zoneMap.ContainsKey(p)){
+				zoneMap.Add(p, new List<Zone>());
+			}
+			zoneMap[p].Add(zone);
+		}
 		OnZoneAdded.Raise(zone);
+
 	}
 
+	void zonePositionRemoved(Zone zone, int x, int y)
+	{
+		zone.positions.Remove(new Vector2(x, y));
+		zoneMap[new Vector2(x, y)].Remove(zone);
+	}
+
+	public void DeleteZone(int xBegin, int yBegin, int xEnd, int yEnd)
+	{
+		for (int i = xBegin; i <= xEnd; i++)
+		{
+			for (int j = yBegin; j <= yEnd; j++)
+			{
+				for (int k = 0; k < zones.Count; k++)
+				{
+					if (zones[k].IsInZone(i, j))
+					{
+						zonePositionRemoved(zones[k], i, j);
+					}
+
+				}
+
+			}
+		}
+
+		for (int k = 0; k < zones.Count; k++)
+		{
+			if (!zones[k].IsHavePositions)
+			{
+				zones.RemoveAt(k);
+				OnZoneRemoved.Raise(zones[k]);
+			}
+
+		}
+	}
+
+	public void DeleteZone(int xBegin, int yBegin, int xEnd, int yEnd, Zone.TYPE zoneType)
+	{
+		List<Zone> zonesEdited = new List<Zone>();
+		for (int i = xBegin; i <= xEnd; i++)
+		{
+			for (int j = yBegin; j <= yEnd; j++)
+			{
+				for (int k = 0; k < zones.Count; k++)
+				{
+					if (zones[k].type == zoneType)
+					{
+						if (zones[k].IsInZone(i, j))
+						{
+							zonePositionRemoved(zones[k], i, j);
+							//zones[k].RemovePosition(new Vector2(i, j));
+							zonesEdited.Add(zones[k]);
+						}
+					}
+
+
+				}
+
+			}
+		}
+
+		for (int k = zones.Count - 1; k >= 0; k--)
+		{
+			var zone = zones[k];
+			if (zone.IsDead)
+			{
+				zones.RemoveAt(k);
+				OnZoneRemoved.Raise(zone);
+			}
+
+		}
+
+		for (int i = 0; i < zonesEdited.Count; i++)
+		{
+			if (zonesEdited[i].IsHavePositions)
+			{
+				OnZoneEdited.Raise(zonesEdited[i]);
+				//raiseZoneEdited(zones[i]);
+			}
+
+		}
+	}
+
+	#region Add/Build Zones
+	
 	public void BuildStockpileZone (int xBegin, int yBegin, int xEnd, int yEnd){
 		Zone spZone = new StockpileZone();
 		addZone(spZone, xBegin,yBegin,xEnd,yEnd);
 	}
 
-	public void BuildHouseZone(World world, int xBegin, int yBegin, int xEnd, int yEnd)
+	public void BuildHouseZone( int xBegin, int yBegin, int xEnd, int yEnd)
 	{
-		Zone houseZone = new BaseHousingZone(world);
+		Zone houseZone = new BaseHousingZone();
 		addZone(houseZone, xBegin, yBegin, xEnd, yEnd);
 	}	
 
@@ -161,6 +288,7 @@ public class ZoneOrganizer
 
 	}
 
+	#endregion
 
 	private bool isOverlappingAny(Zone bedroomZone, Zone houseRoom)
 	{
@@ -183,6 +311,7 @@ public class ZoneOrganizer
 		return null;
 	}
 
+	
 	bool isInAnotherZone(List<Zone> zones, int x, int y)
 	{
 		for (int i = 0; i < zones.Count; i++)
@@ -207,81 +336,7 @@ public class ZoneOrganizer
 		return false;
 	}
 
-	internal void DeleteZone(int xBegin, int yBegin, int xEnd, int yEnd)
-	{
-		for (int i = xBegin; i <= xEnd; i++)
-		{
-			for (int j = yBegin; j <= yEnd; j++)
-			{
-				for (int k = 0; k < zones.Count;k++)
-				{
-					if (zones[k].IsInZone(i, j))
-					{
-						zones[k].positions.Remove(new Vector2(i, j));
-					}
-
-				}
-
-			}
-		}
-
-		for (int k = 0; k < zones.Count; k++)
-		{
-			if (!zones[k].IsAlive)
-			{
-				zones.RemoveAt(k);
-				OnZoneRemoved.Raise(zones[k]);
-			}
-
-		}
-	}
-
-	internal void DeleteZone(int xBegin, int yBegin, int xEnd, int yEnd, Zone.TYPE zoneType)
-	{
-		List<Zone> zonesEdited = new List<Zone>();
-		for (int i = xBegin; i <= xEnd; i++)
-		{
-			for (int j = yBegin; j <= yEnd; j++)
-			{
-				for (int k = 0; k < zones.Count; k++)
-				{
-					if(zones[k].type == zoneType)
-					{
-						if (zones[k].IsInZone(i, j))
-						{
-							zones[k].RemovePosition(new Vector2(i, j));
-							zonesEdited.Add(zones[k]);
-						}
-					}
-					
-
-				}
-
-			}
-		}
-
-		for (int k = zones.Count-1; k >=0; k--)
-		{
-			var zone = zones[k];
-			if (zone.IsDead)
-			{
-				zones.RemoveAt(k);
-				OnZoneRemoved.Raise(zone);
-			}
-
-		}
-
-		for (int i = 0; i < zonesEdited.Count; i++)
-		{
-			if (zonesEdited[i].IsAlive)
-			{
-				OnZoneEdited.Raise(zonesEdited[i]);
-				//raiseZoneEdited(zones[i]);
-			}
-
-		}
-	}
-
+	
 	public List<Zone> GetZonesAt(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
 		List<Zone> zonesWithin = new List<Zone>();
@@ -309,6 +364,7 @@ public class ZoneOrganizer
 		}
 		return false;
 	}
+	
 	internal void Select(int xBegin, int yBegin, int xEnd, int yEnd, params Zone.TYPE[] selectedZoneTypes)
 	{
 		List<Zone> zonesWithin = new List<Zone>();
@@ -344,6 +400,7 @@ public class ZoneOrganizer
 		}
 		zonesSelected = zonesWithin;
 	}
+	
 	internal void Select(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
 		var array = Enum.GetValues(typeof(Zone.TYPE)).Cast<Zone.TYPE>().ToArray();

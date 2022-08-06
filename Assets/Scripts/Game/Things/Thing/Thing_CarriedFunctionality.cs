@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StoryGenerator.World;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,11 @@ public partial class Thing{
 	//Thing carrying me
 	Thing thingCarryingThis = null;
 	public Thing Carrier { get { return thingCarryingThis; } }
+	
+	public void InitCarryingFunctionality()
+	{
+		this.OnPositionChanged.Add(hdrUpdateCarryingThingsPositions);
+	}
 
 	public void Drop()
 	{
@@ -61,10 +67,7 @@ public partial class Thing{
 
 		}
 	}
-	void initCarryingFunctionality()
-	{
-		this.OnPositionChanged.Add(hdrUpdateCarryingThingsPositions);
-	}
+
 
 	private void hdrUpdateCarryingThingsPositions(Thing thing, float xBefore, float yBefore, float xNew, float yNew)
 	{

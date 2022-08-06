@@ -32,7 +32,7 @@ public class Eat :Action
 		if (!world.TestLOS(thing, targetThing)) finish();
 		if (IsFinished) return;
 		float amountIAtePerTick = Mathf.Min(keywordAmount, thing.GetEatingSpeed() * timeElapsed);
-		float amountOfKeywordICouldTake = targetThing.TakenKeyword(keywordToRequest, amountIAtePerTick);
+		float amountOfKeywordICouldTake = targetThing.Keyword_Taken(keywordToRequest, amountIAtePerTick);
 		if(amountOfKeywordICouldTake == 0)
 		{
 			//There was nothing to eat, I must finish the process
@@ -40,7 +40,7 @@ public class Eat :Action
 			return;
 		}
 		this.keywordAmount -= amountOfKeywordICouldTake;
-		thing.ConsumeKeyword(keywordToRequest, amountOfKeywordICouldTake);
+		thing.Keyword_Consume(keywordToRequest, amountOfKeywordICouldTake);
 		//Debug.Log(this + "AFTER  " + keywordAmount);
 		if (this.keywordAmount <= ZEROf)
 		{

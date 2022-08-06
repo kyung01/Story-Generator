@@ -45,6 +45,14 @@ public class Zone
 
 	}
 
+	public virtual void MovedIn(Thing thing)
+	{
+
+	}
+	public virtual void MovedOut(Thing thing)
+	{
+
+	}
 	public void RefreshPositions()
 	{
 		if (this.positions.Count == 0) return;
@@ -148,7 +156,7 @@ public class Zone
 		get { return positions.Count == 0; }
 	}
 	
-	public bool IsAlive
+	public bool IsHavePositions
 	{
 		get { return positions.Count != 0; }
 	}

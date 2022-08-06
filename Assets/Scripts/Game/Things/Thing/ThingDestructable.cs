@@ -19,7 +19,7 @@ public class ThingDestructable : Thing
 		health += amount;
 		if (amount < 0)
 		{
-			ReceiveKeyword(other, Game.Keyword.NEGATIVE_HEALTH_CHANGE, Mathf.Abs(amount));
+			Keyword_Receive(other, Game.Keyword.NEGATIVE_HEALTH_CHANGE, Mathf.Abs(amount));
 
 		}
 	}

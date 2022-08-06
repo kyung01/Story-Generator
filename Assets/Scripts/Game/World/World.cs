@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using StoryGenerator.NTerrain;
 using UnityEngine;
+
 namespace StoryGenerator.World
 {
 	#region helperClass
@@ -30,14 +31,27 @@ namespace StoryGenerator.World
 			return true;
 		}
 	}
-	
+
 	#endregion
+
+	static public class WorldStatic {
+		static public void Raise(this List<StoryGenerator.World.World.DEL_ON_THING_MOVED> list, World world, Thing thing, int xBefore, int yBefore, int xNew, int yNew)
+		{
+			for(int i = 0; i < list.Count; i++)
+			{
+				list[i](world, thing, xBefore, yBefore, xNew, yNew);
+			}
+		}
+	}
 
 	/// <summary>
 	/// Piece of terrain, contains information about the particular terrain piece 
 	/// </summary>
 	public class World
 	{
+		public delegate void DEL_ON_THING_MOVED(World world, Thing thing, int xBefore, int yBefore, int xNew, int yNew);
+		public List<DEL_ON_THING_MOVED> OnThingMoved = new List<DEL_ON_THING_MOVED>();
+
 		const int WEIGHT_DOOR = 3;
 		const int WEIGHT_AVOID_ANIMAL = 3;
 
@@ -70,7 +84,7 @@ namespace StoryGenerator.World
 
 		#endregion
 		
-		#region helper
+		#region Handlers
 
 		void hprInitThingsIndex(ref List<Thing>[] things)
 		{
@@ -116,7 +130,6 @@ namespace StoryGenerator.World
 			return aX == bX && aY == bY;
 		}
 
-
 		Vector2 hprGetApprorpiateRandomPosition()
 		{
 			float x = 0, y = 0;
@@ -135,12 +148,6 @@ namespace StoryGenerator.World
 			return new Vector2(x, y);
 		}
 
-		void hdrAnimalMovedSoShouldWeightOnMap(Thing thing, int xBefore, int yBefore, int xNew, int yNew)
-		{
-			pathFinder.addCellWeightInt(xBefore, yBefore, -WEIGHT_AVOID_ANIMAL);
-			pathFinder.addCellWeightInt(xNew, yNew, WEIGHT_AVOID_ANIMAL);
-		}
-
 		void hdrStructurePositionChangedAdd(Thing thing, int x, int y)
 		{
 			Structure s = (Structure)thing;
@@ -154,7 +161,7 @@ namespace StoryGenerator.World
 			}
 		}
 
-		void hdrStructurePositionChanged(Thing thing, int xBefore, int yBefore, int xNew, int yNew)
+		void hdrPosIdxChg_Structure(Thing thing, int xBefore, int yBefore, int xNew, int yNew)
 		{
 			Structure s = (Structure)thing;
 			for (int w = 0; w < s.Width; w++)
@@ -168,15 +175,26 @@ namespace StoryGenerator.World
 			hdrStructurePositionChangedAdd(thing, xNew, yNew);
 		}
 
-		void hdrThingMovingPositionChanged(Thing thing, int xBefore, int yBefore, int xNew, int yNew)
+		void hdrPosIdxChg_ThingsMoving(Thing thing, int xBefore, int yBefore, int xNew, int yNew)
 		{
+			//hdrAnimalMovedSoShouldWeightOnMap
+			pathFinder.addCellWeightInt(xBefore, yBefore, -WEIGHT_AVOID_ANIMAL);
+			pathFinder.addCellWeightInt(xNew, yNew, WEIGHT_AVOID_ANIMAL);
 			//Debug.Log("Hdr Thing's position is changed " + thing + xBefore+ " "  + yBefore + " -> " +xNew + " " + yNew);
 			thingsMoving[xBefore + yBefore * width].Remove(thing);
 			thingsMoving[xNew + yNew * width].Add(thing);
 
 		}
 
-		void hdrThingPositionChanged(Thing thing, int xBefore, int yBefore, int xNew, int yNew)
+		private void hdrPosIdxChg_All(Thing thing, int xBefore, int yBefore, int xNew, int yNew)
+		{
+			OnThingMoved.Raise(this, thing, xBefore, yBefore, xNew, yNew);
+			//this.zoneOrganizer.ThingMovedFrom(this, thing, xBefore, yBefore);
+			//this.zoneOrganizer.ThingMovedTo(this, thing, xNew, yNew);
+
+		}
+
+		void hdrPosIdxChg_Things(Thing thing, int xBefore, int yBefore, int xNew, int yNew)
 		{
 			//Debug.Log("Hdr Thing's position is changed " + thing + xBefore+ " "  + yBefore + " -> " +xNew + " " + yNew);
 			things[xBefore + yBefore * width].Remove(thing);
@@ -213,7 +231,7 @@ namespace StoryGenerator.World
 			playerTeam = new Team();
 			teams.Add(playerTeam);
 			terrain = new NTerrain.TerrainSystem();
-			zoneOrganizer = new ZoneOrganizer();
+			zoneOrganizer = new ZoneOrganizer(this);
 
 			Init0_DefaultVariables();
 			Init1_Terrain();
@@ -387,18 +405,18 @@ namespace StoryGenerator.World
 		{
 			thing.Init(this);
 			this.allThings.Add(thing);
-
-
+			thing.OnPositionIndexChanged.Add(hdrPosIdxChg_All);
+			
 			if (thing is Structure)
 			{
 				//add structure position chaning method
 				hdrStructurePositionChangedAdd(thing, Mathf.RoundToInt(thing.X), Mathf.RoundToInt(thing.Y));
-				thing.OnPositionIndexChanged.Add(hdrStructurePositionChanged);
+				thing.OnPositionIndexChanged.Add(hdrPosIdxChg_Structure);
 			}
 			else
 			{
 				things[Mathf.RoundToInt(thing.X) + Mathf.RoundToInt(thing.Y) * width].Add(thing);
-				thing.OnPositionIndexChanged.Add(hdrThingPositionChanged);
+				thing.OnPositionIndexChanged.Add(hdrPosIdxChg_Things);
 
 			}
 			if (thing.moduleBody != null)
@@ -406,11 +424,13 @@ namespace StoryGenerator.World
 				thingsMoving[Mathf.RoundToInt(thing.X) + Mathf.RoundToInt(thing.Y) * width].Add(thing);
 				pathFinder.addCellWeightInt(thing.X_INT, thing.Y_INT, WEIGHT_AVOID_ANIMAL);
 
-				thing.OnPositionIndexChanged.Add(hdrAnimalMovedSoShouldWeightOnMap);
-				thing.OnPositionIndexChanged.Add(hdrThingMovingPositionChanged);
+				//thing.OnPositionIndexChanged.Add(hdrAnimalMovedSoShouldWeightOnMap);
+				thing.OnPositionIndexChanged.Add(hdrPosIdxChg_ThingsMoving);
 			}
 			OnThingAdded.Raise(thing);
 		}
+
+		
 
 		//Public methods
 

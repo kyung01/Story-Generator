@@ -93,7 +93,7 @@ public partial class Thing
 
 	void baseInit()
 	{
-		initCarryingFunctionality();
+		InitCarryingFunctionality();
 		this.thingActManager = new ThingActionManager();
 		this.type = TYPE.UNDEFINED;
 		this.x = 0;
@@ -179,7 +179,7 @@ public partial class Thing
 	}
 
 	//Giver game me keyword of X amount
-	public virtual void ReceiveKeyword(Thing giver, Game.Keyword keyword, float amount)
+	public virtual void		Keyword_Receive(Thing giver, Game.Keyword keyword, float amount)
 	{
 		for(int i = 0; i< OnReceiveKeyword.Count; i++)
 		{
@@ -188,24 +188,7 @@ public partial class Thing
 
 	}
 
-	/// <summary>
-	/// My keyword is being taken from me
-	/// </summary>
-	/*
-	public virtual float TakenKeywordOld(Game.Keyword keywordToRequest, float requestedAmount)
-	{
-		var availableKeywords = this.GetKeywords();
-		if (!availableKeywords.Contains(keywordToRequest)) return 0;
-		float givenAmount = Mathf.Min(requestedAmount, availableKeywords.Get(keywordToRequest));
-		availableKeywords[keywordToRequest] -= givenAmount;
-		if (availableKeywords[keywordToRequest] < ZEROf)
-		{
-			availableKeywords.Remove(keywordToRequest);
-		}
-		return givenAmount;
-	}
-	 * */
-	public float TakenKeyword(Game.Keyword keywordToRequest, float requestedAmount)
+	public virtual float	Keyword_Taken(Game.Keyword keywordToRequest, float requestedAmount)
 	{
 		float remainingAmountToTakeFromMe = requestedAmount;
 		//Debug.Log("TakenKeywords Called " + keywordToRequest + " for " + requestedAmount);
@@ -223,28 +206,13 @@ public partial class Thing
 
 	}
 
-	public virtual void ConsumeKeyword(Game.Keyword keyword, float amount)
+	public virtual void		Keyword_Consume(Game.Keyword keyword, float amount)
 	{
-		//Debug.Log("ConsumeKeyword " + keyword + " " + amount);
 		for (int i = 0; i < OnConsumeKeyword.Count; i++)
 		{
 			OnConsumeKeyword[i](keyword, amount);
 		}
 	}
-
-	/*
-	public virtual Dictionary<Game.Keyword, float> GetKeywordsOld()
-	{
-		Dictionary<Game.Keyword, float> d = new Dictionary<Game.Keyword, float>();
-		return d;
-	}
-
-	public virtual Dictionary<Game.Keyword, float> GetKeywordsForHunter()
-	{
-		Dictionary<Game.Keyword, float> d = new Dictionary<Game.Keyword, float>();
-		return d;
-	}
-	 * */
 
 	public List<KeywordInformation> GetKeywords()
 	{
@@ -289,4 +257,6 @@ public partial class Thing
 		OnUpdate.Raise(world, this, timeElapsed);
 
 	}
+
+
 }

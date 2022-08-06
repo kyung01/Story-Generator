@@ -46,7 +46,7 @@ public class Stomach : BodyBase
 		float hungerIncreased = hungerIncreaseSpeed * timeElapsed;
 		//UnityEngine.Debug.Log(this + " hunger increased " + hungerIncreased);
 		hunger += hungerIncreased;
-		thing.ConsumeKeyword(Game.Keyword.HUNGER, hungerIncreased);
+		thing.Keyword_Consume(Game.Keyword.HUNGER, hungerIncreased);
 
 	}
 }

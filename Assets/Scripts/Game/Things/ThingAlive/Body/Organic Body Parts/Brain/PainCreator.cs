@@ -23,7 +23,7 @@ public class PainCreator : BodyBase
 			return;
 		//Health negative change was received
 		//Create "pain"
-		me.ReceiveKeyword(giver, Game.Keyword.PAIN, amount);
+		me.Keyword_Receive(giver, Game.Keyword.PAIN, amount);
 	}
 
 }

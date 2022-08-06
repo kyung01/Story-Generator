@@ -45,6 +45,7 @@ public partial class Hunger_General : Need
 	void getTheBestFoodSourceTarget(World world, Thing thing, bool isHunter, 
 		ref Thing targetThing, ref Game.Keyword keywordSelected)
 	{
+		List<Thing> thingsToEat = thing.ThinkGetEdible(world);
 		var thingsIsee = world.GetSightableThings(thing, thing.moduleBody.MainBody.GetSight());
 		if (thing.moduleHouse != null)
 		{
