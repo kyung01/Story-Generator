@@ -21,10 +21,10 @@ public class Wander : Need
 	public override void Init(Thing thing)
 	{
 		base.Init(thing);
-		thing.OnConsumeKeyword.Add(hdrConsumeKeyword);
+		thing.OnReceiveKeyword.Add(hdrConsumeKeyword);
 	}
 
-	private void hdrConsumeKeyword(Game.Keyword keyword, float amount)
+	private void hdrConsumeKeyword(Thing me, Thing giver, Game.Keyword keyword, float amount)
 	{
 		if (Game.IsKeywordCompatible(this.requiredKeywords, keyword))
 		{

@@ -39,7 +39,7 @@ public partial class Hunger_General : Need
 	{
 		base.Init(thing);
 		this.demand = demandThreshold+1;
-		thing.OnConsumeKeyword.Add( hdrKeywordConsumed);
+		thing.OnReceiveKeyword.Add( hdrKeywordConsumed);
 	}
 
 	void getTheBestFoodSourceTarget(World world, Thing thing, bool isHunter, 
@@ -325,7 +325,7 @@ public partial class Hunger_General : Need
 	}
 
 
-	public virtual void hdrKeywordConsumed(Game.Keyword keyword, float amount)
+	public virtual void hdrKeywordConsumed(Thing me, Thing giver, Game.Keyword keyword, float amount)
 	{
 		if (Game.IsKeywordCompatible(this.requiredKeywords, keyword))
 		{

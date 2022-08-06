@@ -40,7 +40,7 @@ public class Eat :Action
 			return;
 		}
 		this.keywordAmount -= amountOfKeywordICouldTake;
-		thing.Keyword_Consume(keywordToRequest, amountOfKeywordICouldTake);
+		thing.Keyword_Receive(thing, keywordToRequest, amountOfKeywordICouldTake);
 		//Debug.Log(this + "AFTER  " + keywordAmount);
 		if (this.keywordAmount <= ZEROf)
 		{

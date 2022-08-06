@@ -22,7 +22,7 @@ public class Stomach : BodyBase
 		nutritionReceivingBodies.Add(b);
 	}
 
-	void hdrThingConsumedKeyword(Game.Keyword keyword, float amount)
+	void hdrThingConsumedKeyword(Thing me, Thing giver, Game.Keyword keyword, float amount)
 	{
 		if (!Game.IsKeywordCompatible(Game.Keyword.FOOD, keyword)) return;
 		for(int i = 0; i < nutritionReceivingBodies.Count; i++)
@@ -37,7 +37,7 @@ public class Stomach : BodyBase
 	public override void Init(Thing thing)
 	{
 		base.Init(thing);
-		thing.OnConsumeKeyword.Add(hdrThingConsumedKeyword);
+		thing.OnReceiveKeyword.Add(hdrThingConsumedKeyword);
 	}
 
 	public override void Update(World world, Thing thing, float timeElapsed)
@@ -46,7 +46,7 @@ public class Stomach : BodyBase
 		float hungerIncreased = hungerIncreaseSpeed * timeElapsed;
 		//UnityEngine.Debug.Log(this + " hunger increased " + hungerIncreased);
 		hunger += hungerIncreased;
-		thing.Keyword_Consume(Game.Keyword.HUNGER, hungerIncreased);
+		thing.Keyword_Receive(thing, Game.Keyword.HUNGER, hungerIncreased);
 
 	}
 }

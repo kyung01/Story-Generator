@@ -14,7 +14,7 @@ public partial class Thing
 	public delegate void DEL_POSITION_CHANGED		(Thing thing, float xBefore, float yBefore, float xNew, float yNew);
 
 	public delegate void DEL_RECEIVE_KEYWORD(Thing me, Thing giver, Game.Keyword keyword, float amount);
-	public delegate void DEL_CONSUME_KEYWORD(Game.Keyword keyword, float amount);
+	//public delegate void DEL_CONSUME_KEYWORD(Thing me, Thing giver, Game.Keyword keyword, float amount);
 
 	public List<DEL_UPDATE>			OnUpdate		= new List<DEL_UPDATE>();
 	public List<DEL_GET_KEYWORDS>	OnGetKeywords	= new List<DEL_GET_KEYWORDS>();
@@ -24,7 +24,6 @@ public partial class Thing
 	public List<DEL_POSITION_CHANGED> OnPositionChanged = new List<DEL_POSITION_CHANGED>();
 
 	public List<DEL_RECEIVE_KEYWORD> OnReceiveKeyword = new List<DEL_RECEIVE_KEYWORD>();
-	public List<DEL_CONSUME_KEYWORD> OnConsumeKeyword = new List<DEL_CONSUME_KEYWORD>();
 
 
 	static float ZEROf = 0.01f;
@@ -206,13 +205,6 @@ public partial class Thing
 
 	}
 
-	public virtual void		Keyword_Consume(Game.Keyword keyword, float amount)
-	{
-		for (int i = 0; i < OnConsumeKeyword.Count; i++)
-		{
-			OnConsumeKeyword[i](keyword, amount);
-		}
-	}
 
 	public List<KeywordInformation> GetKeywords()
 	{

@@ -41,7 +41,7 @@ public class MotionDemander : BodyBase
 		if (happyDistanceIMoved < 0)
 		{
 			//happyDistanceIMoved += REQUIRED_SPEED_TO_MOVE_AROUND;
-			thing.Keyword_Consume(Game.Keyword.STILL, STRESS_PER_TICK * timeElapsed);
+			thing.Keyword_Receive(thing, Game.Keyword.STILL, STRESS_PER_TICK * timeElapsed);
 			return;
 		}
 
@@ -50,7 +50,7 @@ public class MotionDemander : BodyBase
 		{
 			float distanceRemovedFromTotal = Mathf.Min(happyDistanceIMoved, HAPPY_DISTANCE_REDUCED_SPEED * timeElapsed);
 			happyDistanceIMoved -= distanceRemovedFromTotal;
-			thing.Keyword_Consume(Game.Keyword.MOVED, distanceRemovedFromTotal);
+			thing.Keyword_Receive(thing, Game.Keyword.MOVED, distanceRemovedFromTotal);
 		}
 
 
