@@ -36,7 +36,8 @@ public partial class Game
 		NUTRITION,
 		NEGATIVE_HEALTH_CHANGE,
 		PAIN,
-		UNDEFINED
+		GOOD_FEELING, //A general good feeling, incrases thing's mood 
+		UNDEFINED,
 	}
 
 	//Types of action

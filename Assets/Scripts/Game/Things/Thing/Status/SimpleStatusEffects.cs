@@ -37,6 +37,7 @@ namespace StoryGenerator.Status
 		public override void Update(World.World world, Thing thing, float timeElapsedTick)
 		{
 			base.Update(world, thing, timeElapsedTick);
+			thing.Keyword_Receive(thing, Game.Keyword.GOOD_FEELING, timeElapsedTick);
 		}
 	}
 

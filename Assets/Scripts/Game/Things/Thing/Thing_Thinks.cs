@@ -17,20 +17,42 @@ public class ThingScore {
 		this.score = score;
 	}
 }
-
+/// <summary>
+/// A thing with a home prefers to eat inside their home
+/// Otherwise the thing will attempt to find edible things based on its abilities
+/// </summary>
 public class Brain_GetEdible { 
 	public virtual List<Thing> GetEdible(World world, Thing thing)
 	{
 		return new List<Thing>();
 	}
 }
-public class Animal_GetEdible : Brain_GetEdible { 
+
+/// <summary>
+/// An animal will eat whatever it can detect around it based on its physical ability
+/// An animal with its owner(a pet) can prefer to eat inside their home I guess? (however this is a behaviour already discussed)
+/// Why do I need to separate animal from a human being? because human beings are more complicated
+/// How is human being more complicated than an animal? They have dignity and dignity controlls their behaviour 
+/// </summary>
+public class Animal_GetEdible : Brain_GetEdible {
+	public override List<Thing> GetEdible(World world, Thing thing)
+	{
+		return base.GetEdible(world, thing);
+	}
 }
 
 /// <summary>
-/// 
+/// A person with a home will eat food inside their house
+/// A person without a home (homeless) will eat whatever they can find on street: however it won't eat things like grass
+/// A person with a home but at work can eat at work or go outside to buy food and eat there
 /// </summary>
-public class Person_GetEdible : Brain_GetEdible{ 
+public class Person_GetEdible : Brain_GetEdible
+{
+	public override List<Thing> GetEdible(World world, Thing thing)
+	{
+
+		return base.GetEdible(world, thing);
+	}
 
 }
 
@@ -42,8 +64,7 @@ public partial class Thing {
 	/// Not all the time will thing properly eat among avilable things to eat
 	/// For an example, when a thing is in starvation mode, a thing will eat whatever it can see 
 	/// 
-	/// An animal will eat whatever it can detect around it based on its physical ability
-	/// An animal with its owner(a pet) can prefer to eat inside their home I guess?
+
 	/// 
 	/// A person with a home will eat food inside their house
 	/// A person without a home (homeless) will eat whatever they can find on street: however it won't eat things like grass
@@ -66,6 +87,7 @@ public partial class Thing {
 	/// 
 
 	internal Brain_GetEdible brainGetEdible;
+
 	public virtual List<Thing> ThinkGetEdible(World world)
 	{
 		if (brainGetEdible == null) return new List<Thing>();
