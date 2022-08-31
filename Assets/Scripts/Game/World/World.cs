@@ -319,7 +319,7 @@ namespace StoryGenerator.World
 		{
 			int numRabbit = 0;
 			int numBear = 0;
-			int numHumans = 1;
+			int numHumans = 10;
 
 			for (int i = 0; i < numRabbit; i++)
 			{
@@ -461,7 +461,10 @@ namespace StoryGenerator.World
 		public void Build(Thing.TYPE thingToBuild, int x, int y)
 		{
 			Structure structure = hprGetStructure(thingToBuild);
-
+			if(thingToBuild != Thing.TYPE.ROOF)
+			{
+				clearSpotForConstruction(x, y);
+			}
 			if((thingToBuild == Thing.TYPE.ROOF) ? hprIsRoofAt(x, y): hprIsStructureAt(x, y))
 			{
 				//Not buildable

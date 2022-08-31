@@ -15,6 +15,7 @@ namespace PathFinder
 		List<KPath> availablePaths = new List<KPath>();
 		int maxWidth = 0;
 		int maxHeight = 0;
+		
 		public void Init(int width, int height)
 		{
 			this.maxWidth = width;
@@ -110,12 +111,16 @@ namespace PathFinder
 		{
 			float distanceWeight = (neighbour.vec2 - path.vec2).sqrMagnitude;
 
+			if(neighbour.id == pathID)
+			{
+				return;
+			}
 
 			neighbour.reset(pathID,
 				//path.weight +
 				//cells[path.x][path.y].Weight +
 				cells[neighbour.x][neighbour.y].Weight 
-				//+ distanceWeight
+				+ distanceWeight
 				, null, null);
 
 			//var neighBourCopy = neighbour.GetCopy();
@@ -124,6 +129,7 @@ namespace PathFinder
 			neighbour.before = path;
 			availablePaths.Add(neighbour);
 		}
+
 		void hprUpdateNeighbouringPaths(KPath path, List<KPath> availablePaths)
 		{
 
@@ -131,71 +137,37 @@ namespace PathFinder
 			{
 				var neighbour = path.neighbours[i];
 				var neighbourCell = cells[neighbour.x][neighbour.y];
-				if ( neighbour.id != pathID)
+				if ( neighbour.id != pathID && ! neighbourCell.isOccupied)
 				{
-					if (neighbourCell.isOccupied)
-					{
-						continue;
-					}
-					//Normally path -> the neighbouring path has distance of 1 or sqrt(2) but sometimes, a teleporter can be created
-					//And teleporter can be used to shrink the distance between two points
+					
 					hprAddCell(availablePaths, path, neighbour);
-					//Debug.Log("resetting a path with...");
-					//Debug.Log(cells[path.x][path.y].Weight + " " + cells[neighbour.x][neighbour.y].Weight + " " + distanceWeight);
-					/*
-
-					float distanceWeight = (neighbour.vec2 - path.vec2).sqrMagnitude;
-					neighbour.reset(pathID,
-						//path.weight +
-						//cells[path.x][path.y].Weight +
-						cells[neighbour.x][neighbour.y].Weight + distanceWeight , null, null);
-					neighbour.weight += path.weight;
-					neighbour.before = path;
-					availablePaths.Add(neighbour);
-					 * */
-
-					//var neighBourCopy = neighbour.GetCopy();
-					//removeThisFromNeighbours(neighBourCopy, path);
-
+					
 				}
 				else
 				{
 					//the neighbouring path is already updated 
 				}
 			}
+
 			for (int i = 0; i < path.neighboursDiagonal.Count; i++)
 			{
-				var neighbourD = path.neighboursDiagonal[i];
-				var neighbourCell = cells[neighbourD.x][neighbourD.y];
-				int moveX = neighbourD.x - path.x;
-				int moveY = neighbourD.y - path.y;
-				var neighbourCell_corner_X = cells[neighbourD.x - moveX][neighbourD.y];
-				var neighbourCell_corner_Y = cells[neighbourD.x][neighbourD.y - moveY];
+				var neighbour_willMoveTo = path.neighboursDiagonal[i];
+				var neighbourCell = cells[neighbour_willMoveTo.x][neighbour_willMoveTo.y];
+				int moveX = neighbour_willMoveTo.x - path.x;
+				int moveY = neighbour_willMoveTo.y - path.y;
+				var neighbourCell_corner_X = cells[neighbour_willMoveTo.x - moveX][neighbour_willMoveTo.y];
+				var neighbourCell_corner_Y = cells[neighbour_willMoveTo.x][neighbour_willMoveTo.y - moveY];
 
 				if (
-					( neighbourD.id != pathID) 
+					( neighbour_willMoveTo.id != pathID) 
 					&& !neighbourCell.isOccupied &&
 					!neighbourCell_corner_X.isOccupied && !neighbourCell_corner_Y.isOccupied)
 				{
 					//Normally path -> the neighbouring path has distance of 1 or sqrt(2) but sometimes, a teleporter can be created
 					//And teleporter can be used to shrink the distance between two points
 
-					//Debug.Log("resetting a path(diagonal) with...");
-					//Debug.Log(cells[path.x][path.y].Weight + " " + cells[neighbourD.x][neighbourD.y].Weight + " " + (neighbourD.vec2 - path.vec2).sqrMagnitude);
-
-					hprAddCell(availablePaths, path, neighbourD);
-					/*
-					neighbourD.reset(pathID,
-						//path.weight+
-						//cells[path.x][path.y].Weight +
-						cells[neighbourD.x][neighbourD.y].Weight + (neighbourD.vec2 - path.vec2).sqrMagnitude, null, null);
-
-					//var neighBourDCopy = neighbourD.GetCopy();
-					//removeThisFromNeighbours(neighBourDCopy, path);
-					neighbourD.weight += path.weight;
-					neighbourD.before = path;
-					availablePaths.Add(neighbourD);
-					 */
+					hprAddCell(availablePaths, path, neighbour_willMoveTo);
+					
 
 				}
 				else
@@ -245,23 +217,13 @@ namespace PathFinder
 				//check whether this is a valid neighbour
 				float lowestWeightSoFar = (chosenPath == null) ? float.MaxValue : chosenPath.weight + (chosenPath.vec2 - destination).magnitude;
 				if (neighbour.weight + (neighbour.vec2 - destination).magnitude < lowestWeightSoFar)
-				{/*
-				if(chosenPath!=null)
-					
-				Debug.Log("This path was better than : " + chosenPath.vec2 + " because  " + 
-					"cost ("+ (neighbour.weight + (neighbour.vec2 - destination).sqrMagnitude) + ") was less than " + lowestWeightSoFar
-
-					);
-					 * */
+				{
 					chosenPath = neighbour;
 				}
 				else
 				{
-
-					//Debug.Log("This path was NOT better than : " + chosenPath.vec2 + " because  " + "cost (" + (neighbour.weight + (neighbour.vec2 - destination).sqrMagnitude) + ") was less than " + lowestWeightSoFar);
 				}
 			}
-			//Debug.Log("Chosen Best Path : " + chosenPath.vec2);
 			return chosenPath;
 		}
 
@@ -280,7 +242,7 @@ namespace PathFinder
 		{
 			writeDebugLog("beginning a while loop");
 			availablePaths.Clear();
-			int whileBKP = 2000; // While loop breaking point
+			int whileBKP = 5000; // While loop breaking point
 			bool pathFound = false;
 			while (!pathFound && path != null)
 			{
@@ -327,6 +289,13 @@ namespace PathFinder
 				//find the next possible routes
 				//for each possible route calculate the score
 				//choose the best possible 
+
+				/*
+				 * Order in which things must work for it to work properly
+				 *			1. Check appropriate nearby cells then add it to the list
+				 *			2. Select the best cell to go
+				 *			3. Take that cell
+				 */
 
 				hprUpdateNeighbouringPaths(path, availablePaths);
 				KPath nextPath = hprChooseTheBestPath(availablePaths, pathDestination);
