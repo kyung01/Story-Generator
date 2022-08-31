@@ -62,7 +62,7 @@ public class ZoneOrganizer
 		}
 		for(int i = 0; i < zonesAfter.Count; i++)
 		{
-			zonesBefore[i].MovedIn(thing);
+			zonesAfter[i].MovedIn(thing);
 
 		}
 	}

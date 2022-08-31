@@ -51,6 +51,7 @@ public class Person_GetEdible : Brain_GetEdible
 	public override List<Thing> GetEdible(World world, Thing thing)
 	{
 
+
 		return base.GetEdible(world, thing);
 	}
 

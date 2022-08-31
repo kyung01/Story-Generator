@@ -35,12 +35,22 @@ namespace StoryGenerator.World
 	#endregion
 
 	static public class WorldStatic {
-		static public void Raise(this List<StoryGenerator.World.World.DEL_ON_THING_MOVED> list, World world, Thing thing, int xBefore, int yBefore, int xNew, int yNew)
+		static public void Raise(
+			this List<StoryGenerator.World.World.DEL_ON_THING_MOVED> list, 
+			World world, Thing thing, int xBefore, int yBefore, int xNew, int yNew)
 		{
-			for(int i = 0; i < list.Count; i++)
+			for (int i = list.Count - 1; i >= 0; i--)
+			{
+				//Debug.Log("WorldStatic -> Raising DelOnThingMoved " + i + " / " +  list.Count);
+				list[i](world, thing, xBefore, yBefore, xNew, yNew);
+			}
+
+			/*
+			for (int i = 0; i < list.Count; i++)
 			{
 				list[i](world, thing, xBefore, yBefore, xNew, yNew);
 			}
+			 * */
 		}
 	}
 

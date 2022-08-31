@@ -201,7 +201,7 @@ public partial class Hunger_General : Need
 	{
 		if (demand < demandThreshold) return false;
 		List<Resolution> resolutions = new List<Resolution>();
-
+		
 		float desiredKeywordAmount = (demand - demandThreshold) + desiredKeywordTransfer_To_CalmDownDemandCall;
 
 		foreach (var method in methodsAvailable)
