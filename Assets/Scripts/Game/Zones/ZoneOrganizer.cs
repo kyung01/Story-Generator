@@ -336,7 +336,12 @@ public class ZoneOrganizer
 		return false;
 	}
 
-	
+	public Zone GetZoneAt(int x, int y)
+	{
+		var zones = GetZonesAt(x, y, x, y);
+		if (zones.Count == 0) return null;
+		return zones[0];
+	}
 	public List<Zone> GetZonesAt(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
 		List<Zone> zonesWithin = new List<Zone>();

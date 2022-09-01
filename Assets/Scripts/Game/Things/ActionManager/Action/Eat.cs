@@ -15,7 +15,7 @@ public class Eat :Action
 	Thing targetThing;
 	Game.Keyword keywordToRequest;
 	float keywordAmount ;
-	public Eat(Thing thing, Game.Keyword keyword, float amount)
+	public Eat(Thing thing, Game.Keyword keyword, float amount):base(Type.EAT)
 	{
 		this.name = "Eat";
 		this.targetThing = thing;

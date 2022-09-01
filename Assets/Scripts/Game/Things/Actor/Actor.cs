@@ -1,19 +1,15 @@
 ﻿using StoryGenerator.World;
-using System;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-
-
 
 namespace StoryGenerator.World.Things.Actors
 {
 
 	public class Actor : Thing
 	{
-		public enum ActionType { EAT,SLEEP,WOOHOO}
 
 		List<Satisfaction.SatisfactionBase> satisfactions = new List<Satisfaction.SatisfactionBase>();
 		internal List<Game.Keyword> foodList = new List<Game.Keyword>();
@@ -40,6 +36,12 @@ namespace StoryGenerator.World.Things.Actors
 
 		public virtual void DoSleep(World world)
 		{
+			var zone = world.zoneOrganizer.GetZoneAt(this.X_INT, this.Y_INT);
+			if (zone == null)
+			{
+				Debug.Log("Actor attempted to sleep but failed to be in a zone, therefore this action cannot proceed");
+				return;
+			}
 
 		}
 
@@ -57,7 +59,8 @@ namespace StoryGenerator.World.Things.Actors
 		{
 
 		}
-		public virtual float GetScore(Thing thing, ActionType actionType)
+
+		public virtual float GetScore(Thing thing, Action.Type actionType)
 		{
 			return 0;
 		}

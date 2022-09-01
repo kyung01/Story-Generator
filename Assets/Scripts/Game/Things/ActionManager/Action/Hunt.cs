@@ -12,7 +12,7 @@ public class Hunt : Action
 	Game.Keyword keywordToRequest;
 	float keywordAmountToRequest;
 
-	public Hunt(Thing thing, Game.Keyword keyword, float amount)
+	public Hunt(Thing thing, Game.Keyword keyword, float amount):base(Type.HUNT)
 	{
 		this.name = "Hunt";
 		this.targetThing = thing;

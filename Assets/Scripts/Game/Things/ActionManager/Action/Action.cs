@@ -10,12 +10,33 @@ public class Action
 	const float MAX_PROCESSING_TIME = 10;
 	internal static float ZEROf = 0.01f;
 	internal static float ZEROf_SQUARE = ZEROf * ZEROf;
+
+	public enum Type {
+		CARRY,
+		DROP,
+		EAT,
+		HUNT,
+		HAUL,
+		FLEE,
+		MOVE_TO
+	}
+
+	Type t;
+
+	public Type T { get { return this.t; } }
+
+
 	bool isFinished = false;
 	public string name = "Action";
 	public bool IsFinished { get { return isFinished; } }
 
 
 	float timeProcessed = 0;
+
+	public Action(Type type)
+	{
+		this.t = type;
+	}
 	
 	internal void finish()
 	{

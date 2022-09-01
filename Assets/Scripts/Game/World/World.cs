@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using StoryGenerator.NTerrain;
 using UnityEngine;
@@ -81,6 +82,9 @@ namespace StoryGenerator.World
 
 		public List<Team> teams = new List<Team>();
 		Team playerTeam;
+
+		System.DateTime time;
+		public System.DateTime Time {  get { return this.time; } }
 
 		#region property
 
@@ -242,6 +246,7 @@ namespace StoryGenerator.World
 			teams.Add(playerTeam);
 			terrain = new NTerrain.TerrainSystem();
 			zoneOrganizer = new ZoneOrganizer(this);
+			time = new System.DateTime(2000, 1, 1);
 
 			Init0_DefaultVariables();
 			Init1_Terrain();
@@ -585,6 +590,8 @@ namespace StoryGenerator.World
 
 		public virtual void Update( float timeElapsed)
 		{
+			time = time.AddSeconds(timeElapsed);
+
 			zoneOrganizer.Update(this, timeElapsed);
 			for (int i = 0; i < allThings.Count; i++)
 			{

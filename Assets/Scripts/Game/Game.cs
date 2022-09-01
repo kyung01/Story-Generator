@@ -2,11 +2,19 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// My Game
+/// </summary>
 public partial class Game : MonoBehaviour
 {
+	static Game Instance;
+	static public void SetTimeScale(float scale)
+	{
+		Instance.timeScale = scale;
 
-
+	}
 	public World world;
+	float timeScale;
 
 	public void StartGame()
 	{
@@ -20,11 +28,15 @@ public partial class Game : MonoBehaviour
 	
 	void Start()
 	{
-		
+		Instance = this;
 	}
 	private void FixedUpdate()
 	{
-		world.Update(Time.fixedDeltaTime);
+		for(int i = 0; i < timeScale; i++)
+		{
+			world.Update(Time.fixedDeltaTime);
+
+		}
 
 	}
 

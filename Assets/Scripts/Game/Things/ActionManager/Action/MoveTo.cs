@@ -22,7 +22,7 @@ public abstract class MoveTo : Action
 
 	Door doorToOpen = null;
 
-	public MoveTo()
+	public MoveTo():base(Type.MOVE_TO)
 	{
 		this.name = "MoveTo";
 	}

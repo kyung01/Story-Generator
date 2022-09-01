@@ -127,6 +127,6 @@ public class UIOrganizer : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-
+		UIClock.Display(this.world.Time);
 	}
 }

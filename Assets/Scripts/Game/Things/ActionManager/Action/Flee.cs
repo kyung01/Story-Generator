@@ -10,7 +10,7 @@ public class Flee : Action
 	Thing thingToRunAwayFrom;
 	float minDistanceToPutBetween;
 	bool isNewPathNeeded = true;
-	public Flee(Thing thingToRunAwayFrom, float minDistanceToPutBetween)
+	public Flee(Thing thingToRunAwayFrom, float minDistanceToPutBetween):base(Type.FLEE)
 	{
 		this.name = "Flee";
 		this.thingToRunAwayFrom = thingToRunAwayFrom;

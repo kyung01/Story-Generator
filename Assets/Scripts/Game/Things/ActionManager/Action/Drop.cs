@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 public class Drop :Action
 {
+	public Drop() : base(Type.DROP) { 
+	}
 	public override void Do(World world, Thing thing, float timeElapsed)
 	{
 		base.Do(world, thing, timeElapsed);

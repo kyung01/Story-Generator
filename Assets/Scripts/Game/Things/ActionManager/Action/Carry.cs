@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 public class Carry : Action
 {
 	Thing thingToCarry;
-	public Carry(Thing thingToGrap)
+	public Carry(Thing thingToGrap):base(Type.CARRY)
 	{
 		this.name = "Carry";
 		this.thingToCarry = thingToGrap;

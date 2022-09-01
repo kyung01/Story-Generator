@@ -39,6 +39,8 @@ public class Zone
 	public Color Color;
 	internal TYPE type = TYPE.DEFAULT;
 	internal List<Vector2> positions = new List<Vector2>();
+	List<Thing> thingsIn = new List<Thing>();
+	public List<Thing> Things { get { return new List<Thing>(thingsIn); } }
 
 	virtual public void Update(StoryGenerator.World.World world, float timeElapsed)
 	{
@@ -47,10 +49,12 @@ public class Zone
 
 	public virtual void MovedIn(Thing thing)
 	{
+		this.thingsIn.Add(thing);
 
 	}
 	public virtual void MovedOut(Thing thing)
 	{
+		this.thingsIn.Remove(thing);
 
 	}
 	public void RefreshPositions()

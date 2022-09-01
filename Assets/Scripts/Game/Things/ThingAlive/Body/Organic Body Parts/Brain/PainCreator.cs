@@ -2,6 +2,10 @@
 using UnityEditor;
 using UnityEngine;
 
+/// <summary>
+/// Turns negative health change to pain
+/// </summary>
+
 public class PainCreator : BodyBase
 {
 

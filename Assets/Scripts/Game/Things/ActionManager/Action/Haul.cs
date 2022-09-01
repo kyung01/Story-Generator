@@ -12,7 +12,7 @@ namespace ActionManagerAction {
 	{
 		Thing thingToHaul;
 		Vector2 destination;
-		public Haul(Thing thingToCarry, float x, float y)
+		public Haul(Thing thingToCarry, float x, float y):base(Type.HAUL)
 		{
 			this.name = "Haul";
 			this.thingToHaul = thingToCarry;

@@ -12,7 +12,6 @@ public class BaseHousingZone : Zone
 {
 	public Dictionary<Thing, ResidentDescription> residents = new Dictionary<Thing, ResidentDescription>();
 	List<Zone> otherZones = new List<Zone>();
-	List<Thing> thingsIn = new List<Thing>();
 	
 	public BaseHousingZone()
 	{
@@ -46,17 +45,6 @@ public class BaseHousingZone : Zone
 
 
 		}
-	}
-
-	public override void MovedIn(Thing thing)
-	{
-		base.MovedIn(thing);
-		this.thingsIn.Add(thing);
-	}
-	public override void MovedOut(Thing thing)
-	{
-		base.MovedOut(thing);
-		this.thingsIn.Remove(thing);
 	}
 
 
