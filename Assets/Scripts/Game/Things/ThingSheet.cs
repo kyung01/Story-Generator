@@ -48,7 +48,7 @@ public class ThingSheet
 	}
 	public static Thing Rabbit()
 	{
-		Thing thing = new Thing();
+		Thing thing = new StoryGenerator.World.Things.Actors.Animal();
 
 		thing.InitBodyManager();
 		thing.InitThingNeedManager();

@@ -107,7 +107,7 @@ public class ThingRenderer : MonoBehaviour
 				for (int i = 0; i < thing.moduleNeeds.needs.Count; i++)
 				{
 					var n = thing.moduleNeeds.needs[i];
-					textMesh.text += n.name + " " + n.demand + " \n";
+					textMesh.text += n.name + " " + n.fullfillment + " \n";
 
 				}
 			}

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StoryGenerator.World.Things.Actors
+namespace Assets.Scripts.Game.Things.ThingAlive.Needs
 {
-	public class Animal : Actor
+	class Energy
 	{
 	}
-
 }

@@ -18,9 +18,9 @@ public partial class Thing
 	}
 }
 public class ThingNeedManager :ThingModule{
-	public List<Need> needs = new List<Need>();
+	public List<NeedBase> needs = new List<NeedBase>();
 
-	public void AddNeed(Need n)
+	public void AddNeed(NeedBase n)
 	{
 		//n.Init(this);
 		needs.Add(n);
@@ -48,7 +48,7 @@ public class ThingNeedManager :ThingModule{
 		{
 			for (int i = 0; i < needs.Count; i++)
 			{
-				if (needs[i].ResolveNeed(world, thing, timeElapsed))
+				if (needs[i].UpdateResolveNeed(world, thing, timeElapsed))
 				{
 					Debug.Log("Resolving a need " + needs[i].name);
 					var resolvingNeed = needs[i];

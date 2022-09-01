@@ -6,14 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 //Describes a thing's desire to move around
-public class Wander : Need
+public class Wander : NeedBase
 {
 	static float DISTANCE_TO_WANDER = 5;
+	static float LIMIT_FULLFILLMENT_TO_SEEK_MOVING = 30;
 	public Wander()
 	{
 		this.name = "Wander";
 		this.explanation = "Need to move around";
-		this.demand = 100;
+		this.fullfillment = 100;
 		this.requiredKeywords.Add( Game.Keyword.MOVED);
 		this.stressKeywords.Add(Game.Keyword.STILL);
 	}
@@ -28,19 +29,19 @@ public class Wander : Need
 	{
 		if (Game.IsKeywordCompatible(this.requiredKeywords, keyword))
 		{
-			this.demand -= amount;
+			this.fullfillment += amount;
 		}
 		if (Game.IsKeywordCompatible(this.stressKeywords, keyword))
 		{
-			this.demand += amount;
+			this.fullfillment -= amount;
 
 		}
 	}
 
-	public override bool ResolveNeed(World world, Thing thing, float timeElapsed)
+	public override bool UpdateResolveNeed(World world, Thing thing, float timeElapsed)
 	{
 		//UnityEngine.Debug.Log("Wander Resolve Need " + demand);
-		if (this.demand > 100)
+		if (this.fullfillment < LIMIT_FULLFILLMENT_TO_SEEK_MOVING)
 		{
 			thing.TAM.MoveToRandomLocationOfDistance(world, thing, DISTANCE_TO_WANDER);
 		}

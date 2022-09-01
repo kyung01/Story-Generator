@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-public partial class Hunger_General : Need { 
+public partial class Hunger_General : NeedBase { 
 
 	public static Hunger_General InitSimpleHunger(Game.Keyword keywordRequired, params HungerResolutionMethodType[] arr)
 	{
@@ -14,12 +14,12 @@ public partial class Hunger_General : Need {
 	}
 }
 
-public partial class Hunger_General : Need
+public partial class Hunger_General : NeedBase
 {
 	public enum HungerResolutionMethodType { PASSIVE,HUNT,STEAL,COOK}
 
 	const float LOOKING_FOR_FOOD_DISTNACE = 10;
-	float demandThreshold = 100;
+	float fullfillmentMinimumSatisfaction = 80;
 	float desiredKeywordTransfer_To_CalmDownDemandCall = 30;
 	//bool isHuntersHunger = false;
 	List<HungerResolutionMethodType> methodsAvailable = new List<HungerResolutionMethodType>();
@@ -38,7 +38,7 @@ public partial class Hunger_General : Need
 	public override void Init(Thing thing)
 	{
 		base.Init(thing);
-		this.demand = demandThreshold+1;
+		this.fullfillment = fullfillmentMinimumSatisfaction+1;
 		thing.OnReceiveKeyword.Add( hdrKeywordConsumed);
 	}
 
@@ -80,7 +80,6 @@ public partial class Hunger_General : Need
 
 		thing.TAM.MoveToTarget(bestTargetThing, thing.GetEatingDistance());
 		//UnityEngine.Debug.Log(this + " MoveToTarget");
-		float desiredKeywordAmount = (demand - demandThreshold) + desiredKeywordTransfer_To_CalmDownDemandCall;
 		/*
 		thing.TAM.Eat(
 				   bestTargetThing,
@@ -119,7 +118,6 @@ public partial class Hunger_General : Need
 
 		thing.TAM.MoveToTarget(bestTargetThing, thing.GetEatingDistance());
 		UnityEngine.Debug.Log(this + " MoveToTarget");
-		float desiredKeywordAmount = (demand - demandThreshold) + desiredKeywordTransfer_To_CalmDownDemandCall;
 		/*
 		thing.TAM.Hunt(
 				bestTargetThing,
@@ -161,7 +159,7 @@ public partial class Hunger_General : Need
 
 		thing.TAM.MoveToTarget(bestTargetThing, thing.GetEatingDistance());
 		UnityEngine.Debug.Log(this + " MoveToTarget");
-		float desiredKeywordAmount = (demand - demandThreshold) + desiredKeywordTransfer_To_CalmDownDemandCall;
+		float desiredKeywordAmount = ( fullfillmentMinimumSatisfaction- fullfillment ) + desiredKeywordTransfer_To_CalmDownDemandCall;
 		if (isHunter)
 		{
 			thing.TAM.Hunt(
@@ -196,13 +194,17 @@ public partial class Hunger_General : Need
 
 	}
 
-
-	public override bool ResolveNeed(World world, Thing thing, float timeElapsed)
+	bool isFullfillmentSatisfied()
 	{
-		if (demand < demandThreshold) return false;
+		return (fullfillment > fullfillmentMinimumSatisfaction) ;
+
+	}
+	public override bool UpdateResolveNeed(World world, Thing thing, float timeElapsed)
+	{
+		if (isFullfillmentSatisfied()) return false;
 		List<Resolution> resolutions = new List<Resolution>();
 		
-		float desiredKeywordAmount = (demand - demandThreshold) + desiredKeywordTransfer_To_CalmDownDemandCall;
+		float desiredKeywordAmount = (fullfillmentMinimumSatisfaction-fullfillment) + desiredKeywordTransfer_To_CalmDownDemandCall;
 
 		foreach (var method in methodsAvailable)
 		{
@@ -329,11 +331,11 @@ public partial class Hunger_General : Need
 	{
 		if (Game.IsKeywordCompatible(this.requiredKeywords, keyword))
 		{
-			this.demand -= amount;
+			this.fullfillment += amount;
 		}
 		if (Game.IsKeywordCompatible(this.stressKeywords, keyword))
 		{
-			this.demand += amount;
+			this.fullfillment -= amount;
 
 		}
 		//UnityEngine.Debug.Log(this + " demand at  " + this.demand);

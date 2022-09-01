@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class Need
+public class NeedBase
 {
 
 	internal string name = "Need Title";
@@ -13,7 +13,7 @@ public class Need
 
 	internal List<Game.Keyword> requiredKeywords = new List<Game.Keyword>();
 	internal List<Game.Keyword> stressKeywords = new List<Game.Keyword>();
-	internal float demand;
+	internal float fullfillment;
 
 
 	public virtual void Init(Thing thing)
@@ -25,7 +25,7 @@ public class Need
 	}
 
 	//Return true if it did resolve
-	public virtual bool ResolveNeed(World world, Thing thingAlive, float timeElapsed)
+	public virtual bool UpdateResolveNeed(World world, Thing thingAlive, float timeElapsed)
 	{
 		return false;
 	}
