@@ -322,9 +322,9 @@ namespace StoryGenerator.World
 
 		void Init2_Animals()
 		{
-			int numRabbit = 0;
+			int numRabbit = 2;
 			int numBear = 0;
-			int numHumans = 10;
+			int numHumans = 5;
 
 			for (int i = 0; i < numRabbit; i++)
 			{
@@ -544,13 +544,17 @@ namespace StoryGenerator.World
 		{
 			if (thing.T == Thing.TYPE.RABBIT)
 			{
-				return 5f;
+				return 7f;
 			}
 			if (thing.T == Thing.TYPE.BEAR)
 			{
-				return 3f;
+				return 5f;
 			}
-			return 7;
+			if (thing.T == Thing.TYPE.HUMAN)
+			{
+				return 10f;
+			}
+			return 3;
 		}
 		
 		public bool TestLOS(Thing thing, Thing otherThing)

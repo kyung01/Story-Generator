@@ -143,8 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PREFAB_IN_WORLD_TEXT_FEEDBACk: {fileID: -3152864237444536742, guid: 0bae3cd992009944ab86aa67af68d963, type: 3}
-  thing:
-    type: 0
+  SPRITE_LIST: {fileID: 11400000, guid: 09481ff828dbe46449f4a7a8aa9b6f81, type: 2}
   meshRenderer: {fileID: 0}
   textMesh: {fileID: 0}
 --- !u!1 &6465416769368046807

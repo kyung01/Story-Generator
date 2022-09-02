@@ -7,6 +7,18 @@ using System.Threading.Tasks;
 public partial class Game
 {
 
+	public enum Direction
+	{
+		UP = 0,
+		UP_RIGHT,
+		RIGHT,
+		RIGHT_DOWN,
+		DOWN,
+		DOWN_LEFT,
+		LEFT,
+		LEFT_UP
+	}
+
 	
 	public enum Keyword
 	{

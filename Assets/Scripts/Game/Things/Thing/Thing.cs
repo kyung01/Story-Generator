@@ -36,7 +36,7 @@ public partial class Thing
 	bool isValid = true;
 
 	float x, y;
-	int dirFacing = 2; //0 1 2 3
+	Game.Direction dirFacing;
 	ThingActionManager thingActManager;
 
 	#region properties
@@ -44,7 +44,7 @@ public partial class Thing
 	public TYPE T { get { return this.t; } set { this.t = value; } }
 
 
-	public int DirectionFacing { get { return this.dirFacing; } }
+	public Game.Direction DirectionFacing { get { return this.dirFacing; } }
 	public ThingActionManager TAM
 	{
 		get
@@ -140,13 +140,13 @@ public partial class Thing
 		return true;
 	}
 
-	public virtual bool Face(World world, int direction)
+	public virtual bool Face(World world, Game.Direction direction)
 	{
 		this.dirFacing = direction;
 		return true;
 	}
 
-	public virtual bool canFace(World world, int direction)
+	public virtual bool canFace(World world, Game.Direction direction)
 	{
 		return true;
 	}

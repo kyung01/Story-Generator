@@ -22,7 +22,7 @@ public abstract class MoveTo : Action
 	bool shouldUpdateNewPath = true;
 	float timeElapsedForNewPathSearching = 0;
 	List<Vector2> pathRegistered = new List<Vector2>();
-	List<int> pathFacingDirection = new List<int>();
+	List<Game.Direction> pathFacingDirection = new List<Game.Direction>();
 
 	bool isOpenDoor = false;
 
@@ -36,53 +36,78 @@ public abstract class MoveTo : Action
 	void flipToNextPathPointRegistered()
 	{
 		pathRegistered.RemoveAt(0);
+		pathFacingDirection.RemoveAt(0);
 	}
+
 	void hprAddNextDirectionFacing(Vector2 from, Vector2 to)
 	{
 		var diff = to - from;
-		if (
-			Mathf.Abs(diff.x) > Mathf.Abs(diff.y)||
-			Mathf.Abs(diff.x) == Mathf.Abs(diff.y)
+		if (Mathf.Abs(diff.x) == Mathf.Abs(diff.y))
+		{
+			if (diff.x > 0)
+			{
+				if (diff.y > 0)
+				{
+					pathFacingDirection.Add(Game.Direction.UP_RIGHT);
+				}
+				else if (diff.y < 0)
+				{
+					pathFacingDirection.Add(Game.Direction.RIGHT_DOWN);
+
+				}
+			}
+			else if (diff.x < 0)
+			{
+				if (diff.y > 0)
+				{
+					pathFacingDirection.Add(Game.Direction.LEFT_UP);
+				}
+				else if (diff.y < 0)
+				{
+					pathFacingDirection.Add(Game.Direction.DOWN_LEFT);
+
+				}
+
+			}
+		}
+		else if (diff.x != 0 && diff.y == 0
 			)
 		{
 			//base it around x Axis
 			if (diff.x > 0)
 			{
-				pathFacingDirection.Add(1);
+				pathFacingDirection.Add( Game.Direction.RIGHT);
 			}
 			else if (diff.x < 0)
 			{
-				pathFacingDirection.Add(3);
+				pathFacingDirection.Add(Game.Direction.LEFT);
 
 			}
 		}
-		else if (Mathf.Abs(diff.x) < Mathf.Abs(diff.y))
+		else if (diff.y != 0 && diff.x == 0)
 		{
 			if (diff.y > 0)
 			{
-				pathFacingDirection.Add(0);
+				pathFacingDirection.Add(Game.Direction.UP);
 			}
 			else if (diff.y < 0)
 			{
-				pathFacingDirection.Add(2);
+				pathFacingDirection.Add(Game.Direction.DOWN);
 
 			}
-		}
-		else if( Mathf.Abs(diff.x) == Mathf.Abs(diff.y))
-		{
-
 		}
 		else
 		{
 			Debug.LogError("Failed to detect which direction MoveTo entity Thing needs to face " + from + " " + to);
 			pathFacingDirection.Add(0);
 		}
+		//Debug.Log("Move " + from + " " + to + " " + pathFacingDirection[pathFacingDirection.Count - 1]);
 	}
 	void addNextPath(Thing thing, Vector2 point)
 	{
 		if(pathRegistered.Count == 0)
 		{
-			hprAddNextDirectionFacing(thing.XY, point);
+			hprAddNextDirectionFacing(thing.XY_Int, point);
 		}
 		else
 		{
@@ -94,8 +119,8 @@ public abstract class MoveTo : Action
 	void clearAllPath()
 	{
 
-		pathRegistered = new List<Vector2>();
-		pathFacingDirection = new List<int>();
+		pathRegistered.Clear();
+		pathFacingDirection.Clear();
 	}
 
 	void UpdateNewPath(World world, Thing thing, float timeElapsed)
@@ -133,15 +158,10 @@ public abstract class MoveTo : Action
 	void MoveToAndOpenDoorIfNeedTo(World world, Thing thing, float timeElapsed)
 	{
 
-
-		if (thing.DirectionFacing != pathFacingDirection[0])
+		if (!thing.Face(world, pathFacingDirection[0]))
 		{
-			if (!thing.Face(world ,pathFacingDirection[0]))
-			{
-				return;
-			}
+			return;
 		}
-
 
 
 		//Debug.Log("AvailablePaths " + pathRegistered.Count);

@@ -7,6 +7,8 @@ public class ThingRenderer : MonoBehaviour
 	public static float SMOOTH_TIME = .05f;
 
 	[SerializeField] InWorldTextFeedback PREFAB_IN_WORLD_TEXT_FEEDBACk;
+	public SpriteList SPRITE_LIST;
+
 	public Thing thing;
 	public MeshRenderer meshRenderer;
 	public TMPro.TextMeshPro textMesh;
@@ -72,12 +74,62 @@ public class ThingRenderer : MonoBehaviour
 		effect.text.text = "HP " + healthBefore + ((dealtChange > 0) ? " + " : " - ") + Mathf.Abs(dealtChange) + " = " + healthAfter;
 	}
 
+	Game.Direction dirFacing = Game.Direction.UP;
 	public virtual void Update()
 	{
 		Vector2 pos = new Vector2(this.transform.position.x, this.transform.position.y);
 		pos = Vector2.SmoothDamp(pos, thing.XY, ref speed, SMOOTH_TIME);
 		this.transform.position = new Vector3(pos.x, pos.y, Z_AXIS_LAYER);
 
+		textMesh.text = "";
+		if (thing.T == Thing.TYPE.HUMAN)
+		{
+			textMesh.text += "" + thing.DirectionFacing + "\n";
+
+		}
+		if (thing.T == Thing.TYPE.HUMAN && dirFacing != thing.DirectionFacing)
+		{
+			dirFacing = thing.DirectionFacing;
+			if (thing.DirectionFacing == Game.Direction.UP)
+			{
+				meshRenderer.material.mainTexture = SPRITE_LIST.facingUp;
+
+			}
+			if (thing.DirectionFacing == Game.Direction.UP_RIGHT)
+			{
+				meshRenderer.material.mainTexture = SPRITE_LIST.facingUpRight;
+
+			}
+			if (thing.DirectionFacing == Game.Direction.RIGHT)
+			{
+				meshRenderer.material.mainTexture = SPRITE_LIST.facingRight;
+
+			}
+			if (thing.DirectionFacing == Game.Direction.RIGHT_DOWN)
+			{
+				meshRenderer.material.mainTexture = SPRITE_LIST.facingRightDown;
+
+			}if(thing.DirectionFacing== Game.Direction.DOWN)
+			{
+				meshRenderer.material.mainTexture = SPRITE_LIST.facingDown;
+
+			}
+			if (thing.DirectionFacing == Game.Direction.DOWN_LEFT)
+			{
+				meshRenderer.material.mainTexture = SPRITE_LIST.facingDownLeft;
+
+			}
+			if (thing.DirectionFacing == Game.Direction.LEFT)
+			{
+				meshRenderer.material.mainTexture = SPRITE_LIST.facingLeft;
+
+			}
+			if (thing.DirectionFacing == Game.Direction.LEFT_UP)
+			{
+				meshRenderer.material.mainTexture = SPRITE_LIST.facingLeftUp;
+
+			}
+		}
 		try
 		{
 
@@ -87,7 +139,6 @@ public class ThingRenderer : MonoBehaviour
 			if (!(thingAlive.T == Thing.TYPE.RABBIT  || thingAlive.T == Thing.TYPE.BEAR 
 				|| thingAlive.T == Thing.TYPE.HUMAN
 				)) return;
-			textMesh.text = "";
 			for (int i = 0; i < thing.TAM.actions.Count; i++)
 			{
 				var n = thing.TAM.actions[i];

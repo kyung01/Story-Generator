@@ -20,3 +20,11 @@ MonoBehaviour:
   Human: {fileID: 2800000, guid: a1c81701ef26d484e8b38d86a82dad49, type: 3}
   Rabbit: {fileID: 2800000, guid: 909b7b2b2bafe0d4981d72140acb24a8, type: 3}
   Bear: {fileID: 2800000, guid: ef014a43d219383449f8172ef9f1cc6f, type: 3}
+  facingUp: {fileID: 2800000, guid: 1ff4aab9add121d489dea12888c7d1bb, type: 3}
+  facingUpRight: {fileID: 2800000, guid: 63651fd5d3846e54682ce97193c8a8b5, type: 3}
+  facingRight: {fileID: 2800000, guid: 3fbcd8ea96c283b4d9b7688ee9dd89f7, type: 3}
+  facingRightDown: {fileID: 2800000, guid: 188cd0253fceb0a42831984cb8e4011f, type: 3}
+  facingDown: {fileID: 2800000, guid: 0717e22a069783c46aaa6c8c422a2a3d, type: 3}
+  facingDownLeft: {fileID: 2800000, guid: b0377e7c0219b0243ab93eed33e59e72, type: 3}
+  facingLeft: {fileID: 2800000, guid: fc588349b86eb5942ac4eeef2af9e506, type: 3}
+  facingLeftUp: {fileID: 2800000, guid: 42ece793ddaf939498be9306914dc584, type: 3}

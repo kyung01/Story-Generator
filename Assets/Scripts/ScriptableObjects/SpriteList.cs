@@ -13,4 +13,14 @@ public class SpriteList : ScriptableObject
 	public Texture2D Rabbit;
 	public Texture2D Bear;
 
+	public Texture2D facingUp;
+	public Texture2D facingUpRight;
+	public Texture2D facingRight;
+	public Texture2D facingRightDown;
+	public Texture2D facingDown;
+	public Texture2D facingDownLeft;
+	public Texture2D facingLeft;
+	public Texture2D facingLeftUp;
+
+
 }
