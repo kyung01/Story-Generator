@@ -63,6 +63,10 @@ public static class UIEnums
 		BUILDS_WALL,
 		BUILDS_DOOR,
 		BUILDS_ROOF,
+		BUILDS_BED,
+		BUILDS_CHAIR,
+		BUILDS_TABLE,
+
 
 
 		ZONES,
