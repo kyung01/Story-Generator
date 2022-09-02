@@ -8,8 +8,7 @@ public class ThingSheet
 {
 	public static Thing GetGrass()
 	{
-		Thing plant = new Thing();
-		plant.SetType( Thing.TYPE.GRASS);
+		Thing plant = new Thing(Thing.TYPE.GRASS);
 		plant.InitContainer();
 		plant.moduleContainer.Add(Game.Keyword.FOOD_VEGI, 100);
 		return plant;
@@ -23,12 +22,12 @@ public class ThingSheet
 	public static Thing GetRock()
 	{
 		Thing thing = new Thing(Thing.TYPE.ROCK);
+		thing.T = Thing.TYPE.ROCK;
 		return thing;
 	}
 	public static Thing GetReed()
 	{
-		Thing thing = new Thing();
-		thing.T = Thing.TYPE.REED;
+		Thing thing = new Thing(Thing.TYPE.REED);
 		return thing;
 	}
 
@@ -46,7 +45,7 @@ public class ThingSheet
 	}
 	public static Thing Rabbit()
 	{
-		Thing thing = new StoryGenerator.World.Things.Actors.Animal();
+		Thing thing = new StoryGenerator.World.Things.Actors.Animal( Thing.TYPE.RABBIT );
 
 		thing.InitBodyManager();
 		thing.InitThingNeedManager();
@@ -79,7 +78,7 @@ public class ThingSheet
 	}
 	public static Thing GetBear()
 	{
-		Thing thing = new Thing();
+		Thing thing = new Thing( Thing.TYPE.BEAR);
 
 		thing.InitBodyManager();
 		thing.InitThingNeedManager();

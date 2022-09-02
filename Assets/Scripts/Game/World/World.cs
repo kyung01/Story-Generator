@@ -250,7 +250,7 @@ namespace StoryGenerator.World
 
 			Init0_DefaultVariables();
 			Init1_Terrain();
-			Init2_Animals();
+			//Init2_Animals();
 		}
 		void Init0_DefaultVariables()
 		{

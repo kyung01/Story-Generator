@@ -18,7 +18,7 @@ public partial class Thing
 {
 	public enum TYPE
 	{
-		UNDEFINED, 
+		UNDEFINED=0, 
 		
 
 		//Animals
@@ -37,6 +37,7 @@ public partial class Thing
 		ROOF,
 
 		END,
-		STRUCTURE
+		STRUCTURE,
+		ITEM
 	}
 }

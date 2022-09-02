@@ -23,12 +23,20 @@ public partial class Game : MonoBehaviour
 
 
 	}
-	
+
 	// Use this for initialization
-	
+
+	Vector2 p = new Vector2(0, 3);
 	void Start()
 	{
 		Instance = this;
+		for (int i = 0; i < 8; i++)
+		{
+			Debug.Log(Mathf.RoundToInt(p.x) + " " + Mathf.RoundToInt(p.y));
+			p = rotate_point(p, 45);
+
+		}
+		Debug.Log(Mathf.RoundToInt(p.x) + " " + Mathf.RoundToInt(p.y));
 	}
 	private void FixedUpdate()
 	{
@@ -39,9 +47,27 @@ public partial class Game : MonoBehaviour
 		}
 
 	}
+	Vector2 rotate_point(Vector2 p, float angle)
+	{
+		angle *= -Mathf.PI / 180.0f;
+		float s = Mathf.Sin(angle);
+		float c = Mathf.Cos(angle);
+
+		// translate point back to origin:
+
+		// rotate point
+		float xnew = p.x * c - p.y * s;
+		float ynew = p.x * s + p.y * c;
+
+		// translate point back:
+		p.x = xnew;
+		p.y = ynew;
+		return p;
+	}
 
 	// Update is called once per frame
 	void Update()
 	{
+		
 	}
 }

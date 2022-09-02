@@ -13,7 +13,7 @@ public class Structure : Thing
 	int height = 1;
 	public int Width { get { return this.width; } }
 	public int Height { get { return this.height; } }
-	public Structure()
+	public Structure():base(TYPE.STRUCTURE)
 	{
 		this.T = TYPE.STRUCTURE;
 	}

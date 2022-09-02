@@ -8,6 +8,10 @@ public class ThingDestructable : Thing
 	public float health = 100;
 
 	public bool IsAlvie { get { return health > 0; } }
+	public ThingDestructable() : base(TYPE.UNDEFINED)
+	{
+
+	}
 	public void TakeHealthChange(Thing other, float amount)
 	{
 		float healthBefore = health;

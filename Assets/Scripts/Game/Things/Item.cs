@@ -6,4 +6,8 @@ using System.Threading.Tasks;
 
 public class Item : Thing
 {
+	public Item() : base(TYPE.ITEM)
+	{
+
+	}
 }

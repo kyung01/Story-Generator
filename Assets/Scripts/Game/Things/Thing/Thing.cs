@@ -29,7 +29,7 @@ public partial class Thing
 
 	static float ZEROf = 0.01f;
 
-	TYPE t = TYPE.UNDEFINED;
+	TYPE t;
 
 
 
@@ -100,7 +100,6 @@ public partial class Thing
 	{
 		InitCarryingFunctionality();
 		this.thingActManager = new ThingActionManager();
-		this.T = TYPE.UNDEFINED;
 		this.x = 0;
 		this.y = 0;
 	}
@@ -111,7 +110,7 @@ public partial class Thing
 		baseInit();
 
 	}
-	public Thing (TYPE type = TYPE.UNDEFINED , float x = 0, float y=0)
+	public Thing (TYPE type  , float x = 0, float y=0)
 	{
 		baseInit();
 		this.T = type;
@@ -141,19 +140,26 @@ public partial class Thing
 	}
 
 	public delegate bool DEL_CAN_FACE(World world, Thing me, Game.Direction direction);
-	public delegate bool DEL_FACE(World world, Thing me, Game.Direction direction);
+	public delegate void DEL_FACE(World world, Thing me, Game.Direction dirOld, Game.Direction dirNow);
 
-	List<DEL_CAN_FACE> onCanFace = new List<DEL_CAN_FACE>();
-	List<DEL_FACE> onFace = new List<DEL_FACE>();
+	public List<DEL_CAN_FACE> OnCanFace = new List<DEL_CAN_FACE>();
+	public List<DEL_FACE> OnFace = new List<DEL_FACE>();
 
 	public virtual bool Face(World world, Game.Direction direction)
 	{
-		for (int i = 0; i  < onFace.Count; i++)
+		if (direction == this.dirFacing)
 		{
-			if (!onFace[i](world, this, direction))
-			{
-				return false;
-			}
+			return true;
+		}
+		if (!canFace(world, direction))
+		{
+			return false;
+		}
+		
+		
+		for (int i = 0; i < OnFace.Count; i++)
+		{
+			OnFace[i](world, this, this.dirFacing, direction);
 		}
 		this.dirFacing = direction;
 		return true;
@@ -161,9 +167,9 @@ public partial class Thing
 
 	public virtual bool canFace(World world, Game.Direction direction)
 	{
-		for (int i = 0; i < onFace.Count; i++)
+		for (int i = 0; i < OnCanFace.Count; i++)
 		{
-			if (!onCanFace[i](world, this, direction))
+			if (!OnCanFace[i](world, this, direction))
 			{
 				return false;
 			}

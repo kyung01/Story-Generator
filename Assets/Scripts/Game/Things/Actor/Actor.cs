@@ -11,9 +11,13 @@ namespace StoryGenerator.World.Things.Actors
 	public class Actor : Thing
 	{
 
+		
 		List<Satisfaction.SatisfactionBase> satisfactions = new List<Satisfaction.SatisfactionBase>();
 		internal List<Game.Keyword> foodList = new List<Game.Keyword>();
+		public Actor(TYPE type) : base(type)
+		{
 
+		}
 		public void addSatisfaction(Satisfaction.SatisfactionBase s)
 		{
 			s.Init(this);

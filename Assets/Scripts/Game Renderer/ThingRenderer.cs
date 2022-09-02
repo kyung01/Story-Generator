@@ -24,10 +24,11 @@ public class ThingRenderer : MonoBehaviour
 	public void RenderThing(Thing thing, SpriteList SPRITE_LIST)
 	{
 		this.thing = thing;
+		Debug.Log("I have a " +thing.T);
 		switch (thing.T)
 		{
 			case Thing.TYPE.UNDEFINED:
-				Debug.LogError(thing + " ThingRenderer->RenderThing->RenderType being undefined " + thing.T);
+				Debug.LogError(thing + " ThingRenderer->RenderThing->RenderType being undefined " + thing.T + thing.XY);
 				break;
 			case Thing.TYPE.ROCK:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Rock;
