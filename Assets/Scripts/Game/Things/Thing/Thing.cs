@@ -36,6 +36,7 @@ public partial class Thing
 	bool isValid = true;
 
 	float x, y;
+	int dirFacing = 2; //0 1 2 3
 	ThingActionManager thingActManager;
 
 	#region properties
@@ -43,6 +44,7 @@ public partial class Thing
 	public TYPE T { get { return this.t; } set { this.t = value; } }
 
 
+	public int DirectionFacing { get { return this.dirFacing; } }
 	public ThingActionManager TAM
 	{
 		get
@@ -51,16 +53,15 @@ public partial class Thing
 		}
 	}
 
-
 	public float X
 	{
 		get { return this.x; }
 	}
+
 	public float Y
 	{
 		get { return this.y; }
 	}
-
 
 	public int X_INT
 	{
@@ -71,7 +72,6 @@ public partial class Thing
 	{
 		get { return Mathf.RoundToInt(this.y); }
 	}
-
 
 	public Vector2 XY
 	{
@@ -104,6 +104,7 @@ public partial class Thing
 		this.x = 0;
 		this.y = 0;
 	}
+	
 	public Thing(Thing.TYPE type )
 	{
 		this.T = type;
@@ -136,6 +137,17 @@ public partial class Thing
 			return false;
 		}
 		this.XY = new Vector2(x, y);
+		return true;
+	}
+
+	public virtual bool Face(World world, int direction)
+	{
+		this.dirFacing = direction;
+		return true;
+	}
+
+	public virtual bool canFace(World world, int direction)
+	{
 		return true;
 	}
 

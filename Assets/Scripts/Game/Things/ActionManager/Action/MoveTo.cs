@@ -8,16 +8,22 @@ using UnityEngine;
 
 public abstract class MoveTo : Action
 {
+	/// <summary>
+	/// Pathing need to be updated periodically to effectively reach the destination
+	/// </summary>
 	const float NEWPATH_UPDATING_INTERVAL = 2.0f;
+
 	//position I am trying to go to
 	public virtual Vector2 destinationXY { get { return new Vector2(); } }
 	Vector2 nextDestinationXY { get { return pathRegistered[0]; } }
 	public Vector2 NextDestinationXY { get { return pathRegistered[0]; } }
 	public bool IsNextDestAvail { get { return pathRegistered.Count != 0; } }
 
-	bool updateNewPath = true;
+	bool shouldUpdateNewPath = true;
 	float timeElapsedForNewPathSearching = 0;
 	List<Vector2> pathRegistered = new List<Vector2>();
+	List<int> pathFacingDirection = new List<int>();
+
 	bool isOpenDoor = false;
 
 	Door doorToOpen = null;
@@ -27,80 +33,149 @@ public abstract class MoveTo : Action
 		this.name = "MoveTo";
 	}
 
-	public override void Do(World world, Thing thing, float timeElapsed)
+	void flipToNextPathPointRegistered()
 	{
-		base.Do(world, thing, timeElapsed);
-		timeElapsedForNewPathSearching += timeElapsed;
-		if(timeElapsedForNewPathSearching > NEWPATH_UPDATING_INTERVAL)
+		pathRegistered.RemoveAt(0);
+	}
+	void hprAddNextDirectionFacing(Vector2 from, Vector2 to)
+	{
+		var diff = to - from;
+		if (
+			Mathf.Abs(diff.x) > Mathf.Abs(diff.y)||
+			Mathf.Abs(diff.x) == Mathf.Abs(diff.y)
+			)
 		{
-			updateNewPath = true;
-			timeElapsedForNewPathSearching = 0;
-		}
-		if (updateNewPath)
-		{
-			pathRegistered = new List<Vector2>();
-			var path = world.pathFinder.getPath(thing.XY_Int, destinationXY);
-			while (path != null)
+			//base it around x Axis
+			if (diff.x > 0)
 			{
-				pathRegistered.Add(path);
-				path = path.after;
+				pathFacingDirection.Add(1);
 			}
-			updateNewPath = false;
-		}
-		if(pathRegistered.Count == 0)
-		{
-			if(Mathf.RoundToInt(destinationXY.x) == thing.X_INT && Mathf.RoundToInt(destinationXY.y) == thing.Y_INT)
+			else if (diff.x < 0)
 			{
-				pathRegistered.Add(destinationXY);
-
-			}
-			else
-			{
-				Debug.LogError(this + "MoveTo(base) found no path. Terminating due to no path found " + thing.XY + "->" + destinationXY);
-				finish();
-				return;
+				pathFacingDirection.Add(3);
 
 			}
 		}
-
-		//Debug.Log("AvailablePaths " + pathRegistered.Count);
-
-
-		if(doorToOpen == null)
+		else if (Mathf.Abs(diff.x) < Mathf.Abs(diff.y))
 		{
-			move(world, thing, timeElapsed);
+			if (diff.y > 0)
+			{
+				pathFacingDirection.Add(0);
+			}
+			else if (diff.y < 0)
+			{
+				pathFacingDirection.Add(2);
+
+			}
+		}
+		else if( Mathf.Abs(diff.x) == Mathf.Abs(diff.y))
+		{
 
 		}
 		else
 		{
-			//There was a door I needed to open
-			if (!doorToOpen.IsOpen)
+			Debug.LogError("Failed to detect which direction MoveTo entity Thing needs to face " + from + " " + to);
+			pathFacingDirection.Add(0);
+		}
+	}
+	void addNextPath(Thing thing, Vector2 point)
+	{
+		if(pathRegistered.Count == 0)
+		{
+			hprAddNextDirectionFacing(thing.XY, point);
+		}
+		else
+		{
+			hprAddNextDirectionFacing(pathRegistered[pathRegistered.Count-1],point);
+		}
+		pathRegistered.Add(point);
+
+	}
+	void clearAllPath()
+	{
+
+		pathRegistered = new List<Vector2>();
+		pathFacingDirection = new List<int>();
+	}
+
+	void UpdateNewPath(World world, Thing thing, float timeElapsed)
+	{
+		timeElapsedForNewPathSearching += timeElapsed;
+		if (timeElapsedForNewPathSearching > NEWPATH_UPDATING_INTERVAL)
+		{
+			shouldUpdateNewPath = true;
+			timeElapsedForNewPathSearching = 0;
+		}
+		if (!shouldUpdateNewPath) return;
+		
+		clearAllPath();
+
+		var path = world.pathFinder.getPath(thing.XY_Int, destinationXY);
+		while (path != null)
+		{
+			addNextPath(thing,path);
+			path = path.after;
+		}
+
+		//If no path is registered, it means I am already at where I am, add "fixing" point(where I am) to the stack 
+		if (pathRegistered.Count == 0)
+		{
+			if (Mathf.RoundToInt(destinationXY.x) == thing.X_INT && Mathf.RoundToInt(destinationXY.y) == thing.Y_INT)
 			{
-				//Door is closed!
-				doorToOpen.Open();
-			}
-			else
-			{
-				//I opened the door
-				doorToOpen = null;
+				pathRegistered.Add(destinationXY);
+				pathFacingDirection.Add(thing.DirectionFacing);
+
 			}
 		}
-		var diff = thing.XY - pathRegistered[0];
-		bool reachedCurrentRelativeDestinationOnPath = diff.magnitude < ZEROf;
+		shouldUpdateNewPath = false;
+
+	}
+	void MoveToAndOpenDoorIfNeedTo(World world, Thing thing, float timeElapsed)
+	{
+
+
+		if (thing.DirectionFacing != pathFacingDirection[0])
+		{
+			if (!thing.Face(world ,pathFacingDirection[0]))
+			{
+				return;
+			}
+		}
+
+
+
+		//Debug.Log("AvailablePaths " + pathRegistered.Count);
+
+
+		var things = world.GetThingsAt(Mathf.RoundToInt(pathRegistered[0].x), Mathf.RoundToInt(pathRegistered[0].y));
+		Door door = hprSortDoor(things);
+		if (door != null)
+		{
+			door.Open();
+			if (door.IsOpen)
+			{
+				door = null;
+			}
+		}
+		bool isMovable = doorToOpen == null && (door == null || door.IsOpen);
+
+		if (isMovable)
+		{
+			move(world, thing, timeElapsed);
+		}
+
+		var diffToWhereINeedToGo = thing.XY - pathRegistered[0];
+		bool reachedCurrentRelativeDestinationOnPath = diffToWhereINeedToGo.magnitude < ZEROf;
 		if (reachedCurrentRelativeDestinationOnPath)
 		{
-			pathRegistered.RemoveAt(0);
-			if(pathRegistered.Count != 0)
-			{
-				//There are more paths to go
-				var things = world.GetThingsAt(Mathf.RoundToInt(pathRegistered[0].x), Mathf.RoundToInt(pathRegistered[0].y));
-				Door door = hprSortDoor(things);
-				if(door!= null)
-				{
-					this.doorToOpen = door;
-				}
-			}
+			flipToNextPathPointRegistered();
 		}
+	}
+	public override void Do(World world, Thing thing, float timeElapsed)
+	{
+		base.Do(world, thing, timeElapsed);
+		UpdateNewPath(world, thing, timeElapsed);
+		MoveToAndOpenDoorIfNeedTo(world, thing, timeElapsed);
 
 		if (IsDestinationReached(world, thing) || pathRegistered.Count == 0)
 		{
