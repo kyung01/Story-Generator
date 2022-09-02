@@ -8,42 +8,40 @@ public class ThingSheet
 {
 	public static Thing GetGrass()
 	{
-		Plant plant = new Plant();
-		plant.type = Thing.TYPE.GRASS;
+		Thing plant = new Thing();
+		plant.SetType( Thing.TYPE.GRASS);
 		plant.InitContainer();
 		plant.moduleContainer.Add(Game.Keyword.FOOD_VEGI, 100);
 		return plant;
 	}
 	public static Thing GetBush()
 	{
-		Plant plant = new Plant();
-		plant.type = Thing.TYPE.BUSH;
+		Thing plant = new Thing(Thing.TYPE.BUSH);
 		//plant.resources.Add(Game.Keyword.FOOD_VEGI, 100);
 		return plant;
 	}
 	public static Thing GetRock()
 	{
-		Thing thing = new Thing();
-		thing.type = Thing.TYPE.ROCK;
+		Thing thing = new Thing(Thing.TYPE.ROCK);
 		return thing;
 	}
 	public static Thing GetReed()
 	{
 		Thing thing = new Thing();
-		thing.type = Thing.TYPE.REED;
+		thing.T = Thing.TYPE.REED;
 		return thing;
 	}
 
 	public static Structure GetRoof()
 	{
 		Structure roof = new Structure();
-		roof.type = Thing.TYPE.ROOF;
+		roof.SetType(Thing.TYPE.ROOF);
 		return roof;
 	}
 	public static Structure GetWall()
 	{
 		Structure roof = new Structure();
-		roof.type = Thing.TYPE.WALL;
+		roof.SetType(Thing.TYPE.WALL);
 		return roof;
 	}
 	public static Thing Rabbit()
@@ -70,13 +68,13 @@ public class ThingSheet
 		//thing.moduleBody.AddBody(meatBody);
 		//thing.moduleBody.AddBody(stomach);
 
-		thing.type = Thing.TYPE.RABBIT;
+		thing.SetType(Thing.TYPE.RABBIT);
 		return thing;
 	}
 	public static Thing Human()
 	{
 		var rabbit = Rabbit();
-		rabbit.type = Thing.TYPE.HUMAN;
+		rabbit.SetType(Thing.TYPE.HUMAN);
 		return rabbit;
 	}
 	public static Thing GetBear()
@@ -103,7 +101,7 @@ public class ThingSheet
 		thing.moduleBody.AddBody(meatBody);
 		thing.moduleBody.AddBody(stomach);
 
-		thing.type = Thing.TYPE.BEAR;
+		thing.SetType(Thing.TYPE.BEAR);
 		return thing;
 	}
 }

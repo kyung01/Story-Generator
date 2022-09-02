@@ -6,7 +6,8 @@ public class GrassRenderer : ThingRenderer
 	public override void Update()
 	{
 		base.Update();
-		var g = (Plant)this.thing;
+		var g = this.thing;
+		if (!g.T.IsPlant()) return;
 		if (!g.moduleContainer.Contains(Game.Keyword.FOOD_VEGI))
 		{
 			this.textMesh.text = "0";

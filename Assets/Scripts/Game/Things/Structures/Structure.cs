@@ -15,7 +15,7 @@ public class Structure : Thing
 	public int Height { get { return this.height; } }
 	public Structure()
 	{
-		this.type = TYPE.STRUCTURE;
+		this.T = TYPE.STRUCTURE;
 	}
 
 	public void Install()

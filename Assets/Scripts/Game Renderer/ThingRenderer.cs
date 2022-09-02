@@ -22,9 +22,10 @@ public class ThingRenderer : MonoBehaviour
 	public void RenderThing(Thing thing, SpriteList SPRITE_LIST)
 	{
 		this.thing = thing;
-		switch (thing.type)
+		switch (thing.T)
 		{
 			case Thing.TYPE.UNDEFINED:
+				Debug.LogError(thing + " ThingRenderer->RenderThing->RenderType being undefined " + thing.T);
 				break;
 			case Thing.TYPE.ROCK:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Rock;
@@ -83,8 +84,8 @@ public class ThingRenderer : MonoBehaviour
 			var thingAlive = thing;
 			if (thingAlive == null) return;
 
-			if (!(thingAlive.type == Thing.TYPE.RABBIT  || thingAlive.type == Thing.TYPE.BEAR 
-				|| thingAlive.type == Thing.TYPE.HUMAN
+			if (!(thingAlive.T == Thing.TYPE.RABBIT  || thingAlive.T == Thing.TYPE.BEAR 
+				|| thingAlive.T == Thing.TYPE.HUMAN
 				)) return;
 			textMesh.text = "";
 			for (int i = 0; i < thing.TAM.actions.Count; i++)

@@ -81,7 +81,7 @@ public class UIOrganizer : MonoBehaviour
 			case UIEnums.FEEDBACK.TASKS_HAUL:
 				foreach(var t in things)
 				{
-					Debug.Log(this + " WorkMagerHowl " + t.type +  " " + t.XY_Int);
+					Debug.Log(this + " WorkMagerHowl " + t.T +  " " + t.XY_Int);
 					world.PlayerTeam.WorkManager.Howl(t);
 				}
 				break;

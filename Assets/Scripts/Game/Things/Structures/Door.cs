@@ -32,7 +32,7 @@ public class Door : Structure
 
 	public Door()
 	{
-		this.type = TYPE.DOOR;
+		this.T = TYPE.DOOR;
 	}
 	public void Open()
 	{
@@ -104,7 +104,7 @@ public class Door : Structure
 				//installed structure 
 
 			}
-			if (t.type == TYPE.FLOOR || t.type == TYPE.DOOR || t.type == TYPE.ROOF)
+			if (t.T == TYPE.FLOOR || t.T == TYPE.DOOR || t.T == TYPE.ROOF)
 			{
 				//these dont get stuck
 				continue;

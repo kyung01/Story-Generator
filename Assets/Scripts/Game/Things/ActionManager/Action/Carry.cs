@@ -57,7 +57,7 @@ public class Carry : Action
 			finish();
 			return;
 		}
-		UnityEngine.Debug.Log(this + "Must move closer " + thing + thing.XY + "/"+ (thingToCarry.XY - thing.XY).magnitude + " " + thingToCarry.type + " " + thingToCarry.XY);
+		UnityEngine.Debug.Log(this + "Must move closer " + thing + thing.XY + "/"+ (thingToCarry.XY - thing.XY).magnitude + " " + thingToCarry.T + " " + thingToCarry.XY);
 		thing.TAM.MoveToTarget(this.thingToCarry, rangeToGrap*0.98f, ThingActionManager.PriorityLevel.FIRST);
 	}
 }

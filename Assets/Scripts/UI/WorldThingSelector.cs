@@ -33,11 +33,11 @@ public class WorldThingSelector
 		}
 		foreach (var t in things)
 		{
-			if (!sortedThings.ContainsKey(t.type))
+			if (!sortedThings.ContainsKey(t.T))
 			{
-				sortedThings.Add(t.type, new List<Thing>());
+				sortedThings.Add(t.T, new List<Thing>());
 			}
-			sortedThings[t.type].Add(t);
+			sortedThings[t.T].Add(t);
 		}
 		List<List<Thing>> thingsByCount = new List<List<Thing>>();
 		foreach (var pair in sortedThings)
@@ -82,7 +82,7 @@ public class WorldThingSelector
 	{
 		this.thingsISelected = things;
 		this.countOfThingsSelected = things.Count;
-		this.typeOfThingSelected = things[0].type;
+		this.typeOfThingSelected = things[0].T;
 	}
 
 	public void SelectFromTo(World world, Vector2 from, Vector2 to)
@@ -95,7 +95,7 @@ public class WorldThingSelector
 
 		for (int i = 0; i < thingsList.Count; i++)
 		{
-			Debug.Log(i + " " + thingsList[i][0].type + "  " + thingsList[i].Count);
+			Debug.Log(i + " " + thingsList[i][0].T + "  " + thingsList[i].Count);
 
 		}
 

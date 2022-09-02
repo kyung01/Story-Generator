@@ -119,7 +119,7 @@ namespace StoryGenerator.World
 			var things = GetThingsAt(x, y);
 			foreach (Thing t in things)
 			{
-				if (t.type == Thing.TYPE.ROOF)
+				if (t.T == Thing.TYPE.ROOF)
 				{
 					if (((Structure)t).IsInstalled)
 					{
@@ -224,7 +224,7 @@ namespace StoryGenerator.World
 				if (t is Structure)
 				{
 					var s = (Structure)t;
-					if (s.type == Thing.TYPE.ROOF)
+					if (s.T == Thing.TYPE.ROOF)
 					{
 						//Roof is not considered as a structure that blocks building of another structure
 						continue;
@@ -542,11 +542,11 @@ namespace StoryGenerator.World
 
 		public float	GetThingSpeed(Thing thing)
 		{
-			if (thing.type == Thing.TYPE.RABBIT)
+			if (thing.T == Thing.TYPE.RABBIT)
 			{
 				return 5f;
 			}
-			if (thing.type == Thing.TYPE.BEAR)
+			if (thing.T == Thing.TYPE.BEAR)
 			{
 				return 3f;
 			}

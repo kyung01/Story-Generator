@@ -29,14 +29,19 @@ public partial class Thing
 
 	static float ZEROf = 0.01f;
 
-	public TYPE type = TYPE.UNDEFINED;
+	TYPE t = TYPE.UNDEFINED;
+
+
 
 	bool isValid = true;
 
 	float x, y;
 	ThingActionManager thingActManager;
-	
+
 	#region properties
+
+	public TYPE T { get { return this.t; } set { this.t = value; } }
+
 
 	public ThingActionManager TAM
 	{
@@ -95,25 +100,26 @@ public partial class Thing
 	{
 		InitCarryingFunctionality();
 		this.thingActManager = new ThingActionManager();
-		this.type = TYPE.UNDEFINED;
+		this.T = TYPE.UNDEFINED;
 		this.x = 0;
 		this.y = 0;
 	}
-	public Thing()
+	public Thing(Thing.TYPE type )
 	{
+		this.T = type;
 		baseInit();
 
 	}
 	public Thing (TYPE type = TYPE.UNDEFINED , float x = 0, float y=0)
 	{
 		baseInit();
-		this.type = type;
+		this.T = type;
 		this.x = x;
 		this.y = y;
 	}
 	public Thing SetType(TYPE type)
 	{
-		this.type = type;
+		this.T = type;
 		return this;
 	}
 
