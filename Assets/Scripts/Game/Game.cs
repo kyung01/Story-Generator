@@ -14,7 +14,7 @@ public partial class Game : MonoBehaviour
 
 	}
 	public World world;
-	float timeScale;
+	float timeScale = 1.0f;
 
 	public void StartGame()
 	{

@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 public partial class Game
 {
 
+	
 	public enum Keyword
 	{
+		//Types of Thing
+		CHAIR,
+		BED,
+		TABLE,
+
 		FOOD,
 		SLEEP,
 		STRESS,

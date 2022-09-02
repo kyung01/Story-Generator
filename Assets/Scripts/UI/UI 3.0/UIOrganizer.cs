@@ -127,6 +127,7 @@ public class UIOrganizer : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		UISky.SetTime((float)this.world.Time.Subtract(new DateTime(world.Time.Year,world.Time.Month,world.Time.Day) ).TotalSeconds );
 		UIClock.Display(this.world.Time);
 	}
 }

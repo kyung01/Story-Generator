@@ -6,6 +6,7 @@ using System;
  
 public partial class Thing
 {
+
 	public delegate void						DEL_UPDATE(World world, Thing thing, float timeElapsed);	
 	public delegate List<KeywordInformation>	DEL_GET_KEYWORDS();
 	public delegate float						DEL_TAKEN_KEYWORD(Game.Keyword keywordToRequest, float requestedAmount);

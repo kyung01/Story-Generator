@@ -20,6 +20,11 @@ public class PlayerInputManager : MonoBehaviour
 	}
 
 
+	private void hdrCancell()
+	{
+		WorldController.CancellCurrentAction();
+	}
+
 	private void hdrBttnFeedback(UIEnums.FEEDBACK value)
 	{
 		if (value == UIEnums.FEEDBACK.TASKS_HAUL)
@@ -57,5 +62,12 @@ public class PlayerInputManager : MonoBehaviour
 		WorldController.Select(new Vector2(xBegin, yBegin), new Vector2(xEnd, yEnd));
 	}
 
+	private void Update()
+	{
+		if (Input.GetMouseButtonDown(1))
+		{
+			hdrCancell();
+		}
+	}
 
 }

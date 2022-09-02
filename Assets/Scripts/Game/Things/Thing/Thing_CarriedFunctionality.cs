@@ -44,10 +44,10 @@ public partial class Thing{
 		return false;
 	}
 
-	private void dropCarryingThing(Thing thing)
+	private void dropCarryingThing(Thing box)
 	{
-		thingsIAmCarrying.Remove(thing);
-		thing.freeFromCarrier();
+		thingsIAmCarrying.Remove(box);
+		box.freeFromCarrier();
 	}
 
 	void freeFromCarrier()

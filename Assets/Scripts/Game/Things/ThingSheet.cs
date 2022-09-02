@@ -67,8 +67,8 @@ public class ThingSheet
 		thing.moduleBody.AddBody(new PainCreator());
 		thing.moduleBody.AddBody(new PainReactionModelBody());
 		thing.moduleBody.AddBody(new Mouth());
-		thing.moduleBody.AddBody(meatBody);
-		thing.moduleBody.AddBody(stomach);
+		//thing.moduleBody.AddBody(meatBody);
+		//thing.moduleBody.AddBody(stomach);
 
 		thing.type = Thing.TYPE.RABBIT;
 		return thing;

@@ -38,17 +38,17 @@ public class UIClock : MonoBehaviour
 
 	private void hdrOnBttnFlyingSpeed()
 	{
-		Game.SetTimeScale(30);
+		Game.SetTimeScale(21601);
 	}
 
 	private void hdrOnBttnFasterSpeed()
 	{
-		Game.SetTimeScale(10);
+		Game.SetTimeScale(361);
 	}
 
 	private void hdrOnBttnFastSpeed()
 	{
-		Game.SetTimeScale(3);
+		Game.SetTimeScale(61);
 	}
 
 	private void hdrOnBttnNormalSpeed()
@@ -65,7 +65,7 @@ public class UIClock : MonoBehaviour
 	{
 		this.textYearMonthDay.text = dateTime.Year + "/" + dateTime.Month + "/" + dateTime.Day;
 		this.textDayOfWeek.text = ""+dateTime.DayOfWeek;
-		this.horNeedle.transform.rotation = Quaternion.Euler(0, 0, dateTime.Hour / 60.0f * -360);
+		this.horNeedle.transform.rotation = Quaternion.Euler(0, 0, dateTime.Hour / 12.0f * -360);
 		this.minNeedle.transform.rotation = Quaternion.Euler(0, 0, dateTime.Minute / 60.0f * -360);
 		this.secNeedle.transform.rotation = Quaternion.Euler(0, 0, dateTime.Second / 60.0f * -360);
 

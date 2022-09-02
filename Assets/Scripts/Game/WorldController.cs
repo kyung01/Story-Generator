@@ -32,6 +32,12 @@ public partial class WorldController
 		}
 		INSTANCE = new WorldController(world);
 	}
+
+	internal static void CancellCurrentAction()
+	{
+		INSTANCE.command = Command.NONE;
+	}
+
 	public static void Select(Vector2 from, Vector2 to)
 	{
 		if(INSTANCE.command == Command.HAUL)
@@ -40,7 +46,7 @@ public partial class WorldController
 			Selector.SelectFromTo(World, from, to);
 			//Selector.Select(World, Mathf.RoundToInt(from.x), Mathf.RoundToInt(from.y), Mathf.RoundToInt(to.x), Mathf.RoundToInt(to.y));
 			INSTANCE.apply();
-			INSTANCE.command = Command.NONE;
+			//INSTANCE.command = Command.NONE;
 		}
 		else if(INSTANCE.command == Command.BUILD)
 		{
@@ -51,8 +57,8 @@ public partial class WorldController
 					World.Build(INSTANCE.thingToBuild, i, j);
 				}
 			}
-			INSTANCE.command = Command.NONE;
-			INSTANCE.thingToBuild = Thing.TYPE.UNDEFINED;
+			//INSTANCE.command = Command.NONE;
+			//INSTANCE.thingToBuild = Thing.TYPE.UNDEFINED;
 			
 		}
 		else if(INSTANCE.command == Command.STOCKPILE)

@@ -590,7 +590,7 @@ namespace StoryGenerator.World
 
 		public virtual void Update( float timeElapsed)
 		{
-			time = time.AddSeconds(timeElapsed);
+			time = time.AddSeconds(timeElapsed*100);
 
 			zoneOrganizer.Update(this, timeElapsed);
 			for (int i = 0; i < allThings.Count; i++)
