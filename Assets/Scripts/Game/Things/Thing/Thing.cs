@@ -140,14 +140,34 @@ public partial class Thing
 		return true;
 	}
 
+	public delegate bool DEL_CAN_FACE(World world, Thing me, Game.Direction direction);
+	public delegate bool DEL_FACE(World world, Thing me, Game.Direction direction);
+
+	List<DEL_CAN_FACE> onCanFace = new List<DEL_CAN_FACE>();
+	List<DEL_FACE> onFace = new List<DEL_FACE>();
+
 	public virtual bool Face(World world, Game.Direction direction)
 	{
+		for (int i = 0; i  < onFace.Count; i++)
+		{
+			if (!onFace[i](world, this, direction))
+			{
+				return false;
+			}
+		}
 		this.dirFacing = direction;
 		return true;
 	}
 
 	public virtual bool canFace(World world, Game.Direction direction)
 	{
+		for (int i = 0; i < onFace.Count; i++)
+		{
+			if (!onCanFace[i](world, this, direction))
+			{
+				return false;
+			}
+		}
 		return true;
 	}
 

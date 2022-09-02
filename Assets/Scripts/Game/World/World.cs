@@ -552,7 +552,7 @@ namespace StoryGenerator.World
 			}
 			if (thing.T == Thing.TYPE.HUMAN)
 			{
-				return 10f;
+				return 4.0f;
 			}
 			return 3;
 		}
