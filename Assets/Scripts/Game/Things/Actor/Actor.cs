@@ -28,6 +28,7 @@ namespace StoryGenerator.World.Things.Actors
 		{
 
 			this.thingActManager = new ThingActionManager();
+			InitCarryingFunctionality();
 		}
 
 

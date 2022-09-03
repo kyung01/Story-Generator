@@ -89,7 +89,7 @@ namespace ActionManagerAction {
 			if(!thingAtDestination && thingToHaul.Carrier == worker)
 			{
 				//package is not at the destination but I am carrying it
-				Debug.Log("Action Haul MoveTo");
+				Debug.Log("Action Haul : Package is not at the destination but I am carrying it " + this.destination + "(destination) " + thingToHaul.XY +"(where I am)");
 				worker.TAM.MoveTo(destination, ThingActionManager.PriorityLevel.FIRST);
 			}
 			// I am grapping the object

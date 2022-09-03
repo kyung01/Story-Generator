@@ -8,26 +8,26 @@ public class ThingSheet
 {
 	public static Thing GetGrass()
 	{
-		Thing plant = new Thing(Thing.TYPE.GRASS);
+		Thing plant = new Thing_Interactable(Thing.TYPE.GRASS);
 		//plant.InitContainer();
 		//plant.moduleContainer.Add(Game.Keyword.FOOD_VEGI, 100);
 		return plant;
 	}
 	public static Thing GetBush()
 	{
-		Thing plant = new Thing(Thing.TYPE.BUSH);
+		Thing plant = new Thing_Interactable(Thing.TYPE.BUSH);
 		//plant.resources.Add(Game.Keyword.FOOD_VEGI, 100);
 		return plant;
 	}
 	public static Thing GetRock()
 	{
-		Thing thing = new Thing(Thing.TYPE.ROCK);
+		Thing thing = new Thing_Interactable(Thing.TYPE.ROCK);
 		thing.T = Thing.TYPE.ROCK;
 		return thing;
 	}
 	public static Thing GetReed()
 	{
-		Thing thing = new Thing(Thing.TYPE.REED);
+		Thing thing = new Thing_Interactable(Thing.TYPE.REED);
 		return thing;
 	}
 
