@@ -8,6 +8,7 @@ public class GrassRenderer : ThingRenderer
 		base.Update();
 		var g = this.thing;
 		if (!g.T.IsPlant()) return;
+		/*
 		if (!g.moduleContainer.Contains(Game.Keyword.FOOD_VEGI))
 		{
 			this.textMesh.text = "0";
@@ -17,5 +18,6 @@ public class GrassRenderer : ThingRenderer
 		this.textMesh.text = ""+(int)g.moduleContainer.Get(Game.Keyword.FOOD_VEGI);
 		var grassAmount = g.moduleContainer.Get(Game.Keyword.FOOD_VEGI);
 		this.meshRenderer.material.color = new Color(1.0f, grassAmount/100.0f,1);
+		 */
 	}
 }

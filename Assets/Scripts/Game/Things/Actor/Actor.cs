@@ -8,29 +8,66 @@ using System.Threading.Tasks;
 namespace StoryGenerator.World.Things.Actors
 {
 
-	public class Actor : Thing
+	public partial class ActorBase : ThingWithPhysicalPresence
 	{
 
-		
+
+		ThingActionManager thingActManager;
+
+		public ThingActionManager TAM
+		{
+			get
+			{
+				return thingActManager;
+			}
+		}
+
 		List<Satisfaction.SatisfactionBase> satisfactions = new List<Satisfaction.SatisfactionBase>();
 		internal List<Game.Keyword> foodList = new List<Game.Keyword>();
-		public Actor(TYPE type) : base(type)
+		public ActorBase(TYPE type) : base(type)
 		{
 
+			this.thingActManager = new ThingActionManager();
 		}
+
+
+		public bool MoveTo(Vector2 position)
+		{
+			return this.MoveTo(position.x, position.y);
+		}
+
+		public bool MoveTo(float x, float y)
+		{
+			if (IsBeingCarried)
+			{
+				return false;
+			}
+			this.XY = new Vector2(x, y);
+			return true;
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		public void addSatisfaction(Satisfaction.SatisfactionBase s)
 		{
 			s.Init(this);
 			this.satisfactions.Add(s);
-		}
-
-		public override void Update(World world, float timeElapsed)
-		{
-			base.Update(world, timeElapsed);
-			for(int i =0; i < satisfactions.Count; i++)
-			{
-				satisfactions[i].Update(world,this, timeElapsed);
-			}
 		}
 
 		public virtual void DoEat(World world)
@@ -68,5 +105,23 @@ namespace StoryGenerator.World.Things.Actors
 		{
 			return 0;
 		}
+
+		public override void Update(World world, float timeElapsed)
+		{
+			base.Update(world, timeElapsed);
+
+
+
+			this.TAM.Update(world, this, timeElapsed);
+
+
+
+
+			for (int i = 0; i < satisfactions.Count; i++)
+			{
+				satisfactions[i].Update(world, this, timeElapsed);
+			}
+		}
+
 	}
 }

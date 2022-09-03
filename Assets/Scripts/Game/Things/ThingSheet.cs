@@ -9,8 +9,8 @@ public class ThingSheet
 	public static Thing GetGrass()
 	{
 		Thing plant = new Thing(Thing.TYPE.GRASS);
-		plant.InitContainer();
-		plant.moduleContainer.Add(Game.Keyword.FOOD_VEGI, 100);
+		//plant.InitContainer();
+		//plant.moduleContainer.Add(Game.Keyword.FOOD_VEGI, 100);
 		return plant;
 	}
 	public static Thing GetBush()

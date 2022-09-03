@@ -1,4 +1,5 @@
 ﻿using StoryGenerator.World;
+using StoryGenerator.World.Things.Actors;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,17 +39,18 @@ public class ThingNeedManager :ThingModule{
 	public override void hdrUpdate(World world, Thing thing, float timeElapsed)
 	{
 		base.hdrUpdate(world, thing, timeElapsed);
+		ActorBase actor = (ActorBase)thing;
 
 		for (int i = 0; i < needs.Count; i++)
 		{
-			needs[i].updateStatic(world, thing, timeElapsed);
+			needs[i].updateStatic(world, actor, timeElapsed);
 		}
 
-		if (thing.TAM.IsIdl)
+		if (actor.TAM.IsIdl)
 		{
 			for (int i = 0; i < needs.Count; i++)
 			{
-				if (needs[i].UpdateResolveNeed(world, thing, timeElapsed))
+				if (needs[i].UpdateResolveNeed(world, actor, timeElapsed))
 				{
 					Debug.Log("Resolving a need " + needs[i].name);
 					var resolvingNeed = needs[i];

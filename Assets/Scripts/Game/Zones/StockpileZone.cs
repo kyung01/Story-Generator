@@ -1,4 +1,5 @@
 ﻿using StoryGenerator.World;
+using StoryGenerator.World.Things.Actors;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,7 +29,7 @@ public class StockpileZone : Zone
 		{
 			if (thing is Item)
 			{
-				if (!thing.IsBeingCarried)
+				if (!((Thing_Interactable) thing).IsBeingCarried)
 				{
 					//this spot is occupied
 					isOccupied = true;
@@ -48,7 +49,11 @@ public class StockpileZone : Zone
 			{
 				//Debug.Log("SubtractingSDcore -" + (1 + thingToConsiderWhenAddingScore.CountAllCarryingThings()));
 				score -= 1;
-				score -= thingToConsiderWhenAddingScore.CountAllCarryingThings();
+				if(thingToConsiderWhenAddingScore is ActorBase)
+				{
+					score -= ((ActorBase)thingToConsiderWhenAddingScore).CountAllCarryingThings();
+
+				}
 			}
 		}
 		return score;
@@ -67,7 +72,7 @@ public class StockpileZone : Zone
 			{
 				if (thing is Item)
 				{
-					if (!thing.IsBeingCarried)
+					if (! ((Item)thing).IsBeingCarried)
 					{
 						//this spot is occupied
 						isOccupied = true;
@@ -107,7 +112,7 @@ public class StockpileZone : Zone
 			{
 				if (thing is Item)
 				{
-					if (!thing.IsBeingCarried)
+					if (!((Item)thing).IsBeingCarried)
 					{
 						//this spot is occupied
 						isOccupied = true;

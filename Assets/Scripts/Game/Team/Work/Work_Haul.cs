@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using StoryGenerator.World;
 using System.Collections.Generic;
+using StoryGenerator.World.Things.Actors;
 
 public class Haul : Work
 {
-	public Thing thingToHowl;
+	public Thing_Interactable thingToHowl;
 	bool isNewLocationNeeded = true;
 	Vector2 destination;
 	StockpileZone destinationZone;
 
-	public Haul(Thing assignedWorker, Thing thingToHowl) : base(assignedWorker)
+	public Haul(ActorBase assignedWorker, Thing_Interactable thingToHowl) : base(assignedWorker)
 	{
 		this.thingToHowl = thingToHowl;
 		

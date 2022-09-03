@@ -83,7 +83,8 @@ public class UIMain : MonoBehaviour
 		var things = wrdThingSelector.ThingsCurrentlySelected;
 		foreach (var thing in things)
 		{
-			world.teams[0].WorkManager.Howl(thing);
+			if(thing is Thing_Interactable)
+				world.teams[0].WorkManager.Howl((Thing_Interactable)thing);
 
 		}
 	}

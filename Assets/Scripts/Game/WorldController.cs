@@ -128,7 +128,7 @@ public partial class WorldController
 			case Command.HAUL:
 				foreach(var s in selected)
 				{
-					world.PlayerTeam.WorkManager.Howl(s);
+					world.PlayerTeam.WorkManager.Howl((Thing_Interactable) s);
 				}
 				break;
 			default:

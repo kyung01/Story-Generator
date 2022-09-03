@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using StoryGenerator.World.Things.Actors;
+using System.Collections;
 using UnityEngine;
 
 public class ThingRenderer : MonoBehaviour
@@ -24,7 +25,7 @@ public class ThingRenderer : MonoBehaviour
 	public void RenderThing(Thing thing, SpriteList SPRITE_LIST)
 	{
 		this.thing = thing;
-		Debug.Log("I have a " +thing.T);
+		//Debug.Log("I have a " +thing.T);
 		switch (thing.T)
 		{
 			case Thing.TYPE.UNDEFINED:
@@ -83,53 +84,62 @@ public class ThingRenderer : MonoBehaviour
 		this.transform.position = new Vector3(pos.x, pos.y, Z_AXIS_LAYER);
 
 		textMesh.text = "";
-		if (thing.T == Thing.TYPE.HUMAN)
 		{
-			textMesh.text += "" + thing.DirectionFacing + "\n";
-
-		}
-		if (thing.T == Thing.TYPE.HUMAN && dirFacing != thing.DirectionFacing)
-		{
-			dirFacing = thing.DirectionFacing;
-			if (thing.DirectionFacing == Game.Direction.UP)
+			if(thing.T == Thing.TYPE.HUMAN)
 			{
-				meshRenderer.material.mainTexture = SPRITE_LIST.facingUp;
+				var thing = (ThingWithPhysicalPresence)this.thing;
+				if (thing.T == Thing.TYPE.HUMAN)
+				{
+					textMesh.text += "" + thing.DirectionFacing + "\n";
+
+				}
+				if (thing.T == Thing.TYPE.HUMAN && dirFacing != thing.DirectionFacing)
+				{
+					dirFacing = thing.DirectionFacing;
+					if (thing.DirectionFacing == Game.Direction.UP)
+					{
+						meshRenderer.material.mainTexture = SPRITE_LIST.facingUp;
+
+					}
+					if (thing.DirectionFacing == Game.Direction.UP_RIGHT)
+					{
+						meshRenderer.material.mainTexture = SPRITE_LIST.facingUpRight;
+
+					}
+					if (thing.DirectionFacing == Game.Direction.RIGHT)
+					{
+						meshRenderer.material.mainTexture = SPRITE_LIST.facingRight;
+
+					}
+					if (thing.DirectionFacing == Game.Direction.RIGHT_DOWN)
+					{
+						meshRenderer.material.mainTexture = SPRITE_LIST.facingRightDown;
+
+					}
+					if (thing.DirectionFacing == Game.Direction.DOWN)
+					{
+						meshRenderer.material.mainTexture = SPRITE_LIST.facingDown;
+
+					}
+					if (thing.DirectionFacing == Game.Direction.DOWN_LEFT)
+					{
+						meshRenderer.material.mainTexture = SPRITE_LIST.facingDownLeft;
+
+					}
+					if (thing.DirectionFacing == Game.Direction.LEFT)
+					{
+						meshRenderer.material.mainTexture = SPRITE_LIST.facingLeft;
+
+					}
+					if (thing.DirectionFacing == Game.Direction.LEFT_UP)
+					{
+						meshRenderer.material.mainTexture = SPRITE_LIST.facingLeftUp;
+
+					}
+				}
 
 			}
-			if (thing.DirectionFacing == Game.Direction.UP_RIGHT)
-			{
-				meshRenderer.material.mainTexture = SPRITE_LIST.facingUpRight;
 
-			}
-			if (thing.DirectionFacing == Game.Direction.RIGHT)
-			{
-				meshRenderer.material.mainTexture = SPRITE_LIST.facingRight;
-
-			}
-			if (thing.DirectionFacing == Game.Direction.RIGHT_DOWN)
-			{
-				meshRenderer.material.mainTexture = SPRITE_LIST.facingRightDown;
-
-			}if(thing.DirectionFacing== Game.Direction.DOWN)
-			{
-				meshRenderer.material.mainTexture = SPRITE_LIST.facingDown;
-
-			}
-			if (thing.DirectionFacing == Game.Direction.DOWN_LEFT)
-			{
-				meshRenderer.material.mainTexture = SPRITE_LIST.facingDownLeft;
-
-			}
-			if (thing.DirectionFacing == Game.Direction.LEFT)
-			{
-				meshRenderer.material.mainTexture = SPRITE_LIST.facingLeft;
-
-			}
-			if (thing.DirectionFacing == Game.Direction.LEFT_UP)
-			{
-				meshRenderer.material.mainTexture = SPRITE_LIST.facingLeftUp;
-
-			}
 		}
 		try
 		{
@@ -140,21 +150,26 @@ public class ThingRenderer : MonoBehaviour
 			if (!(thingAlive.T == Thing.TYPE.RABBIT  || thingAlive.T == Thing.TYPE.BEAR 
 				|| thingAlive.T == Thing.TYPE.HUMAN
 				)) return;
-			for (int i = 0; i < thing.TAM.actions.Count; i++)
+			if(thing is ActorBase)
 			{
-				var n = thing.TAM.actions[i];
-				if(n is MoveTo)
+				var actor = (ActorBase)thing;
+				for (int i = 0; i < actor.TAM.actions.Count; i++)
 				{
+					var n = actor.TAM.actions[i];
+					if (n is MoveTo)
+					{
 
-					textMesh.text += n.name +" "+ ((MoveTo)n).NextDestinationXY+ " \n";
+						textMesh.text += n.name + " " + ((MoveTo)n).NextDestinationXY + " \n";
+					}
+					else
+					{
+						textMesh.text += n.name + " \n";
+
+					}
+
 				}
-				else
-				{
-					textMesh.text += n.name + " \n";
-
-				}
-
 			}
+			
 			if(thing.moduleNeeds != null)
 			{
 				for (int i = 0; i < thing.moduleNeeds.needs.Count; i++)

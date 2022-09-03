@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StoryGenerator.World.Things.Actors{
 
-	public class Person : Actor
+	public class Person : ActorBase
 	{
 		
 		public Person( TYPE type ):base(type)

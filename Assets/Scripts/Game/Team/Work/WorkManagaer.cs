@@ -5,18 +5,19 @@ using UnityEngine;
 using System.Text;
 using System.Threading.Tasks;
 using StoryGenerator.World;
+using StoryGenerator.World.Things.Actors;
 
 public class Worker {
-	public Thing thing;
+	public ActorBase assginedWorker;
 	public Work workIAmDoing;
 	public bool IsFree { 
 		get {
 			return workIAmDoing == null || workIAmDoing.IsFinished;
 				}
 	}
-	public Worker(Thing thing)
+	public Worker(ActorBase thing)
 	{
-		this.thing = thing;
+		this.assginedWorker = thing;
 	}
 }
 
@@ -37,36 +38,14 @@ public class WorkManagaer
 		workers.Add(worker);
 	}
 
-	public bool Howl(Thing ThingToHowl)
+	public bool Howl(Thing_Interactable ThingToHowl)
 	{
 		Debug.Log(this + " HOWL : " + ThingToHowl);
 		var work = new Haul(null, ThingToHowl);
 		addWork(work);
 		return true;
 	}
-	public bool Howl(Thing ThingToHowl, Vector2 position)
-	{
-		/*
-		for(int i = 0; i< works.Count; i++)
-		{
-			var w = works[i];
-			if(w is Howl)
-			{
-				var h = (Howl)w;
-				bool isTheSamePosition = 
-					Mathf.RoundToInt(h.positionToHowlTo.x) == Mathf.RoundToInt(position.x) &&
-					Mathf.RoundToInt(h.positionToHowlTo.y) == Mathf.RoundToInt(position.y);
-				if (isTheSamePosition)
-				{
-					return false;
-				}
-			}
-		}
-		*/
-		var work = new HowlOld(null, ThingToHowl, position);
-		addWork(work);
-		return true;
-	}
+	
 
 	internal void Update( World world, float timeElapsed)
 	{
@@ -102,7 +81,7 @@ public class WorkManagaer
 			if (worker.IsFree)
 			{
 				//Debug.Log("Assinging Worker " + (1+i)+ " / " + workers.Count);
-				work.assignedWorker = worker.thing;
+				work.assignedWorker = worker.assginedWorker;
 				worker.workIAmDoing = work;
 				return;
 			}

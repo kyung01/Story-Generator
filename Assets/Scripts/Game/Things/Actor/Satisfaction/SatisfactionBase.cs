@@ -30,12 +30,12 @@ namespace StoryGenerator.World.Things.Actors.Satisfaction
 
 		}
 
-		public void Update(World world, Actor actor, float timeElapsed)
+		public void Update(World world, ActorBase actor, float timeElapsed)
 		{
 
 		}
 
-		internal void Init(Actor actor)
+		internal void Init(ActorBase actor)
 		{
 
 		}

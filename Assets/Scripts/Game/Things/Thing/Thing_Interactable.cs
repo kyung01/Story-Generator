@@ -1,18 +1,52 @@
-﻿using StoryGenerator.World;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-/*
 
-public partial class Thing{
-	//Things that this thing is carrying
-	List<Thing> thingsIAmCarrying = new List<Thing>();
+public class Thing_Interactable : Thing
+{
+	public Thing_Interactable(TYPE type) : base(type)
+	{
+
+	}
+
 	//Thing carrying me
-	Thing thingCarryingThis = null;
+	StoryGenerator.World.Things.Actors.ActorBase thingCarryingThis = null;
 	public Thing Carrier { get { return thingCarryingThis; } }
 	
+	public virtual float GetGrapRange()
+	{
+		return 0.5f;
+	}
+	public void freeFromCarrier()
+	{
+		this.thingCarryingThis = null;
+	}
+	public void SetCarrier(StoryGenerator.World.Things.Actors.ActorBase actorCarrier)
+	{
+		thingCarryingThis = actorCarrier;
+	}
+
+
+	public bool IsBeingCarried
+	{
+		get { return thingCarryingThis != null; }
+	}
+
+	internal static bool Is(Thing thing)
+	{
+		throw new NotImplementedException();
+	}
+
+	public virtual bool CheckGetCarriedBy(Thing thing)
+	{
+		return !IsBeingCarried;
+	}
+
+
+	/*
 	private void hdrUpdateCarryingThingsPositions(Thing thing, float xBefore, float yBefore, float xNew, float yNew)
 	{
 		for (int i = 0; i < thingsIAmCarrying.Count; i++)
@@ -20,12 +54,11 @@ public partial class Thing{
 			thingsIAmCarrying[i].XY = this.XY;
 		}
 	}
+	 * */
 
-	public virtual float GetGrapRange()
-	{
-		return 0.5f;
-	}
 
+
+	/*
 	public void InitCarryingFunctionality()
 	{
 		this.OnPositionChanged.Add(hdrUpdateCarryingThingsPositions);
@@ -36,25 +69,23 @@ public partial class Thing{
 		thingsIAmCarrying.Remove(box);
 		box.freeFromCarrier();
 	}
+	*/
 
-	void freeFromCarrier()
-	{
-		this.thingCarryingThis = null;
-	}
 
+	/*
 	public void Drop()
 	{
-		for(int i = thingsIAmCarrying.Count-1; i >=0; i--)
+		for (int i = thingsIAmCarrying.Count - 1; i >= 0; i--)
 		{
 			dropCarryingThing(thingsIAmCarrying[i]);
 		}
 	}
-	
+
 	public int CountAllCarryingThings()
 	{
 		int num = 0;
 		num += thingsIAmCarrying.Count;
-		foreach(Thing t in thingsIAmCarrying)
+		foreach (Thing t in thingsIAmCarrying)
 		{
 			num += t.CountAllCarryingThings();
 		}
@@ -63,19 +94,14 @@ public partial class Thing{
 
 	public bool AreYouCarrying(Thing thing)
 	{
-		foreach(Thing t in thingsIAmCarrying)
+		foreach (Thing t in thingsIAmCarrying)
 		{
 			if (t == thing) return true;
 		}
 		return false;
 	}
-
-	
-	public bool IsBeingCarried
-	{
-		get { return thingCarryingThis != null; }
-	}
-	
+	 * */
+	/*
 	public bool IsCarrying
 	{
 		get
@@ -83,8 +109,10 @@ public partial class Thing{
 			return thingsIAmCarrying.Count != 0;
 
 		}
-	}	
+	}
+	 * */
 
+	/*
 	public virtual void Carry(Thing thingToCarry)
 	{
 		thingsIAmCarrying.Add(thingToCarry);
@@ -93,12 +121,7 @@ public partial class Thing{
 
 
 	}
+	*/
 
-	public virtual bool CheckGetCarriedBy(Thing thing)
-	{
-		return !IsBeingCarried;
-	}
+
 }
-
- 
- */

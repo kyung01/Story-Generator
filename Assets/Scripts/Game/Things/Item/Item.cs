@@ -4,14 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StoryGenerator.World.Things.Actors
+public class Item : Thing_Interactable
 {
-	public class Animal : ActorBase
+	public Item() : base(TYPE.ITEM)
 	{
-		public Animal(TYPE type) : base(type)
-		{
 
-		}
 	}
-
 }

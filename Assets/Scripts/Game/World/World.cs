@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using StoryGenerator.NTerrain;
+using StoryGenerator.World.Things.Actors;
 using UnityEngine;
 
 namespace StoryGenerator.World
@@ -356,7 +357,7 @@ namespace StoryGenerator.World
 
 				Vector2 randomPos = hprGetApprorpiateRandomPosition();
 
-				Thing Human = ThingSheet.Human();
+				Thing Human = (ActorBase) ThingSheet.Human();
 				Human.SetPosition(randomPos);
 				initAddThing(Human);
 				//allThings.Add(Human);
@@ -364,7 +365,7 @@ namespace StoryGenerator.World
 				//thingsToKeepTracking.Add(new ThingXY(Human, (int)randomPos.x, (int)randomPos.y));
 
 				playerTeam.AddThing(Human, Team.ThingRole.HOWLER);
-				playerTeam.WorkManager.AddWorker(new Worker(Human));
+				playerTeam.WorkManager.AddWorker(new Worker((ActorBase)Human));
 
 			}
 		}

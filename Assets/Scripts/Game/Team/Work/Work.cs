@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StoryGenerator.World;
+using StoryGenerator.World.Things.Actors;
 
 public class Work
 {
-	public Thing assignedWorker;
+	public ActorBase assignedWorker;
 
 	public static float ZEROf = 0.01f;
 	bool isFinished = false;
@@ -26,7 +27,7 @@ public class Work
 	{
 		isFinished = true;
 	}
-	public Work(Thing assignedThing)
+	public Work(ActorBase assignedThing)
 	{
 		this.assignedWorker = assignedThing;
 	}
