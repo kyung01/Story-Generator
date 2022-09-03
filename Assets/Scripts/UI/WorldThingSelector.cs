@@ -14,13 +14,13 @@ public class WorldThingSelector
 			return thingsISelected;
 		} 
 	}
-	Thing.TYPE typeOfThingSelected = Thing.TYPE.UNDEFINED;
+	Thing.CATEGORY typeOfThingSelected = Thing.CATEGORY.UNDEFINED;
 	int countOfThingsSelected = -1;
 	
 	List<List<Thing>> getAllThingsInWorld(World world, int x, int y, int width, int height)
 	{
 		List<Thing> things = new List<Thing>();
-		Dictionary<Thing.TYPE, List<Thing>> sortedThings = new Dictionary<Thing.TYPE, List<Thing>>();
+		Dictionary<Thing.CATEGORY, List<Thing>> sortedThings = new Dictionary<Thing.CATEGORY, List<Thing>>();
 		for (int i = 0; i < width; i++)
 		{
 			for (int j = 0; j < height; j++)
@@ -33,11 +33,11 @@ public class WorldThingSelector
 		}
 		foreach (var t in things)
 		{
-			if (!sortedThings.ContainsKey(t.T))
+			if (!sortedThings.ContainsKey(t.Category))
 			{
-				sortedThings.Add(t.T, new List<Thing>());
+				sortedThings.Add(t.Category, new List<Thing>());
 			}
-			sortedThings[t.T].Add(t);
+			sortedThings[t.Category].Add(t);
 		}
 		List<List<Thing>> thingsByCount = new List<List<Thing>>();
 		foreach (var pair in sortedThings)
@@ -82,7 +82,7 @@ public class WorldThingSelector
 	{
 		this.thingsISelected = things;
 		this.countOfThingsSelected = things.Count;
-		this.typeOfThingSelected = things[0].T;
+		this.typeOfThingSelected = things[0].Category;
 	}
 
 	public void SelectFromTo(World world, Vector2 from, Vector2 to)
@@ -95,7 +95,7 @@ public class WorldThingSelector
 
 		for (int i = 0; i < thingsList.Count; i++)
 		{
-			Debug.Log(i + " " + thingsList[i][0].T + "  " + thingsList[i].Count);
+			Debug.Log(i + " " + thingsList[i][0].Category + "  " + thingsList[i].Count);
 
 		}
 

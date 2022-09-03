@@ -1,38 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 
-public class CollisionModel {
-	Vector2 pos;
-	float weight;
-}
-
-public class Structure : Thing
+public class Structure : Thing_Describable
 {
-	bool isInstalled = false;
-	public bool IsInstalled { get { return this.isInstalled; } }
+	CAIModel CAIModel;
 
-	int width = 1;
-	int height = 1;
-	public int Width { get { return this.width; } }
-	public int Height { get { return this.height; } }
-
-
-	public Structure():base(TYPE.STRUCTURE)
+	public Structure(Thing.CATEGORY category, CAIModel data) :base(category)
 	{
-		this.T = TYPE.STRUCTURE;
-	}
-
-	public void Install()
-	{
-		this.isInstalled = true;
-	}
-	public void Uninstall()
-	{
-		this.isInstalled = false;
+		this.CAIModel = data;
 	}
 }

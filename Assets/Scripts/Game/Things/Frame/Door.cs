@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-public class Door : Structure
+public class Door : Frame
 {
 	public enum State 
 	{
@@ -30,9 +30,8 @@ public class Door : Structure
 
 	public float OpenLevel { get { return openNess; } }
 
-	public Door()
+	public Door(): base(CATEGORY.DOOR)
 	{
-		this.T = TYPE.DOOR;
 	}
 	public void Open()
 	{
@@ -94,9 +93,9 @@ public class Door : Structure
 		foreach (Thing t in things)
 		{
 			//Check for uninstalled structure being stuck
-			if(t is Structure)
+			if(t is Frame)
 			{
-				var s = (Structure)t;
+				var s = (Frame)t;
 				if (!s.IsInstalled)
 				{
 					return true;
@@ -104,7 +103,7 @@ public class Door : Structure
 				//installed structure 
 
 			}
-			if (t.T == TYPE.FLOOR || t.T == TYPE.DOOR || t.T == TYPE.ROOF)
+			if (t.Category == CATEGORY.FLOOR || t.Category == CATEGORY.DOOR || t.Category == CATEGORY.ROOF)
 			{
 				//these dont get stuck
 				continue;

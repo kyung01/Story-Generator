@@ -26,35 +26,35 @@ public class ThingRenderer : MonoBehaviour
 	{
 		this.thing = thing;
 		//Debug.Log("I have a " +thing.T);
-		switch (thing.T)
+		switch (thing.Category)
 		{
-			case Thing.TYPE.UNDEFINED:
-				Debug.LogError(thing + " ThingRenderer->RenderThing->RenderType being undefined " + thing.T + thing.XY);
+			case Thing.CATEGORY.UNDEFINED:
+				Debug.LogError(thing + " ThingRenderer->RenderThing->RenderType being undefined " + thing.Category + thing.XY);
 				break;
-			case Thing.TYPE.ROCK:
+			case Thing.CATEGORY.ROCK:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Rock;
 				break;
-			case Thing.TYPE.HUMAN:
+			case Thing.CATEGORY.HUMAN:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Human;
 				break;
-			case Thing.TYPE.GRASS:
+			case Thing.CATEGORY.GRASS:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Grass;
 				break;
-			case Thing.TYPE.BUSH:
+			case Thing.CATEGORY.BUSH:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Bush;
 				break;
-			case Thing.TYPE.REED:
+			case Thing.CATEGORY.REED:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Reed;
 				break;
-			case Thing.TYPE.RABBIT:
+			case Thing.CATEGORY.RABBIT:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Rabbit;
 				break;
-			case Thing.TYPE.BEAR:
+			case Thing.CATEGORY.BEAR:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Bear;
 				break;
-			case Thing.TYPE.WALL:
+			case Thing.CATEGORY.WALL:
 				break;
-			case Thing.TYPE.DOOR:
+			case Thing.CATEGORY.DOOR:
 				break;
 			default:
 				break;
@@ -85,15 +85,15 @@ public class ThingRenderer : MonoBehaviour
 
 		textMesh.text = "";
 		{
-			if(thing.T == Thing.TYPE.HUMAN)
+			if(thing.Category == Thing.CATEGORY.HUMAN)
 			{
 				var thing = (ThingWithPhysicalPresence)this.thing;
-				if (thing.T == Thing.TYPE.HUMAN)
+				if (thing.Category == Thing.CATEGORY.HUMAN)
 				{
 					textMesh.text += "" + thing.DirectionFacing + "\n";
 
 				}
-				if (thing.T == Thing.TYPE.HUMAN && dirFacing != thing.DirectionFacing)
+				if (thing.Category == Thing.CATEGORY.HUMAN && dirFacing != thing.DirectionFacing)
 				{
 					dirFacing = thing.DirectionFacing;
 					if (thing.DirectionFacing == Game.Direction.UP)
@@ -147,8 +147,8 @@ public class ThingRenderer : MonoBehaviour
 			var thingAlive = thing;
 			if (thingAlive == null) return;
 
-			if (!(thingAlive.T == Thing.TYPE.RABBIT  || thingAlive.T == Thing.TYPE.BEAR 
-				|| thingAlive.T == Thing.TYPE.HUMAN
+			if (!(thingAlive.Category == Thing.CATEGORY.RABBIT  || thingAlive.Category == Thing.CATEGORY.BEAR 
+				|| thingAlive.Category == Thing.CATEGORY.HUMAN
 				)) return;
 			if(thing is ActorBase)
 			{

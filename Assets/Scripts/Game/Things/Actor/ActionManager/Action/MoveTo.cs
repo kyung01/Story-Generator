@@ -225,7 +225,7 @@ public abstract class MoveTo : Action
 	{
 		foreach (var t in things)
 		{
-			if (t.T == Thing.TYPE.DOOR)
+			if (t.Category == Thing.CATEGORY.DOOR)
 			{
 				var d = (Door)t;
 				if (d.IsInstalled) return d;

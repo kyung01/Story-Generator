@@ -9,7 +9,7 @@ namespace StoryGenerator.World.Things.Actors{
 	public class Person : ActorBase
 	{
 		
-		public Person( TYPE type ):base(type)
+		public Person( CATEGORY type ):base(type)
 		{
 			addSatisfaction(new Satisfaction.Happy());
 			addSatisfaction(new Satisfaction.Energy());

@@ -7,7 +7,7 @@ public class GrassRenderer : ThingRenderer
 	{
 		base.Update();
 		var g = this.thing;
-		if (!g.T.IsPlant()) return;
+		if (!g.Category.IsPlant()) return;
 		/*
 		if (!g.moduleContainer.Contains(Game.Keyword.FOOD_VEGI))
 		{

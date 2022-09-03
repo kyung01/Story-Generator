@@ -21,7 +21,7 @@ public class UIMain : MonoBehaviour
 	}
 
 	State state = State.DEFAULT;
-	Thing.TYPE thingToBuild = Thing.TYPE.WALL;
+	Thing.CATEGORY thingToBuild = Thing.CATEGORY.WALL;
 
 	World world;
 	//ZoneOrganizer zOrg;
@@ -199,19 +199,19 @@ public class UIMain : MonoBehaviour
 	private void hdrBttnBuild_SelectRoof()
 	{
 		this.state = State.BUILD;
-		thingToBuild = Thing.TYPE.ROOF;
+		thingToBuild = Thing.CATEGORY.ROOF;
 	}
 
 	private void hdrBttnBuild_SelectWall()
 	{
 		this.state = State.BUILD;
-		thingToBuild = Thing.TYPE.WALL;
+		thingToBuild = Thing.CATEGORY.WALL;
 	}
 
 	private void hdrBttnBuild_SelectDoor()
 	{
 		this.state = State.BUILD;
-		thingToBuild = Thing.TYPE.DOOR;
+		thingToBuild = Thing.CATEGORY.DOOR;
 	}
 
 

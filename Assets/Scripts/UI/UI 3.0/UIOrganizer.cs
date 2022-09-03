@@ -43,18 +43,18 @@ public class UIOrganizer : MonoBehaviour
 	void CreateBuildings(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
 		Debug.Log(this + " CreateBuildings");
-		Thing.TYPE buildThis = Thing.TYPE.UNDEFINED;
+		Thing.CATEGORY buildThis = Thing.CATEGORY.UNDEFINED;
 		if (bttnFeedback == UIEnums.FEEDBACK.BUILDS_ROOF)
 		{
-			buildThis = Thing.TYPE.ROOF;
+			buildThis = Thing.CATEGORY.ROOF;
 		}
 		else if (bttnFeedback == UIEnums.FEEDBACK.BUILDS_DOOR)
 		{
-			buildThis = Thing.TYPE.DOOR;
+			buildThis = Thing.CATEGORY.DOOR;
 		}
 		else if (bttnFeedback == UIEnums.FEEDBACK.BUILDS_WALL)
 		{
-			buildThis = Thing.TYPE.WALL;
+			buildThis = Thing.CATEGORY.WALL;
 		}
 
 		for (int x = xBegin; x <= xEnd; x++)
@@ -83,7 +83,7 @@ public class UIOrganizer : MonoBehaviour
 				{
 					if(t is Thing_Interactable)
 					{
-						Debug.Log(this + " WorkMagerHowl " + t.T + " " + t.XY_Int);
+						Debug.Log(this + " WorkMagerHowl " + t.Category + " " + t.XY_Int);
 						world.PlayerTeam.WorkManager.Howl((Thing_Interactable)t);
 
 					}

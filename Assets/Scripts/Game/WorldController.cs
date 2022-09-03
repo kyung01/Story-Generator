@@ -77,7 +77,7 @@ public partial class WorldController
 
 	}
 
-	public static void SetCommand(Command command, Thing.TYPE thingToBuild = Thing.TYPE.UNDEFINED)
+	public static void SetCommand(Command command, Thing.CATEGORY thingToBuild = Thing.CATEGORY.UNDEFINED)
 	{
 		INSTANCE.command = command;
 
@@ -110,7 +110,7 @@ public partial class WorldController
 	World world;
 	WorldThingSelector worldThingSelector = new WorldThingSelector();
 	Command command;
-	Thing.TYPE thingToBuild = Thing.TYPE.UNDEFINED;
+	Thing.CATEGORY thingToBuild = Thing.CATEGORY.UNDEFINED;
 
 
 	private WorldController(World world)

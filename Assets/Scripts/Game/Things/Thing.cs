@@ -29,7 +29,7 @@ public partial class Thing
 
 	static float ZEROf = 0.01f;
 
-	TYPE t;
+	CATEGORY category;
 
 
 
@@ -39,7 +39,9 @@ public partial class Thing
 
 	#region properties
 
-	public TYPE T { get { return this.t; } set { this.t = value; } }
+	public CATEGORY Category { get { return this.category; } 
+		//set { this.category = value; } 
+	}
 
 
 	public float X
@@ -91,24 +93,20 @@ public partial class Thing
 		this.y = 0;
 	}
 	
-	public Thing(Thing.TYPE type )
+	public Thing(Thing.CATEGORY type )
 	{
-		this.T = type;
+		this.category = type;
 		baseInit();
 
 	}
-	public Thing (TYPE type  , float x = 0, float y=0)
+	public Thing (CATEGORY type  , float x = 0, float y=0)
 	{
 		baseInit();
-		this.T = type;
+		this.category = type;
 		this.x = x;
 		this.y = y;
 	}
-	public Thing SetType(TYPE type)
-	{
-		this.T = type;
-		return this;
-	}
+	
 
 
 

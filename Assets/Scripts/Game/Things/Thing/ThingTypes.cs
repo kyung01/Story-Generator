@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 public static class ThingTypeStatic
 {
-	public static bool IsPlant(this Thing.TYPE type)
+	public static bool IsPlant(this Thing.CATEGORY type)
 	{
-		if (type == Thing.TYPE.GRASS || type == Thing.TYPE.BUSH || type == Thing.TYPE.REED)
+		if (type == Thing.CATEGORY.GRASS || type == Thing.CATEGORY.BUSH || type == Thing.CATEGORY.REED)
 			return true;
 		return false;
 	}
@@ -16,7 +16,7 @@ public static class ThingTypeStatic
 }
 public partial class Thing
 {
-	public enum TYPE
+	public enum CATEGORY
 	{
 		UNDEFINED=0, 
 		
@@ -38,6 +38,7 @@ public partial class Thing
 
 		END,
 		STRUCTURE,
+		FRAME,
 		ITEM
 	}
 }

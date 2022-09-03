@@ -120,9 +120,9 @@ namespace StoryGenerator.World
 			var things = GetThingsAt(x, y);
 			foreach (Thing t in things)
 			{
-				if (t.T == Thing.TYPE.ROOF)
+				if (t.Category == Thing.CATEGORY.ROOF)
 				{
-					if (((Structure)t).IsInstalled)
+					if (((Frame)t).IsInstalled)
 					{
 						return true;
 					}
@@ -165,7 +165,7 @@ namespace StoryGenerator.World
 
 		void hdrStructurePositionChangedAdd(Thing thing, int x, int y)
 		{
-			Structure s = (Structure)thing;
+			Frame s = (Frame)thing;
 			for (int w = 0; w < s.Width; w++)
 			{
 				for (int h = 0; h < s.Height; h++)
@@ -178,7 +178,7 @@ namespace StoryGenerator.World
 
 		void hdrPosIdxChg_Structure(Thing thing, int xBefore, int yBefore, int xNew, int yNew)
 		{
-			Structure s = (Structure)thing;
+			Frame s = (Frame)thing;
 			for (int w = 0; w < s.Width; w++)
 			{
 				for (int h = 0; h < s.Height; h++)
@@ -222,10 +222,10 @@ namespace StoryGenerator.World
 			var things = GetThingsAt(x, y);
 			foreach (Thing t in things)
 			{
-				if (t is Structure)
+				if (t is Frame)
 				{
-					var s = (Structure)t;
-					if (s.T == Thing.TYPE.ROOF)
+					var s = (Frame)t;
+					if (s.Category == Thing.CATEGORY.ROOF)
 					{
 						//Roof is not considered as a structure that blocks building of another structure
 						continue;
@@ -423,7 +423,7 @@ namespace StoryGenerator.World
 			this.allThings.Add(thing);
 			thing.OnPositionIndexChanged.Add(hdrPosIdxChg_All);
 			
-			if (thing is Structure)
+			if (thing is Frame)
 			{
 				//add structure position chaning method
 				hdrStructurePositionChangedAdd(thing, Mathf.RoundToInt(thing.X), Mathf.RoundToInt(thing.Y));
@@ -450,28 +450,28 @@ namespace StoryGenerator.World
 
 		//Public methods
 
-		Structure hprGetStructure(Thing.TYPE type)
+		Frame hprGetStructure(Thing.CATEGORY type)
 		{
 			switch (type)
 			{
-				case Thing.TYPE.WALL:
+				case Thing.CATEGORY.WALL:
 					return ThingSheet.GetWall();
-				case Thing.TYPE.DOOR:
+				case Thing.CATEGORY.DOOR:
 					return new Door();
-				case Thing.TYPE.ROOF:
+				case Thing.CATEGORY.ROOF:
 					return ThingSheet.GetRoof();
 			}
-			return new Structure();
+			return new Frame( Thing.CATEGORY.UNDEFINED);
 		}
 		
-		public void Build(Thing.TYPE thingToBuild, int x, int y)
+		public void Build(Thing.CATEGORY thingToBuild, int x, int y)
 		{
-			Structure structure = hprGetStructure(thingToBuild);
-			if(thingToBuild != Thing.TYPE.ROOF)
+			Frame structure = hprGetStructure(thingToBuild);
+			if(thingToBuild != Thing.CATEGORY.ROOF)
 			{
 				clearSpotForConstruction(x, y);
 			}
-			if((thingToBuild == Thing.TYPE.ROOF) ? hprIsRoofAt(x, y): hprIsStructureAt(x, y))
+			if((thingToBuild == Thing.CATEGORY.ROOF) ? hprIsRoofAt(x, y): hprIsStructureAt(x, y))
 			{
 				//Not buildable
 				return;
@@ -480,11 +480,11 @@ namespace StoryGenerator.World
 			structure.Install();
 			initAddThing(structure);
 
-			if (thingToBuild == Thing.TYPE.WALL)
+			if (thingToBuild == Thing.CATEGORY.WALL)
 			{
 				pathFinder.setCellOccupied(x, y, true);
 			}
-			if(thingToBuild == Thing.TYPE.DOOR)
+			if(thingToBuild == Thing.CATEGORY.DOOR)
 			{
 				Debug.Log("Adding cell weight");
 				pathFinder.addCellWeightInt(x, y, WEIGHT_DOOR);
@@ -543,15 +543,15 @@ namespace StoryGenerator.World
 
 		public float	GetThingSpeed(Thing thing)
 		{
-			if (thing.T == Thing.TYPE.RABBIT)
+			if (thing.Category == Thing.CATEGORY.RABBIT)
 			{
 				return 7f;
 			}
-			if (thing.T == Thing.TYPE.BEAR)
+			if (thing.Category == Thing.CATEGORY.BEAR)
 			{
 				return 5f;
 			}
-			if (thing.T == Thing.TYPE.HUMAN)
+			if (thing.Category == Thing.CATEGORY.HUMAN)
 			{
 				return 4.0f;
 			}

@@ -143,25 +143,25 @@ public class GameRenderer : MonoBehaviour
 
 	void InitRender(Thing t)
 	{
-		if (t.T == Thing.TYPE.GRASS)
+		if (t.Category == Thing.CATEGORY.GRASS)
 		{
 			var thingRenderer = Instantiate(PREFAB_GRASS_RENDERER);
 			thingRenderer.RenderThing(t, SPRITE_LIST);
 
 		}
-		else if (t.T == Thing.TYPE.WALL)
+		else if (t.Category == Thing.CATEGORY.WALL)
 		{
 
 			var wallRenderer = Instantiate(PREFAB_WALL_RENDERER);
 			wallRenderer.RenderThing(t);
 		}
-		else if (t.T == Thing.TYPE.DOOR)
+		else if (t.Category == Thing.CATEGORY.DOOR)
 		{
 			var doorRenderer = Instantiate(PREFAB_DOOR_RENDERER);
 			doorRenderer.RenderThing(t);
 
 		}
-		else if (t.T == Thing.TYPE.ROOF)
+		else if (t.Category == Thing.CATEGORY.ROOF)
 		{
 			var doorRenderer = Instantiate(PREFAB_ROOF_RENDERER);
 			doorRenderer.RenderThing(t);

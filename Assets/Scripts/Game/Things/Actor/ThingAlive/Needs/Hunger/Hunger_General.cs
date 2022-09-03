@@ -73,7 +73,7 @@ public partial class Hunger_General : NeedBase
 		if (bestTargetThing == null)
 		{
 			//UnityEngine.Debug.LogError(this + ""+thing.type +" : " );
-			UnityEngine.Debug.LogWarning(this + " " + thing.T + " : CANNOT BE COMPLETED::BestTargetThing was null");
+			UnityEngine.Debug.LogWarning(this + " " + thing.Category + " : CANNOT BE COMPLETED::BestTargetThing was null");
 
 			//thing.TAM.MoveToRandomLocationOfDistance(world, thing, LOOKING_FOR_FOOD_DISTNACE);
 			return false;
@@ -111,7 +111,7 @@ public partial class Hunger_General : NeedBase
 		if (bestTargetThing == null)
 		{
 			//UnityEngine.Debug.LogError(this + ""+thing.type +" : " );
-			UnityEngine.Debug.LogWarning(this + " " + thing.T + " : CANNOT BE COMPLETED::BestTargetThing was null");
+			UnityEngine.Debug.LogWarning(this + " " + thing.Category + " : CANNOT BE COMPLETED::BestTargetThing was null");
 
 			//thing.TAM.MoveToRandomLocationOfDistance(world, thing, LOOKING_FOR_FOOD_DISTNACE);
 			return false;
@@ -152,7 +152,7 @@ public partial class Hunger_General : NeedBase
 		if (bestTargetThing == null)
 		{
 			//UnityEngine.Debug.LogError(this + ""+thing.type +" : " );
-			UnityEngine.Debug.LogWarning(this + " "+thing.T + " : CANNOT BE COMPLETED::BestTargetThing was null");
+			UnityEngine.Debug.LogWarning(this + " "+thing.Category + " : CANNOT BE COMPLETED::BestTargetThing was null");
 
 			//thing.TAM.MoveToRandomLocationOfDistance(world, thing, LOOKING_FOR_FOOD_DISTNACE);
 			return false;

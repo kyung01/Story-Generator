@@ -8,7 +8,7 @@ namespace StoryGenerator.World.Things.Actors
 {
 	public class Animal : ActorBase
 	{
-		public Animal(TYPE type) : base(type)
+		public Animal(CATEGORY type) : base(type)
 		{
 
 		}

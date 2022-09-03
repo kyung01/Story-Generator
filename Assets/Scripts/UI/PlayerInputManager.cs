@@ -42,13 +42,13 @@ public class PlayerInputManager : MonoBehaviour
 			switch (value)
 			{
 				case UIEnums.FEEDBACK.BUILDS_WALL:
-					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: Thing.TYPE.WALL);
+					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: Thing.CATEGORY.WALL);
 					break;
 				case UIEnums.FEEDBACK.BUILDS_DOOR:
-					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: Thing.TYPE.DOOR);
+					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: Thing.CATEGORY.DOOR);
 					break;
 				case UIEnums.FEEDBACK.BUILDS_ROOF:
-					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: Thing.TYPE.ROOF);
+					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: Thing.CATEGORY.ROOF);
 					break;
 				default:
 					break;
