@@ -29,15 +29,23 @@ public abstract class MoveTo : Action
 
 	Door doorToOpen = null;
 
-	public MoveTo():base(Type.MOVE_TO)
+	public MoveTo() : base(Type.MOVE_TO)
 	{
 		this.name = "MoveTo";
 	}
 
-	void flipToNextPathPointRegistered()
+	void flipToNextPathPointRegistered(World world)
 	{
 		pathRegistered.RemoveAt(0);
 		pathFacingDirection.RemoveAt(0);
+		
+		if(pathRegistered.Count != 0)
+		{
+
+			var things = world.GetThingsAt(Mathf.RoundToInt(pathRegistered[0].x), Mathf.RoundToInt(pathRegistered[0].y));
+			doorToOpen =  hprSortDoor(things);
+		}
+
 	}
 
 	void hprAddNextDirectionFacing(Vector2 from, Vector2 to)
@@ -77,7 +85,7 @@ public abstract class MoveTo : Action
 			//base it around x Axis
 			if (diff.x > 0)
 			{
-				pathFacingDirection.Add( Game.Direction.RIGHT);
+				pathFacingDirection.Add(Game.Direction.RIGHT);
 			}
 			else if (diff.x < 0)
 			{
@@ -106,15 +114,17 @@ public abstract class MoveTo : Action
 	}
 	void addNextPath(Thing thing, Vector2 point)
 	{
-		if(pathRegistered.Count == 0)
+		if (pathRegistered.Count == 0)
 		{
 			hprAddNextDirectionFacing(thing.XY_Int, point);
 		}
 		else
 		{
-			hprAddNextDirectionFacing(pathRegistered[pathRegistered.Count-1],point);
+			hprAddNextDirectionFacing(pathRegistered[pathRegistered.Count - 1], point);
 		}
 		pathRegistered.Add(point);
+
+
 
 	}
 	void clearAllPath()
@@ -134,13 +144,13 @@ public abstract class MoveTo : Action
 			timeElapsedForNewPathSearching = 0;
 		}
 		if (!shouldUpdateNewPath) return;
-		
+
 		clearAllPath();
 
 		var path = world.pathFinder.getPath(thingWithDirection.XY_Int, destinationXY);
 		while (path != null)
 		{
-			addNextPath(thingWithDirection,path);
+			addNextPath(thingWithDirection, path);
 			path = path.after;
 		}
 
@@ -169,18 +179,15 @@ public abstract class MoveTo : Action
 
 		//Debug.Log("AvailablePaths " + pathRegistered.Count);
 
-
-		var things = world.GetThingsAt(Mathf.RoundToInt(pathRegistered[0].x), Mathf.RoundToInt(pathRegistered[0].y));
-		Door door = hprSortDoor(things);
-		if (door != null)
+		if (doorToOpen != null  && !doorToOpen.IsOpen)
 		{
-			door.Open();
-			if (door.IsOpen)
+			doorToOpen.Open();
+			if (doorToOpen.IsOpen)
 			{
-				door = null;
+				doorToOpen = null;
 			}
 		}
-		bool isMovable = doorToOpen == null && (door == null || door.IsOpen);
+		bool isMovable = doorToOpen == null || doorToOpen.IsOpen;// && (door == null || door.IsOpen);
 
 		if (isMovable)
 		{
@@ -191,7 +198,7 @@ public abstract class MoveTo : Action
 		bool reachedCurrentRelativeDestinationOnPath = diffToWhereINeedToGo.magnitude < ZEROf;
 		if (reachedCurrentRelativeDestinationOnPath)
 		{
-			flipToNextPathPointRegistered();
+			flipToNextPathPointRegistered(world);
 		}
 	}
 	public override void Do(World world, ActorBase thing, float timeElapsed)
@@ -216,9 +223,9 @@ public abstract class MoveTo : Action
 
 	private Door hprSortDoor(List<Thing> things)
 	{
-		foreach(var t in things)
+		foreach (var t in things)
 		{
-			if(t.T == Thing.TYPE.DOOR)
+			if (t.T == Thing.TYPE.DOOR)
 			{
 				var d = (Door)t;
 				if (d.IsInstalled) return d;
@@ -253,7 +260,7 @@ public abstract class MoveTo : Action
 		if (blockedByOtherThing)
 		{
 			Vector2 otherDestination = Vector2.zero;
-			if(otherThingBlocking is ActorBase)
+			if (otherThingBlocking is ActorBase)
 			{
 				if (!((ActorBase)otherThingBlocking).TAM.GetNextDestination(ref otherDestination))
 				{
@@ -265,10 +272,10 @@ public abstract class MoveTo : Action
 			{
 				return false;
 			}
-			
+
 			bool isTryingToGoTOTheSamePosition = false;
-			Vector2 otherDir = hprGetDir( otherThingBlocking.XY, otherDestination);
-			var myDir = hprGetDir(thing.XY,this.NextDestinationXY ) ;
+			Vector2 otherDir = hprGetDir(otherThingBlocking.XY, otherDestination);
+			var myDir = hprGetDir(thing.XY, this.NextDestinationXY);
 			otherDir.Normalize();
 			myDir.Normalize();
 			//Debug.Log(myDir + " / " + otherDir);
@@ -295,7 +302,7 @@ public abstract class MoveTo : Action
 			Vector2.down + Vector2.right,Vector2.down + Vector2.left
 		};
 		float distance = 999;
-		foreach(var exampleD in dirs)
+		foreach (var exampleD in dirs)
 		{
 			var sqrM = (exampleD - originalD).sqrMagnitude;
 			if (sqrM < distance)
@@ -317,6 +324,6 @@ public abstract class MoveTo : Action
 		float maxDistanceToMove = (thing.XY - nextDestinationXY).magnitude;
 		float distanceApplied = Mathf.Min(speed * timeElapsed, maxDistanceToMove);
 		var thingsNewPosition = thing.XY + (nextDestinationXY - thing.XY).normalized * distanceApplied;
-		thing.MoveTo( thingsNewPosition);
+		thing.MoveTo(thingsNewPosition);
 	}
 }
