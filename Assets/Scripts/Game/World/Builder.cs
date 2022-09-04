@@ -4,20 +4,7 @@ using UnityEngine;
 
 public class Builder
 {
-	static Frame GetFrsame(CATEGORY type)
-	{
-		switch (type)
-		{
-			case CATEGORY.WALL:
-				return ThingSheet.GetWall();
-			case CATEGORY.DOOR:
-				return new Door();
-			case CATEGORY.ROOF:
-				return ThingSheet.GetRoof();
-		}
-		Debug.LogError("Builder : cannot find " + type + " of frame to build");
-		return new Frame(CATEGORY.UNDEFINED);
-	}
+
 
 	static Thing categoryToActualThing(CATEGORY type)
 	{
@@ -43,7 +30,7 @@ public class Builder
 			world.EmptySpot(x, y);
 		}
 
-		if ((thingToBuild == CATEGORY.ROOF) ? world.IsRoofAt(x, y) : world.IsStructureAt(x, y) )
+		if ((thingToBuild == CATEGORY.ROOF) ? world.IsRoofAt(x, y) : world.IsFrameAt(x, y) )
 		{
 			//Not buildable
 			return;

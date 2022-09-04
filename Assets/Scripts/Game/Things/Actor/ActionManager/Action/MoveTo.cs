@@ -134,7 +134,7 @@ public abstract class MoveTo : Action
 		pathFacingDirection.Clear();
 	}
 
-	void UpdateNewPath(World world, Thing thing, float timeElapsed)
+	bool UpdateNewPath(World world, Thing thing, float timeElapsed)
 	{
 		var thingWithDirection = (ThingWithPhysicalPresence)thing;
 		timeElapsedForNewPathSearching += timeElapsed;
@@ -143,7 +143,7 @@ public abstract class MoveTo : Action
 			shouldUpdateNewPath = true;
 			timeElapsedForNewPathSearching = 0;
 		}
-		if (!shouldUpdateNewPath) return;
+		if (!shouldUpdateNewPath) return true;
 
 		clearAllPath();
 
@@ -163,18 +163,37 @@ public abstract class MoveTo : Action
 				pathFacingDirection.Add(thingWithDirection.DirectionFacing);
 
 			}
+			else
+			{
+				//wait I am not at where I need to be and I cannot reach where I need to by pathing
+				//I CANNOT GO WHERE I WANT TO GO!
+				Debug.LogError("MoveTo failed " + thing.XY + " ->" + destinationXY);
+				finish();
+				return false;
+
+			}
 		}
 		shouldUpdateNewPath = false;
+		return true;
 
 	}
 	void MoveToAndOpenDoorIfNeedTo(World world, ActorBase thing, float timeElapsed)
 	{
 
 		var thingWithDirection = (ThingWithPhysicalPresence)thing;
-		if (!thingWithDirection.Face(world, pathFacingDirection[0]))
+		try
 		{
-			return;
+			if (!thingWithDirection.Face(world, pathFacingDirection[0]))
+			{
+				return;
+			}
 		}
+		catch
+		{
+			Debug.LogError("Error 1 " + pathFacingDirection.Count + " " +pathRegistered.Count);
+
+		}
+	
 
 
 		//Debug.Log("AvailablePaths " + pathRegistered.Count);
@@ -194,17 +213,29 @@ public abstract class MoveTo : Action
 			move(world, thing, timeElapsed);
 		}
 
-		var diffToWhereINeedToGo = thing.XY - pathRegistered[0];
-		bool reachedCurrentRelativeDestinationOnPath = diffToWhereINeedToGo.magnitude < ZEROf;
-		if (reachedCurrentRelativeDestinationOnPath)
+		try
 		{
-			flipToNextPathPointRegistered(world);
+			var diffToWhereINeedToGo = thing.XY - pathRegistered[0];
+			bool reachedCurrentRelativeDestinationOnPath = diffToWhereINeedToGo.magnitude < ZEROf;
+			if (reachedCurrentRelativeDestinationOnPath)
+			{
+				flipToNextPathPointRegistered(world);
+			}
 		}
+		catch
+		{
+			Debug.LogError("Error 2");
+		}
+		
 	}
 	public override void Do(World world, ActorBase thing, float timeElapsed)
 	{
 		base.Do(world, thing, timeElapsed);
-		UpdateNewPath(world, thing, timeElapsed);
+		if(!UpdateNewPath(world, thing, timeElapsed))
+		{
+			//Update failed;
+			return;
+		}
 		MoveToAndOpenDoorIfNeedTo(world, thing, timeElapsed);
 
 		if (IsDestinationReached(world, thing) || pathRegistered.Count == 0)

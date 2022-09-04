@@ -379,11 +379,11 @@ namespace StoryGenerator.World
 				foreach (var c in collisionMap)
 				{
 					Debug.Log("Collision Map occupied at " +c);
-					pathFinder.setCellOccupied((int)c.x, (int)c.y, true);
+					pathFinder.setCellOccupied(structure.X_INT+ (int)c.x, structure.Y_INT + (int)c.y, true);
 				}
 				foreach (var a in avoidanceMap)
 				{
-					pathFinder.addCellWeight((int)a.x,(int)a.y, a.z);
+					pathFinder.addCellWeight(structure.X_INT + (int)a.x, structure.Y_INT + (int)a.y, a.z);
 				}
 
 			}
@@ -412,7 +412,7 @@ namespace StoryGenerator.World
 			OnThingAdded.Raise(thing);
 		}
 
-		public bool IsStructureAt(int x, int y)
+		public bool IsFrameAt(int x, int y)
 		{
 			var things = GetThingsAt(x, y);
 			foreach (Thing t in things)
@@ -455,12 +455,15 @@ namespace StoryGenerator.World
 			//Debug.Log("ClearspotForConstruction");
 			var things = GetThingsAt(x, y);
 			int xMin = x, yMin = y, xMax = x, yMax = y;
-			bool isFoundAnEmptySpot = false;
-			int emptyX = 0, emptyY = 0;
+			//bool isFoundAnEmptySpot = false;
+			//int emptyX = 0, emptyY = 0;
 
-			while (!isFoundAnEmptySpot)
+			List<Vector2> availablePositions = new List<Vector2>();
+
+			while (availablePositions.Count == 0)
 			{
-				List<Vector2> availablePositions = new List<Vector2>();
+				availablePositions.Clear();
+				
 				for (int positionX = xMin; positionX <= xMax; positionX++)
 				{
 					for (int positionY = yMin; positionY <= yMax; positionY++)
@@ -469,28 +472,33 @@ namespace StoryGenerator.World
 						{
 							continue;
 						}
+						if (!IsWalkableAt(positionX, positionY))
+						{
+							continue;
+						}
+						if (IsFrameAt(positionX, positionY))
+						{
+							continue;
+						}
 						availablePositions.Insert(Random.Range(0, availablePositions.Count + 1), new Vector2(positionX, positionY));
+						
 					}
 				}
-				foreach (var p in availablePositions)
-				{
-					int pX = (int)p.x;
-					int pY = (int)p.y;
-					if (!IsWalkableAt(pX, pY)) continue;
-					isFoundAnEmptySpot = true;
-					emptyX = pX;
-					emptyY = pY;
-				}
+				
+				
 				xMin = Mathf.Max(0, xMin - 1);
 				xMax = Mathf.Min(this.width - 1, xMax + 1);
 				yMin = Mathf.Max(0, yMin - 1);
 				yMax = Mathf.Min(this.height - 1, yMax + 1);
 			}
 
+			int availablePositionIndex = 0;
 			for (int i = 0; i < things.Count; i++)
 			{
-				//Debug.Log(i+ "/" + things.Count +" Setting position of " + things[i] + " to " + new Vector2(emptyX, emptyY));
-				things[i].SetPosition(emptyX, emptyY);
+				var e = availablePositions[availablePositionIndex++ % availablePositions.Count];
+
+				   //Debug.Log(i+ "/" + things.Count +" Setting position of " + things[i] + " to " + new Vector2(emptyX, emptyY));
+				   things[i].SetPosition((int)e.x,(int)e.y);
 			}
 
 		}
@@ -589,7 +597,7 @@ namespace StoryGenerator.World
 
 		public bool IsWalkableAt(int x_INT, int y_INT)
 		{
-			return terrain.IsEmptyAt(x_INT, y_INT) && !this.IsStructureAt(x_INT, y_INT);
+			return terrain.IsEmptyAt(x_INT, y_INT) && !this.IsFrameAt(x_INT, y_INT) && !pathFinder.isCellOccupied(x_INT, y_INT);
 		}
 
 
