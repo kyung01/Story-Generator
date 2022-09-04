@@ -5,6 +5,7 @@ using StoryGenerator.NTerrain;
 using StoryGenerator.World.Things.Actors;
 using UnityEngine;
 
+using GameEnums;
 namespace StoryGenerator.World
 {
 	#region helperClass
@@ -355,25 +356,44 @@ namespace StoryGenerator.World
 			if (thing is Frame)
 			{
 				switch (thing.Category) {
-					case Game.CATEGORY.WALL:
+					case CATEGORY.WALL:
 						pathFinder.setCellOccupied(thing.X_INT, thing.Y_INT, true);
 						break;
-					case Game.CATEGORY.DOOR:
+					case CATEGORY.DOOR:
 						pathFinder.addCellWeightInt(thing.X_INT, thing.Y_INT, WEIGHT_DOOR);
 						break;
-					case Game.CATEGORY.ROOF:
+					case CATEGORY.ROOF:
 						break;
 					default:
 						Debug.Log("World AddThingAndInit Error : Cannot find cateogry of the structure");
 						break;
 				}
 			}
-
-			if (thing is Frame)
+			if(thing is Structure)
 			{
-				//add structure position chaning method
-				hdrStructurePositionChangedAdd(thing, Mathf.RoundToInt(thing.X), Mathf.RoundToInt(thing.Y));
-				thing.OnPositionIndexChanged.Add(hdrPosIdxChg_Structure);
+				Debug.Log("Adding a structure");
+				var structure = ((Structure)thing);
+				var collisionMap = structure.CAIModel.GetCollisionMap((int)structure.DirectionFacing);
+				var avoidanceMap = structure.CAIModel.GetAvoidanceMap((int)structure.DirectionFacing);
+
+				foreach (var c in collisionMap)
+				{
+					Debug.Log("Collision Map occupied at " +c);
+					pathFinder.setCellOccupied((int)c.x, (int)c.y, true);
+				}
+				foreach (var a in avoidanceMap)
+				{
+					pathFinder.addCellWeight((int)a.x,(int)a.y, a.z);
+				}
+
+			}
+
+			if (thing is Frame || thing is Structure)
+			{
+				//Structure/frame do not change their position  
+
+				//hdrStructurePositionChangedAdd(thing, Mathf.RoundToInt(thing.X), Mathf.RoundToInt(thing.Y));
+				//thing.OnPositionIndexChanged.Add(hdrPosIdxChg_Structure);
 			}
 			else
 			{
@@ -400,7 +420,7 @@ namespace StoryGenerator.World
 				if (t is Frame)
 				{
 					var s = (Frame)t;
-					if (s.Category == Game.CATEGORY.ROOF)
+					if (s.Category == CATEGORY.ROOF)
 					{
 						//Roof is not considered as a structure that blocks building of another structure
 						continue;
@@ -419,7 +439,7 @@ namespace StoryGenerator.World
 			var things = GetThingsAt(x, y);
 			foreach (Thing t in things)
 			{
-				if (t.Category == Game.CATEGORY.ROOF)
+				if (t.Category == CATEGORY.ROOF)
 				{
 					if (((Frame)t).IsInstalled)
 					{
@@ -432,7 +452,7 @@ namespace StoryGenerator.World
 
 		public void EmptySpot(int x, int y)
 		{
-			Debug.Log("ClearspotForConstruction");
+			//Debug.Log("ClearspotForConstruction");
 			var things = GetThingsAt(x, y);
 			int xMin = x, yMin = y, xMax = x, yMax = y;
 			bool isFoundAnEmptySpot = false;
@@ -523,15 +543,15 @@ namespace StoryGenerator.World
 
 		public float	GetThingSpeed(Thing thing)
 		{
-			if (thing.Category == Game.CATEGORY.RABBIT)
+			if (thing.Category == CATEGORY.RABBIT)
 			{
 				return 7f;
 			}
-			if (thing.Category == Game.CATEGORY.BEAR)
+			if (thing.Category == CATEGORY.BEAR)
 			{
 				return 5f;
 			}
-			if (thing.Category == Game.CATEGORY.HUMAN)
+			if (thing.Category == CATEGORY.HUMAN)
 			{
 				return 4.0f;
 			}

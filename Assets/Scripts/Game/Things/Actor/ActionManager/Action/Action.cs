@@ -1,6 +1,6 @@
 ﻿using StoryGenerator.World;
 using StoryGenerator.World.Things.Actors;
-using System;
+using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

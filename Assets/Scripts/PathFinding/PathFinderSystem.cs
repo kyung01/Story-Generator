@@ -1,4 +1,4 @@
-﻿using System;
+﻿using GameEnums;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -83,6 +83,10 @@ namespace PathFinder
 		public void setCellWeight(int x, int y, float weight)
 		{
 			cells[x][y].weight = weight;
+		}
+		public void addCellWeight(int x, int y, float weight)
+		{
+			cells[x][y].weight += weight;
 		}
 		public void addCellWeightInt(int x, int y, int weight)
 		{
@@ -299,7 +303,16 @@ namespace PathFinder
 
 				hprUpdateNeighbouringPaths(path, availablePaths);
 				KPath nextPath = hprChooseTheBestPath(availablePaths, pathDestination);
-				writeDebugLog("number of availablePaths after lookup " + availablePaths.Count + " " + nextPath.x + " " + nextPath.y);
+				try
+				{
+					writeDebugLog("number of availablePaths after lookup " + availablePaths.Count + " " + nextPath.x + " " + nextPath.y);
+
+				}
+				catch
+				{
+					Debug.LogError(availablePaths);
+
+				}
 				availablePaths.Remove(nextPath);
 
 

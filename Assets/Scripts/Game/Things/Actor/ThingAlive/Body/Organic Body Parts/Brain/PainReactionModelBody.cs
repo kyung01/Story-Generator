@@ -1,5 +1,5 @@
 ﻿using StoryGenerator.World.Things.Actors;
-using System;
+using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,10 +16,10 @@ public class PainReactionModelBody : BodyBase
 	}
 
 	
-	void hdrReceiveKeyword(Thing me, Thing giver, Game.Keyword keyword, float amount)
+	void hdrReceiveKeyword(Thing me, Thing giver, Keyword keyword, float amount)
 	{
 		//UnityEngine.Debug.Log(this + " flee pain reaction model " + amount);
-		if (keyword != Game.Keyword.PAIN) return;
+		if (keyword != Keyword.PAIN) return;
 		//UnityEngine.Debug.Log(this + " flee pain reaction model Not returned");
 		//I received pain
 		//How should I react

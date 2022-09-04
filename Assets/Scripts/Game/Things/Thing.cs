@@ -2,20 +2,20 @@
 using UnityEngine;
 using StoryGenerator.World;
 using System.Collections.Generic;
-using System;
+using GameEnums;
  
 public partial class Thing
 {
 
 	public delegate void						DEL_UPDATE(World world, Thing thing, float timeElapsed);	
 	public delegate List<KeywordInformation>	DEL_GET_KEYWORDS();
-	public delegate float						DEL_TAKEN_KEYWORD(Game.Keyword keywordToRequest, float requestedAmount);
+	public delegate float						DEL_TAKEN_KEYWORD(Keyword keywordToRequest, float requestedAmount);
 
 	public delegate void DEL_POSITION_INDEX_CHANGED	(Thing thing, int xBefore, int yBefore, int xNew, int yNew);
 	public delegate void DEL_POSITION_CHANGED		(Thing thing, float xBefore, float yBefore, float xNew, float yNew);
 
-	public delegate void DEL_RECEIVE_KEYWORD(Thing me, Thing giver, Game.Keyword keyword, float amount);
-	//public delegate void DEL_CONSUME_KEYWORD(Thing me, Thing giver, Game.Keyword keyword, float amount);
+	public delegate void DEL_RECEIVE_KEYWORD(Thing me, Thing giver, Keyword keyword, float amount);
+	//public delegate void DEL_CONSUME_KEYWORD(Thing me, Thing giver, Keyword keyword, float amount);
 
 	public List<DEL_UPDATE>			OnUpdate		= new List<DEL_UPDATE>();
 	public List<DEL_GET_KEYWORDS>	OnGetKeywords	= new List<DEL_GET_KEYWORDS>();
@@ -29,7 +29,7 @@ public partial class Thing
 
 	static float ZEROf = 0.01f;
 
-	Game.CATEGORY category;
+	CATEGORY category;
 
 
 
@@ -39,7 +39,7 @@ public partial class Thing
 
 	#region properties
 
-	public Game.CATEGORY Category { get { return this.category; } 
+	public CATEGORY Category { get { return this.category; } 
 		//set { this.category = value; } 
 	}
 
@@ -93,13 +93,13 @@ public partial class Thing
 		this.y = 0;
 	}
 	
-	public Thing(Game.CATEGORY type )
+	public Thing(CATEGORY type )
 	{
 		this.category = type;
 		baseInit();
 
 	}
-	public Thing (Game.CATEGORY type  , float x = 0, float y=0)
+	public Thing (CATEGORY type  , float x = 0, float y=0)
 	{
 		baseInit();
 		this.category = type;
@@ -110,8 +110,8 @@ public partial class Thing
 
 
 
-	public delegate bool DEL_CAN_FACE(World world, Thing me, Game.Direction direction);
-	public delegate void DEL_FACE(World world, Thing me, Game.Direction dirOld, Game.Direction dirNow);
+	public delegate bool DEL_CAN_FACE(World world, Thing me, Direction direction);
+	public delegate void DEL_FACE(World world, Thing me, Direction dirOld, Direction dirNow);
 
 	
 
@@ -161,7 +161,7 @@ public partial class Thing
 	}
 
 	//Giver game me keyword of X amount
-	public virtual void		Keyword_Receive(Thing giver, Game.Keyword keyword, float amount)
+	public virtual void		Keyword_Receive(Thing giver, Keyword keyword, float amount)
 	{
 		for(int i = 0; i< OnReceiveKeyword.Count; i++)
 		{
@@ -170,7 +170,7 @@ public partial class Thing
 
 	}
 
-	public virtual float	Keyword_Taken(Game.Keyword keywordToRequest, float requestedAmount)
+	public virtual float	Keyword_Taken(Keyword keywordToRequest, float requestedAmount)
 	{
 		float remainingAmountToTakeFromMe = requestedAmount;
 		//Debug.Log("TakenKeywords Called " + keywordToRequest + " for " + requestedAmount);

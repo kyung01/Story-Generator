@@ -1,13 +1,13 @@
 ﻿using StoryGenerator.World;
 using System.Collections.Generic;
 using UnityEngine;
-
+using GameEnums;
 public class BodyTaskable : BodyBase
 {
 	/// <summary>
 	/// This is the list of task this body part can perform
 	/// </summary>
-	public List<Game.TaskType> tasks = new List<Game.TaskType>();
+	public List<TaskType> tasks = new List<TaskType>();
 	
 	bool isReady = true;
 	float timePassed = 0;

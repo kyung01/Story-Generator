@@ -1,5 +1,5 @@
 ﻿using StoryGenerator.World;
-using System;
+using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,14 +22,14 @@ public class Stomach : BodyBase
 		nutritionReceivingBodies.Add(b);
 	}
 
-	void hdrThingConsumedKeyword(Thing me, Thing giver, Game.Keyword keyword, float amount)
+	void hdrThingConsumedKeyword(Thing me, Thing giver, Keyword keyword, float amount)
 	{
-		if (!Game.IsKeywordCompatible(Game.Keyword.FOOD, keyword)) return;
+		if (!Game.IsKeywordCompatible(Keyword.FOOD, keyword)) return;
 		for(int i = 0; i < nutritionReceivingBodies.Count; i++)
 		{
-			//UnityEngine.Debug.Log("hdrThingConsumedKeyword " + Game.IsKeywordCompatible(Game.Keyword.FOOD, keyword) + " " + keyword);
+			//UnityEngine.Debug.Log("hdrThingConsumedKeyword " + Game.IsKeywordCompatible(Keyword.FOOD, keyword) + " " + keyword);
 			//UnityEngine.Debug.Log("hdrThingConsumedKeyword "+(amount / nutritionReceivingBodies.Count));
-			nutritionReceivingBodies[i].ConsumeKeyword(Game.Keyword.NUTRITION, amount / nutritionReceivingBodies.Count);
+			nutritionReceivingBodies[i].ConsumeKeyword(Keyword.NUTRITION, amount / nutritionReceivingBodies.Count);
 		}
 		this.hunger -= amount;
 	}
@@ -46,7 +46,7 @@ public class Stomach : BodyBase
 		float hungerIncreased = hungerIncreaseSpeed * timeElapsed;
 		//UnityEngine.Debug.Log(this + " hunger increased " + hungerIncreased);
 		hunger += hungerIncreased;
-		thing.Keyword_Receive(thing, Game.Keyword.HUNGER, hungerIncreased);
+		thing.Keyword_Receive(thing, Keyword.HUNGER, hungerIncreased);
 
 	}
 }

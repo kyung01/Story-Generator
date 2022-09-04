@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using StoryGenerator.World;
-using System;
+using GameEnums;
 
 public partial class WorldController
 {
@@ -19,7 +19,7 @@ public partial class WorldController
 	
 
 	public static WorldController INSTANCE;
-	private Game.Direction directionToBuild = Game.Direction.UP;
+	private Direction directionToBuild = Direction.UP;
 
 	private static World World { get { return INSTANCE.world; } }
 	private static WorldThingSelector Selector { get { return INSTANCE.worldThingSelector; } }
@@ -82,7 +82,7 @@ public partial class WorldController
 	{
 		Selector.Select(World, 0, 0, -1, -1);
 	}
-	public static void SetCommand(Command command, Game.CATEGORY thingToBuild = Game.CATEGORY.UNDEFINED)
+	public static void SetCommand(Command command, CATEGORY thingToBuild = CATEGORY.UNDEFINED)
 	{
 		INSTANCE.command = command;
 
@@ -97,7 +97,7 @@ public partial class WorldController
 		}
 	}
 
-	internal static void SetBuildingDirection(Game.Direction directionToBuild)
+	internal static void SetBuildingDirection(Direction directionToBuild)
 	{
 		INSTANCE.directionToBuild = directionToBuild;
 	}
@@ -119,7 +119,7 @@ public partial class WorldController
 	World world;
 	WorldThingSelector worldThingSelector = new WorldThingSelector();
 	Command command;
-	Game.CATEGORY thingToBuild = Game.CATEGORY.UNDEFINED;
+	CATEGORY thingToBuild = CATEGORY.UNDEFINED;
 
 
 	private WorldController(World world)

@@ -5,16 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using GameEnums;
 
 public class StockpileZone : Zone
 {
-	List<Game.CATEGORY> acceptableTypes = new List<Game.CATEGORY>();
+	List<CATEGORY> acceptableTypes = new List<CATEGORY>();
 	
 	public StockpileZone()
 	{
 		this.type = TYPE.STOCKPILE;
-		var values = System.Enum.GetValues(typeof(Game.CATEGORY));
-		foreach(Game.CATEGORY v in values)
+		var values = System.Enum.GetValues(typeof(CATEGORY));
+		foreach(CATEGORY v in values)
 		{
 			acceptableTypes.Add(v);
 		}

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using GameEnums;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +24,7 @@ public class HouseModule : ThingModule
 		this.house = houseZone;
 	}
 
-	internal List<Thing> GetThings(List<Game.Keyword> requiredKeywords)
+	internal List<Thing> GetThings(List<Keyword> requiredKeywords)
 	{
 		return new List<Thing>();
 	}

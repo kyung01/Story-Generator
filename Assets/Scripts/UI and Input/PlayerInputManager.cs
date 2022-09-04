@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
+using GameEnums;
 
 public class PlayerInputManager : MonoBehaviour
 {
 	[SerializeField] UIOrganizer uiOrganizer;
 
 	UIEnums.FEEDBACK selectedCommand = UIEnums.FEEDBACK.NONE;
-	Game.Direction directionToBuild = Game.Direction.DOWN;
+	Direction directionToBuild = Direction.DOWN;
 
 	public void Awake()
 	{
@@ -52,16 +52,16 @@ public class PlayerInputManager : MonoBehaviour
 			switch (value)
 			{
 				case UIEnums.FEEDBACK.BUILD_WALL:
-					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: Game.CATEGORY.WALL);
+					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: CATEGORY.WALL);
 					break;
 				case UIEnums.FEEDBACK.BUILD_DOOR:
-					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: Game.CATEGORY.DOOR);
+					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: CATEGORY.DOOR);
 					break;
 				case UIEnums.FEEDBACK.BUILD_ROOF:
-					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: Game.CATEGORY.ROOF);
+					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: CATEGORY.ROOF);
 					break;
 				case UIEnums.FEEDBACK.BUILD_BED:
-					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: Game.CATEGORY.BED);
+					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: CATEGORY.BED);
 					break;
 				default:
 					break;
@@ -84,7 +84,7 @@ public class PlayerInputManager : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.R))
 		{
 			var dirBefore = directionToBuild;
-			directionToBuild = (Game.Direction)(((int)directionToBuild + 2) % 8);
+			directionToBuild = (Direction)(((int)directionToBuild + 2) % 8);
 			Debug.Log("R pressed " + dirBefore +"->"+ directionToBuild);
 			WorldController.SetBuildingDirection(directionToBuild);
 

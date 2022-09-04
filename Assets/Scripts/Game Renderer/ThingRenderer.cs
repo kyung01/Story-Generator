@@ -1,6 +1,6 @@
 ﻿using StoryGenerator.World.Things.Actors;
-using System.Collections;
 using UnityEngine;
+using GameEnums;
 
 public class ThingRenderer : MonoBehaviour
 {
@@ -28,38 +28,38 @@ public class ThingRenderer : MonoBehaviour
 		//Debug.Log("I have a " +thing.T);
 		switch (thing.Category)
 		{
-			case Game.CATEGORY.UNDEFINED:
+			case CATEGORY.UNDEFINED:
 				Debug.LogError(thing + " ThingRenderer->RenderThing->RenderType being undefined " + thing.Category + thing.XY);
 				break;
-			case Game.CATEGORY.ROCK:
+			case CATEGORY.ROCK:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Rock;
 				break;
-			case Game.CATEGORY.HUMAN:
+			case CATEGORY.HUMAN:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Human;
 				break;
-			case Game.CATEGORY.GRASS:
+			case CATEGORY.GRASS:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Grass;
 				break;
-			case Game.CATEGORY.BUSH:
+			case CATEGORY.BUSH:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Bush;
 				break;
-			case Game.CATEGORY.REED:
+			case CATEGORY.REED:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Reed;
 				break;
-			case Game.CATEGORY.RABBIT:
+			case CATEGORY.RABBIT:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Rabbit;
 				break;
-			case Game.CATEGORY.BEAR:
+			case CATEGORY.BEAR:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Bear;
 				break;
-			case Game.CATEGORY.BED:
+			case CATEGORY.BED:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Bed_Single;
 				meshRenderer.gameObject.transform.localScale = new Vector3(1,2,1);
 				meshRenderer.gameObject.transform.localPosition = new Vector3(0, .5f, 0); ;
 				break;
-			case Game.CATEGORY.WALL:
+			case CATEGORY.WALL:
 				break;
-			case Game.CATEGORY.DOOR:
+			case CATEGORY.DOOR:
 				break;
 			default:
 				break;
@@ -89,7 +89,7 @@ public class ThingRenderer : MonoBehaviour
 		effect.text.text = "HP " + healthBefore + ((dealtChange > 0) ? " + " : " - ") + Mathf.Abs(dealtChange) + " = " + healthAfter;
 	}
 
-	Game.Direction dirFacing = Game.Direction.UP;
+	Direction dirFacing = Direction.UP;
 	public virtual void Update()
 	{
 		Vector2 pos = new Vector2(this.transform.position.x, this.transform.position.y);
@@ -98,53 +98,53 @@ public class ThingRenderer : MonoBehaviour
 
 		textMesh.text = "";
 		{
-			if(thing.Category == Game.CATEGORY.HUMAN)
+			if(thing.Category == CATEGORY.HUMAN)
 			{
 				var thing = (ThingWithPhysicalPresence)this.thing;
-				if (thing.Category == Game.CATEGORY.HUMAN)
+				if (thing.Category == CATEGORY.HUMAN)
 				{
 					textMesh.text += "" + thing.DirectionFacing + "\n";
 
 				}
-				if (thing.Category == Game.CATEGORY.HUMAN && dirFacing != thing.DirectionFacing)
+				if (thing.Category == CATEGORY.HUMAN && dirFacing != thing.DirectionFacing)
 				{
 					dirFacing = thing.DirectionFacing;
-					if (thing.DirectionFacing == Game.Direction.UP)
+					if (thing.DirectionFacing == Direction.UP)
 					{
 						meshRenderer.material.mainTexture = SPRITE_LIST.facingUp;
 
 					}
-					if (thing.DirectionFacing == Game.Direction.UP_RIGHT)
+					if (thing.DirectionFacing == Direction.UP_RIGHT)
 					{
 						meshRenderer.material.mainTexture = SPRITE_LIST.facingUpRight;
 
 					}
-					if (thing.DirectionFacing == Game.Direction.RIGHT)
+					if (thing.DirectionFacing == Direction.RIGHT)
 					{
 						meshRenderer.material.mainTexture = SPRITE_LIST.facingRight;
 
 					}
-					if (thing.DirectionFacing == Game.Direction.RIGHT_DOWN)
+					if (thing.DirectionFacing == Direction.RIGHT_DOWN)
 					{
 						meshRenderer.material.mainTexture = SPRITE_LIST.facingRightDown;
 
 					}
-					if (thing.DirectionFacing == Game.Direction.DOWN)
+					if (thing.DirectionFacing == Direction.DOWN)
 					{
 						meshRenderer.material.mainTexture = SPRITE_LIST.facingDown;
 
 					}
-					if (thing.DirectionFacing == Game.Direction.DOWN_LEFT)
+					if (thing.DirectionFacing == Direction.DOWN_LEFT)
 					{
 						meshRenderer.material.mainTexture = SPRITE_LIST.facingDownLeft;
 
 					}
-					if (thing.DirectionFacing == Game.Direction.LEFT)
+					if (thing.DirectionFacing == Direction.LEFT)
 					{
 						meshRenderer.material.mainTexture = SPRITE_LIST.facingLeft;
 
 					}
-					if (thing.DirectionFacing == Game.Direction.LEFT_UP)
+					if (thing.DirectionFacing == Direction.LEFT_UP)
 					{
 						meshRenderer.material.mainTexture = SPRITE_LIST.facingLeftUp;
 
@@ -160,8 +160,8 @@ public class ThingRenderer : MonoBehaviour
 			var thingAlive = thing;
 			if (thingAlive == null) return;
 
-			if (!(thingAlive.Category == Game.CATEGORY.RABBIT  || thingAlive.Category == Game.CATEGORY.BEAR 
-				|| thingAlive.Category == Game.CATEGORY.HUMAN
+			if (!(thingAlive.Category == CATEGORY.RABBIT  || thingAlive.Category == CATEGORY.BEAR 
+				|| thingAlive.Category == CATEGORY.HUMAN
 				)) return;
 			if(thing is ActorBase)
 			{

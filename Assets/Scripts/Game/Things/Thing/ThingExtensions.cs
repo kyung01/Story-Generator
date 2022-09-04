@@ -1,5 +1,5 @@
 ﻿using StoryGenerator.World;
-using System;
+using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +14,7 @@ public static class ThingExtensions
 			list[i](world, thing, timeElapsed);
 		}
 	}
-	static public bool Contains(this List<KeywordInformation> list, Game.Keyword keyword)
+	static public bool Contains(this List<KeywordInformation> list, Keyword keyword)
 	{
 		foreach (var info in list)
 		{
@@ -23,7 +23,7 @@ public static class ThingExtensions
 		}
 		return false;
 	}
-	static public bool Contains(this List<KeywordInformation> list, Game.Keyword keyword, KeywordInformation.State state)
+	static public bool Contains(this List<KeywordInformation> list, Keyword keyword, KeywordInformation.State state)
 	{
 		foreach (var info in list)
 		{
@@ -33,7 +33,7 @@ public static class ThingExtensions
 		return false;
 	}
 
-	static public float Get(this List<KeywordInformation> list, Game.Keyword keyword)
+	static public float Get(this List<KeywordInformation> list, Keyword keyword)
 	{
 		float amount = 0;
 		foreach (var info in list)
@@ -52,11 +52,11 @@ public static class ThingExtensions
 		return 1;
 	}
 
-	static public Dictionary<Game.TaskType, List<BodyTaskable>> GetBodiesForTask(this Thing thing)
+	static public Dictionary<TaskType, List<BodyTaskable>> GetBodiesForTask(this Thing thing)
 	{
 		bool IsThisThing_ThingBodyWithTask = thing.moduleBody != null;
 
-		var dicTaskAvailableBodies = new Dictionary<Game.TaskType, List<BodyTaskable>>();
+		var dicTaskAvailableBodies = new Dictionary<TaskType, List<BodyTaskable>>();
 		if (!IsThisThing_ThingBodyWithTask)
 		{
 			//UnityEngine.Debug.Log( " GetBodiesForTask :: Thing doesn't have a body");
@@ -72,7 +72,7 @@ public static class ThingExtensions
 
 	}
 
-	static void sortBodiesForTask(ref Dictionary<Game.TaskType, List<BodyTaskable>> dicTaskAvailableBodies, BodyBase body)
+	static void sortBodiesForTask(ref Dictionary<TaskType, List<BodyTaskable>> dicTaskAvailableBodies, BodyBase body)
 	{
 		bool isBodyTaskable = body is BodyTaskable;
 		if (isBodyTaskable)
@@ -95,7 +95,7 @@ public static class ThingExtensions
 		}
 	}
 
-	private static void sort(ref Dictionary<Game.TaskType, List<BodyTaskable>> dicTaskAvailableBodies, BodyTaskable bt)
+	private static void sort(ref Dictionary<TaskType, List<BodyTaskable>> dicTaskAvailableBodies, BodyTaskable bt)
 	{
 		//UnityEngine.Debug.Log("Sort " + bt.tasks.Count);
 		foreach(var task in bt.tasks)

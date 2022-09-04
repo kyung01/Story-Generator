@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using StoryGenerator.World;
-using System;
+using GameEnums;
 
 public class Eye : BodyBase
 {
@@ -16,10 +16,10 @@ public class Eye : BodyBase
 		this.sight = sight;
 		this.type = Type.EYE;
 	}
-	public override void ConsumeKeyword(Game.Keyword keyword, float amount)
+	public override void ConsumeKeyword(Keyword keyword, float amount)
 	{
 		base.ConsumeKeyword(keyword, amount);
-		if(keyword == Game.Keyword.VITAMIN_A)
+		if(keyword == Keyword.VITAMIN_A)
 		{
 			//
 			vitaminALevel += amount;

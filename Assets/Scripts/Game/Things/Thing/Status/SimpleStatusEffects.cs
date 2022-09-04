@@ -1,5 +1,5 @@
 ﻿using StoryGenerator.World;
-using System;
+using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,7 +37,7 @@ namespace StoryGenerator.Status
 		public override void Update(World.World world, Thing thing, float timeElapsedTick)
 		{
 			base.Update(world, thing, timeElapsedTick);
-			thing.Keyword_Receive(thing, Game.Keyword.GOOD_FEELING, timeElapsedTick);
+			thing.Keyword_Receive(thing, Keyword.GOOD_FEELING, timeElapsedTick);
 		}
 	}
 

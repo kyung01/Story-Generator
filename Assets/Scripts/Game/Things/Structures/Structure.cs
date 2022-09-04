@@ -1,4 +1,4 @@
-﻿using System;
+﻿using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +8,12 @@ using UnityEngine;
 
 public class Structure : ThingWithPhysicalPresence
 {
-	CAIModel CAIModel;
+	CAIModel _CAIModel;
+	public CAIModel CAIModel { get { return this._CAIModel; } }
 
-	public Structure(Game.CATEGORY category, CAIModel data) :base(category)
+
+	public Structure(CATEGORY category, CAIModel data) :base(category)
 	{
-		this.CAIModel = data;
+		this._CAIModel = data;
 	}
 }

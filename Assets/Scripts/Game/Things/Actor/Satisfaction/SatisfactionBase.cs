@@ -1,4 +1,4 @@
-﻿using System;
+﻿using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +25,7 @@ namespace StoryGenerator.World.Things.Actors.Satisfaction
 			this.T = type;
 		}
 
-		public virtual void ReceiveKeyword(Game.Keyword keyword)
+		public virtual void ReceiveKeyword(Keyword keyword)
 		{
 
 		}

@@ -1,6 +1,6 @@
 ﻿using StoryGenerator.World;
 using StoryGenerator.World.Things.Actors;
-using System;
+using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +23,7 @@ public abstract class MoveTo : Action
 	bool shouldUpdateNewPath = true;
 	float timeElapsedForNewPathSearching = 0;
 	List<Vector2> pathRegistered = new List<Vector2>();
-	List<Game.Direction> pathFacingDirection = new List<Game.Direction>();
+	List<Direction> pathFacingDirection = new List<Direction>();
 
 	bool isOpenDoor = false;
 
@@ -57,11 +57,11 @@ public abstract class MoveTo : Action
 			{
 				if (diff.y > 0)
 				{
-					pathFacingDirection.Add(Game.Direction.UP_RIGHT);
+					pathFacingDirection.Add(Direction.UP_RIGHT);
 				}
 				else if (diff.y < 0)
 				{
-					pathFacingDirection.Add(Game.Direction.RIGHT_DOWN);
+					pathFacingDirection.Add(Direction.RIGHT_DOWN);
 
 				}
 			}
@@ -69,11 +69,11 @@ public abstract class MoveTo : Action
 			{
 				if (diff.y > 0)
 				{
-					pathFacingDirection.Add(Game.Direction.LEFT_UP);
+					pathFacingDirection.Add(Direction.LEFT_UP);
 				}
 				else if (diff.y < 0)
 				{
-					pathFacingDirection.Add(Game.Direction.DOWN_LEFT);
+					pathFacingDirection.Add(Direction.DOWN_LEFT);
 
 				}
 
@@ -85,11 +85,11 @@ public abstract class MoveTo : Action
 			//base it around x Axis
 			if (diff.x > 0)
 			{
-				pathFacingDirection.Add(Game.Direction.RIGHT);
+				pathFacingDirection.Add(Direction.RIGHT);
 			}
 			else if (diff.x < 0)
 			{
-				pathFacingDirection.Add(Game.Direction.LEFT);
+				pathFacingDirection.Add(Direction.LEFT);
 
 			}
 		}
@@ -97,11 +97,11 @@ public abstract class MoveTo : Action
 		{
 			if (diff.y > 0)
 			{
-				pathFacingDirection.Add(Game.Direction.UP);
+				pathFacingDirection.Add(Direction.UP);
 			}
 			else if (diff.y < 0)
 			{
-				pathFacingDirection.Add(Game.Direction.DOWN);
+				pathFacingDirection.Add(Direction.DOWN);
 
 			}
 		}
@@ -225,7 +225,7 @@ public abstract class MoveTo : Action
 	{
 		foreach (var t in things)
 		{
-			if (t.Category == Game.CATEGORY.DOOR)
+			if (t.Category == CATEGORY.DOOR)
 			{
 				var d = (Door)t;
 				if (d.IsInstalled) return d;

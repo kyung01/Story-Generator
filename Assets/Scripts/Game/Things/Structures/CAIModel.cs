@@ -1,4 +1,4 @@
-﻿using System;
+﻿using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +8,19 @@ using UnityEngine;
 public class CAIModel
 {
 
-	public List<Vector2> collisionMap;
-	public List<Vector3> avoidanceMap;
-	public List<Vector2> installationMap;
+	List<Vector2> collisionMap = new List<Vector2>();
+	List<Vector3> avoidanceMap = new List<Vector3>();
+	List<Vector2> installationMap = new List<Vector2>();
+	public CAIModel()
+	{
+
+	}
+	public CAIModel(List<Vector2> collision, List<Vector2> installation, List<Vector3> avoidance)
+	{
+		this.collisionMap = collision;
+		this.avoidanceMap = avoidance;
+		this.installationMap = installation;
+	}
 
 	public void setCollisionMap(params Vector2[] data)
 	{
@@ -56,7 +66,7 @@ public class CAIModel
 		return getRotatedVersion(this.installationMap, rotation);
 	}
 
-	public List<Vector2> GetAvoidanceMap(int rotation)
+	public List<Vector3> GetAvoidanceMap(int rotation)
 	{
 		return getRotatedVersion(this.avoidanceMap, rotation);
 	}

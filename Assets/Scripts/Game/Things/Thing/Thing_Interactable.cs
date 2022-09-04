@@ -1,5 +1,5 @@
 ﻿
-using System;
+using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class Thing_Interactable : Thing
 {
-	public Thing_Interactable(Game.CATEGORY type) : base(type)
+	public Thing_Interactable(CATEGORY type) : base(type)
 	{
 
 	}
@@ -37,7 +37,7 @@ public class Thing_Interactable : Thing
 
 	internal static bool Is(Thing thing)
 	{
-		throw new NotImplementedException();
+		throw new System.NotImplementedException();
 	}
 
 	public virtual bool CheckGetCarriedBy(Thing thing)

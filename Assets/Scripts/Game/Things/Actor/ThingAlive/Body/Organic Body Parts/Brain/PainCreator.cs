@@ -1,4 +1,4 @@
-﻿using System;
+﻿using GameEnums;
 using UnityEditor;
 using UnityEngine;
 
@@ -21,13 +21,13 @@ public class PainCreator : BodyBase
 		thing.OnReceiveKeyword.Add(hdrReceiveKeyword);
 	}
 
-	private void hdrReceiveKeyword(Thing me,Thing giver, Game.Keyword keyword, float amount)
+	private void hdrReceiveKeyword(Thing me,Thing giver, Keyword keyword, float amount)
 	{
-		if (keyword != Game.Keyword.NEGATIVE_HEALTH_CHANGE)
+		if (keyword != Keyword.NEGATIVE_HEALTH_CHANGE)
 			return;
 		//Health negative change was received
 		//Create "pain"
-		me.Keyword_Receive(giver, Game.Keyword.PAIN, amount);
+		me.Keyword_Receive(giver, Keyword.PAIN, amount);
 	}
 
 }

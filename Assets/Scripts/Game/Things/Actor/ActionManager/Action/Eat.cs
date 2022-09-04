@@ -1,6 +1,6 @@
 ﻿using StoryGenerator.World;
 using StoryGenerator.World.Things.Actors;
-using System;
+using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,9 +14,9 @@ using UnityEngine;
 public class Eat :Action
 {
 	Thing targetThing;
-	Game.Keyword keywordToRequest;
+	Keyword keywordToRequest;
 	float keywordAmount ;
-	public Eat(Thing thing, Game.Keyword keyword, float amount):base(Type.EAT)
+	public Eat(Thing thing, Keyword keyword, float amount):base(Type.EAT)
 	{
 		this.name = "Eat";
 		this.targetThing = thing;

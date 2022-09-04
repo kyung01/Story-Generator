@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
+using System;
+using GameEnums;
 
 public class Mouth : BodyTaskable
 {
@@ -10,7 +12,7 @@ public class Mouth : BodyTaskable
 	public Mouth()
 	{
 		this.type = Type.MOUTH;
-		this.tasks.Add(Game.TaskType.BITE);
+		this.tasks.Add(TaskType.BITE);
 		this.SetName("Mouth");
 	}
 	public void Bite(Thing me, Thing other)

@@ -1,4 +1,4 @@
-using System;
+using GameEnums;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +9,7 @@ public class UIZoneSetting : MonoBehaviour
 	[SerializeField] GameObject content;
 	private void Awake()
 	{
-		var values = Enum.GetValues(typeof(Game.CATEGORY));
+		var values = System.Enum.GetValues(typeof(CATEGORY));
 
 		foreach (var t in values)
 		{

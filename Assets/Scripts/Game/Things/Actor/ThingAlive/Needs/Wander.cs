@@ -1,6 +1,6 @@
 ﻿using StoryGenerator.World;
 using StoryGenerator.World.Things.Actors;
-using System;
+using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,8 +16,8 @@ public class Wander : NeedBase
 		this.name = "Wander";
 		this.explanation = "Need to move around";
 		this.fullfillment = 100;
-		this.requiredKeywords.Add( Game.Keyword.MOVED);
-		this.stressKeywords.Add(Game.Keyword.STILL);
+		this.requiredKeywords.Add( Keyword.MOVED);
+		this.stressKeywords.Add(Keyword.STILL);
 	}
 
 	public override void Init(Thing thing)
@@ -26,7 +26,7 @@ public class Wander : NeedBase
 		thing.OnReceiveKeyword.Add(hdrConsumeKeyword);
 	}
 
-	private void hdrConsumeKeyword(Thing me, Thing giver, Game.Keyword keyword, float amount)
+	private void hdrConsumeKeyword(Thing me, Thing giver, Keyword keyword, float amount)
 	{
 		if (Game.IsKeywordCompatible(this.requiredKeywords, keyword))
 		{

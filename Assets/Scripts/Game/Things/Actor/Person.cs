@@ -1,4 +1,4 @@
-﻿using System;
+﻿using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +9,7 @@ namespace StoryGenerator.World.Things.Actors{
 	public class Person : ActorBase
 	{
 		
-		public Person( Game.CATEGORY type ):base(type)
+		public Person( CATEGORY type ):base(type)
 		{
 			addSatisfaction(new Satisfaction.Happy());
 			addSatisfaction(new Satisfaction.Energy());

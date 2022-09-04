@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using GameEnums;
 
 
 public class KeywordContainer : ThingModule
@@ -7,10 +8,10 @@ public class KeywordContainer : ThingModule
 	/// <summary>
 	/// Plants provide basic keywords for free as a form of "fruit"
 	/// </summary>
-	internal Dictionary<Game.Keyword, float> container = new Dictionary<Game.Keyword, float>();
+	internal Dictionary<Keyword, float> container = new Dictionary<Keyword, float>();
 
 
-	public override float hdrTakenKeyword(Game.Keyword keywordToRequest, float requestedAmount)
+	public override float hdrTakenKeyword(Keyword keywordToRequest, float requestedAmount)
 	{
 		if (!container.ContainsKey(keywordToRequest)) return 0;
 		float giveThisAmountTo = Mathf.Min(requestedAmount, container[keywordToRequest]);
@@ -27,16 +28,16 @@ public class KeywordContainer : ThingModule
 		}
 		return returnList;
 	}
-	public float Get(Game.Keyword keyword)
+	public float Get(Keyword keyword)
 	{
 		return this.container.ContainsKey(keyword) ? this.container[keyword] : 0;
 	}
-	public bool Contains(Game.Keyword keyword)
+	public bool Contains(Keyword keyword)
 	{
 		return this.container.ContainsKey(keyword);
 	}
 
-	public void Add(Game.Keyword keyword, int v)
+	public void Add(Keyword keyword, int v)
 	{
 		if (!this.container.ContainsKey(keyword)) this.container.Add(keyword, 0);
 
@@ -51,7 +52,7 @@ public class Thing_Describable : Thing_Interactable {
 	KeywordContainer thingContainer;
 	public KeywordContainer KeywordContainer { get { return this.thingContainer; } }
 
-	public Thing_Describable(Game.CATEGORY type) : base(type)
+	public Thing_Describable(CATEGORY type) : base(type)
 	{
 		thingContainer = new KeywordContainer();
 		thingContainer.Init(this);

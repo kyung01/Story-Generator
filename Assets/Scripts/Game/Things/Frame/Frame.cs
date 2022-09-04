@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GameEnums;
 
 
 public class CollisionModel {
@@ -21,7 +22,7 @@ public class Frame : Thing
 	public int Height { get { return this.height; } }
 
 
-	public Frame(Game.CATEGORY category):base(category)
+	public Frame(CATEGORY category):base(category)
 	{
 	}
 

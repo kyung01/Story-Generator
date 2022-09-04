@@ -1,5 +1,5 @@
 ﻿using StoryGenerator.World;
-using System;
+using GameEnums;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,7 +21,7 @@ public class UIMain : MonoBehaviour
 	}
 
 	State state = State.DEFAULT;
-	Game.CATEGORY thingToBuild = Game.CATEGORY.WALL;
+	CATEGORY thingToBuild = CATEGORY.WALL;
 
 	World world;
 	//ZoneOrganizer zOrg;

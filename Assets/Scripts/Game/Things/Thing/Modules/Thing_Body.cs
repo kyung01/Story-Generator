@@ -1,5 +1,5 @@
 ﻿using StoryGenerator.World;
-using System;
+using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -54,7 +54,7 @@ public class ThingBodyManager : ThingModule
 		return keywordsReturn;
 	}
 
-	public override float hdrTakenKeyword(Game.Keyword keywordToRequest, float requestedAmount)
+	public override float hdrTakenKeyword(Keyword keywordToRequest, float requestedAmount)
 	{
 		float amountIProvidedWithItemsIHave = requestedAmount;
 		float remainingDebt = requestedAmount - amountIProvidedWithItemsIHave;

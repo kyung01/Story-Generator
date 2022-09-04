@@ -1,8 +1,10 @@
-﻿using System;
+﻿using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GameEnums;
+
 namespace StoryGenerator.World.Things.Actors
 {
 	public partial class ActorBase 
@@ -59,9 +61,9 @@ namespace StoryGenerator.World.Things.Actors
 
 		private static bool IsAnActor(Thing t)
 		{
-			if (t.Category ==Game.CATEGORY.HUMAN) return true;
-			if (t.Category ==Game.CATEGORY.RABBIT) return true;
-			if (t.Category ==Game.CATEGORY.BEAR) return true;
+			if (t.Category ==CATEGORY.HUMAN) return true;
+			if (t.Category ==CATEGORY.RABBIT) return true;
+			if (t.Category ==CATEGORY.BEAR) return true;
 			return false;
 		}
 

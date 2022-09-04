@@ -1,9 +1,6 @@
-﻿using StoryGenerator.World;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using GameEnums;
 
 namespace StoryGenerator.World.Things.Actors
 {
@@ -23,8 +20,8 @@ namespace StoryGenerator.World.Things.Actors
 		}
 
 		List<Satisfaction.SatisfactionBase> satisfactions = new List<Satisfaction.SatisfactionBase>();
-		internal List<Game.Keyword> foodList = new List<Game.Keyword>();
-		public ActorBase(Game.CATEGORY type) : base(type)
+		internal List<Keyword> foodList = new List<Keyword>();
+		public ActorBase(CATEGORY type) : base(type)
 		{
 
 			this.thingActManager = new ThingActionManager();

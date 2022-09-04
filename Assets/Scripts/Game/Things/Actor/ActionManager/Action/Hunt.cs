@@ -1,6 +1,6 @@
 ﻿using StoryGenerator.World;
 using StoryGenerator.World.Things.Actors;
-using System;
+using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +10,10 @@ using UnityEngine;
 public class Hunt : Action
 {
 	Thing targetThing;
-	Game.Keyword keywordToRequest;
+	Keyword keywordToRequest;
 	float keywordAmountToRequest;
 
-	public Hunt(Thing thing, Game.Keyword keyword, float amount):base(Type.HUNT)
+	public Hunt(Thing thing, Keyword keyword, float amount):base(Type.HUNT)
 	{
 		this.name = "Hunt";
 		this.targetThing = thing;
@@ -36,14 +36,14 @@ public class Hunt : Action
 		//I am close enough to bite now
 		
 		var taskableBodies = thing.GetBodiesForTask();
-		bool isNoMethodOfAttacking = !taskableBodies.ContainsKey(Game.TaskType.BITE)|| taskableBodies[Game.TaskType.BITE].Count == 0;
+		bool isNoMethodOfAttacking = !taskableBodies.ContainsKey(TaskType.BITE)|| taskableBodies[TaskType.BITE].Count == 0;
 		if (isNoMethodOfAttacking)
 		{
 			Debug.Log("Hunt finished : no way to attack");
 			finish();
 			return;
 		}
-		var bitingParts = taskableBodies[Game.TaskType.BITE];
+		var bitingParts = taskableBodies[TaskType.BITE];
 		bool targetIsInSurrenderingState = false;
 		for(int i = 0; i< bitingParts.Count; i++)
 		{

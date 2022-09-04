@@ -1,5 +1,5 @@
 ﻿using StoryGenerator.NTerrain;
-using System;
+using GameEnums;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

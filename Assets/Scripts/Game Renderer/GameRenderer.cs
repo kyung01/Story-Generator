@@ -1,6 +1,7 @@
 ﻿using StoryGenerator.World;
 using System.Collections.Generic;
 using UnityEngine;
+using GameEnums;
 
 public class RenderedTerrainPieceInfo
 {
@@ -143,25 +144,25 @@ public class GameRenderer : MonoBehaviour
 
 	void InitRender(Thing t)
 	{
-		if (t.Category == Game.CATEGORY.GRASS)
+		if (t.Category == CATEGORY.GRASS)
 		{
 			var thingRenderer = Instantiate(PREFAB_GRASS_RENDERER);
 			thingRenderer.RenderThing(t, SPRITE_LIST);
 
 		}
-		else if (t.Category == Game.CATEGORY.WALL)
+		else if (t.Category == CATEGORY.WALL)
 		{
 
 			var wallRenderer = Instantiate(PREFAB_WALL_RENDERER);
 			wallRenderer.RenderThing(t);
 		}
-		else if (t.Category == Game.CATEGORY.DOOR)
+		else if (t.Category == CATEGORY.DOOR)
 		{
 			var doorRenderer = Instantiate(PREFAB_DOOR_RENDERER);
 			doorRenderer.RenderThing(t);
 
 		}
-		else if (t.Category == Game.CATEGORY.ROOF)
+		else if (t.Category == CATEGORY.ROOF)
 		{
 			var doorRenderer = Instantiate(PREFAB_ROOF_RENDERER);
 			doorRenderer.RenderThing(t);

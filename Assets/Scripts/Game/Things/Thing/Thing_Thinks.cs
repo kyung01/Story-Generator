@@ -1,6 +1,6 @@
 ﻿using StoryGenerator.World;
 using UnityEngine;
-using System;
+using GameEnums;
 using System.Collections.Generic;
 
 /// <summary>

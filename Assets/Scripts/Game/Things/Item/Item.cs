@@ -1,4 +1,4 @@
-﻿using System;
+﻿using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public class Item : Thing_Interactable
 {
-	public Item() : base(Game.CATEGORY.UNDEFINED)
+	public Item() : base(CATEGORY.UNDEFINED)
 	{
 
 	}

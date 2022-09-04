@@ -1,10 +1,8 @@
 ﻿using StoryGenerator.World;
 using StoryGenerator.World.Things.Actors;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
+using GameEnums;
 
 //T(thing)A(action)M(Manager) TAM
 //Manages action of a thing
@@ -115,7 +113,7 @@ public class ThingActionManager
 
 	public void Hunt(
 		Thing bestTargetThing, 
-		Game.Keyword requiredKeyword, float desiredKeywordAmount)
+		Keyword requiredKeyword, float desiredKeywordAmount)
 	{
 		this.actions.Add(new Hunt(bestTargetThing, requiredKeyword, desiredKeywordAmount));
 
@@ -123,7 +121,7 @@ public class ThingActionManager
 
 	public void Eat(
 		Thing bestTargetThing,
-		Game.Keyword requiredKeyword, float desiredKeywordAmount)
+		Keyword requiredKeyword, float desiredKeywordAmount)
 	{
 		this.actions.Add(new Eat(bestTargetThing, requiredKeyword, desiredKeywordAmount));
 	}
@@ -135,7 +133,7 @@ public class ThingActionManager
 		addAction(action, priorityLevel);
 	}
 
-	internal void RequestKeywordTransfer(Thing bestTargetThing, Game.Keyword requiredKeyword, float v)
+	internal void RequestKeywordTransfer(Thing bestTargetThing, Keyword requiredKeyword, float v)
 	{
 
 	}

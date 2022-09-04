@@ -1,5 +1,5 @@
 ﻿using StoryGenerator.World;
-using System;
+using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 public class ThingWithPhysicalPresence : Thing_Describable
 {
 
-	Game.Direction dirFacing;
-	public Game.Direction DirectionFacing { get { return this.dirFacing; } }
+	Direction dirFacing;
+	public Direction DirectionFacing { get { return this.dirFacing; } }
 
-	public ThingWithPhysicalPresence(Game.CATEGORY type) : base(type)
+	public ThingWithPhysicalPresence(CATEGORY type) : base(type)
 	{
 	}
 
 	public List<DEL_CAN_FACE> OnCanFace = new List<DEL_CAN_FACE>();
 	public List<DEL_FACE> OnFace = new List<DEL_FACE>();
 
-	public virtual bool Face(World world, Game.Direction direction)
+	public virtual bool Face(World world, Direction direction)
 	{
 		if (direction == this.dirFacing)
 		{
@@ -39,7 +39,7 @@ public class ThingWithPhysicalPresence : Thing_Describable
 		return true;
 	}
 
-	public virtual bool canFace(World world, Game.Direction direction)
+	public virtual bool canFace(World world, Direction direction)
 	{
 		for (int i = 0; i < OnCanFace.Count; i++)
 		{

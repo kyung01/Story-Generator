@@ -1,9 +1,8 @@
 ﻿using StoryGenerator.World;
-using System;
+using GameEnums;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UnityEngine;
+
 
 
 public class Door : Frame
@@ -30,7 +29,7 @@ public class Door : Frame
 
 	public float OpenLevel { get { return openNess; } }
 
-	public Door(): base(Game.CATEGORY.DOOR)
+	public Door(): base(CATEGORY.DOOR)
 	{
 	}
 	public void Open()
@@ -49,7 +48,7 @@ public class Door : Frame
 				break;
 			case State.SHOULD_OPEN:
 				openNess += doorOpenSpeed * timeElapsed;
-				openNess = Math.Min(1, openNess);
+				openNess = Mathf.Min(1, openNess);
 				if (openNess == 1)
 				{
 					this.doorOpenTimeElapsed = 0;
@@ -74,7 +73,7 @@ public class Door : Frame
 				else
 				{
 					openNess -= doorCloseSpeed * timeElapsed;
-					openNess = Math.Max(0, openNess);
+					openNess = Mathf.Max(0, openNess);
 				}
 				if(openNess == 0)
 				{
@@ -103,7 +102,7 @@ public class Door : Frame
 				//installed structure 
 
 			}
-			if (t.Category == Game.CATEGORY.FLOOR || t.Category == Game.CATEGORY.DOOR || t.Category == Game.CATEGORY.ROOF)
+			if (t.Category == CATEGORY.FLOOR || t.Category == CATEGORY.DOOR || t.Category == CATEGORY.ROOF)
 			{
 				//these dont get stuck
 				continue;

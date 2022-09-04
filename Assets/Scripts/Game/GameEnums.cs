@@ -1,15 +1,10 @@
-﻿using System;
+﻿using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameEnums { }
-
-public partial class Game
-{
-	//First level of category, defines what the thing is
-	//Category is required to understand what a thing is, and to sort things
+namespace GameEnums {
 	public enum CATEGORY
 	{
 		UNDEFINED = 0,
@@ -39,7 +34,7 @@ public partial class Game
 		BUSH
 	}
 
-	
+
 
 	public enum Direction
 	{
@@ -53,7 +48,6 @@ public partial class Game
 		LEFT_UP
 	}
 
-	
 	public enum Keyword
 	{
 		//Types of Thing
@@ -94,13 +88,22 @@ public partial class Game
 
 	//Types of action
 	//Indiciated inside body parts to be able to distinguish which body part can do which task
-	public enum TaskType { 
+	public enum TaskType
+	{
 		BITE,
 		HOWL,
 		HOLD,
 		PUNCH,
 		MOVE
 	}
+}
+
+public partial class Game
+{
+	//First level of category, defines what the thing is
+	//Category is required to understand what a thing is, and to sort things
+	
+
 
 	public static bool IsKeywordCompatible(Keyword original, Keyword testKeyword)
 	{

@@ -1,5 +1,5 @@
 ﻿using StoryGenerator.World;
-using System;
+using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,13 +14,13 @@ public class WorldThingSelector
 			return thingsISelected;
 		} 
 	}
-	Game.CATEGORY typeOfThingSelected = Game.CATEGORY.UNDEFINED;
+	CATEGORY typeOfThingSelected = CATEGORY.UNDEFINED;
 	int countOfThingsSelected = -1;
 	
 	List<List<Thing>> getAllThingsInWorld(World world, int x, int y, int width, int height)
 	{
 		List<Thing> things = new List<Thing>();
-		Dictionary<Game.CATEGORY, List<Thing>> sortedThings = new Dictionary<Game.CATEGORY, List<Thing>>();
+		Dictionary<CATEGORY, List<Thing>> sortedThings = new Dictionary<CATEGORY, List<Thing>>();
 		for (int i = 0; i < width; i++)
 		{
 			for (int j = 0; j < height; j++)

@@ -1,15 +1,15 @@
 ﻿using StoryGenerator.World;
 using StoryGenerator.World.Things.Actors;
-using System;
+using GameEnums;
 using System.Collections.Generic;
 
 public partial class Hunger_General : NeedBase { 
 
-	public static Hunger_General InitSimpleHunger(Game.Keyword keywordRequired, params HungerResolutionMethodType[] arr)
+	public static Hunger_General InitSimpleHunger(Keyword keywordRequired, params HungerResolutionMethodType[] arr)
 	{
 		Hunger_General hungerNeed = new Hunger_General();
 		hungerNeed.requiredKeywords.Add(keywordRequired);
-		hungerNeed.stressKeywords.Add(Game.Keyword.HUNGER);
+		hungerNeed.stressKeywords.Add(Keyword.HUNGER);
 		hungerNeed.methodsAvailable.AddRange(arr);
 		return hungerNeed;
 	}
@@ -29,8 +29,8 @@ public partial class Hunger_General : NeedBase
 	{
 		methodsAvailable.AddRange(arr);
 		//this.isHuntersHunger = isHuntersHunger;
-		//this.requiredKeywords.Add(Game.Keyword.FOOD);
-		//this.stressKeywords.Add( Game.Keyword.HUNGER);
+		//this.requiredKeywords.Add(Keyword.FOOD);
+		//this.stressKeywords.Add( Keyword.HUNGER);
 
 		this.name = "Hunger";
 		this.explanation = "A general need for food. It can be satisfied by any consumable that can be calssified as a food.";
@@ -44,7 +44,7 @@ public partial class Hunger_General : NeedBase
 	}
 
 	void getTheBestFoodSourceTarget(World world, Thing thing, bool isHunter, 
-		ref Thing targetThing, ref Game.Keyword keywordSelected)
+		ref Thing targetThing, ref Keyword keywordSelected)
 	{
 		List<Thing> thingsToEat = thing.ThinkGetEdible(world);
 		var thingsIsee = world.GetSightableThings(thing, thing.moduleBody.MainBody.GetSight());
@@ -63,7 +63,7 @@ public partial class Hunger_General : NeedBase
 	}
 
 	//Passive resolution is to eat something that's available freely
-	public bool resolution_passive(World world, ActorBase thing, ref Thing bestTargetThing, ref Game.Keyword keywordSelected)
+	public bool resolution_passive(World world, ActorBase thing, ref Thing bestTargetThing, ref Keyword keywordSelected)
 	{
 		getTheBestFoodSourceTarget(world, thing, false, ref bestTargetThing, ref keywordSelected);
 
@@ -100,7 +100,7 @@ public partial class Hunger_General : NeedBase
 	}
 
 	//Hunter's resolutiuon is to hunt an animal/target and gain the resource it requires
-	public bool resolution_hunter(World world, ActorBase thing, ref Thing bestTargetThing, ref Game.Keyword keywordSelected)
+	public bool resolution_hunter(World world, ActorBase thing, ref Thing bestTargetThing, ref Keyword keywordSelected)
 	{
 
 		getTheBestFoodSourceTarget(world, thing, true, ref bestTargetThing, ref keywordSelected);
@@ -142,7 +142,7 @@ public partial class Hunger_General : NeedBase
 		//var thingsIsee = world.GetSightableThings(thing, (isHunter)? 50: thingsBody.GetSight());
 		//Thing bestTargetThing = getBestTargetThing(world, thingsIsee, requiredKeyword, isHunter);
 		Thing bestTargetThing = null;
-		Game.Keyword keywordSelected = Game.Keyword.UNDEFINED;
+		Keyword keywordSelected = Keyword.UNDEFINED;
 		
 		getTheBestFoodSourceTarget(world, thing, isHunter,ref  bestTargetThing,ref keywordSelected);
 
@@ -185,8 +185,8 @@ public partial class Hunger_General : NeedBase
 	public class Resolution {
 		public HungerResolutionMethodType resolutionType;
 		public Thing targetThing;
-		public Game.Keyword keyword;
-		public Resolution(HungerResolutionMethodType t, Thing th, Game.Keyword k)
+		public Keyword keyword;
+		public Resolution(HungerResolutionMethodType t, Thing th, Keyword k)
 		{
 			this.resolutionType = t;
 			this.targetThing = th;
@@ -210,7 +210,7 @@ public partial class Hunger_General : NeedBase
 		foreach (var method in methodsAvailable)
 		{
 			Thing bestTargetThing = null;
-			Game.Keyword keywordSelected = Game.Keyword.UNDEFINED;
+			Keyword keywordSelected = Keyword.UNDEFINED;
 
 			switch (method)
 			{
@@ -271,17 +271,17 @@ public partial class Hunger_General : NeedBase
 		return false;
 	}
 
-	private float calScore(Thing thing, HungerResolutionMethodType resolutionType, Thing targetThing, Game.Keyword keyword)
+	private float calScore(Thing thing, HungerResolutionMethodType resolutionType, Thing targetThing, Keyword keyword)
 	{
 		return (targetThing.XY - thing.XY).magnitude;
 	}
 
 	private void getBestTargetThing(
-		World world, List<Thing> thingsIsee, List<Game.Keyword> requiredKeyword,
-		ref Thing thingSelected, ref Game.Keyword keywordSelected ,bool hunterMode = false)
+		World world, List<Thing> thingsIsee, List<Keyword> requiredKeyword,
+		ref Thing thingSelected, ref Keyword keywordSelected ,bool hunterMode = false)
 	{
 		//Thing thingSelected = null;
-		//Game.Keyword keywordSelected = Game.Keyword.UNDEFINED;
+		//Keyword keywordSelected = Keyword.UNDEFINED;
 
 		float amountOfKeyword_of_thingCurrentlySelected = 0;
 		for(int i = 0; i< thingsIsee.Count; i++)
@@ -299,7 +299,7 @@ public partial class Hunger_General : NeedBase
 					}
 				}
 			}
-			Dictionary<Game.Keyword, float> thingsKeywords = new Dictionary<Game.Keyword, float>();
+			Dictionary<Keyword, float> thingsKeywords = new Dictionary<Keyword, float>();
 			foreach(var info in keywordsIGot)
 			{
 				if (!thingsKeywords.ContainsKey(info.keyword))
@@ -308,7 +308,7 @@ public partial class Hunger_General : NeedBase
 				}
 				thingsKeywords[info.keyword] += info.amount;
 			}
-			List<Game.Keyword> keywordsContained = new List<Game.Keyword>();
+			List<Keyword> keywordsContained = new List<Keyword>();
 
 			if (!thingsKeywords.ContainsAnyKey(requiredKeyword,ref keywordsContained)) continue;
 
@@ -328,7 +328,7 @@ public partial class Hunger_General : NeedBase
 	}
 
 
-	public virtual void hdrKeywordConsumed(Thing me, Thing giver, Game.Keyword keyword, float amount)
+	public virtual void hdrKeywordConsumed(Thing me, Thing giver, Keyword keyword, float amount)
 	{
 		if (Game.IsKeywordCompatible(this.requiredKeywords, keyword))
 		{

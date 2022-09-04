@@ -1,9 +1,10 @@
-﻿using System;
+﻿using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using System.Threading.Tasks;
 using StoryGenerator.World;
+using System;
 
 public static class StaticZoneOrganizer
 {
@@ -408,7 +409,7 @@ public class ZoneOrganizer
 	
 	internal void Select(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
-		var array = Enum.GetValues(typeof(Zone.TYPE)).Cast<Zone.TYPE>().ToArray();
+		var array = System.Enum.GetValues(typeof(Zone.TYPE)).Cast<Zone.TYPE>().ToArray();
 		Select(xBegin, yBegin, xEnd, yEnd, array);
 		return;
 		List<Zone> zonesWithin = new List<Zone>();

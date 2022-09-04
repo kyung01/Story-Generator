@@ -1,8 +1,6 @@
-﻿using System;
+﻿using GameEnums;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 
 /// <summary>
 /// Generic class for all body parts
@@ -39,9 +37,9 @@ public class BodyBase
 		otherBodyParts.Add(body);
 
 	}
-	public virtual Dictionary<Game.Keyword,float> GetKeywords()
+	public virtual Dictionary<Keyword,float> GetKeywords()
 	{
-		var d = new Dictionary<Game.Keyword, float>(); 
+		var d = new Dictionary<Keyword, float>(); 
 
 		for (int i = 0; i < otherBodyParts.Count; i++)
 		{
@@ -60,7 +58,7 @@ public class BodyBase
 		return d;
 	}
 
-	public virtual float TakenKeyword(Game.Keyword keywordToRequest, float remainingDebt)
+	public virtual float TakenKeyword(Keyword keywordToRequest, float remainingDebt)
 	{
 		float needToPay = remainingDebt;
 		for(int i = 0; i< otherBodyParts.Count; i++)
@@ -71,7 +69,7 @@ public class BodyBase
 		return 0;
 	}
 
-	public virtual void ConsumeKeyword(Game.Keyword keyword, float amount)
+	public virtual void ConsumeKeyword(Keyword keyword, float amount)
 	{
 
 	}

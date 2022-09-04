@@ -1,4 +1,4 @@
-﻿using System;
+﻿using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,8 +15,10 @@ static class CAIModelSheet
 	public static void Init()
 	{
 		Bed = new CAIModel();
-		Bed.setCollisionMap(new UnityEngine.Vector2(0, 0));
-		Bed.setCollisionMap(new UnityEngine.Vector2(0, 1));
+		Bed.setCollisionMap(
+			new UnityEngine.Vector2(0, 0), 
+			new UnityEngine.Vector2(0, 1)
+			);
 
 		DoubleBed = new CAIModel();
 		DoubleBed.setCollisionMap(new UnityEngine.Vector2(0, 0));
