@@ -22,34 +22,47 @@ public class Builder
 		return new Thing(CATEGORY.UNDEFINED);
 	}
 
-	static public void Build(World world, CATEGORY thingToBuild, int x, int y, Direction dirToBuild)
+	static bool prepareForConstruction(World world, Structure structure, int x, int y, Direction dir)
 	{
-		Thing thing = categoryToActualThing(thingToBuild);
-		if (thingToBuild != CATEGORY.ROOF)
+		structure.XY = new Vector2(x, y);
+		structure.SetFacingDirection(dir);
+		var collisionSpots = structure.CAIModel.GetCollisionMap(structure);
+		foreach (var c in collisionSpots)
 		{
-			world.EmptySpot(x, y);
+			if (!world.IsWalkableAt((int)c.x, (int)c.y)) return false;
+		}
+		foreach (var c in collisionSpots)
+		{
+			world.EmptySpotAndOccupy((int)c.x, (int)c.y);
+		}
+		return true;
+	}
+	static public void Build(World world, CATEGORY categoryOfThingToBuild, int x, int y, Direction dirToBuild)
+	{
+		Debug.Log("Building direction " + dirToBuild);
+		Thing thing = categoryToActualThing(categoryOfThingToBuild);
+		if(categoryOfThingToBuild == CATEGORY.ROOF)
+		{
+			if (world.IsRoofAt(x, y)) return;
+
+		}
+		else if(thing is Structure)
+		{
+			if (!prepareForConstruction(world, (Structure)thing, x, y, dirToBuild)) return;			
+
+		}
+		else if(thing is Frame)
+		{
+			if(world.IsFrameAt(thing.X_INT,thing.Y_INT)) return;
+			else
+			{
+				world.EmptySpot(x, y);
+			}
 		}
 
-		if ((thingToBuild == CATEGORY.ROOF) ? world.IsRoofAt(x, y) : world.IsFrameAt(x, y) )
-		{
-			//Not buildable
-			return;
-		}
 		thing.SetPosition(x, y);
-		if (thing is ThingWithPhysicalPresence)
-		{
-			((ThingWithPhysicalPresence)thing).Face(world, dirToBuild);
-			Debug.Log(dirToBuild);
-		}
-
-
 		world.AddThingAndInit(thing);
-		if (thing is Frame)
-		{
 
-			((Frame)thing).Install();
-
-		}
 		
 
 	}

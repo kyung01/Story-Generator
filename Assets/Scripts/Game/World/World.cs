@@ -373,17 +373,17 @@ namespace StoryGenerator.World
 			{
 				Debug.Log("Adding a structure");
 				var structure = ((Structure)thing);
-				var collisionMap = structure.CAIModel.GetCollisionMap((int)structure.DirectionFacing);
-				var avoidanceMap = structure.CAIModel.GetAvoidanceMap((int)structure.DirectionFacing);
+				var collisionMap = structure.CAIModel.GetCollisionMap((ThingWithPhysicalPresence) thing);
+				var avoidanceMap = structure.CAIModel.GetAvoidanceMap((ThingWithPhysicalPresence) thing);
 
 				foreach (var c in collisionMap)
 				{
 					Debug.Log("Collision Map occupied at " +c);
-					pathFinder.setCellOccupied(structure.X_INT+ (int)c.x, structure.Y_INT + (int)c.y, true);
+					pathFinder.setCellOccupied((int)c.x, (int)c.y, true);
 				}
 				foreach (var a in avoidanceMap)
 				{
-					pathFinder.addCellWeight(structure.X_INT + (int)a.x, structure.Y_INT + (int)a.y, a.z);
+					pathFinder.addCellWeight( (int)a.x,  (int)a.y, a.z);
 				}
 
 			}
@@ -419,13 +419,13 @@ namespace StoryGenerator.World
 			{
 				if (t is Frame)
 				{
-					var s = (Frame)t;
-					if (s.Category == CATEGORY.ROOF)
+					var frame = (Frame)t;
+					if (frame.Category == CATEGORY.ROOF)
 					{
 						//Roof is not considered as a structure that blocks building of another structure
 						continue;
 					}
-					if (s.IsInstalled)
+					if (frame.IsInstalled)
 					{
 						return true;
 					}
@@ -450,7 +450,13 @@ namespace StoryGenerator.World
 			return false;
 		}
 
-		public void EmptySpot(int x, int y, bool itemsOnly= false)
+		public void EmptySpotAndOccupy(int x, int y)
+		{
+			this.pathFinder.setCellOccupied(x, y, true);
+			EmptySpot(x, y);
+
+		}
+		public void EmptySpot(int x, int y)
 		{
 			//Debug.Log("ClearspotForConstruction");
 			var things = GetThingsAt(x, y);
