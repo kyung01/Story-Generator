@@ -77,6 +77,10 @@ public partial class WorldController
 
 	}
 
+	public static void UnSelect()
+	{
+		Selector.Select(World, 0, 0, -1, -1);
+	}
 	public static void SetCommand(Command command, Thing.CATEGORY thingToBuild = Thing.CATEGORY.UNDEFINED)
 	{
 		INSTANCE.command = command;
@@ -91,7 +95,6 @@ public partial class WorldController
 			INSTANCE.thingToBuild = thingToBuild;
 		}
 	}
-
 
 	public static List<Thing> GetCurrentlySelectedThings()
 	{

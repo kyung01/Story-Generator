@@ -18,6 +18,8 @@ public partial class Game : MonoBehaviour
 
 	public void StartGame()
 	{
+		CAIModelSheet.Init();
+
 		world = new World();
 		WorldController.Init(world);
 

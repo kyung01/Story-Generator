@@ -6,6 +6,31 @@ using System.Threading.Tasks;
 
 public partial class Game
 {
+	//First level of category, defines what the thing is
+	//Category is required to understand what a thing is, and to sort things
+	public enum Category
+	{
+		UNDEFINED = 0,
+
+		ITEM,
+
+		//Frame
+		WALL,
+		DOOR,
+		FLOOR,
+
+		//Actors
+		PERSON,
+		RABBIT,
+		BEAR,
+
+		//Furniture categories
+		BED,
+		CHAIR,
+		TABLE
+	}
+
+	
 
 	public enum Direction
 	{

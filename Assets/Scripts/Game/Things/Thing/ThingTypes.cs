@@ -39,6 +39,7 @@ public partial class Thing
 		END,
 		STRUCTURE,
 		FRAME,
-		ITEM
+		ITEM,
+		BED
 	}
 }

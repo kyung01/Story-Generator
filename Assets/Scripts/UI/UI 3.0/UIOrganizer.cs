@@ -6,9 +6,11 @@ using UnityEngine;
 
 public class UIOrganizer : MonoBehaviour
 {
+	public delegate void DelBttnFeedbackString(string feedback);
 	public World world;
 	UIEnums.FEEDBACK bttnFeedback;
 	public List<UIEnums.DEL_FEEDBACK> OnBttnFeedback = new List<UIEnums.DEL_FEEDBACK>();
+	public List<DelBttnFeedbackString> OnBttnFeedbackString = new List<DelBttnFeedbackString>();
 
 	// Use this for initialization
 	public void Init()
@@ -17,14 +19,18 @@ public class UIOrganizer : MonoBehaviour
 		foreach(var b in buttons)
 		{
 			//Debug.Log(this + "Init " + b.gameObject.name);
-			b.OnFeedback.Add(hdrBttnFeedback);
+			//b.OnFeedback.Add(hdrBttnFeedback);
+			b.OnFeedbackString.Add(hdrBttnFeedbackString);
 		}
 		//UISelectBox.OnSelectedEnd.Add(hdrSelectedWorld);
 	}
+
+	
+
 	private void hdrSelectedWorld(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
 		Debug.Log(this + " hdrSelectedWorld " + bttnFeedback);
-		if (bttnFeedback.isZONES())
+		if (bttnFeedback.IsZONES())
 		{
 			CreateZones(xBegin, yBegin, xEnd, yEnd);
 		}
@@ -44,17 +50,21 @@ public class UIOrganizer : MonoBehaviour
 	{
 		Debug.Log(this + " CreateBuildings");
 		Thing.CATEGORY buildThis = Thing.CATEGORY.UNDEFINED;
-		if (bttnFeedback == UIEnums.FEEDBACK.BUILDS_ROOF)
+		if (bttnFeedback == UIEnums.FEEDBACK.BUILD_ROOF)
 		{
 			buildThis = Thing.CATEGORY.ROOF;
 		}
-		else if (bttnFeedback == UIEnums.FEEDBACK.BUILDS_DOOR)
+		else if (bttnFeedback == UIEnums.FEEDBACK.BUILD_DOOR)
 		{
 			buildThis = Thing.CATEGORY.DOOR;
 		}
-		else if (bttnFeedback == UIEnums.FEEDBACK.BUILDS_WALL)
+		else if (bttnFeedback == UIEnums.FEEDBACK.BUILD_WALL)
 		{
 			buildThis = Thing.CATEGORY.WALL;
+		}
+		else if (bttnFeedback == UIEnums.FEEDBACK.BUILD_BED)
+		{
+			buildThis = Thing.CATEGORY.BED;
 		}
 
 		for (int x = xBegin; x <= xEnd; x++)
@@ -128,6 +138,16 @@ public class UIOrganizer : MonoBehaviour
 		bttnFeedback = value;
 	}
 
+
+	private void hdrBttnFeedbackString(string value)
+	{
+		for(int i = 0; i < OnBttnFeedbackString.Count; i++)
+		{
+			OnBttnFeedbackString[i](value);
+			//bttnFeedback = value;
+		}
+		Debug.Log(this + " hdrBttnFeedbackString " + value);
+	}
 	// Update is called once per frame
 	void Update()
 	{

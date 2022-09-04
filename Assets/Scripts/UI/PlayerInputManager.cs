@@ -7,10 +7,11 @@ public class PlayerInputManager : MonoBehaviour
 	[SerializeField] UIOrganizer uiOrganizer;
 
 	UIEnums.FEEDBACK selectedCommand = UIEnums.FEEDBACK.NONE;
+	Game.Direction directionToBuild = Game.Direction.DOWN;
 
 	public void Awake()
 	{
-		uiOrganizer.OnBttnFeedback.Add(hdrBttnFeedback);
+		uiOrganizer.OnBttnFeedbackString.Add(hdrBttnFeedbackString);
 		UISelectBox.OnSelectedEnd.Add(hdrSelectedFinal);
 	}
 
@@ -23,6 +24,14 @@ public class PlayerInputManager : MonoBehaviour
 	private void hdrCancell()
 	{
 		WorldController.CancellCurrentAction();
+		WorldController.UnSelect();
+	}
+
+	private void hdrBttnFeedbackString(string feedback)
+	{
+		//throw new NotImplementedException();
+		var feedbackEnum = UIEnums.ToEnum(feedback);
+		hdrBttnFeedback(feedbackEnum);
 	}
 
 	private void hdrBttnFeedback(UIEnums.FEEDBACK value)
@@ -37,18 +46,22 @@ public class PlayerInputManager : MonoBehaviour
 			WorldController.SetCommand(WorldController.Command.STOCKPILE);
 
 		}
+
 		if (value.isBUILDS())
 		{
 			switch (value)
 			{
-				case UIEnums.FEEDBACK.BUILDS_WALL:
+				case UIEnums.FEEDBACK.BUILD_WALL:
 					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: Thing.CATEGORY.WALL);
 					break;
-				case UIEnums.FEEDBACK.BUILDS_DOOR:
+				case UIEnums.FEEDBACK.BUILD_DOOR:
 					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: Thing.CATEGORY.DOOR);
 					break;
-				case UIEnums.FEEDBACK.BUILDS_ROOF:
+				case UIEnums.FEEDBACK.BUILD_ROOF:
 					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: Thing.CATEGORY.ROOF);
+					break;
+				case UIEnums.FEEDBACK.BUILD_BED:
+					//WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: Thing.CATEGORY,bed);
 					break;
 				default:
 					break;
@@ -67,6 +80,11 @@ public class PlayerInputManager : MonoBehaviour
 		if (Input.GetMouseButtonDown(1))
 		{
 			hdrCancell();
+		}
+		if (Input.GetKeyDown(KeyCode.R))
+		{
+			directionToBuild = (Game.Direction)(((int)directionToBuild + 2) % 8);
+
 		}
 	}
 

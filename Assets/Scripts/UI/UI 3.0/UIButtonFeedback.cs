@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class UIButtonFeedback : MonoBehaviour
 {
-	[SerializeField] UIEnums.FEEDBACK feedback;
-	public List<UIEnums.DEL_FEEDBACK> OnFeedback = new List<UIEnums.DEL_FEEDBACK>();
+	public delegate void DelFeedbackString(string s);
+	//[SerializeField] UIEnums.FEEDBACK feedback;
+	[SerializeField] string feedbackString;
+
+	public List<DelFeedbackString> OnFeedbackString = new List<DelFeedbackString>();
+	//public List<UIEnums.DEL_FEEDBACK> OnFeedback = new List<UIEnums.DEL_FEEDBACK>();
 
 	private void Awake()
 	{
@@ -15,6 +19,16 @@ public class UIButtonFeedback : MonoBehaviour
 	private void hdrOnClick()
 	{
 		var bttnLinked = GetComponent<UIButtonLinked>();
+
+		for(int i = 0; i < OnFeedbackString.Count; i++)
+		{
+			OnFeedbackString[i](feedbackString);
+			if (bttnLinked.IsEnalbed)
+			{
+				OnFeedbackString[i](feedbackString);
+			}
+		}
+		/*
 		if(bttnLinked == null)
 		{
 			OnFeedback.Raise(feedback);
@@ -29,5 +43,6 @@ public class UIButtonFeedback : MonoBehaviour
 			{
 			}
 		}
+		 * */
 	}
 }

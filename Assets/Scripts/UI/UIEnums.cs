@@ -6,52 +6,6 @@ using System.Threading.Tasks;
 
 public static class UIEnums
 {
-	public delegate void DEL_FEEDBACK(FEEDBACK value);
-	public static void Raise(this List<DEL_FEEDBACK> me, FEEDBACK value)
-	{
-		foreach(var d in me)
-		{
-			d(value);
-		}
-	}
-
-	public static bool isZONES(this FEEDBACK value)
-	{
-		switch (value)
-		{
-			case FEEDBACK.ZONES:
-			case FEEDBACK.ZONES_HOUSING:
-			case FEEDBACK.ZONES_HOUSING_BATHROOM:
-			case FEEDBACK.ZONES_HOUSING_BEDROOM:
-			case FEEDBACK.ZONES_HOUSING_HOUSE:
-			case FEEDBACK.ZONES_HOUSING_LIVINGROOM:
-			case FEEDBACK.ZONES_STOCKPILE:
-				return true;
-		}
-		return false;
-	}
-	public static bool isBUILDS(this FEEDBACK value)
-	{
-		switch (value)
-		{
-			case FEEDBACK.BUILDS:
-			case FEEDBACK.BUILDS_ROOF:
-			case FEEDBACK.BUILDS_DOOR:
-			case FEEDBACK.BUILDS_WALL:
-				return true;
-		}
-		return false;
-	}
-	public static bool isTASK(this FEEDBACK value)
-	{
-		switch (value)
-		{
-			case FEEDBACK.TASKS:
-			case FEEDBACK.TASKS_HAUL:
-				return true;
-		}
-		return false;
-	}
 	public enum FEEDBACK
 	{
 		NONE=0,
@@ -60,12 +14,12 @@ public static class UIEnums
 		TASKS,
 		TASKS_HAUL,
 
-		BUILDS_WALL,
-		BUILDS_DOOR,
-		BUILDS_ROOF,
-		BUILDS_BED,
-		BUILDS_CHAIR,
-		BUILDS_TABLE,
+		BUILD_WALL,
+		BUILD_DOOR,
+		BUILD_ROOF,
+		BUILD_BED,
+		BUILD_CHAIR,
+		BUILD_TABLE,
 
 
 
@@ -83,5 +37,71 @@ public static class UIEnums
 		REMOVE,
 
 		END
+	}
+	public delegate void DEL_FEEDBACK(FEEDBACK value);
+	public static void Raise(this List<DEL_FEEDBACK> me, FEEDBACK value)
+	{
+		foreach(var d in me)
+		{
+			d(value);
+		}
+	}
+
+	public static bool IsZONES(this FEEDBACK value)
+	{
+		switch (value)
+		{
+			case FEEDBACK.ZONES:
+			case FEEDBACK.ZONES_HOUSING:
+			case FEEDBACK.ZONES_HOUSING_BATHROOM:
+			case FEEDBACK.ZONES_HOUSING_BEDROOM:
+			case FEEDBACK.ZONES_HOUSING_HOUSE:
+			case FEEDBACK.ZONES_HOUSING_LIVINGROOM:
+			case FEEDBACK.ZONES_STOCKPILE:
+				return true;
+		}
+		return false;
+	}
+
+	internal static FEEDBACK ToEnum(string feedback)
+	{
+		Dictionary<string, FEEDBACK> dic = new Dictionary<string, FEEDBACK>() {
+			{"BUILD_WALL",FEEDBACK.BUILD_WALL  },
+			{"BUILD_DOOR",FEEDBACK.BUILD_DOOR  },
+			{"BUILD_ROOF",FEEDBACK.BUILD_ROOF  },
+			{"BUILD_BED",FEEDBACK.BUILD_BED  }
+		};
+		if(dic.ContainsKey(feedback))
+		{
+			return dic[feedback];
+		}
+		return FEEDBACK.NONE;
+	}
+
+	public static bool isBUILDS(this FEEDBACK value)
+	{
+		switch (value)
+		{
+			case FEEDBACK.BUILDS:
+			case FEEDBACK.BUILD_ROOF:
+			case FEEDBACK.BUILD_DOOR:
+			case FEEDBACK.BUILD_WALL:
+			case FEEDBACK.BUILD_BED:
+			case FEEDBACK.BUILD_CHAIR:
+			case FEEDBACK.BUILD_TABLE:
+				return true;
+		}
+		return false;
+	}
+	
+	public static bool isTASK(this FEEDBACK value)
+	{
+		switch (value)
+		{
+			case FEEDBACK.TASKS:
+			case FEEDBACK.TASKS_HAUL:
+				return true;
+		}
+		return false;
 	}
 }

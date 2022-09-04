@@ -115,22 +115,7 @@ namespace StoryGenerator.World
 				}
 		}
 
-		bool hprIsRoofAt(int x, int y)
-		{
-			var things = GetThingsAt(x, y);
-			foreach (Thing t in things)
-			{
-				if (t.Category == Thing.CATEGORY.ROOF)
-				{
-					if (((Frame)t).IsInstalled)
-					{
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-
+		
 		bool hprIsWithinRange(float n, float minInclusive, float maxExclusive)
 		{
 			return n >= minInclusive && n < maxExclusive;
@@ -217,28 +202,7 @@ namespace StoryGenerator.World
 
 		}
 
-		bool hprIsStructureAt(int x, int y)
-		{
-			var things = GetThingsAt(x, y);
-			foreach (Thing t in things)
-			{
-				if (t is Frame)
-				{
-					var s = (Frame)t;
-					if (s.Category == Thing.CATEGORY.ROOF)
-					{
-						//Roof is not considered as a structure that blocks building of another structure
-						continue;
-					}
-					if (s.IsInstalled)
-					{
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-
+		
 		#endregion
 
 		public World()
@@ -253,6 +217,7 @@ namespace StoryGenerator.World
 			Init1_Terrain();
 			Init2_Animals();
 		}
+
 		void Init0_DefaultVariables()
 		{
 			pathFinder.Init(width, height);
@@ -315,7 +280,7 @@ namespace StoryGenerator.World
 					var obj = thing;
 					obj.SetPosition(i, j);
 
-					initAddThing(obj);
+					AddThingAndInit(obj);
 					//things[i+j*width] 
 				}
 
@@ -332,7 +297,7 @@ namespace StoryGenerator.World
 				Vector2 randomPos = hprGetApprorpiateRandomPosition();
 				Thing rabbit = ThingSheet.Rabbit();
 				rabbit.SetPosition(randomPos.x, randomPos.y);
-				initAddThing(rabbit);
+				AddThingAndInit(rabbit);
 				//allThings.Add(rabbit);
 				//things[(int)randomPos.x + (int)randomPos.y * width].Add(rabbit);
 				//thingsToKeepTracking.Add(new ThingXY( rabbit,(int)randomPos.x, (int)randomPos.y));
@@ -346,7 +311,7 @@ namespace StoryGenerator.World
 
 				Thing bear = ThingSheet.GetBear();
 				bear.SetPosition(randomPos);
-				initAddThing(bear);
+				AddThingAndInit(bear);
 				//allThings.Add(bear);
 				//things[(int)randomPos.x + (int)randomPos.y * width].Add(bear);
 				//thingsToKeepTracking.Add(new ThingXY(bear, (int)randomPos.x, (int)randomPos.y));
@@ -359,7 +324,7 @@ namespace StoryGenerator.World
 
 				Thing Human = (ActorBase) ThingSheet.Human();
 				Human.SetPosition(randomPos);
-				initAddThing(Human);
+				AddThingAndInit(Human);
 				//allThings.Add(Human);
 				//things[(int)randomPos.x + (int)randomPos.y * width].Add(Human);
 				//thingsToKeepTracking.Add(new ThingXY(Human, (int)randomPos.x, (int)randomPos.y));
@@ -371,8 +336,101 @@ namespace StoryGenerator.World
 		}
 
 		//Private methods
-		
-		void clearSpotForConstruction(int x, int y)
+		#region Private methods
+
+
+
+		#endregion
+
+		//Public methods
+		/// <summary>
+		/// Add thing to the world and initiate it
+		/// </summary>
+		public void AddThingAndInit(Thing thing)
+		{
+			thing.Init(this);
+			this.allThings.Add(thing);
+			thing.OnPositionIndexChanged.Add(hdrPosIdxChg_All);
+			
+			if (thing is Structure)
+			{
+				switch (thing.Category) {
+					case Thing.CATEGORY.WALL:
+						pathFinder.setCellOccupied(thing.X_INT, thing.Y_INT, true);
+						break;
+					case Thing.CATEGORY.DOOR:
+						pathFinder.addCellWeightInt(thing.X_INT, thing.Y_INT, WEIGHT_DOOR);
+						break;
+					case Thing.CATEGORY.ROOF:
+						break;
+					default:
+						Debug.Log("World AddThingAndInit Error : Cannot find cateogry of the structure");
+						break;
+				}
+			}
+
+			if (thing is Frame)
+			{
+				//add structure position chaning method
+				hdrStructurePositionChangedAdd(thing, Mathf.RoundToInt(thing.X), Mathf.RoundToInt(thing.Y));
+				thing.OnPositionIndexChanged.Add(hdrPosIdxChg_Structure);
+			}
+			else
+			{
+				things[Mathf.RoundToInt(thing.X) + Mathf.RoundToInt(thing.Y) * width].Add(thing);
+				thing.OnPositionIndexChanged.Add(hdrPosIdxChg_Things);
+
+			}
+			if (thing.moduleBody != null)
+			{
+				thingsMoving[Mathf.RoundToInt(thing.X) + Mathf.RoundToInt(thing.Y) * width].Add(thing);
+				pathFinder.addCellWeightInt(thing.X_INT, thing.Y_INT, WEIGHT_AVOID_ANIMAL);
+
+				//thing.OnPositionIndexChanged.Add(hdrAnimalMovedSoShouldWeightOnMap);
+				thing.OnPositionIndexChanged.Add(hdrPosIdxChg_ThingsMoving);
+			}
+			OnThingAdded.Raise(thing);
+		}
+
+		public bool IsStructureAt(int x, int y)
+		{
+			var things = GetThingsAt(x, y);
+			foreach (Thing t in things)
+			{
+				if (t is Frame)
+				{
+					var s = (Frame)t;
+					if (s.Category == Thing.CATEGORY.ROOF)
+					{
+						//Roof is not considered as a structure that blocks building of another structure
+						continue;
+					}
+					if (s.IsInstalled)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		public bool IsRoofAt(int x, int y)
+		{
+			var things = GetThingsAt(x, y);
+			foreach (Thing t in things)
+			{
+				if (t.Category == Thing.CATEGORY.ROOF)
+				{
+					if (((Frame)t).IsInstalled)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		public void EmptySpot(int x, int y)
 		{
 			Debug.Log("ClearspotForConstruction");
 			var things = GetThingsAt(x, y);
@@ -416,39 +474,7 @@ namespace StoryGenerator.World
 			}
 
 		}
-		
-		void initAddThing(Thing thing)
-		{
-			thing.Init(this);
-			this.allThings.Add(thing);
-			thing.OnPositionIndexChanged.Add(hdrPosIdxChg_All);
-			
-			if (thing is Frame)
-			{
-				//add structure position chaning method
-				hdrStructurePositionChangedAdd(thing, Mathf.RoundToInt(thing.X), Mathf.RoundToInt(thing.Y));
-				thing.OnPositionIndexChanged.Add(hdrPosIdxChg_Structure);
-			}
-			else
-			{
-				things[Mathf.RoundToInt(thing.X) + Mathf.RoundToInt(thing.Y) * width].Add(thing);
-				thing.OnPositionIndexChanged.Add(hdrPosIdxChg_Things);
 
-			}
-			if (thing.moduleBody != null)
-			{
-				thingsMoving[Mathf.RoundToInt(thing.X) + Mathf.RoundToInt(thing.Y) * width].Add(thing);
-				pathFinder.addCellWeightInt(thing.X_INT, thing.Y_INT, WEIGHT_AVOID_ANIMAL);
-
-				//thing.OnPositionIndexChanged.Add(hdrAnimalMovedSoShouldWeightOnMap);
-				thing.OnPositionIndexChanged.Add(hdrPosIdxChg_ThingsMoving);
-			}
-			OnThingAdded.Raise(thing);
-		}
-
-		
-
-		//Public methods
 
 		Frame hprGetStructure(Thing.CATEGORY type)
 		{
@@ -469,16 +495,16 @@ namespace StoryGenerator.World
 			Frame structure = hprGetStructure(thingToBuild);
 			if(thingToBuild != Thing.CATEGORY.ROOF)
 			{
-				clearSpotForConstruction(x, y);
+				EmptySpot(x, y);
 			}
-			if((thingToBuild == Thing.CATEGORY.ROOF) ? hprIsRoofAt(x, y): hprIsStructureAt(x, y))
+			if((thingToBuild == Thing.CATEGORY.ROOF) ? IsRoofAt(x, y): IsStructureAt(x, y))
 			{
 				//Not buildable
 				return;
 			}
 			structure.SetPosition(x, y);
 			structure.Install();
-			initAddThing(structure);
+			AddThingAndInit(structure);
 
 			if (thingToBuild == Thing.CATEGORY.WALL)
 			{
@@ -589,7 +615,7 @@ namespace StoryGenerator.World
 
 		public bool IsWalkableAt(int x_INT, int y_INT)
 		{
-			return terrain.IsEmptyAt(x_INT, y_INT) && !this.hprIsStructureAt(x_INT, y_INT);
+			return terrain.IsEmptyAt(x_INT, y_INT) && !this.IsStructureAt(x_INT, y_INT);
 		}
 
 
