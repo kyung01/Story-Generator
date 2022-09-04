@@ -83,7 +83,10 @@ public class PlayerInputManager : MonoBehaviour
 		}
 		if (Input.GetKeyDown(KeyCode.R))
 		{
+			var dirBefore = directionToBuild;
 			directionToBuild = (Game.Direction)(((int)directionToBuild + 2) % 8);
+			Debug.Log("R pressed " + dirBefore +"->"+ directionToBuild);
+			WorldController.SetBuildingDirection(directionToBuild);
 
 		}
 	}

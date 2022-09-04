@@ -19,6 +19,7 @@ public partial class WorldController
 	
 
 	public static WorldController INSTANCE;
+	private Game.Direction directionToBuild = Game.Direction.UP;
 
 	private static World World { get { return INSTANCE.world; } }
 	private static WorldThingSelector Selector { get { return INSTANCE.worldThingSelector; } }
@@ -54,7 +55,7 @@ public partial class WorldController
 			{
 				for(int j = (int)from.y; j <= to.y; j++)
 				{
-					Builder.Build(World, INSTANCE.thingToBuild, i, j);
+					Builder.Build(World, INSTANCE.thingToBuild, i, j, INSTANCE.directionToBuild);
 				}
 			}
 			//INSTANCE.command = Command.NONE;
@@ -94,6 +95,11 @@ public partial class WorldController
 		{
 			INSTANCE.thingToBuild = thingToBuild;
 		}
+	}
+
+	internal static void SetBuildingDirection(Game.Direction directionToBuild)
+	{
+		INSTANCE.directionToBuild = directionToBuild;
 	}
 
 	public static List<Thing> GetCurrentlySelectedThings()

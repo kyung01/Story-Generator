@@ -1,4 +1,5 @@
 ﻿using StoryGenerator.World;
+using System;
 using UnityEngine;
 
 public class Builder
@@ -34,7 +35,7 @@ public class Builder
 		return new Thing(Game.CATEGORY.UNDEFINED);
 	}
 
-	static public void Build(World world, Game.CATEGORY thingToBuild, int x, int y)
+	static public void Build(World world, Game.CATEGORY thingToBuild, int x, int y, Game.Direction dirToBuild)
 	{
 		Thing thing = categoryToActualThing(thingToBuild);
 		if (thingToBuild != Game.CATEGORY.ROOF)
@@ -48,7 +49,13 @@ public class Builder
 			return;
 		}
 		thing.SetPosition(x, y);
-		
+		if (thing is ThingWithPhysicalPresence)
+		{
+			((ThingWithPhysicalPresence)thing).Face(world, dirToBuild);
+			Debug.Log(dirToBuild);
+		}
+
+
 		world.AddThingAndInit(thing);
 		if (thing is Frame)
 		{
@@ -56,6 +63,8 @@ public class Builder
 			((Frame)thing).Install();
 
 		}
+		
 
 	}
+
 }

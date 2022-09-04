@@ -55,11 +55,7 @@ public class ThingRenderer : MonoBehaviour
 			case Game.CATEGORY.BED:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Bed_Single;
 				meshRenderer.gameObject.transform.localScale = new Vector3(1,2,1);
-				if (((ThingWithPhysicalPresence) thing).DirectionFacing == 0)
-				{
-					meshRenderer.gameObject.transform.localPosition = new Vector3(0,.5f,0);;
-
-				}
+				meshRenderer.gameObject.transform.localPosition = new Vector3(0, .5f, 0); ;
 				break;
 			case Game.CATEGORY.WALL:
 				break;
@@ -68,6 +64,13 @@ public class ThingRenderer : MonoBehaviour
 			default:
 				break;
 		}
+
+		if(thing is ThingWithPhysicalPresence)
+		{
+			Debug.Log("ThingRenderer " + ((ThingWithPhysicalPresence)thing).DirectionFacing);
+			this.gameObject.transform.rotation = Quaternion.Euler(0, 0, -45 * (int)((ThingWithPhysicalPresence)thing).DirectionFacing );
+		}
+
 		/*
 		if(thing is ThingDestructable)
 		{
