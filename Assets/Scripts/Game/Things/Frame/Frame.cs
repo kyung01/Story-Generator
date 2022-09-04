@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,7 +21,7 @@ public class Frame : Thing
 	public int Height { get { return this.height; } }
 
 
-	public Frame(CATEGORY category):base(category)
+	public Frame(Game.CATEGORY category):base(category)
 	{
 	}
 

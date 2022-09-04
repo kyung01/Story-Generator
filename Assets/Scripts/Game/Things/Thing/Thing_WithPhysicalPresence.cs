@@ -12,7 +12,7 @@ public class ThingWithPhysicalPresence : Thing_Describable
 	Game.Direction dirFacing;
 	public Game.Direction DirectionFacing { get { return this.dirFacing; } }
 
-	public ThingWithPhysicalPresence(Thing.CATEGORY type) : base(type)
+	public ThingWithPhysicalPresence(Game.CATEGORY type) : base(type)
 	{
 	}
 

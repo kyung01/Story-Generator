@@ -355,13 +355,13 @@ namespace StoryGenerator.World
 			if (thing is Structure)
 			{
 				switch (thing.Category) {
-					case Thing.CATEGORY.WALL:
+					case Game.CATEGORY.WALL:
 						pathFinder.setCellOccupied(thing.X_INT, thing.Y_INT, true);
 						break;
-					case Thing.CATEGORY.DOOR:
+					case Game.CATEGORY.DOOR:
 						pathFinder.addCellWeightInt(thing.X_INT, thing.Y_INT, WEIGHT_DOOR);
 						break;
-					case Thing.CATEGORY.ROOF:
+					case Game.CATEGORY.ROOF:
 						break;
 					default:
 						Debug.Log("World AddThingAndInit Error : Cannot find cateogry of the structure");
@@ -400,7 +400,7 @@ namespace StoryGenerator.World
 				if (t is Frame)
 				{
 					var s = (Frame)t;
-					if (s.Category == Thing.CATEGORY.ROOF)
+					if (s.Category == Game.CATEGORY.ROOF)
 					{
 						//Roof is not considered as a structure that blocks building of another structure
 						continue;
@@ -419,7 +419,7 @@ namespace StoryGenerator.World
 			var things = GetThingsAt(x, y);
 			foreach (Thing t in things)
 			{
-				if (t.Category == Thing.CATEGORY.ROOF)
+				if (t.Category == Game.CATEGORY.ROOF)
 				{
 					if (((Frame)t).IsInstalled)
 					{
@@ -476,28 +476,28 @@ namespace StoryGenerator.World
 		}
 
 
-		Frame hprGetStructure(Thing.CATEGORY type)
+		Frame hprGetStructure(Game.CATEGORY type)
 		{
 			switch (type)
 			{
-				case Thing.CATEGORY.WALL:
+				case Game.CATEGORY.WALL:
 					return ThingSheet.GetWall();
-				case Thing.CATEGORY.DOOR:
+				case Game.CATEGORY.DOOR:
 					return new Door();
-				case Thing.CATEGORY.ROOF:
+				case Game.CATEGORY.ROOF:
 					return ThingSheet.GetRoof();
 			}
-			return new Frame( Thing.CATEGORY.UNDEFINED);
+			return new Frame(Game.CATEGORY.UNDEFINED);
 		}
 		
-		public void Build(Thing.CATEGORY thingToBuild, int x, int y)
+		public void Build(Game.CATEGORY thingToBuild, int x, int y)
 		{
 			Frame structure = hprGetStructure(thingToBuild);
-			if(thingToBuild != Thing.CATEGORY.ROOF)
+			if(thingToBuild != Game.CATEGORY.ROOF)
 			{
 				EmptySpot(x, y);
 			}
-			if((thingToBuild == Thing.CATEGORY.ROOF) ? IsRoofAt(x, y): IsStructureAt(x, y))
+			if((thingToBuild == Game.CATEGORY.ROOF) ? IsRoofAt(x, y): IsStructureAt(x, y))
 			{
 				//Not buildable
 				return;
@@ -506,11 +506,11 @@ namespace StoryGenerator.World
 			structure.Install();
 			AddThingAndInit(structure);
 
-			if (thingToBuild == Thing.CATEGORY.WALL)
+			if (thingToBuild == Game.CATEGORY.WALL)
 			{
 				pathFinder.setCellOccupied(x, y, true);
 			}
-			if(thingToBuild == Thing.CATEGORY.DOOR)
+			if(thingToBuild == Game.CATEGORY.DOOR)
 			{
 				Debug.Log("Adding cell weight");
 				pathFinder.addCellWeightInt(x, y, WEIGHT_DOOR);
@@ -569,15 +569,15 @@ namespace StoryGenerator.World
 
 		public float	GetThingSpeed(Thing thing)
 		{
-			if (thing.Category == Thing.CATEGORY.RABBIT)
+			if (thing.Category == Game.CATEGORY.RABBIT)
 			{
 				return 7f;
 			}
-			if (thing.Category == Thing.CATEGORY.BEAR)
+			if (thing.Category == Game.CATEGORY.BEAR)
 			{
 				return 5f;
 			}
-			if (thing.Category == Thing.CATEGORY.HUMAN)
+			if (thing.Category == Game.CATEGORY.HUMAN)
 			{
 				return 4.0f;
 			}

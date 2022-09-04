@@ -3,44 +3,44 @@ using UnityEngine;
 
 public class Builder
 {
-	static Frame GetFrame(Thing.CATEGORY type)
+	static Frame GetFrame(Game.CATEGORY type)
 	{
 		switch (type)
 		{
-			case Thing.CATEGORY.WALL:
+			case Game.CATEGORY.WALL:
 				return ThingSheet.GetWall();
-			case Thing.CATEGORY.DOOR:
+			case Game.CATEGORY.DOOR:
 				return new Door();
-			case Thing.CATEGORY.ROOF:
+			case Game.CATEGORY.ROOF:
 				return ThingSheet.GetRoof();
 		}
 		Debug.LogError("Builder : cannot find " + type + " of frame to build");
-		return new Frame(Thing.CATEGORY.UNDEFINED);
+		return new Frame(Game.CATEGORY.UNDEFINED);
 	}
-	static Frame hprGetStructure(Thing.CATEGORY type)
+
+	static Frame hprGetStructure(Game.CATEGORY type)
 	{
 		switch (type)
 		{
-			case Thing.CATEGORY.WALL:
+			case Game.CATEGORY.WALL:
 				return ThingSheet.GetWall();
-			case Thing.CATEGORY.DOOR:
+			case Game.CATEGORY.DOOR:
 				return new Door();
-			case Thing.CATEGORY.ROOF:
+			case Game.CATEGORY.ROOF:
 				return ThingSheet.GetRoof();
 		}
-		return new Frame(Thing.CATEGORY.UNDEFINED);
+		return new Frame(Game.CATEGORY.UNDEFINED);
 	}
 
-	static public void Build(World world, Thing.CATEGORY thingToBuild, int x, int y)
+	static public void Build(World world, Game.CATEGORY thingToBuild, int x, int y)
 	{
-
 		Frame structure = hprGetStructure(thingToBuild);
-		if (thingToBuild != Thing.CATEGORY.ROOF)
+		if (thingToBuild != Game.CATEGORY.ROOF)
 		{
 			world.EmptySpot(x, y);
 		}
 
-		if ((thingToBuild == Thing.CATEGORY.ROOF) ? world.IsRoofAt(x, y) : world.IsStructureAt(x, y) )
+		if ((thingToBuild == Game.CATEGORY.ROOF) ? world.IsRoofAt(x, y) : world.IsStructureAt(x, y) )
 		{
 			//Not buildable
 			return;

@@ -6,17 +6,20 @@ using System.Threading.Tasks;
 
 public static class ThingTypeStatic
 {
-	public static bool IsPlant(this Thing.CATEGORY type)
+	/*
+	public static bool IsPlant(this Game.CATEGORY type)
 	{
-		if (type == Thing.CATEGORY.GRASS || type == Thing.CATEGORY.BUSH || type == Thing.CATEGORY.REED)
+		if (type == Game.CATEGORY.GRASS || type == Game.CATEGORY.BUSH || type == Game.CATEGORY.REED)
 			return true;
 		return false;
 	}
-	
+	 * */
+
 }
 public partial class Thing
 {
-	public enum CATEGORY
+	/*
+	public enumGame.CATEGORY
 	{
 		UNDEFINED=0, 
 		
@@ -42,4 +45,5 @@ public partial class Thing
 		ITEM,
 		BED
 	}
+	 * */
 }

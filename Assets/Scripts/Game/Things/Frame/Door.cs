@@ -30,7 +30,7 @@ public class Door : Frame
 
 	public float OpenLevel { get { return openNess; } }
 
-	public Door(): base(CATEGORY.DOOR)
+	public Door(): base(Game.CATEGORY.DOOR)
 	{
 	}
 	public void Open()
@@ -103,7 +103,7 @@ public class Door : Frame
 				//installed structure 
 
 			}
-			if (t.Category == CATEGORY.FLOOR || t.Category == CATEGORY.DOOR || t.Category == CATEGORY.ROOF)
+			if (t.Category == Game.CATEGORY.FLOOR || t.Category == Game.CATEGORY.DOOR || t.Category == Game.CATEGORY.ROOF)
 			{
 				//these dont get stuck
 				continue;

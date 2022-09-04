@@ -9,7 +9,7 @@ public class UIZoneSetting : MonoBehaviour
 	[SerializeField] GameObject content;
 	private void Awake()
 	{
-		var values = Enum.GetValues(typeof(Thing.CATEGORY));
+		var values = Enum.GetValues(typeof(Game.CATEGORY));
 
 		foreach (var t in values)
 		{

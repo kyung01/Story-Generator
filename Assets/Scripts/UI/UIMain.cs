@@ -21,7 +21,7 @@ public class UIMain : MonoBehaviour
 	}
 
 	State state = State.DEFAULT;
-	Thing.CATEGORY thingToBuild = Thing.CATEGORY.WALL;
+	Game.CATEGORY thingToBuild = Game.CATEGORY.WALL;
 
 	World world;
 	//ZoneOrganizer zOrg;
@@ -173,9 +173,9 @@ public class UIMain : MonoBehaviour
 		bttnSelectZone.onClick.AddListener(hdrBttnZone_Select);
 
 		bttnBuild.onClick.AddListener(hdrBttnBuild);
-		bttnBuild_SelectWall.onClick.AddListener(hdrBttnBuild_SelectWall);
-		bttnBuild_SelectDoor.onClick.AddListener(hdrBttnBuild_SelectDoor);
-		bttnBuild_SelectRoof.onClick.AddListener(hdrBttnBuild_SelectRoof);
+		//bttnBuild_SelectWall.onClick.AddListener(hdrBttnBuild_SelectWall);
+		//bttnBuild_SelectDoor.onClick.AddListener(hdrBttnBuild_SelectDoor);
+		//bttnBuild_SelectRoof.onClick.AddListener(hdrBttnBuild_SelectRoof);
 
 
 		world.zoneOrganizer.OnSingleZoneSelected.Add(hdrSingleZoneSelected);
@@ -194,24 +194,6 @@ public class UIMain : MonoBehaviour
 	private void hdrBttnBuild()
 	{
 		this.state = State.BUILD;
-	}
-
-	private void hdrBttnBuild_SelectRoof()
-	{
-		this.state = State.BUILD;
-		thingToBuild = Thing.CATEGORY.ROOF;
-	}
-
-	private void hdrBttnBuild_SelectWall()
-	{
-		this.state = State.BUILD;
-		thingToBuild = Thing.CATEGORY.WALL;
-	}
-
-	private void hdrBttnBuild_SelectDoor()
-	{
-		this.state = State.BUILD;
-		thingToBuild = Thing.CATEGORY.DOOR;
 	}
 
 

@@ -81,7 +81,7 @@ public partial class WorldController
 	{
 		Selector.Select(World, 0, 0, -1, -1);
 	}
-	public static void SetCommand(Command command, Thing.CATEGORY thingToBuild = Thing.CATEGORY.UNDEFINED)
+	public static void SetCommand(Command command, Game.CATEGORY thingToBuild = Game.CATEGORY.UNDEFINED)
 	{
 		INSTANCE.command = command;
 
@@ -113,7 +113,7 @@ public partial class WorldController
 	World world;
 	WorldThingSelector worldThingSelector = new WorldThingSelector();
 	Command command;
-	Thing.CATEGORY thingToBuild = Thing.CATEGORY.UNDEFINED;
+	Game.CATEGORY thingToBuild = Game.CATEGORY.UNDEFINED;
 
 
 	private WorldController(World world)

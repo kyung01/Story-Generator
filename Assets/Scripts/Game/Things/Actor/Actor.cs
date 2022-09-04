@@ -24,7 +24,7 @@ namespace StoryGenerator.World.Things.Actors
 
 		List<Satisfaction.SatisfactionBase> satisfactions = new List<Satisfaction.SatisfactionBase>();
 		internal List<Game.Keyword> foodList = new List<Game.Keyword>();
-		public ActorBase(CATEGORY type) : base(type)
+		public ActorBase(Game.CATEGORY type) : base(type)
 		{
 
 			this.thingActManager = new ThingActionManager();

@@ -17,8 +17,8 @@ public class Mouth : BodyTaskable
 	{
 		if (!IsReady) return;
 		Use();
-		bool isBitable = other is ThingDestructable;
-		var t = (ThingDestructable)other;
-		t.TakeHealthChange(me,-JawPower);
+		//bool isBitable = other is ThingDestructable;
+		//var t = (ThingDestructable)other;
+		//t.TakeHealthChange(me,-JawPower);
 	}
 }

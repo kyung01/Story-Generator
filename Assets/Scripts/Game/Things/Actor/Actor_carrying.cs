@@ -59,9 +59,9 @@ namespace StoryGenerator.World.Things.Actors
 
 		private static bool IsAnActor(Thing t)
 		{
-			if (t.Category == CATEGORY.HUMAN) return true;
-			if (t.Category == CATEGORY.RABBIT) return true;
-			if (t.Category == CATEGORY.BEAR) return true;
+			if (t.Category ==Game.CATEGORY.HUMAN) return true;
+			if (t.Category ==Game.CATEGORY.RABBIT) return true;
+			if (t.Category ==Game.CATEGORY.BEAR) return true;
 			return false;
 		}
 

@@ -8,26 +8,33 @@ public partial class Game
 {
 	//First level of category, defines what the thing is
 	//Category is required to understand what a thing is, and to sort things
-	public enum Category
+	public enum CATEGORY
 	{
 		UNDEFINED = 0,
 
-		ITEM,
 
 		//Frame
 		WALL,
 		DOOR,
 		FLOOR,
+		ROOF,
 
 		//Actors
+		PLANT,
 		PERSON,
 		RABBIT,
 		BEAR,
+		HUMAN,
 
 		//Furniture categories
 		BED,
 		CHAIR,
-		TABLE
+		TABLE,
+
+		ROCK,
+		REED,
+		GRASS,
+		BUSH
 	}
 
 	

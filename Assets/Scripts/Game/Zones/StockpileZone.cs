@@ -8,13 +8,13 @@ using UnityEngine;
 
 public class StockpileZone : Zone
 {
-	List<Thing.CATEGORY> acceptableTypes = new List<Thing.CATEGORY>();
+	List<Game.CATEGORY> acceptableTypes = new List<Game.CATEGORY>();
 	
 	public StockpileZone()
 	{
 		this.type = TYPE.STOCKPILE;
-		var values = System.Enum.GetValues(typeof(Thing.CATEGORY));
-		foreach(Thing.CATEGORY v in values)
+		var values = System.Enum.GetValues(typeof(Game.CATEGORY));
+		foreach(Game.CATEGORY v in values)
 		{
 			acceptableTypes.Add(v);
 		}

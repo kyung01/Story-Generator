@@ -8,42 +8,42 @@ public class ThingSheet
 {
 	public static Thing GetGrass()
 	{
-		Thing plant = new Thing_Interactable(Thing.CATEGORY.GRASS);
+		Thing plant = new Thing_Interactable(Game.CATEGORY.PLANT);
 		//plant.InitContainer();
 		//plant.moduleContainer.Add(Game.Keyword.FOOD_VEGI, 100);
 		return plant;
 	}
 	public static Thing GetBush()
 	{
-		Thing plant = new Thing_Interactable(Thing.CATEGORY.BUSH);
+		Thing plant = new Thing_Interactable(Game.CATEGORY.PLANT);
 		//plant.resources.Add(Game.Keyword.FOOD_VEGI, 100);
 		return plant;
 	}
 	public static Thing GetRock()
 	{
-		Thing thing = new Thing_Interactable(Thing.CATEGORY.ROCK);
-		//thing.Category = Thing.CATEGORY.ROCK;
+		Thing thing = new Thing_Interactable(Game.CATEGORY.ROCK);
+		//thing.Category = Game.CATEGORY.ROCK;
 		return thing;
 	}
 	public static Thing GetReed()
 	{
-		Thing thing = new Thing_Interactable(Thing.CATEGORY.REED);
+		Thing thing = new Thing_Interactable(Game.CATEGORY.REED);
 		return thing;
 	}
 
 	public static Frame GetRoof()
 	{
-		Frame roof = new Frame(Thing.CATEGORY.ROOF);
-		//roof.SetCategory(Thing.CATEGORY.ROOF);
+		Frame roof = new Frame(Game.CATEGORY.ROOF);
+		//roof.SetCategory(Game.CATEGORY.ROOF);
 		return roof;
 	}
 	public static Frame GetWall()
 	{
-		Frame roof = new Frame(Thing.CATEGORY.WALL);
-		//roof.SetCategory(Thing.CATEGORY.WALL);
+		Frame roof = new Frame(Game.CATEGORY.WALL);
+		//roof.SetCategory(Game.CATEGORY.WALL);
 		return roof;
 	}
-	public static Thing Rabbit(Thing.CATEGORY category = Thing.CATEGORY.RABBIT)
+	public static Thing Rabbit(Game.CATEGORY category = Game.CATEGORY.RABBIT)
 	{
 		Thing thing = new StoryGenerator.World.Things.Actors.Animal(category);
 
@@ -67,18 +67,18 @@ public class ThingSheet
 		//thing.moduleBody.AddBody(meatBody);
 		//thing.moduleBody.AddBody(stomach);
 
-		//thing.SetCategory(Thing.CATEGORY.RABBIT);
+		//thing.SetCategory(Game.CATEGORY.RABBIT);
 		return thing;
 	}
 	public static Thing Human()
 	{
-		var rabbit = Rabbit(Thing.CATEGORY.HUMAN);
-		//rabbit.SetCategory(Thing.CATEGORY.HUMAN);
+		var rabbit = Rabbit(Game.CATEGORY.HUMAN);
+		//rabbit.SetCategory(Game.CATEGORY.HUMAN);
 		return rabbit;
 	}
 	public static Thing GetBear()
 	{
-		Thing thing = new Thing( Thing.CATEGORY.BEAR);
+		Thing thing = new Thing(Game.CATEGORY.BEAR);
 
 		thing.InitBodyManager();
 		thing.InitThingNeedManager();
@@ -100,7 +100,7 @@ public class ThingSheet
 		thing.moduleBody.AddBody(meatBody);
 		thing.moduleBody.AddBody(stomach);
 
-		//thing.SetCategory(Thing.CATEGORY.BEAR);
+		//thing.SetCategory(Game.CATEGORY.BEAR);
 		return thing;
 	}
 }

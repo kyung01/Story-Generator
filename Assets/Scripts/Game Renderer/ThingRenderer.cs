@@ -28,43 +28,44 @@ public class ThingRenderer : MonoBehaviour
 		//Debug.Log("I have a " +thing.T);
 		switch (thing.Category)
 		{
-			case Thing.CATEGORY.UNDEFINED:
+			case Game.CATEGORY.UNDEFINED:
 				Debug.LogError(thing + " ThingRenderer->RenderThing->RenderType being undefined " + thing.Category + thing.XY);
 				break;
-			case Thing.CATEGORY.ROCK:
+			case Game.CATEGORY.ROCK:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Rock;
 				break;
-			case Thing.CATEGORY.HUMAN:
+			case Game.CATEGORY.HUMAN:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Human;
 				break;
-			case Thing.CATEGORY.GRASS:
+			case Game.CATEGORY.GRASS:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Grass;
 				break;
-			case Thing.CATEGORY.BUSH:
+			case Game.CATEGORY.BUSH:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Bush;
 				break;
-			case Thing.CATEGORY.REED:
+			case Game.CATEGORY.REED:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Reed;
 				break;
-			case Thing.CATEGORY.RABBIT:
+			case Game.CATEGORY.RABBIT:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Rabbit;
 				break;
-			case Thing.CATEGORY.BEAR:
+			case Game.CATEGORY.BEAR:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Bear;
 				break;
-			case Thing.CATEGORY.WALL:
+			case Game.CATEGORY.WALL:
 				break;
-			case Thing.CATEGORY.DOOR:
+			case Game.CATEGORY.DOOR:
 				break;
 			default:
 				break;
 		}
-
+		/*
 		if(thing is ThingDestructable)
 		{
 			var tD = (ThingDestructable)thing;
 			tD.OnHealthChanged.Add(hdrHealthChanged);
 		}
+		 * */
 		this.transform.position = new Vector3(thing.X,thing.Y, Z_AXIS_LAYER);
 
 	}
@@ -85,15 +86,15 @@ public class ThingRenderer : MonoBehaviour
 
 		textMesh.text = "";
 		{
-			if(thing.Category == Thing.CATEGORY.HUMAN)
+			if(thing.Category == Game.CATEGORY.HUMAN)
 			{
 				var thing = (ThingWithPhysicalPresence)this.thing;
-				if (thing.Category == Thing.CATEGORY.HUMAN)
+				if (thing.Category == Game.CATEGORY.HUMAN)
 				{
 					textMesh.text += "" + thing.DirectionFacing + "\n";
 
 				}
-				if (thing.Category == Thing.CATEGORY.HUMAN && dirFacing != thing.DirectionFacing)
+				if (thing.Category == Game.CATEGORY.HUMAN && dirFacing != thing.DirectionFacing)
 				{
 					dirFacing = thing.DirectionFacing;
 					if (thing.DirectionFacing == Game.Direction.UP)
@@ -147,8 +148,8 @@ public class ThingRenderer : MonoBehaviour
 			var thingAlive = thing;
 			if (thingAlive == null) return;
 
-			if (!(thingAlive.Category == Thing.CATEGORY.RABBIT  || thingAlive.Category == Thing.CATEGORY.BEAR 
-				|| thingAlive.Category == Thing.CATEGORY.HUMAN
+			if (!(thingAlive.Category == Game.CATEGORY.RABBIT  || thingAlive.Category == Game.CATEGORY.BEAR 
+				|| thingAlive.Category == Game.CATEGORY.HUMAN
 				)) return;
 			if(thing is ActorBase)
 			{

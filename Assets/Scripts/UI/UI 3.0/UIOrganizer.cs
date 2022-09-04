@@ -49,22 +49,22 @@ public class UIOrganizer : MonoBehaviour
 	void CreateBuildings(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
 		Debug.Log(this + " CreateBuildings");
-		Thing.CATEGORY buildThis = Thing.CATEGORY.UNDEFINED;
+		Game.CATEGORY buildThis = Game.CATEGORY.UNDEFINED;
 		if (bttnFeedback == UIEnums.FEEDBACK.BUILD_ROOF)
 		{
-			buildThis = Thing.CATEGORY.ROOF;
+			buildThis = Game.CATEGORY.ROOF;
 		}
 		else if (bttnFeedback == UIEnums.FEEDBACK.BUILD_DOOR)
 		{
-			buildThis = Thing.CATEGORY.DOOR;
+			buildThis = Game.CATEGORY.DOOR;
 		}
 		else if (bttnFeedback == UIEnums.FEEDBACK.BUILD_WALL)
 		{
-			buildThis = Thing.CATEGORY.WALL;
+			buildThis = Game.CATEGORY.WALL;
 		}
 		else if (bttnFeedback == UIEnums.FEEDBACK.BUILD_BED)
 		{
-			buildThis = Thing.CATEGORY.BED;
+			buildThis = Game.CATEGORY.BED;
 		}
 
 		for (int x = xBegin; x <= xEnd; x++)

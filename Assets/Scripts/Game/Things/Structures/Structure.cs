@@ -10,7 +10,7 @@ public class Structure : Thing_Describable
 {
 	CAIModel CAIModel;
 
-	public Structure(Thing.CATEGORY category, CAIModel data) :base(category)
+	public Structure(Game.CATEGORY category, CAIModel data) :base(category)
 	{
 		this.CAIModel = data;
 	}

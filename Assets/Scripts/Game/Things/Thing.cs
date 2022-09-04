@@ -29,7 +29,7 @@ public partial class Thing
 
 	static float ZEROf = 0.01f;
 
-	CATEGORY category;
+	Game.CATEGORY category;
 
 
 
@@ -39,7 +39,7 @@ public partial class Thing
 
 	#region properties
 
-	public CATEGORY Category { get { return this.category; } 
+	public Game.CATEGORY Category { get { return this.category; } 
 		//set { this.category = value; } 
 	}
 
@@ -93,13 +93,13 @@ public partial class Thing
 		this.y = 0;
 	}
 	
-	public Thing(Thing.CATEGORY type )
+	public Thing(Game.CATEGORY type )
 	{
 		this.category = type;
 		baseInit();
 
 	}
-	public Thing (CATEGORY type  , float x = 0, float y=0)
+	public Thing (Game.CATEGORY type  , float x = 0, float y=0)
 	{
 		baseInit();
 		this.category = type;

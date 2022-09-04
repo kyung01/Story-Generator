@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class Thing_Interactable : Thing
 {
-	public Thing_Interactable(CATEGORY type) : base(type)
+	public Thing_Interactable(Game.CATEGORY type) : base(type)
 	{
 
 	}
