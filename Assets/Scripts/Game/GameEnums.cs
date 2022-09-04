@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+namespace GameEnums { }
+
 public partial class Game
 {
 	//First level of category, defines what the thing is

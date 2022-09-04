@@ -5,6 +5,8 @@ using UnityEngine;
 /// <summary>
 /// My Game
 /// </summary>
+public enum Classdowkqoe { }
+
 public partial class Game : MonoBehaviour
 {
 	static Game Instance;

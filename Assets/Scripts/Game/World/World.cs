@@ -352,7 +352,7 @@ namespace StoryGenerator.World
 			this.allThings.Add(thing);
 			thing.OnPositionIndexChanged.Add(hdrPosIdxChg_All);
 			
-			if (thing is Structure)
+			if (thing is Frame)
 			{
 				switch (thing.Category) {
 					case Game.CATEGORY.WALL:
