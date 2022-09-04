@@ -20,6 +20,7 @@ MonoBehaviour:
   Human: {fileID: 2800000, guid: a1c81701ef26d484e8b38d86a82dad49, type: 3}
   Rabbit: {fileID: 2800000, guid: 909b7b2b2bafe0d4981d72140acb24a8, type: 3}
   Bear: {fileID: 2800000, guid: ef014a43d219383449f8172ef9f1cc6f, type: 3}
+  Bed_Single: {fileID: 2800000, guid: d0fda34d4cd57ca47b03131f215ca7fa, type: 3}
   facingUp: {fileID: 2800000, guid: 1ff4aab9add121d489dea12888c7d1bb, type: 3}
   facingUpRight: {fileID: 2800000, guid: 63651fd5d3846e54682ce97193c8a8b5, type: 3}
   facingRight: {fileID: 2800000, guid: 3fbcd8ea96c283b4d9b7688ee9dd89f7, type: 3}
