@@ -450,7 +450,7 @@ namespace StoryGenerator.World
 			return false;
 		}
 
-		public void EmptySpot(int x, int y)
+		public void EmptySpot(int x, int y, bool itemsOnly= false)
 		{
 			//Debug.Log("ClearspotForConstruction");
 			var things = GetThingsAt(x, y);
@@ -500,9 +500,16 @@ namespace StoryGenerator.World
 				   //Debug.Log(i+ "/" + things.Count +" Setting position of " + things[i] + " to " + new Vector2(emptyX, emptyY));
 				   things[i].SetPosition((int)e.x,(int)e.y);
 			}
+			
 
 		}
-	
+		List<Item> sortItems(List<Thing> things)
+		{
+			List<Item> items = new List<Item>();
+			int n = 0;
+			foreach (var t in things) { if (t is Item) items.Add((Item)t); }
+			return items;
+		}
 		public List<Thing>	GetThingsAt(int x, int y)
 		{
 			List<Thing> list = new List<Thing>();
