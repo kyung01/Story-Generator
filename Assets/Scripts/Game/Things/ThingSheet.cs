@@ -31,6 +31,13 @@ public class ThingSheet
 		return thing;
 	}
 
+	internal static Structure GetBed()
+	{
+		Structure thing = new Structure(Game.CATEGORY.BED, CAIModelSheet.Bed);
+
+		return thing;
+	}
+
 	public static Frame GetRoof()
 	{
 		Frame roof = new Frame(Game.CATEGORY.ROOF);

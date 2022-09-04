@@ -474,53 +474,7 @@ namespace StoryGenerator.World
 			}
 
 		}
-
-
-		Frame hprGetStructure(Game.CATEGORY type)
-		{
-			switch (type)
-			{
-				case Game.CATEGORY.WALL:
-					return ThingSheet.GetWall();
-				case Game.CATEGORY.DOOR:
-					return new Door();
-				case Game.CATEGORY.ROOF:
-					return ThingSheet.GetRoof();
-			}
-			return new Frame(Game.CATEGORY.UNDEFINED);
-		}
-		
-		public void Build(Game.CATEGORY thingToBuild, int x, int y)
-		{
-			Frame structure = hprGetStructure(thingToBuild);
-			if(thingToBuild != Game.CATEGORY.ROOF)
-			{
-				EmptySpot(x, y);
-			}
-			if((thingToBuild == Game.CATEGORY.ROOF) ? IsRoofAt(x, y): IsStructureAt(x, y))
-			{
-				//Not buildable
-				return;
-			}
-			structure.SetPosition(x, y);
-			structure.Install();
-			AddThingAndInit(structure);
-
-			if (thingToBuild == Game.CATEGORY.WALL)
-			{
-				pathFinder.setCellOccupied(x, y, true);
-			}
-			if(thingToBuild == Game.CATEGORY.DOOR)
-			{
-				Debug.Log("Adding cell weight");
-				pathFinder.addCellWeightInt(x, y, WEIGHT_DOOR);
-			}
-
-
-
-
-		}
-		
+	
 		public List<Thing>	GetThingsAt(int x, int y)
 		{
 			List<Thing> list = new List<Thing>();

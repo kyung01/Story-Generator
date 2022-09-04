@@ -61,7 +61,7 @@ public class PlayerInputManager : MonoBehaviour
 					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: Game.CATEGORY.ROOF);
 					break;
 				case UIEnums.FEEDBACK.BUILD_BED:
-					//WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: Game.CATEGORY,bed);
+					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: Game.CATEGORY.BED);
 					break;
 				default:
 					break;

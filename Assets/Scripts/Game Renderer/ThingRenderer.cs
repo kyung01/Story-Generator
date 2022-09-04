@@ -52,6 +52,15 @@ public class ThingRenderer : MonoBehaviour
 			case Game.CATEGORY.BEAR:
 				meshRenderer.material.mainTexture = SPRITE_LIST.Bear;
 				break;
+			case Game.CATEGORY.BED:
+				meshRenderer.material.mainTexture = SPRITE_LIST.Bed_Single;
+				meshRenderer.gameObject.transform.localScale = new Vector3(1,2,1);
+				if (((ThingWithPhysicalPresence) thing).DirectionFacing == 0)
+				{
+					meshRenderer.gameObject.transform.localPosition = new Vector3(0,.5f,0);;
+
+				}
+				break;
 			case Game.CATEGORY.WALL:
 				break;
 			case Game.CATEGORY.DOOR:

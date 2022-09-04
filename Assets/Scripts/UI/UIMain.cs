@@ -89,68 +89,6 @@ public class UIMain : MonoBehaviour
 		}
 	}
 
-	private void hdrBttnZone_Create()
-	{
-		state = State.CREATE_ZONE;
-	}
-
-	private void hdrBttnZone_Select()
-	{
-		state = State.SELECT_ZONE;
-	}
-
-	private void hdrBttnZone_Delete()
-	{
-		state = State.DELETE_ZONE;
-	}
-
-	private void hdrUISelectBox_Selected(int xBegin, int yBegin, int xEnd, int yEnd)
-	{
-		if (state == State.CREATE_ZONE)
-		{
-			world.zoneOrganizer.BuildStockpileZone(xBegin, yBegin, xEnd, yEnd);
-		}
-		if (state == State.DELETE_ZONE)
-		{
-			world.zoneOrganizer.DeleteZone(xBegin, yBegin, xEnd, yEnd);
-		}
-		if (state == State.SELECT_THINGS)
-		{
-			wrdThingSelector.Select(world, xBegin, yBegin, 1 + xEnd - xBegin, 1 + yEnd - yBegin);
-		}
-		if (state == State.SELECT_ZONE)
-		{
-			world.zoneOrganizer.Select(xBegin, yBegin, xEnd, yEnd);
-		}
-
-
-		if (state == State.BUILD)
-		{
-			for (int x = xBegin; x <= xEnd; x++)
-			{
-				for (int y = yBegin; y <= yEnd; y++)
-				{
-
-					world.Build(this.thingToBuild, x, y);
-				}
-			}
-			//world.zoneOrganizer.Select(xBegin, yBegin, xEnd, yEnd);
-		}
-		/*
-		//Createa a new zone, if a cell of a zone is included in a zone then include this new zone to the old zone
-		for(int j = yBegin; j<= yEnd; j++)
-		{
-			for (int i = xBegin; i <= xEnd; i++)
-			{
-				Debug.Log("Selected " + i + " " +j);
-				if (zoneSelected == null)
-					zoneSelected = addToA_AnyZone(i, j);
-				else zoneSelected.ExpandZone(i, j);
-			}
-
-		}
-		 * */
-	}
 
 
 	#endregion
@@ -161,16 +99,16 @@ public class UIMain : MonoBehaviour
 		//this.zOrg = zOrg;
 
 		UISelectBox = GetComponentInChildren<UISelectBox>();
-		UISelectBox.OnSelectedEnd.Add(hdrUISelectBox_Selected);
+		//UISelectBox.OnSelectedEnd.Add(hdrUISelectBox_Selected);
 
 		//UISelectBox.enabled = false;
 
 		bttnSelectThings.onClick.AddListener(hdrSelectThings);
 		bttnHowl.onClick.AddListener(hdrBttnHaul);
 
-		bttnCreateZone.onClick.AddListener(hdrBttnZone_Create);
-		bttnDeleteZone.onClick.AddListener(hdrBttnZone_Delete);
-		bttnSelectZone.onClick.AddListener(hdrBttnZone_Select);
+		//bttnCreateZone.onClick.AddListener(hdrBttnZone_Create);
+		//bttnDeleteZone.onClick.AddListener(hdrBttnZone_Delete);
+		//bttnSelectZone.onClick.AddListener(hdrBttnZone_Select);
 
 		bttnBuild.onClick.AddListener(hdrBttnBuild);
 		//bttnBuild_SelectWall.onClick.AddListener(hdrBttnBuild_SelectWall);

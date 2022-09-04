@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Builder
 {
-	static Frame GetFrame(Game.CATEGORY type)
+	static Frame GetFrsame(Game.CATEGORY type)
 	{
 		switch (type)
 		{
@@ -18,7 +18,7 @@ public class Builder
 		return new Frame(Game.CATEGORY.UNDEFINED);
 	}
 
-	static Frame hprGetStructure(Game.CATEGORY type)
+	static Thing categoryToActualThing(Game.CATEGORY type)
 	{
 		switch (type)
 		{
@@ -28,13 +28,15 @@ public class Builder
 				return new Door();
 			case Game.CATEGORY.ROOF:
 				return ThingSheet.GetRoof();
+			case Game.CATEGORY.BED:
+				return ThingSheet.GetBed();
 		}
-		return new Frame(Game.CATEGORY.UNDEFINED);
+		return new Thing(Game.CATEGORY.UNDEFINED);
 	}
 
 	static public void Build(World world, Game.CATEGORY thingToBuild, int x, int y)
 	{
-		Frame structure = hprGetStructure(thingToBuild);
+		Thing thing = categoryToActualThing(thingToBuild);
 		if (thingToBuild != Game.CATEGORY.ROOF)
 		{
 			world.EmptySpot(x, y);
@@ -45,9 +47,15 @@ public class Builder
 			//Not buildable
 			return;
 		}
-		structure.SetPosition(x, y);
-		world.AddThingAndInit(structure);
-		structure.Install();
+		thing.SetPosition(x, y);
+		
+		world.AddThingAndInit(thing);
+		if (thing is Frame)
+		{
+
+			((Frame)thing).Install();
+
+		}
 
 	}
 }

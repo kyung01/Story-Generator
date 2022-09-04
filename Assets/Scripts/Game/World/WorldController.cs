@@ -54,7 +54,7 @@ public partial class WorldController
 			{
 				for(int j = (int)from.y; j <= to.y; j++)
 				{
-					World.Build(INSTANCE.thingToBuild, i, j);
+					Builder.Build(World, INSTANCE.thingToBuild, i, j);
 				}
 			}
 			//INSTANCE.command = Command.NONE;

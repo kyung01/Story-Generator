@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 
-public class Structure : Thing_Describable
+public class Structure : ThingWithPhysicalPresence
 {
 	CAIModel CAIModel;
 
