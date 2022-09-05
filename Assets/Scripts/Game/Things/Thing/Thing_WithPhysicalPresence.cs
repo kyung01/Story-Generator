@@ -4,10 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using UnityEngine;
 
 public class ThingWithPhysicalPresence : Thing_Describable
 {
+	public void GetRelativePosition(
+		int x, int y, 
+		out int xNew, out int yNew)
+	{
+		var newPoint = EasyMath.rotate_point(new UnityEngine.Vector2(x, y), (int)this.DirectionFacing * 45);
+		xNew = (int)Mathf.RoundToInt(newPoint.x) + this.X_INT;
+		yNew = (int)Mathf.RoundToInt(newPoint.y) + this.Y_INT;
+	}
 
 	Direction dirFacing;
 	public Direction DirectionFacing { get { return this.dirFacing; } }

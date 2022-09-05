@@ -6,7 +6,10 @@ namespace EasyTools
 
 	public class EzT
 	{
-
+		static public bool IsZero(float number)
+		{
+			return Mathf.Abs(number) < 0.001f;
+		}
 		public static Color GetRandomColorRaw()
 		{
 			int n = Random.Range(0, 3);

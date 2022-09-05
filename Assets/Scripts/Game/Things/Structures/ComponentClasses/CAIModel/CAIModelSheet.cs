@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 static class CAIModelSheet
 {
-	public static CAIModel Bed;
+	public static CAIModel Bed_Single;
 	public static CAIModel DoubleBed;
 	public static CAIModel Chair;
 	public static CAIModel ChairDouble;
@@ -14,8 +14,8 @@ static class CAIModelSheet
 
 	public static void Init()
 	{
-		Bed = new CAIModel();
-		Bed.setCollisionMap(
+		Bed_Single = new CAIModel();
+		Bed_Single.setCollisionMap(
 			new UnityEngine.Vector2(0, 0), 
 			new UnityEngine.Vector2(0, 1)
 			);

@@ -33,7 +33,7 @@ public class ThingSheet
 
 	internal static Structure GetBed()
 	{
-		Structure thing = new Structure(CATEGORY.BED, CAIModelSheet.Bed);
+		Structure thing = new Structure(CATEGORY.BED, CAIModelSheet.Bed_Single);
 
 		return thing;
 	}
