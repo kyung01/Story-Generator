@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class UIButtonFeedback : MonoBehaviour
 {
-	public delegate void DelFeedbackString(string s);
+	public delegate void DelFeedbackString(UIButtonFeedback me, string s);
 	//[SerializeField] UIEnums.FEEDBACK feedback;
 	[SerializeField] string feedbackString;
+	[SerializeField] string feedbackStringDisabled;
 
 	public List<DelFeedbackString> OnFeedbackString = new List<DelFeedbackString>();
 	//public List<UIEnums.DEL_FEEDBACK> OnFeedback = new List<UIEnums.DEL_FEEDBACK>();
@@ -19,14 +20,20 @@ public class UIButtonFeedback : MonoBehaviour
 	private void hdrOnClick()
 	{
 		var bttnLinked = GetComponent<UIButtonLinked>();
-
-		for(int i = 0; i < OnFeedbackString.Count; i++)
+		if (bttnLinked.IsEnalbed)
 		{
-			OnFeedbackString[i](feedbackString);
-			if (bttnLinked.IsEnalbed)
+			for (int i = 0; i < OnFeedbackString.Count; i++)
 			{
-				OnFeedbackString[i](feedbackString);
+				OnFeedbackString[i](this, feedbackString);
 			}
+		}
+		else if(feedbackStringDisabled!= "")
+		{
+			for (int i = 0; i < OnFeedbackString.Count; i++)
+			{
+				OnFeedbackString[i](this, feedbackStringDisabled);
+			}
+
 		}
 		/*
 		if(bttnLinked == null)

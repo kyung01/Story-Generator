@@ -36,7 +36,8 @@ public static class UIEnums
 		ADD,
 		REMOVE,
 
-		END
+		END,
+		CANCELL
 	}
 	public delegate void DEL_FEEDBACK(FEEDBACK value);
 	public static void Raise(this List<DEL_FEEDBACK> me, FEEDBACK value)
@@ -71,7 +72,8 @@ public static class UIEnums
 			{"BUILD_ROOF",FEEDBACK.BUILD_ROOF  },
 			{"BUILD_BED",FEEDBACK.BUILD_BED  },
 			{"ZONE_STOCKPILE",FEEDBACK.ZONES_STOCKPILE  },
-			{"TASK_HAUL",FEEDBACK.TASKS_HAUL  }
+			{"TASK_HAUL",FEEDBACK.TASKS_HAUL  },
+			{"CANCELL",FEEDBACK.CANCELL  }
 		};
 		if(dic.ContainsKey(feedback))
 		{

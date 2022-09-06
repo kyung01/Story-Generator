@@ -25,26 +25,28 @@ public class PlayerInputManager : MonoBehaviour
 	{
 		WorldController.CancellCurrentAction();
 		WorldController.UnSelect();
+		uiOrganizer.CancellLastInput();
 	}
 
 	private void hdrBttnFeedbackString(string feedback)
 	{
+		Debug.Log("playerInputManager received : " + feedback);
 		//throw new NotImplementedException();
-		var feedbackEnum = UIEnums.ToEnum(feedback);
-		hdrBttnFeedback(feedbackEnum);
-	}
-
-	private void hdrBttnFeedback(UIEnums.FEEDBACK value)
-	{
+		var value = UIEnums.ToEnum(feedback);
+		//hdrBttnFeedback(feedbackEnum);
 		if (value == UIEnums.FEEDBACK.TASKS_HAUL)
 		{
 			WorldController.SetCommand(WorldController.Command.HAUL);
 
 		}
-		if (value == UIEnums.FEEDBACK.ZONES_STOCKPILE)
+		else if (value == UIEnums.FEEDBACK.ZONES_STOCKPILE)
 		{
 			WorldController.SetCommand(WorldController.Command.STOCKPILE);
 
+		}
+		else if(value == UIEnums.FEEDBACK.CANCELL)
+		{
+			WorldController.SetCommand(WorldController.Command.NONE);
 		}
 
 		if (value.isBUILDS())
@@ -69,6 +71,7 @@ public class PlayerInputManager : MonoBehaviour
 
 		}
 	}
+
 
 	private void hdrSelectedWorld(int xBegin, int yBegin, int xEnd, int yEnd)
 	{

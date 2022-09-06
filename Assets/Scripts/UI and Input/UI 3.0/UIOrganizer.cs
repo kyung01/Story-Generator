@@ -24,9 +24,12 @@ public class UIOrganizer : MonoBehaviour
 		//UISelectBox.OnSelectedEnd.Add(hdrSelectedWorld);
 	}
 
-	
+	internal void CancellLastInput()
+	{
 
-	private void hdrBttnFeedbackString(string value)
+	}
+
+	private void hdrBttnFeedbackString(UIButtonFeedback button, string value)
 	{
 		for(int i = 0; i < OnBttnFeedbackString.Count; i++)
 		{

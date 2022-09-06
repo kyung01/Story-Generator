@@ -41,7 +41,6 @@ public class UIMain : MonoBehaviour
 	[SerializeField] UnityEngine.UI.Button bttnBuild_SelectRoof;
 
 
-	[SerializeField] UIZoneSetting uiZoneSetting;
 
 
 	List<Thing> thingsSelected = new List<Thing>();
@@ -62,14 +61,14 @@ public class UIMain : MonoBehaviour
 
 	private void hdrNoZoneSelected()
 	{
-		uiZoneSetting.enabled = false;
-		uiZoneSetting.Unlink();
+		//uiZoneSetting.enabled = false;
+		//uiZoneSetting.Unlink();
 	}
 
 	private void hdrSingleZoneSelected(Zone zone)
 	{
-		uiZoneSetting.enabled = true;
-		uiZoneSetting.Link(zone);
+		//uiZoneSetting.enabled = true;
+		//uiZoneSetting.Link(zone);
 	}
 
 	private void hdrSelectThings()
