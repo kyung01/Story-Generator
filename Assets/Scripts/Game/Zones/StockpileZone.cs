@@ -30,7 +30,7 @@ public class StockpileZone : Zone
 		{
 			if (thing is Item)
 			{
-				if (!((Thing_Interactable) thing).IsBeingCarried)
+				if (!((Thing_Interactable) thing).IsBeingInteracted)
 				{
 					//this spot is occupied
 					isOccupied = true;
@@ -73,7 +73,7 @@ public class StockpileZone : Zone
 			{
 				if (thing is Item)
 				{
-					if (! ((Item)thing).IsBeingCarried)
+					if (! ((Item)thing).IsBeingInteracted)
 					{
 						//this spot is occupied
 						isOccupied = true;
@@ -113,7 +113,7 @@ public class StockpileZone : Zone
 			{
 				if (thing is Item)
 				{
-					if (!((Item)thing).IsBeingCarried)
+					if (!((Item)thing).IsBeingInteracted)
 					{
 						//this spot is occupied
 						isOccupied = true;
@@ -138,7 +138,11 @@ public class StockpileZone : Zone
 				//Debug.Log(new Vector3(p.x, p.y, score));
 			}
 		}
-		if (availablePositionsnew.Count == 0) return false;
+		if (availablePositionsnew.Count == 0)
+		{
+			Debug.Log("StockpileZone ERROR : Couldn't find availalbe position for new things to be added ");
+			return false;
+		}
 		availablePositionsnew = availablePositionsnew.OrderBy(p => p.z).ToList();
 		float lowestScore = availablePositionsnew[0].z;
 		for(int i = availablePositionsnew.Count-1;i >= 0; i--)

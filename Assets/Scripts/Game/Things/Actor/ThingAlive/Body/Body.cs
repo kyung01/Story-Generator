@@ -96,6 +96,10 @@ public class BodyBase
 		{
 			sight += eye.GetSight();
 		}
+		if(eyes.Count == 0)
+		{
+			//UnityEngine.Debug.LogError("Body has no eye");
+		}
 		//UnityEngine.Debug.Log(sight);
 		//calculate sight by computing all the things that are "eye" in the body
 		return sight;

@@ -13,6 +13,7 @@ public class SleepNerve : BodyBase
 	public override void Update(World world, Thing thing, float timeElapsed)
 	{
 		base.Update(world, thing, timeElapsed);
+		thing.Keyword_Receive(thing, Keyword.CHEM_SLEEPY, timeElapsed);
 	}
 
 }

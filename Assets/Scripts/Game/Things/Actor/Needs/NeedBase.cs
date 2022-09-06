@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace StoryGenerator.World.Things.Actors.Satisfaction
 {
-	public class SatisfactionBase
+
+	public class NeedBase
 	{
 		public enum TYPE
 		{
@@ -20,7 +21,7 @@ namespace StoryGenerator.World.Things.Actors.Satisfaction
 
 		TYPE T;
 
-		public SatisfactionBase(TYPE type)
+		public NeedBase(TYPE type)
 		{
 			this.T = type;
 		}

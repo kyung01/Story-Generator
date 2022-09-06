@@ -33,7 +33,7 @@ namespace StoryGenerator.World.Things.Actors
 		private void dropCarryingThing(Thing_Interactable box)
 		{
 			thingsIAmCarrying.Remove(box);
-			box.freeFromCarrier();
+			box.FreeFromInteractor();
 		}
 
 		public void Drop()
@@ -90,7 +90,7 @@ namespace StoryGenerator.World.Things.Actors
 		public virtual void Carry(Thing_Interactable thingToCarry)
 		{
 			thingsIAmCarrying.Add(thingToCarry);
-			thingToCarry.SetCarrier( this);
+			thingToCarry.SetInteractor( this);
 			thingToCarry.XY = this.XY;
 
 

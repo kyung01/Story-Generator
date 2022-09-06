@@ -46,6 +46,9 @@ public class ThingActionManager
 		}
 	}
 	public List<Action> actions = new List<Action>();
+
+	
+
 	public ThingActionManager()
 	{
 
@@ -93,6 +96,12 @@ public class ThingActionManager
 		}
 	}
 
+	internal void Dream(World world)
+	{
+		var action = new Dream();
+		addAction(action, PriorityLevel.DEFAULT);
+	}
+
 	internal void Haul(Thing_Interactable thingToHowl, float x, float y)
 	{
 		var action = new ActionManagerAction.Haul(thingToHowl,x,y);
@@ -131,6 +140,12 @@ public class ThingActionManager
 	{
 		var action = new Flee(fleeFromThisThing, minFleeDistance);
 		addAction(action, priorityLevel);
+	}
+
+	public void Sleep(World world, ISleepableStructure bedish)
+	{
+		var action = new SleepAction(bedish);
+		addAction(action, PriorityLevel.DEFAULT);
 	}
 
 	internal void RequestKeywordTransfer(Thing bestTargetThing, Keyword requiredKeyword, float v)

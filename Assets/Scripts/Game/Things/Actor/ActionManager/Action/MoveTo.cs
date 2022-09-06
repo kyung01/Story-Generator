@@ -112,6 +112,7 @@ public abstract class MoveTo : Action
 		}
 		//Debug.Log("Move " + from + " " + to + " " + pathFacingDirection[pathFacingDirection.Count - 1]);
 	}
+	
 	void addNextPath(Thing thing, Vector2 point)
 	{
 		if (pathRegistered.Count == 0)
@@ -127,6 +128,7 @@ public abstract class MoveTo : Action
 
 
 	}
+	
 	void clearAllPath()
 	{
 
@@ -134,9 +136,26 @@ public abstract class MoveTo : Action
 		pathFacingDirection.Clear();
 	}
 
+	bool resolveCarryingSituation(World world, Thing_Interactable thing, float timeElapsed)
+	{
+		return thing.FreeFromInteractor();
+	}
 	bool UpdateNewPath(World world, Thing thing, float timeElapsed)
 	{
+
 		var thingWithDirection = (ThingWithPhysicalPresence)thing;
+
+
+		if(thingWithDirection.Interactor != null)
+		{
+			//There is something that's carrying me
+			if(!resolveCarryingSituation(world, thingWithDirection, timeElapsed))
+			{
+				return false;
+			}
+			
+		}
+
 		timeElapsedForNewPathSearching += timeElapsed;
 		if (timeElapsedForNewPathSearching > NEWPATH_UPDATING_INTERVAL)
 		{
@@ -177,6 +196,7 @@ public abstract class MoveTo : Action
 		return true;
 
 	}
+	
 	void MoveToAndOpenDoorIfNeedTo(World world, ActorBase thing, float timeElapsed)
 	{
 
@@ -228,6 +248,7 @@ public abstract class MoveTo : Action
 		}
 		
 	}
+	
 	public override void Do(World world, ActorBase thing, float timeElapsed)
 	{
 		base.Do(world, thing, timeElapsed);
@@ -269,6 +290,7 @@ public abstract class MoveTo : Action
 	{
 		return true;
 	}
+	
 	bool isBlocked(World world, Thing thing)
 	{
 		var thingsAtMyDestination = world.GetThingsMovingAt((int)nextDestinationXY.x, (int)nextDestinationXY.y);

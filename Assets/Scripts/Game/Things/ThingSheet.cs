@@ -33,7 +33,7 @@ public class ThingSheet
 
 	internal static Structure GetBed()
 	{
-		Structure thing = new Structure(CATEGORY.BED, CAIModelSheet.Bed_Single);
+		Structure thing = new Bed_Single();
 
 		return thing;
 	}
@@ -80,6 +80,8 @@ public class ThingSheet
 	public static Thing Human()
 	{
 		var rabbit = Rabbit(CATEGORY.HUMAN);
+		rabbit.moduleNeeds.AddNeed(new NeedSleepHere());
+		rabbit.moduleBody.AddBody(new SleepNerve());
 		//rabbit.SetCategory(CATEGORY.HUMAN);
 		return rabbit;
 	}

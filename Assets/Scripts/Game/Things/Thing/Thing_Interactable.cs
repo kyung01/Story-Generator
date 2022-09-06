@@ -13,26 +13,45 @@ public class Thing_Interactable : Thing
 	}
 
 	//Thing carrying me
-	StoryGenerator.World.Things.Actors.ActorBase thingCarryingThis = null;
-	public Thing Carrier { get { return thingCarryingThis; } }
+	Thing_Interactable thingInteractingWithThis = null;
+	public Thing Interactor { get { return thingInteractingWithThis; } }
 	
-	public virtual float GetGrapRange()
+	public virtual float GetInteractRange()
 	{
 		return 0.5f;
 	}
-	public void freeFromCarrier()
+
+	public virtual bool RequestUnInteract(Thing_Interactable thing)
 	{
-		this.thingCarryingThis = null;
+		//Thing asked me to begin uninteracting with them
+		return true;
 	}
-	public void SetCarrier(StoryGenerator.World.Things.Actors.ActorBase actorCarrier)
+	
+	public virtual bool FreeFromInteractor()
 	{
-		thingCarryingThis = actorCarrier;
+		if(this.thingInteractingWithThis is ISleepableStructure)
+		{
+			if (!((Thing_Interactable)thingInteractingWithThis).RequestUnInteract(this))
+			{
+				//Thing I am trying to free from refused to uninteract me 
+				return false;
+			}
+
+			//
+		}
+		this.thingInteractingWithThis = null;
+		return true;
+
+	}
+	public void SetInteractor(Thing_Interactable actorCarrier)
+	{
+		thingInteractingWithThis = actorCarrier;
 	}
 
 
-	public bool IsBeingCarried
+	public bool IsBeingInteracted
 	{
-		get { return thingCarryingThis != null; }
+		get { return thingInteractingWithThis != null; }
 	}
 
 	internal static bool Is(Thing thing)
@@ -40,10 +59,6 @@ public class Thing_Interactable : Thing
 		throw new System.NotImplementedException();
 	}
 
-	public virtual bool CheckGetCarriedBy(Thing thing)
-	{
-		return !IsBeingCarried;
-	}
 
 
 	/*

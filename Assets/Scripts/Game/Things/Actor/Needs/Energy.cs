@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StoryGenerator.World.Things.Actors.Satisfaction{ 
 
-	public class Energy: SatisfactionBase
+	public class Energy: NeedBase
 	{
 		public Energy() : base(TYPE.ENERGY)
 		{

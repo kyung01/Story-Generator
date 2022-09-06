@@ -41,17 +41,41 @@ public class Bed : Structure, ISleepableStructure
 		return false;
 	}
 
-	public virtual void SleepBy(World world, ActorBase sleepingAgent)
+	public virtual bool SleepBy(World world, ActorBase sleepingAgent)
 	{
 		for(int i  = 0; i < spotsToEnterBed.Count; i++)
 		{
+			int x, y;
+			spotsToEnterBed[i].GetInteractionXY(this, out x, out y);
+
+			Debug.Log("attempting to sleep at " + x + y);
 			if (spotsToEnterBed[i].CanInteractWithIt(world, this, sleepingAgent))
 			{
 				spotsToEnterBed[i].Interact(this, sleepingAgent);
-				return;
+				sleepingAgent.SetInteractor(this);
+
+				return true;
 			}
 		}
-		Debug.LogError("Bed unexpected end of function reached");
-		throw new NotImplementedException();
+		Debug.LogError("Bed unexpected end of function reached " + spotsToEnterBed.Count);
+		return false;
 	}
+
+	public override bool RequestUnInteract(Thing_Interactable thing)
+	{
+		Debug.Log("Bed RequestUnInteract");
+		for (int i = 0; i < spotsToEnterBed.Count; i++)
+		{
+			if (spotsToEnterBed[i].CanUnInteract(thing))
+			{
+				Debug.Log("Bed succesfully freed the actor");
+				spotsToEnterBed[i].UnInteract(this);
+				return true;
+			}
+		}
+		Debug.LogError("Bed unexpected end reached");
+		return false;
+	}
+
+
 }

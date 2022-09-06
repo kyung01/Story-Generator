@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace StoryGenerator.World.Things.Actors.Satisfaction
 {
 
-	public class Rest : SatisfactionBase
+	public class Social : NeedBase
 	{
-		public Rest() : base(TYPE.REST)
+		public Social() : base(TYPE.SOCIAL)
 		{
 
 		}

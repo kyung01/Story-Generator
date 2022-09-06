@@ -38,6 +38,6 @@ public class Eye : BodyBase
 
 	private void eyeProblem(World world, Thing thing, float timeElapsed)
 	{
-		sight = Mathf.Max(sight - timeElapsed, 0);
+		//sight = Mathf.Max(sight - timeElapsed, 2);
 	}
 }

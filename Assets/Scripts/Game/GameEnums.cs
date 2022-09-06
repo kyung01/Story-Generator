@@ -84,6 +84,8 @@ namespace GameEnums {
 		PAIN,
 		GOOD_FEELING, //A general good feeling, incrases thing's mood 
 		UNDEFINED,
+		CHEM_SLEEPY,
+		SLEPT,
 	}
 
 	//Types of action

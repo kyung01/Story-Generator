@@ -18,7 +18,7 @@ public class Carry : Action
 	public override void Do(World world, ActorBase thing, float timeElapsed)
 	{
 		base.Do(world, thing, timeElapsed);
-		if (thingToCarry.IsBeingCarried && thingToCarry.Carrier == thing)
+		if (thingToCarry.IsBeingInteracted && thingToCarry.Interactor == thing)
 		{
 			//I have grapped the item already 
 			finish();
@@ -32,7 +32,7 @@ public class Carry : Action
 			return;
 		}
 
-		if (thingToCarry.IsBeingCarried)
+		if (thingToCarry.IsBeingInteracted)
 		{
 			//Thing is being carried and it is not me
 			//I cannot proceed
@@ -45,7 +45,7 @@ public class Carry : Action
 		if (isItemWithinGrappableRange)
 		{
 			bool SuccessfullyCarried = false;
-			if (thingToCarry.CheckGetCarriedBy(thing))
+			if (!thingToCarry.IsBeingInteracted)
 			{
 				thing.Carry(thingToCarry);
 				SuccessfullyCarried = true;

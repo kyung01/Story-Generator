@@ -26,14 +26,14 @@ namespace ActionManagerAction {
 			bool thingAtDestination = (thingToHaul.XY - destination).magnitude < ZEROf;
 
 			
-			if (thingAtDestination && !thingToHaul.IsBeingCarried)
+			if (thingAtDestination && !thingToHaul.IsBeingInteracted)
 			{
 				Debug.Log("Action Haul Finished");
 				//ThingToHaul is at destination and no longer being held
 				finish();
 				return;
 			}
-			if(thingAtDestination && thingToHaul.Carrier == worker)
+			if(thingAtDestination && thingToHaul.Interactor == worker)
 			{
 				//Package is at the destination and I need to drop this object 
 				Debug.Log("Action Haul Drop");
@@ -73,20 +73,20 @@ namespace ActionManagerAction {
 				else
 				{
 
-					Debug.Log(this + " stockpile zone is not detected, dropping already");
+					Debug.LogError(this + " stockpile zone is not detected, dropping already");
 				}
 
 				worker.TAM.Drop(ThingActionManager.PriorityLevel.FIRST);
 				return;
 			}
-			if(thingToHaul.Carrier != worker)
+			if(thingToHaul.Interactor != worker)
 			{
 				//if I am not holding the object, let me grap it first
 				Debug.Log("Action Haul Carry");
 				worker.TAM.Carry(thingToHaul, ThingActionManager.PriorityLevel.FIRST);
 				return;
 			}
-			if(!thingAtDestination && thingToHaul.Carrier == worker)
+			if(!thingAtDestination && thingToHaul.Interactor == worker)
 			{
 				//package is not at the destination but I am carrying it
 				Debug.Log("Action Haul : Package is not at the destination but I am carrying it " + this.destination + "(destination) " + thingToHaul.XY +"(where I am)");

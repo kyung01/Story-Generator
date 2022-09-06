@@ -289,9 +289,9 @@ namespace StoryGenerator.World
 
 		void Init2_Animals()
 		{
-			int numRabbit = 2;
+			int numRabbit = 0;
 			int numBear = 0;
-			int numHumans = 5;
+			int numHumans = 1;
 
 			for (int i = 0; i < numRabbit; i++)
 			{
@@ -351,6 +351,8 @@ namespace StoryGenerator.World
 		{
 			thing.Init(this);
 			this.allThings.Add(thing);
+			//this.things[thing.X_INT + width * thing.Y_INT].Add(thing);
+
 			thing.OnPositionIndexChanged.Add(hdrPosIdxChg_All);
 			
 			if (thing is Frame)
@@ -369,6 +371,7 @@ namespace StoryGenerator.World
 						break;
 				}
 			}
+			
 			if(thing is Structure)
 			{
 				Debug.Log("Adding a structure");
@@ -388,7 +391,7 @@ namespace StoryGenerator.World
 
 			}
 
-			if (thing is Frame || thing is Structure)
+			if (thing is Frame )
 			{
 				//Structure/frame do not change their position  
 
@@ -543,6 +546,7 @@ namespace StoryGenerator.World
 
 		public List<Thing>	GetSightableThings(Thing thing, float sight)
 		{
+			Debug.Log("GetSightableThings "+ thing.XY + " " + sight);
 			List<Thing> things = new List<Thing>();
 			float xMin = Mathf.RoundToInt( thing.X - sight);
 			float yMin =  Mathf.RoundToInt(thing.Y - sight);
@@ -555,8 +559,8 @@ namespace StoryGenerator.World
 						//Wrong coordiante
 						continue;
 					}
-					Vector2 sightedPosition = new Vector2(i, j);
-					bool canThingSeeThisPosition = TestLOS(thing, sightedPosition);
+					//Vector2 sightedPosition = new Vector2(i, j);
+					//bool canThingSeeThisPosition = TestLOS(thing, sightedPosition);
 					things.AddRange(GetThingsAt((int)i, (int)j));
 				}
 			return things;

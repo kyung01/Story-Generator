@@ -19,7 +19,9 @@ public class Action
 		HUNT,
 		HAUL,
 		FLEE,
-		MOVE_TO
+		MOVE_TO,
+		SLEEP,
+		DREAMING
 	}
 
 	Type t;
