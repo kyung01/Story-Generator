@@ -14,13 +14,13 @@ public class WorldThingSelector
 			return thingsISelected;
 		} 
 	}
-	CATEGORY typeOfThingSelected = CATEGORY.UNDEFINED;
+	ThingCategory typeOfThingSelected = ThingCategory.UNDEFINED;
 	int countOfThingsSelected = -1;
 	
 	List<List<Thing>> getAllThingsInWorld(World world, int x, int y, int width, int height)
 	{
 		List<Thing> things = new List<Thing>();
-		Dictionary<CATEGORY, List<Thing>> sortedThings = new Dictionary<CATEGORY, List<Thing>>();
+		Dictionary<ThingCategory, List<Thing>> sortedThings = new Dictionary<ThingCategory, List<Thing>>();
 		for (int i = 0; i < width; i++)
 		{
 			for (int j = 0; j < height; j++)

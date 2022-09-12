@@ -11,7 +11,8 @@ public partial class WorldController
 		NONE,
 		BUILD,
 		HAUL,
-		STOCKPILE,
+		//STOCKPILE,
+		ZONE,
 
 
 		END,
@@ -20,6 +21,7 @@ public partial class WorldController
 
 	public static WorldController INSTANCE;
 	private Direction directionToBuild = Direction.UP;
+	private ZoneCategory zoneToBuild;
 
 	private static World World { get { return INSTANCE.world; } }
 	private static WorldThingSelector Selector { get { return INSTANCE.worldThingSelector; } }
@@ -62,10 +64,31 @@ public partial class WorldController
 			//INSTANCE.thingToBuild = Thing.TYPE.UNDEFINED;
 			
 		}
-		else if(INSTANCE.command == Command.STOCKPILE)
+		else if(INSTANCE.command == Command.ZONE)
 		{
 			Debug.Log("WorldController::Building a stockpile zone " + from + " " + to );
-			World.zoneOrganizer.BuildStockpileZone((int)from.x, (int)from.y, (int)to.x, (int)to.y);
+			switch (INSTANCE.zoneToBuild)
+			{
+				case ZoneCategory.STOCKPILE:
+					World.zoneOrganizer.BuildStockpileZone((int)from.x, (int)from.y, (int)to.x, (int)to.y);
+					break;
+				case ZoneCategory.HOUSING:
+					World.zoneOrganizer.BuildHouseZone((int)from.x, (int)from.y, (int)to.x, (int)to.y);
+					break;
+				case ZoneCategory.HOUSING_BEDROOM:
+					World.zoneOrganizer.BuildBedroom((int)from.x, (int)from.y, (int)to.x, (int)to.y);
+					break;
+				case ZoneCategory.HOUSING_BATHROOM:
+					World.zoneOrganizer.BuildBathroom((int)from.x, (int)from.y, (int)to.x, (int)to.y);
+					break;
+				case ZoneCategory.HOUSING_LIVINGROOM:
+					World.zoneOrganizer.BuildLivingroom((int)from.x, (int)from.y, (int)to.x, (int)to.y);
+					break;
+				case ZoneCategory.NONE:
+					break;
+				default:
+					break;
+			}
 			INSTANCE.command = Command.NONE;
 
 		}
@@ -82,7 +105,7 @@ public partial class WorldController
 	{
 		Selector.Select(World, 0, 0, -1, -1);
 	}
-	public static void SetCommand(Command command, CATEGORY thingToBuild = CATEGORY.UNDEFINED)
+	public static void SetCommand(Command command, ThingCategory thingToBuild = ThingCategory.UNDEFINED, ZoneCategory zoneToBuild =  ZoneCategory.NONE)
 	{
 		INSTANCE.command = command;
 
@@ -94,6 +117,11 @@ public partial class WorldController
 		if(command == Command.BUILD)
 		{
 			INSTANCE.thingToBuild = thingToBuild;
+		}
+		if(command == Command.ZONE)
+		{
+			INSTANCE.zoneToBuild = zoneToBuild;
+
 		}
 	}
 
@@ -119,7 +147,7 @@ public partial class WorldController
 	World world;
 	WorldThingSelector worldThingSelector = new WorldThingSelector();
 	Command command;
-	CATEGORY thingToBuild = CATEGORY.UNDEFINED;
+	ThingCategory thingToBuild = ThingCategory.UNDEFINED;
 
 
 	private WorldController(World world)

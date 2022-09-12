@@ -10,7 +10,7 @@ public class UIFurnitureScrollbar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        List<CATEGORY> CategoryToAddButtonForEach = new List<CATEGORY>();
+        List<ThingCategory> CategoryToAddButtonForEach = new List<ThingCategory>();
         
     }
 

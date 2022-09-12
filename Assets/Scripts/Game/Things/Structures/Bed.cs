@@ -12,7 +12,7 @@ public class Bed : Structure, ISleepableStructure
 	internal List<InteractSpot> spotsToEnterBed = new List<InteractSpot>();
 	internal List<OccupyingSpot> spotsToSleepIn = new List<OccupyingSpot>();
 
-	public Bed(CAIModel model) : base(GameEnums.CATEGORY.BED, model)
+	public Bed(CAIModel model) : base(GameEnums.ThingCategory.BED, model)
 	{
 	}
 

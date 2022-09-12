@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GameEnums {
-	public enum CATEGORY
+
+	public enum ThingCategory
 	{
 		UNDEFINED = 0,
 
@@ -32,6 +33,15 @@ namespace GameEnums {
 		REED,
 		GRASS,
 		BUSH
+	}
+
+	public enum ZoneCategory {
+		STOCKPILE,
+		HOUSING,
+		HOUSING_BEDROOM,
+		HOUSING_BATHROOM,
+		HOUSING_LIVINGROOM,
+		NONE
 	}
 
 

@@ -9,7 +9,7 @@ namespace StoryGenerator.World.Things.Actors{
 	public class Person : ActorBase
 	{
 		
-		public Person( CATEGORY type ):base(type)
+		public Person( ThingCategory type ):base(type)
 		{
 			moduleNeeds.AddNeed(new NeedSleepHere());
 

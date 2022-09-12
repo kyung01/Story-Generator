@@ -733,6 +733,7 @@ GameObject:
   - component: {fileID: 55517548}
   - component: {fileID: 55517547}
   - component: {fileID: 55517550}
+  - component: {fileID: 55517551}
   m_Layer: 5
   m_Name: Bathroom
   m_TagString: Untagged
@@ -856,6 +857,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bundlesOpen:
   - {fileID: 2093952241}
+--- !u!114 &55517551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 55517545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 804f6735874572441b9deafd071c3247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  feedbackString: ZONE_HOUSING_BATHROOM
+  feedbackStringDisabled: 
 --- !u!1 &65636393
 GameObject:
   m_ObjectHideFlags: 0
@@ -5542,9 +5557,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e04e018a8a3d3646a1517c9a1f6ec74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bttnAny: {fileID: 1715411155}
-  bttnAdd: {fileID: 1400777954}
-  bttnRemove: {fileID: 41211996}
 --- !u!222 &365099114
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7452,7 +7464,6 @@ GameObject:
   - component: {fileID: 675578152}
   - component: {fileID: 675578151}
   - component: {fileID: 675578154}
-  - component: {fileID: 675578155}
   - component: {fileID: 675578156}
   m_Layer: 5
   m_Name: Bttn Stockpile
@@ -7577,20 +7588,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bundlesOpen:
   - {fileID: 365099115}
---- !u!114 &675578155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 675578149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 804f6735874572441b9deafd071c3247, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  feedbackString: 
-  feedbackStringDisabled: 
 --- !u!114 &675578156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8226,6 +8223,7 @@ GameObject:
   - component: {fileID: 716557249}
   - component: {fileID: 716557248}
   - component: {fileID: 716557251}
+  - component: {fileID: 716557252}
   m_Layer: 5
   m_Name: House
   m_TagString: Untagged
@@ -8349,6 +8347,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bundlesOpen:
   - {fileID: 2093952241}
+--- !u!114 &716557252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 716557246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 804f6735874572441b9deafd071c3247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  feedbackString: ZONE_HOUSING
+  feedbackStringDisabled: 
 --- !u!1 &720626477
 GameObject:
   m_ObjectHideFlags: 0
@@ -8437,6 +8449,7 @@ GameObject:
   - component: {fileID: 724116610}
   - component: {fileID: 724116609}
   - component: {fileID: 724116612}
+  - component: {fileID: 724116613}
   m_Layer: 5
   m_Name: 'Bedroom '
   m_TagString: Untagged
@@ -8560,6 +8573,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bundlesOpen:
   - {fileID: 2093952241}
+--- !u!114 &724116613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724116607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 804f6735874572441b9deafd071c3247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  feedbackString: ZONE_HOUSING_BEDROOM
+  feedbackStringDisabled: 
 --- !u!1 &725306506
 GameObject:
   m_ObjectHideFlags: 0
@@ -8830,8 +8857,9 @@ GameObject:
   - component: {fileID: 735830642}
   - component: {fileID: 735830641}
   - component: {fileID: 735830644}
+  - component: {fileID: 735830645}
   m_Layer: 5
-  m_Name: Bttn Housing
+  m_Name: Bttn Open Housing Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8953,6 +8981,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bundlesOpen:
   - {fileID: 1771932977}
+--- !u!114 &735830645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735830639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 804f6735874572441b9deafd071c3247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  feedbackString: 
+  feedbackStringDisabled: 
 --- !u!1 &741008326
 GameObject:
   m_ObjectHideFlags: 0
@@ -9606,8 +9648,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c99063ae7ae6d4494df3489ebc347c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PREFAB_TOGGLE: {fileID: 7034842796798981061, guid: c8562f34bdfc0af4bab93146e3c1f241, type: 3}
-  content: {fileID: 780780268}
 --- !u!114 &774900233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9728,8 +9768,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e271bfe5a92f54841b89b1559e419999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bttnAny: {fileID: 725306508}
-  bttnHaul: {fileID: 981616521}
 --- !u!222 &777542382
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12044,6 +12082,7 @@ GameObject:
   - component: {fileID: 942646285}
   - component: {fileID: 942646284}
   - component: {fileID: 942646287}
+  - component: {fileID: 942646288}
   m_Layer: 5
   m_Name: livingroom
   m_TagString: Untagged
@@ -12167,6 +12206,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bundlesOpen:
   - {fileID: 2093952241}
+--- !u!114 &942646288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 942646282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 804f6735874572441b9deafd071c3247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  feedbackString: ZONE_HOUSING_LIVINGROOM
+  feedbackStringDisabled: 
 --- !u!1 &951583193
 GameObject:
   m_ObjectHideFlags: 0
@@ -13741,9 +13794,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27ed7873a96624348b041db8cb5c7ae7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bttnAny: {fileID: 1309666743}
-  bttnHouse: {fileID: 735830641}
-  bttnStockpile: {fileID: 675578151}
 --- !u!114 &1023131457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13918,8 +13968,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d3f1888b59685741ac29870a6d30c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bttnTasks: {fileID: 817202075}
-  bttnZones: {fileID: 1502096610}
 --- !u!222 &1034857310
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17405,9 +17453,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e04e018a8a3d3646a1517c9a1f6ec74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bttnAny: {fileID: 525099705}
-  bttnAdd: {fileID: 460409178}
-  bttnRemove: {fileID: 772732240}
 --- !u!222 &1280224632
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19729,8 +19774,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e271bfe5a92f54841b89b1559e419999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bttnAny: {fileID: 158155067}
-  bttnHaul: {fileID: 103182951}
 --- !u!222 &1510192345
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19868,8 +19911,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c99063ae7ae6d4494df3489ebc347c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PREFAB_TOGGLE: {fileID: 7034842796798981061, guid: c8562f34bdfc0af4bab93146e3c1f241, type: 3}
-  content: {fileID: 1075375932}
 --- !u!114 &1567680643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22250,10 +22291,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4507ff13697177d488b51a01065b1a40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bttnHouse: {fileID: 716557248}
-  bttnBedRoom: {fileID: 724116609}
-  bttnBathRoom: {fileID: 55517547}
-  bttnLivingRoom: {fileID: 942646284}
 --- !u!114 &1771932977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24140,8 +24177,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c99063ae7ae6d4494df3489ebc347c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PREFAB_TOGGLE: {fileID: 7034842796798981061, guid: c8562f34bdfc0af4bab93146e3c1f241, type: 3}
-  content: {fileID: 226722125}
 --- !u!1 &1932301766
 GameObject:
   m_ObjectHideFlags: 0
@@ -26330,9 +26365,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e04e018a8a3d3646a1517c9a1f6ec74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bttnAny: {fileID: 1465106665}
-  bttnAdd: {fileID: 684153099}
-  bttnRemove: {fileID: 1114668673}
 --- !u!114 &2093952241
 MonoBehaviour:
   m_ObjectHideFlags: 0

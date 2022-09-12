@@ -22,7 +22,7 @@ public class Frame : Thing
 	public int Height { get { return this.height; } }
 
 
-	public Frame(CATEGORY category):base(category)
+	public Frame(ThingCategory category):base(category)
 	{
 	}
 

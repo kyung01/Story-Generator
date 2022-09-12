@@ -358,13 +358,13 @@ namespace StoryGenerator.World
 			if (thing is Frame)
 			{
 				switch (thing.Category) {
-					case CATEGORY.WALL:
+					case ThingCategory.WALL:
 						pathFinder.setCellOccupied(thing.X_INT, thing.Y_INT, true);
 						break;
-					case CATEGORY.DOOR:
+					case ThingCategory.DOOR:
 						pathFinder.addCellWeightInt(thing.X_INT, thing.Y_INT, WEIGHT_DOOR);
 						break;
-					case CATEGORY.ROOF:
+					case ThingCategory.ROOF:
 						break;
 					default:
 						Debug.Log("World AddThingAndInit Error : Cannot find cateogry of the structure");
@@ -423,7 +423,7 @@ namespace StoryGenerator.World
 				if (t is Frame)
 				{
 					var frame = (Frame)t;
-					if (frame.Category == CATEGORY.ROOF)
+					if (frame.Category == ThingCategory.ROOF)
 					{
 						//Roof is not considered as a structure that blocks building of another structure
 						continue;
@@ -442,7 +442,7 @@ namespace StoryGenerator.World
 			var things = GetThingsAt(x, y);
 			foreach (Thing t in things)
 			{
-				if (t.Category == CATEGORY.ROOF)
+				if (t.Category == ThingCategory.ROOF)
 				{
 					if (((Frame)t).IsInstalled)
 					{
@@ -568,15 +568,15 @@ namespace StoryGenerator.World
 
 		public float	GetThingSpeed(Thing thing)
 		{
-			if (thing.Category == CATEGORY.RABBIT)
+			if (thing.Category == ThingCategory.RABBIT)
 			{
 				return 7f;
 			}
-			if (thing.Category == CATEGORY.BEAR)
+			if (thing.Category == ThingCategory.BEAR)
 			{
 				return 5f;
 			}
-			if (thing.Category == CATEGORY.HUMAN)
+			if (thing.Category == ThingCategory.HUMAN)
 			{
 				return 4.0f;
 			}

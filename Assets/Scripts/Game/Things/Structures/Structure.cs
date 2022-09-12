@@ -13,7 +13,7 @@ public class Structure : ThingWithPhysicalPresence
 	public CAIModel CAIModel { get { return this._CAIModel; } }
 
 
-	public Structure(CATEGORY category, CAIModel data) :base(category)
+	public Structure(ThingCategory category, CAIModel data) :base(category)
 	{
 		this._CAIModel = data;
 	}

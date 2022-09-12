@@ -21,7 +21,7 @@ public class UIMain : MonoBehaviour
 	}
 
 	State state = State.DEFAULT;
-	CATEGORY thingToBuild = CATEGORY.WALL;
+	ThingCategory thingToBuild = ThingCategory.WALL;
 
 	World world;
 	//ZoneOrganizer zOrg;

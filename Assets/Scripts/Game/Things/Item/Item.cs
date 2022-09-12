@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public class Item : Thing_Interactable
 {
-	public Item(CATEGORY category) : base(category)
+	public Item(ThingCategory category) : base(category)
 	{
 
 	}

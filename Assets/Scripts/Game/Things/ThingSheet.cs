@@ -8,26 +8,26 @@ public class ThingSheet
 {
 	public static Thing GetGrass()
 	{
-		Thing plant = new Item(CATEGORY.PLANT);
+		Thing plant = new Item(ThingCategory.PLANT);
 		//plant.InitContainer();
 		//plant.moduleContainer.Add(Keyword.FOOD_VEGI, 100);
 		return plant;
 	}
 	public static Thing GetBush()
 	{
-		Thing plant = new Item(CATEGORY.PLANT);
+		Thing plant = new Item(ThingCategory.PLANT);
 		//plant.resources.Add(Keyword.FOOD_VEGI, 100);
 		return plant;
 	}
 	public static Thing GetRock()
 	{
-		Thing thing = new Item(CATEGORY.ROCK);
+		Thing thing = new Item(ThingCategory.ROCK);
 		//thing.Category = CATEGORY.ROCK;
 		return thing;
 	}
 	public static Thing GetReed()
 	{
-		Thing thing = new Item(CATEGORY.REED);
+		Thing thing = new Item(ThingCategory.REED);
 		return thing;
 	}
 
@@ -40,17 +40,17 @@ public class ThingSheet
 
 	public static Frame GetRoof()
 	{
-		Frame roof = new Frame(CATEGORY.ROOF);
+		Frame roof = new Frame(ThingCategory.ROOF);
 		//roof.SetCategory(CATEGORY.ROOF);
 		return roof;
 	}
 	public static Frame GetWall()
 	{
-		Frame roof = new Frame(CATEGORY.WALL);
+		Frame roof = new Frame(ThingCategory.WALL);
 		//roof.SetCategory(CATEGORY.WALL);
 		return roof;
 	}
-	public static Thing Rabbit(CATEGORY category = CATEGORY.RABBIT)
+	public static Thing Rabbit(ThingCategory category = ThingCategory.RABBIT)
 	{
 		Thing thing = new StoryGenerator.World.Things.Actors.Animal(category);
 
@@ -79,7 +79,7 @@ public class ThingSheet
 	}
 	public static Thing Human()
 	{
-		var rabbit = Rabbit(CATEGORY.HUMAN);
+		var rabbit = Rabbit(ThingCategory.HUMAN);
 		rabbit.moduleNeeds.AddNeed(new NeedSleepHere());
 		rabbit.moduleBody.AddBody(new SleepNerve());
 		//rabbit.SetCategory(CATEGORY.HUMAN);
@@ -87,7 +87,7 @@ public class ThingSheet
 	}
 	public static Thing GetBear()
 	{
-		Thing thing = new Thing(CATEGORY.BEAR);
+		Thing thing = new Thing(ThingCategory.BEAR);
 
 		thing.InitBodyManager();
 		thing.InitThingNeedManager();

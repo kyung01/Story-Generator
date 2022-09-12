@@ -28,7 +28,7 @@ public class ThingWithPhysicalPresence : Thing_Describable
 		this.dirFacing = dir;
 	}
 
-	public ThingWithPhysicalPresence(CATEGORY type) : base(type)
+	public ThingWithPhysicalPresence(ThingCategory type) : base(type)
 	{
 	}
 

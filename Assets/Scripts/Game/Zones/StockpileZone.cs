@@ -9,13 +9,13 @@ using GameEnums;
 
 public class StockpileZone : Zone
 {
-	List<CATEGORY> acceptableTypes = new List<CATEGORY>();
+	List<ThingCategory> acceptableTypes = new List<ThingCategory>();
 	
 	public StockpileZone()
 	{
 		this.type = TYPE.STOCKPILE;
-		var values = System.Enum.GetValues(typeof(CATEGORY));
-		foreach(CATEGORY v in values)
+		var values = System.Enum.GetValues(typeof(ThingCategory));
+		foreach(ThingCategory v in values)
 		{
 			acceptableTypes.Add(v);
 		}

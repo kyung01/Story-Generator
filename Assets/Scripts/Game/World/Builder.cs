@@ -6,20 +6,20 @@ public class Builder
 {
 
 
-	static Thing categoryToActualThing(CATEGORY type)
+	static Thing categoryToActualThing(ThingCategory type)
 	{
 		switch (type)
 		{
-			case CATEGORY.WALL:
+			case ThingCategory.WALL:
 				return ThingSheet.GetWall();
-			case CATEGORY.DOOR:
+			case ThingCategory.DOOR:
 				return new Door();
-			case CATEGORY.ROOF:
+			case ThingCategory.ROOF:
 				return ThingSheet.GetRoof();
-			case CATEGORY.BED:
+			case ThingCategory.BED:
 				return ThingSheet.GetBed();
 		}
-		return new Thing(CATEGORY.UNDEFINED);
+		return new Thing(ThingCategory.UNDEFINED);
 	}
 
 	static bool prepareForConstruction(World world, Structure structure, int x, int y, Direction dir)
@@ -37,11 +37,11 @@ public class Builder
 		}
 		return true;
 	}
-	static public void Build(World world, CATEGORY categoryOfThingToBuild, int x, int y, Direction dirToBuild)
+	static public void Build(World world, ThingCategory categoryOfThingToBuild, int x, int y, Direction dirToBuild)
 	{
 		Debug.Log("Building direction " + dirToBuild);
 		Thing thing = categoryToActualThing(categoryOfThingToBuild);
-		if(categoryOfThingToBuild == CATEGORY.ROOF)
+		if(categoryOfThingToBuild == ThingCategory.ROOF)
 		{
 			if (world.IsRoofAt(x, y)) return;
 
