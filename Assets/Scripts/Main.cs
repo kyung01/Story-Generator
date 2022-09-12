@@ -7,7 +7,6 @@ public class Main : MonoBehaviour
 	public PrefabList prefabList;
 	public Game game;
 	public GameRenderer gameRenderer;
-	public UIMain UIMain;
 //	public UIMain_2_0 UIMain2;
 	public UIOrganizer uiOrganizer;
 

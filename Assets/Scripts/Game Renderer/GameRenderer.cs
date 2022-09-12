@@ -14,8 +14,12 @@ public class RenderedTerrainPieceInfo
 		rect = new Rect(bl.x, bl.y, tR.x - bl.x, tR.y - bl.y);
 	}
 }
+
+
 public class GameRenderer : MonoBehaviour
 {
+	static public GameRenderer Instance;
+
 	[SerializeField] SpriteList SPRITE_LIST;
 	[SerializeField] ThingRenderer PREFAB_THING_RENDERER;
 	[SerializeField] ThingRenderer PREFAB_GRASS_RENDERER;
@@ -35,11 +39,23 @@ public class GameRenderer : MonoBehaviour
 
 	Dictionary<Zone, ZoneRenderer> dicZone_ZoneRen = new Dictionary<Zone, ZoneRenderer>();
 
+	private void Awake()
+	{
+
+		Instance = this;
+	}
 	internal void hdrWorldThingAdded(Thing thing)
 	{
 		InitRender(thing);
 	}
 
+	public void SetZoneRendereEnabledTo(bool value)
+	{
+		foreach(var p in dicZone_ZoneRen)
+		{
+			p.Value.SetEnabled(value);
+		}
+	}
 
 	private void InitRenderTerrain(StoryGenerator.NTerrain.TerrainSystem terrain)
 	{
@@ -184,8 +200,10 @@ public class GameRenderer : MonoBehaviour
 
 		}
 	}
+
 	Vector3 worldMin = new Vector3();
 	Vector3 worldMax = new Vector3();
+
 	public void Update()
 	{
 		var listOfThings = WorldController.GetCurrentlySelectedThings();

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EasyTools;
+using System;
 
 public class EdgeInformation
 {
@@ -121,6 +122,8 @@ public class Square {
 public class ZoneRenderer :MonoBehaviour
 {
 	[SerializeField] TMPro.TextMeshPro textMeshPro;
+	[SerializeField] GameObject textGameObject;
+
 	List<ZoneRenderer> zoneRenderers = new List<ZoneRenderer>();
 	
 	public void AddZoneRenderer(ZoneRenderer zoneRen)
@@ -148,6 +151,17 @@ public class ZoneRenderer :MonoBehaviour
 	{
 		return Camera.main.WorldToViewportPoint(new Vector3(WorldPos.x, WorldPos.y, 0));
 	}
+
+	public void SetEnabled(bool v)
+	{
+		this.enabled = v;
+		textGameObject.SetActive(v);
+		foreach(var z in zoneRenderers)
+		{
+			z.SetEnabled(v);
+		}
+	}
+
 	public void Update()
 	{
 		Render();
@@ -385,11 +399,12 @@ public class ZoneRenderer :MonoBehaviour
 		this.zoneRenderers = new List<ZoneRenderer>();
 		if(zone is BaseHousingZone){
 			var house = (BaseHousingZone)zone;
-			foreach(var h in house.Rooms)
+			foreach(var innerRoomZone in house.Rooms)
 			{
 				var newZoneRend = Instantiate(this);
+				//newZoneRend.SetEnabled(false);
 				this.zoneRenderers.Add(newZoneRend);
-				newZoneRend.Init(h, EzT.GetRandomColor());
+				newZoneRend.Init(innerRoomZone, EzT.GetRandomColor());
 			}
 		}
 		//for each P in positions, check if it's a position with at least one empty adjacent
@@ -398,5 +413,5 @@ public class ZoneRenderer :MonoBehaviour
 		return this;
 	}
 
-
+	
 }

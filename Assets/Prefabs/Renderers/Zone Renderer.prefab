@@ -313,3 +313,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMeshPro: {fileID: 3872832263319988390}
+  textGameObject: {fileID: 3872832263319988392}
