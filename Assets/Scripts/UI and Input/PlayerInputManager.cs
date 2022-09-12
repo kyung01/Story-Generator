@@ -60,13 +60,17 @@ public class PlayerInputManager : MonoBehaviour
 		uiOrganizer.CancellLastInput();
 	}
 
-	static readonly string CANCELL_STRING = "CANCELL";
 	void clearSettings()
 	{
 		this.thingToBuild = ThingCategory.UNDEFINED;
 		this.zoneToBuild = ZoneCategory.NONE;
 		this.selectedCommand = FEEDBACK.NONE;
 	}
+
+	static readonly string FOOTER_BUILD = "FOOTER_BUILD";
+	static readonly string FOOTER_ZONE_OPEN = "FOOTER_ZONE_OPEN";
+	static readonly string FOOTER_ZONE_CLOSE = "FOOTER_ZONE_CLOSE";
+	static readonly string FOOTER_TASK = "FOOTER_BUILD";
 	private void hdrBttnFeedbackString(string feedbackString)
 	{
 		clearSettings();
@@ -101,8 +105,22 @@ public class PlayerInputManager : MonoBehaviour
 			{"ZONE_HOUSING_BATHROOM",ZoneCategory.HOUSING_BATHROOM  },
 			{"ZONE_STOCKPILE",ZoneCategory.STOCKPILE  }
 		};
+
+		if(feedbackString == FOOTER_ZONE_OPEN)
+		{
+			UIMain.SetZoneRenderer(true);
+
+		}else if(feedbackString == FOOTER_ZONE_CLOSE)
+		{
+			UIMain.SetZoneRenderer(false);
+
+		}
+
+
 		if (feedbackStringToWorldControllerCOmmand.ContainsKey(feedbackString))
 		{
+
+
 			this.controllerCommandSelected = feedbackStringToWorldControllerCOmmand[feedbackString];
 			if (controllerCommandSelected == WorldController.Command.BUILD)
 			{
@@ -117,8 +135,8 @@ public class PlayerInputManager : MonoBehaviour
 			{
 				this.zoneToBuild = zoneDictionary[feedbackString];
 			}
-			return;
 		}
+
 		/*
 		return;
 		else if(feedbackString == CANCELL_STRING)

@@ -1,4 +1,5 @@
 ﻿using GameEnums;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,11 +11,32 @@ public class UIButtonFeedback : MonoBehaviour
 	[SerializeField] string feedbackStringDisabled;
 
 	public List<DelFeedbackString> OnFeedbackString = new List<DelFeedbackString>();
+
 	//public List<UIEnums.DEL_FEEDBACK> OnFeedback = new List<UIEnums.DEL_FEEDBACK>();
 
 	private void Awake()
 	{
-		this.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(hdrOnClick);
+		//this.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(hdrOnClick);
+		this.GetComponent<UIButtonLinked>().OnSetOpen.Add(hdrOnClickCustom);
+	}
+
+	private void hdrOnClickCustom(bool isOpen)
+	{
+		if (isOpen)
+		{
+			for (int i = 0; i < OnFeedbackString.Count; i++)
+			{
+				OnFeedbackString[i](this, feedbackString);
+			}
+		}
+		else
+		{
+			for (int i = 0; i < OnFeedbackString.Count; i++)
+			{
+				OnFeedbackString[i](this, feedbackStringDisabled);
+			}
+
+		}
 	}
 
 	private void hdrOnClick()

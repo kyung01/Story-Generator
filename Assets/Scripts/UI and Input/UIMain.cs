@@ -2,9 +2,27 @@
 using GameEnums;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class UIMain : MonoBehaviour
 {
+	static internal UIMain Instance;
+	static public void SetZoneRenderer(bool value)
+	{
+		Debug.Log("Static SetZoneRenderer " + value);
+		//Instance.isRenderZoneRenderers = value;
+		Instance.setZoneRenderer(value);
+	}
+
+	private void setZoneRenderer(bool value)
+	{
+		Debug.Log("setZoneRenderer " + value + " " + zoneRenderers.Count);
+		foreach (var zoneR in zoneRenderers)
+		{
+			zoneR.enabled = value;
+		}
+	}
+
 	public enum State
 	{
 		DEFAULT,
@@ -45,13 +63,15 @@ public class UIMain : MonoBehaviour
 
 	List<Thing> thingsSelected = new List<Thing>();
 	WorldThingSelector wrdThingSelector = new WorldThingSelector();
+	private bool isRenderZoneRenderers = false;
+
 	//List<Zone> zones = new List<Zone>();
 
 	//Zone zoneSelected = null;
 
 	private void Awake()
 	{
-
+		Instance = this;
 	}
 
 	#region hprFunctions
@@ -191,7 +211,11 @@ public class UIMain : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		UpdateZoneRenderers();
+		if (isRenderZoneRenderers)
+		{
+			//UpdateZoneRenderers();
+
+		}
 
 
 		for (int i = 0; i < thingsSelected.Count; i++)

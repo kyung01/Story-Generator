@@ -40,6 +40,14 @@ public class UIButtonLinked : MonoBehaviour
 
 	public void SetOpen(bool isOpen)
 	{
+		if(this.isEnabled == isOpen)
+		{
+			foreach (var b in bundlesOpen)
+			{
+				b.SetOpen(isOpen);
+			}
+			return;
+		}
 		isEnabled = isOpen;
 		this.GetComponent<UnityEngine.UI.Image>().color = (isOpen) ? colorSelected : colorUnSelected;
 		OnSetOpen.Raise(isOpen);
