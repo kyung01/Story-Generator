@@ -43,60 +43,54 @@ public partial class WorldController
 
 	public static void Select(Vector2 from, Vector2 to)
 	{
-		if(INSTANCE.command == Command.HAUL)
+		switch (INSTANCE.command)
 		{
-			Debug.Log("WorldController::Issuing a command Haul" + from + " " + to);
-			Selector.SelectFromTo(World, from, to);
-			//Selector.Select(World, Mathf.RoundToInt(from.x), Mathf.RoundToInt(from.y), Mathf.RoundToInt(to.x), Mathf.RoundToInt(to.y));
-			INSTANCE.apply();
-			//INSTANCE.command = Command.NONE;
-		}
-		else if(INSTANCE.command == Command.BUILD)
-		{
-			for(int i = (int)from.x; i <= to.x; i++)
-			{
-				for(int j = (int)from.y; j <= to.y; j++)
+			case Command.NONE:
+				Selector.SelectFromTo(World, from, to);
+				break;
+			case Command.BUILD:
+				for (int i = (int)from.x; i <= to.x; i++)
 				{
-					Builder.Build(World, INSTANCE.thingToBuild, i, j, INSTANCE.directionToBuild);
+					for (int j = (int)from.y; j <= to.y; j++)
+					{
+						Builder.Build(World, INSTANCE.thingToBuild, i, j, INSTANCE.directionToBuild);
+					}
 				}
-			}
-			//INSTANCE.command = Command.NONE;
-			//INSTANCE.thingToBuild = Thing.TYPE.UNDEFINED;
-			
-		}
-		else if(INSTANCE.command == Command.ZONE)
-		{
-			Debug.Log("WorldController::Building a stockpile zone " + from + " " + to );
-			switch (INSTANCE.zoneToBuild)
-			{
-				case ZoneCategory.STOCKPILE:
-					World.zoneOrganizer.BuildStockpileZone((int)from.x, (int)from.y, (int)to.x, (int)to.y);
-					break;
-				case ZoneCategory.HOUSING:
-					World.zoneOrganizer.BuildHouseZone((int)from.x, (int)from.y, (int)to.x, (int)to.y);
-					break;
-				case ZoneCategory.HOUSING_BEDROOM:
-					World.zoneOrganizer.BuildBedroom((int)from.x, (int)from.y, (int)to.x, (int)to.y);
-					break;
-				case ZoneCategory.HOUSING_BATHROOM:
-					World.zoneOrganizer.BuildBathroom((int)from.x, (int)from.y, (int)to.x, (int)to.y);
-					break;
-				case ZoneCategory.HOUSING_LIVINGROOM:
-					World.zoneOrganizer.BuildLivingroom((int)from.x, (int)from.y, (int)to.x, (int)to.y);
-					break;
-				case ZoneCategory.NONE:
-					break;
-				default:
-					break;
-			}
-			INSTANCE.command = Command.NONE;
-
-		}
-		else
-		{
-			Selector.SelectFromTo(World, from, to);
-
-
+				break;
+			case Command.HAUL:
+				Debug.Log("WorldController::Issuing a command Haul" + from + " " + to);
+				Selector.SelectFromTo(World, from, to);
+				INSTANCE.apply();
+				break;
+			case Command.ZONE:
+				switch (INSTANCE.zoneToBuild)
+				{
+					case ZoneCategory.STOCKPILE:
+						World.zoneOrganizer.BuildStockpileZone((int)from.x, (int)from.y, (int)to.x, (int)to.y);
+						break;
+					case ZoneCategory.HOUSING:
+						World.zoneOrganizer.BuildHouseZone((int)from.x, (int)from.y, (int)to.x, (int)to.y);
+						break;
+					case ZoneCategory.HOUSING_BEDROOM:
+						World.zoneOrganizer.BuildBedroom((int)from.x, (int)from.y, (int)to.x, (int)to.y);
+						break;
+					case ZoneCategory.HOUSING_BATHROOM:
+						World.zoneOrganizer.BuildBathroom((int)from.x, (int)from.y, (int)to.x, (int)to.y);
+						break;
+					case ZoneCategory.HOUSING_LIVINGROOM:
+						World.zoneOrganizer.BuildLivingroom((int)from.x, (int)from.y, (int)to.x, (int)to.y);
+						break;
+					case ZoneCategory.NONE:
+						break;
+					default:
+						break;
+				}
+				INSTANCE.command = Command.NONE;
+				break;
+			case Command.END:
+				break;
+			default:
+				break;
 		}
 
 	}

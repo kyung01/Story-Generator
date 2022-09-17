@@ -14,9 +14,43 @@ public class WorldThingSelector
 			return thingsISelected;
 		} 
 	}
-	ThingCategory typeOfThingSelected = ThingCategory.UNDEFINED;
-	int countOfThingsSelected = -1;
+
+	#region Helpers
 	
+	bool hprIsSame(List<Thing> a, List<Thing> b)
+	{
+		if (a.Count == b.Count)
+		{
+			bool isSame = true;
+			for (int i = 0; i < b.Count; i++)
+			{
+				if (a[i] != b[i])
+				{
+					isSame = false;
+					break;
+				}
+			}
+			if (isSame)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	bool hprIsThingISelectedInTheList(List<List<Thing>> things)
+	{
+		if (thingsISelected == null) return false;
+		foreach (var otherThing in things)
+		{
+			if (hprIsSame(otherThing, this.thingsISelected))
+				return true;
+		}
+		return false;
+	}
+
+	#endregion
+
 	List<List<Thing>> getAllThingsInWorld(World world, int x, int y, int width, int height)
 	{
 		List<Thing> things = new List<Thing>();
@@ -48,47 +82,18 @@ public class WorldThingSelector
 		return d;
 	}
 
-	bool hprIsSame (List<Thing> a, List<Thing> b)
-	{
-		if (a.Count == b.Count)
-		{
-			bool isSame = true;
-			for (int i = 0; i < b.Count; i++)
-			{
-				if (a[i] != b[i])
-				{
-					isSame = false;
-					break;
-				}
-			}
-			if (isSame)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	bool hprIsThingISelectedInTheList(List<List<Thing>> things)
-	{
-		if (thingsISelected == null) return false;
-		foreach(var otherThing in things)
-		{
-			if (hprIsSame(otherThing, this.thingsISelected))
-				return true;
-		}
-		return false;
-	}
-	void select(List<Thing> things)
+	void setSelectedThings(List<Thing> things)
 	{
 		this.thingsISelected = things;
-		this.countOfThingsSelected = things.Count;
-		this.typeOfThingSelected = things[0].Category;
+		//this.countOfThingsSelected = things.Count;
+		//this.typeOfThingSelected = things[0].Category;
 	}
 
 	public void SelectFromTo(World world, Vector2 from, Vector2 to)
 	{
 		this.Select(world, (int)from.x, (int)from.y, (int)(1 + to.x - from.x),(int)( 1 + to.y - from.y) );
 	}
+	
 	public void Select(World world, int x, int y, int width, int height)
 	{
 		var thingsList = getAllThingsInWorld(world, x, y, width, height);
@@ -106,7 +111,7 @@ public class WorldThingSelector
 		if (!hprIsThingISelectedInTheList(thingsList))
 		{
 			Debug.Log("Case First time selecting");
-			select(thingsList[0]);
+			setSelectedThings(thingsList[0]);
 			return;
 
 		}
@@ -117,7 +122,7 @@ public class WorldThingSelector
 			{
 				if(hprIsSame(thingsList[i], this.thingsISelected)){
 					int nextIndex = (i + 1) % thingsList.Count;
-					select(thingsList[nextIndex]);
+					setSelectedThings(thingsList[nextIndex]);
 					return;
 				}
 				

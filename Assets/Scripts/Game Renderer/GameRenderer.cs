@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GameEnums;
+using System;
 
 public class RenderedTerrainPieceInfo
 {
@@ -39,11 +40,15 @@ public class GameRenderer : MonoBehaviour
 
 	Dictionary<Zone, ZoneRenderer> dicZone_ZoneRen = new Dictionary<Zone, ZoneRenderer>();
 
+	Vector3 worldMin = new Vector3();
+	Vector3 worldMax = new Vector3();
+
 	private void Awake()
 	{
 
 		Instance = this;
 	}
+	
 	internal void hdrWorldThingAdded(Thing thing)
 	{
 		InitRender(thing);
@@ -194,6 +199,7 @@ public class GameRenderer : MonoBehaviour
 
 		}
 	}
+	
 	public void InitRenderWorld(World world)
 	{
 		for (int i = 0; i < world.allThings.Count; i++)
@@ -204,20 +210,12 @@ public class GameRenderer : MonoBehaviour
 		}
 	}
 
-	Vector3 worldMin = new Vector3();
-	Vector3 worldMax = new Vector3();
 
 	public void Update()
 	{
-		var listOfThings = WorldController.GetCurrentlySelectedThings();
+		RenderWorldController();
 		//Debug.Log(this + " : "+listOfThings.Count);
-		foreach (var entity in listOfThings)
-		{
-			Vector3 entityXYZ = new Vector3(entity.X, entity.Y,0);
-			Vector3 size = new Vector3(.5f,.5f,0);
-			UIPostRenderer.Render_Shape_Square(new Color(1,1,1,0.3f), entityXYZ - size, entityXYZ + size);
-
-		}
+		
 		//Debug.Log("M " + Input.mousePosition);
 		var worldMin = Camera.main.ViewportToWorldPoint(new Vector3(-.1f, -.1f, 0));
 		var worldMax = Camera.main.ViewportToWorldPoint(new Vector3(1.1f, 1.1f, 0));
@@ -231,6 +229,18 @@ public class GameRenderer : MonoBehaviour
 				tPiece.obj.SetActive(tPiece.rect.Overlaps(screenRect));
 
 			}
+		}
+
+	}
+
+	private void RenderWorldController()
+	{
+		var listOfThings = WorldController.GetCurrentlySelectedThings();
+		foreach (var entity in listOfThings)
+		{
+			Vector3 entityXYZ = new Vector3(entity.X, entity.Y, 0);
+			Vector3 size = new Vector3(.5f, .5f, 0);
+			UIPostRenderer.Render_Shape_Square(new Color(1, 1, 1, 0.3f), entityXYZ - size, entityXYZ + size);
 		}
 
 	}

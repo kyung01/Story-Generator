@@ -23,14 +23,6 @@ public class PlayerInputManager : MonoBehaviour
 
 	private void hdrSelectedFinal(int xBegin, int yBegin, int xEnd, int yEnd)
 	{
-		if (this.controllerCommandSelected == WorldController.Command.BUILD)
-		{
-
-		}
-		else if (this.controllerCommandSelected == WorldController.Command.HAUL)
-		{
-
-		}
 		switch (controllerCommandSelected)
 		{
 			case WorldController.Command.NONE:
@@ -138,65 +130,8 @@ public class PlayerInputManager : MonoBehaviour
 				this.zoneToBuild = zoneDictionary[feedbackString];
 			}
 		}
-
-		/*
-		return;
-		else if(feedbackString == CANCELL_STRING)
-		{
-			this.selectedCommand = FEEDBACK.NONE;
-		}
-		var enumValue = UIEnums.ToEnum(feedbackString);
-		//hdrBttnFeedback(feedbackEnum);
-	
-		if(enumValue == UIEnums.FEEDBACK.TASKS_HAUL)
-		if (enumValue == UIEnums.FEEDBACK.TASKS_HAUL)
-		{
-			WorldController.SetCommand(WorldController.Command.HAUL);
-
-		}
-		else if (enumValue == UIEnums.FEEDBACK.ZONES_STOCKPILE)
-		{
-			WorldController.SetCommand(WorldController.Command.STOCKPILE);
-
-		}
-		else if(enumValue == UIEnums.FEEDBACK.CANCELL)
-		{
-			WorldController.SetCommand(WorldController.Command.NONE);
-		}
-
-		if (enumValue.isBUILDS())
-		{
-			switch (enumValue)
-			{
-				case UIEnums.FEEDBACK.BUILD_WALL:
-					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: CATEGORY.WALL);
-					break;
-				case UIEnums.FEEDBACK.BUILD_DOOR:
-					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: CATEGORY.DOOR);
-					break;
-				case UIEnums.FEEDBACK.BUILD_ROOF:
-					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: CATEGORY.ROOF);
-					break;
-				case UIEnums.FEEDBACK.BUILD_BED:
-					WorldController.SetCommand(WorldController.Command.BUILD, thingToBuild: CATEGORY.BED);
-					break;
-				default:
-					break;
-			}
-
-		}
-		 * */
 	}
 
-	private void raiseBuildSelected(ThingCategory thingToBuild)
-	{
-		this.thingToBuild = thingToBuild;
-	}
-
-	private void hdrSelectedWorld(int xBegin, int yBegin, int xEnd, int yEnd)
-	{
-		WorldController.Select(new Vector2(xBegin, yBegin), new Vector2(xEnd, yEnd));
-	}
 
 	private void Update()
 	{
