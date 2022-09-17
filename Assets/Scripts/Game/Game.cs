@@ -18,11 +18,15 @@ public partial class Game : MonoBehaviour
 	public World world;
 	float timeScale = 1.0f;
 
-	public void StartGame()
+	public void Init()
 	{
 		CAIModelSheet.Init();
-
 		world = new World();
+
+	}
+	public void StartGame()
+	{
+
 		WorldController.Init(world);
 
 

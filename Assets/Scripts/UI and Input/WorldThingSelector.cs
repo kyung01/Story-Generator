@@ -3,10 +3,16 @@ using GameEnums;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System;
 
 public class WorldThingSelector
 {
+	public delegate void DEL_THING_SELECTED(List<Thing> selectedThings);
+	public static List<DEL_THING_SELECTED> OnThingsSelected = new List<DEL_THING_SELECTED>();
+
+
 	List<Thing> thingsISelected = null;
+
 	public List<Thing> ThingsCurrentlySelected { 
 		get
 		{
@@ -14,6 +20,9 @@ public class WorldThingSelector
 			return thingsISelected;
 		} 
 	}
+
+
+
 
 	#region Helpers
 	
@@ -100,35 +109,41 @@ public class WorldThingSelector
 
 		for (int i = 0; i < thingsList.Count; i++)
 		{
-			Debug.Log(i + " " + thingsList[i][0].Category + "  " + thingsList[i].Count);
+			//Debug.Log(i + " " + thingsList[i][0].Category + "  " + thingsList[i].Count);
 
 		}
 
 		if (thingsList.Count == 0){
-			Debug.Log("Case Nothing to select");
-			return;
+			//Debug.Log("Case Nothing to select");
+			setSelectedThings(new List<Thing>());
 		}
-		if (!hprIsThingISelectedInTheList(thingsList))
+		else if (!hprIsThingISelectedInTheList(thingsList))
 		{
-			Debug.Log("Case First time selecting");
+			//Debug.Log("Case First time selecting");
 			setSelectedThings(thingsList[0]);
-			return;
 
 		}
 		else
 		{
-			Debug.Log("Case SelectTheNextElement");
+			//Debug.Log("Case SelectTheNextElement");
 			for (int i = 0; i< thingsList.Count; i++)
 			{
 				if(hprIsSame(thingsList[i], this.thingsISelected)){
 					int nextIndex = (i + 1) % thingsList.Count;
 					setSelectedThings(thingsList[nextIndex]);
-					return;
+					break;
 				}
 				
 			}
 		}
+		var functions = WorldThingSelector.OnThingsSelected;
+
+		foreach(var v in functions)
+		{
+			v(thingsISelected);
+		}
 
 
 	}
+
 }

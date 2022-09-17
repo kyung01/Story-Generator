@@ -5,7 +5,6 @@ using GameEnums;
 
 public partial class WorldController
 {
-
 	public enum Command
 	{
 		NONE,
@@ -16,15 +15,16 @@ public partial class WorldController
 
 
 		END,
-	}
-	
+	}	
 
 	public static WorldController INSTANCE;
+
 	private Direction directionToBuild = Direction.UP;
 	private ZoneCategory zoneToBuild;
 
 	private static World World { get { return INSTANCE.world; } }
 	private static WorldThingSelector Selector { get { return INSTANCE.worldThingSelector; } }
+
 
 	public static void Init(World world)
 	{

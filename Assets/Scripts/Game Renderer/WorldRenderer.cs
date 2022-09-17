@@ -17,9 +17,9 @@ public class RenderedTerrainPieceInfo
 }
 
 
-public class GameRenderer : MonoBehaviour
+public class WorldRenderer : MonoBehaviour
 {
-	static public GameRenderer Instance;
+	static public WorldRenderer Instance;
 
 	[SerializeField] SpriteList SPRITE_LIST;
 	[SerializeField] ThingRenderer PREFAB_THING_RENDERER;
@@ -121,13 +121,13 @@ public class GameRenderer : MonoBehaviour
 	}
 
 
-	public void Init(Game game)
+	public void Init(World world)
 	{
-		InitRenderTerrain(game.world.terrain);
+		InitRenderTerrain(world.terrain);
 
-		for (int i = 0; i < game.world.width; i++) for (int j = 0; j < game.world.height; j++)
+		for (int i = 0; i < world.width; i++) for (int j = 0; j < world.height; j++)
 			{
-				if (game.world.terrain.GetPieceAt(i, j).Type == StoryGenerator.NTerrain.Piece.KType.MOUNTAIN)
+				if (world.terrain.GetPieceAt(i, j).Type == StoryGenerator.NTerrain.Piece.KType.MOUNTAIN)
 				{
 					var rock = Instantiate(tempMountainRock);
 					rock.transform.position = new Vector3(i, j, 0);
@@ -135,11 +135,11 @@ public class GameRenderer : MonoBehaviour
 
 			}
 
-		InitRenderWorld(game.world);
-		InitRenderZoneOrganizer(game.world.zoneOrganizer);
+		InitRenderWorld(world);
+		InitRenderZoneOrganizer(world.zoneOrganizer);
 
 
-		game.world.OnThingAdded.Add(hdrWorldThingAdded);
+		world.OnThingAdded.Add(hdrWorldThingAdded);
 	}
 
 	private void InitRenderZoneOrganizer(ZoneOrganizer zoneOrganizer)

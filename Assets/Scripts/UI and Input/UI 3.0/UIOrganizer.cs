@@ -1,4 +1,5 @@
 ﻿using StoryGenerator.World;
+using StoryGenerator.World.Things.Actors;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,10 +7,14 @@ using UnityEngine;
 public class UIOrganizer : MonoBehaviour
 {
 	public delegate void DelBttnFeedbackString(string feedback);
-	World world;
-	UIEnums.FEEDBACK bttnFeedback;
+
 	public List<UIEnums.DEL_FEEDBACK> OnBttnFeedback = new List<UIEnums.DEL_FEEDBACK>();
 	public List<DelBttnFeedbackString> OnBttnFeedbackString = new List<DelBttnFeedbackString>();
+
+
+	World world;
+
+	public UIActorView actorView;
 
 	// Use this for initialization
 	public void Init(World world)
@@ -27,6 +32,21 @@ public class UIOrganizer : MonoBehaviour
 			b.GetComponent<UIButtonLinked>().SetOpen(false);
 		}
 		//UISelectBox.OnSelectedEnd.Add(hdrSelectedWorld);
+
+		WorldThingSelector.OnThingsSelected.Add(hdrThingsSelected);
+	}
+
+	private void hdrThingsSelected(List<Thing> selectedThings)
+	{
+		if (selectedThings.Count == 1 && selectedThings[0] is ActorBase )
+		{
+			this.actorView.gameObject.SetActive(true);
+			this.actorView.View((ActorBase)selectedThings[0]);
+		}
+		else
+		{
+			this.actorView.gameObject.SetActive(false);
+		}
 	}
 
 	internal void CancellLastInput()

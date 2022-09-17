@@ -229,6 +229,7 @@ namespace StoryGenerator.World
 		
 		void Init1_Terrain()
 		{
+			float chanceToSpawn = 10;
 			//initialize the world 
 			terrain.Init(width, height, probToBeMountainGround : 0, probClay:0);
 
@@ -252,7 +253,6 @@ namespace StoryGenerator.World
 					}
 					var t = terrain.pieces[i + j * width];
 					Thing thing = null;
-					float chanceToSpawn = 30;
 					if (Random.Range(0, 100) > chanceToSpawn) continue;
 
 					switch (t.Type)

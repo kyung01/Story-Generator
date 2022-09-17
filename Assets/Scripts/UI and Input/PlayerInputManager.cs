@@ -100,13 +100,13 @@ public class PlayerInputManager : MonoBehaviour
 
 		if(feedbackString == FOOTER_ZONE_OPEN)
 		{
-			GameRenderer.Instance.SetZoneRendereEnabledTo(true);
+			WorldRenderer.Instance.SetZoneRendereEnabledTo(true);
 			//UIMain.SetZoneRenderer(true);
 
 		}else if(feedbackString == FOOTER_ZONE_CLOSE)
 		{
 			//UIMain.SetZoneRenderer(false);
-			GameRenderer.Instance.SetZoneRendereEnabledTo(false);
+			WorldRenderer.Instance.SetZoneRendereEnabledTo(false);
 
 		}
 
