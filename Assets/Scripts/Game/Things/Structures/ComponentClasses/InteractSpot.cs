@@ -50,12 +50,13 @@ public class InteractSpot
 		Debug.Log("checking position " + thing.XY + " but mine is at " + x + " " + y);
 		return EasyTools.EzT.IsZero(diff);
 	}
-	public void Interact(ThingWithPhysicalPresence structureWithThisSpot,Thing user)
+	public void Interact(ThingWithPhysicalPresence structureWithThisSpot, ThingWithPhysicalPresence user)
 	{
 		int x, y;
 		occupyingSpot.GetXY(structureWithThisSpot, out x,out y);
 		occupyingSpot.GetOuccpiedBy(user);
 		user.SetPosition(x, y);
+		user.SetFacingDirection(occupyingSpot.GetDirection(structureWithThisSpot));
 		//user.OnPositionIndexChanged.Add(hdrCheckIfUserLeftBecauseUserMoved);
 	}
 	public bool CanUnInteract(Thing thing)

@@ -9,9 +9,16 @@ public class OccupyingSpot
 {
 	int relativeX, relativeY;
 
+	GameEnums.Direction relativeDirection;
+
 	public void GetXY(ThingWithPhysicalPresence me, out int x, out int y)
 	{
 		me.GetRelativePosition(relativeX, relativeY, out x, out y);
+
+	}
+	public GameEnums.Direction GetDirection(ThingWithPhysicalPresence me)
+	{
+		return (GameEnums.Direction)(( ((int)me.DirectionFacing + (int)relativeDirection))%8);
 
 	}
 
@@ -19,10 +26,11 @@ public class OccupyingSpot
 
 	public Thing Occupier { get { return this.thingOccupying; } }
 
-	public OccupyingSpot(int x, int y)
+	public OccupyingSpot(int x, int y, GameEnums.Direction direction)
 	{
 		this.relativeX = x;
 		this.relativeY = y;
+		this.relativeDirection = direction;
 	}
 
 	public bool IsFree()
