@@ -216,7 +216,8 @@ namespace StoryGenerator.World
 
 			Init0_DefaultVariables();
 			Init1_Terrain();
-			Init2_Animals();
+			//Init2_Animals();
+			//Init3_TestingGround();
 		}
 
 		void Init0_DefaultVariables()
@@ -229,7 +230,7 @@ namespace StoryGenerator.World
 		void Init1_Terrain()
 		{
 			//initialize the world 
-			terrain.Init(width, height);
+			terrain.Init(width, height, probToBeMountainGround : 0, probClay:0);
 
 			for (int i = 0; i < width; i++)
 			{
@@ -334,6 +335,21 @@ namespace StoryGenerator.World
 				playerTeam.WorkManager.AddWorker(new Worker((ActorBase)Human));
 
 			}
+		}
+
+		public void LoadTestingSceneaerio()
+		{
+			zoneOrganizer.BuildHouseZone(0, 0, 11, 11);
+			int numHumans = 3;
+			for (int i = 0; i < numHumans; i++)
+			{
+				Thing Human = (ActorBase)ThingSheet.Human();
+				Human.SetPosition(new Vector2(5+i,5));
+				AddThingAndInit(Human);
+			}
+
+			AddThingAndInit(ThingSheet.GetBed().SetFacingDirection(Direction.DOWN).SetPosition(1, 1));
+			AddThingAndInit(ThingSheet.GetBed().SetFacingDirection(Direction.DOWN).SetPosition(9, 9));
 		}
 
 		//Private methods

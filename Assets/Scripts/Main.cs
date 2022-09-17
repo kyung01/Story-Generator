@@ -14,13 +14,13 @@ public class Main : MonoBehaviour
 	void Start()
 	{
 		game.StartGame();
-		gameRenderer.InitRender(game);
+		gameRenderer.Init(game);
+		uiOrganizer.Init(game.world);
+
+		game.Load();
 		//UIMain.Init(game.world); // Obsolete
 		//UIMain2.Init(game.world);
-		game.world.OnThingAdded.Add(gameRenderer.hdrWorldThingAdded);
 		//UIMain.zOrg = game.zoneOrganizer;
-		uiOrganizer.world = game.world;
-		uiOrganizer.Init();
 	}
 
 	// Update is called once per frame

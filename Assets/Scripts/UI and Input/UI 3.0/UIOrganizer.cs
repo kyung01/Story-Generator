@@ -6,20 +6,25 @@ using UnityEngine;
 public class UIOrganizer : MonoBehaviour
 {
 	public delegate void DelBttnFeedbackString(string feedback);
-	public World world;
+	World world;
 	UIEnums.FEEDBACK bttnFeedback;
 	public List<UIEnums.DEL_FEEDBACK> OnBttnFeedback = new List<UIEnums.DEL_FEEDBACK>();
 	public List<DelBttnFeedbackString> OnBttnFeedbackString = new List<DelBttnFeedbackString>();
 
 	// Use this for initialization
-	public void Init()
+	public void Init(World world)
 	{
+		this.world = world;
 		var buttons = GetComponentsInChildren<UIButtonFeedback>(true);
 		foreach(var b in buttons)
 		{
 			//Debug.Log(this + "Init " + b.gameObject.name);
 			//b.OnFeedback.Add(hdrBttnFeedback);
 			b.OnFeedbackString.Add(hdrBttnFeedbackString);
+		}
+		foreach(var b in buttons)
+		{
+			b.GetComponent<UIButtonLinked>().SetOpen(false);
 		}
 		//UISelectBox.OnSelectedEnd.Add(hdrSelectedWorld);
 	}

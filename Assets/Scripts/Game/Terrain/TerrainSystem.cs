@@ -49,7 +49,14 @@ namespace StoryGenerator.NTerrain
 			}
 			return noiseMap;
 		}
-		public void Init(int width, int height)
+
+		
+		public void Init(int width, int height,
+			float probToBeFertile = 0.4f,
+			float probToBeRocky = 0.3f,
+			float probToBeMountainGround = 0.7f,
+			float probClay = 0.5f
+			)
 		{
 			this.width = width;
 			this.height = height;
@@ -59,16 +66,16 @@ namespace StoryGenerator.NTerrain
 			{
 				pieces[i] = new Piece();
 			}
-			float probToBeFertile = 0.4f;
+			//float probToBeFertile = 0.4f;
 
 
-			float probToBeRocky = 0.3f;
+			//float probToBeRocky = 0.3f;
 
-			float probToBeMountainGround = 0.7f;
+			//float probToBeMountainGround = 0.7f;
 			float probToBeMountainRocks = probToBeMountainGround - 0.05f;
 
 
-			float probClay = 0.5f;
+			//float probClay = 0.5f;
 			float probWater = probClay - 0.05f;
 			float probWaterDeep = probWater - 0.05f;
 

@@ -116,7 +116,7 @@ public class GameRenderer : MonoBehaviour
 	}
 
 
-	public void InitRender(Game game)
+	public void Init(Game game)
 	{
 		InitRenderTerrain(game.world.terrain);
 
@@ -132,6 +132,9 @@ public class GameRenderer : MonoBehaviour
 
 		InitRenderWorld(game.world);
 		InitRenderZoneOrganizer(game.world.zoneOrganizer);
+
+
+		game.world.OnThingAdded.Add(hdrWorldThingAdded);
 	}
 
 	private void InitRenderZoneOrganizer(ZoneOrganizer zoneOrganizer)

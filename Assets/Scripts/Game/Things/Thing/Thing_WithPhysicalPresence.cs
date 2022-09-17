@@ -23,9 +23,10 @@ public class ThingWithPhysicalPresence : Thing_Describable
 	/// <summary>
 	/// set the facing direction without touching any in-game mechanics used when initializing 
 	/// </summary>
-	internal void SetFacingDirection(Direction dir)
+	public ThingWithPhysicalPresence SetFacingDirection(Direction dir)
 	{
 		this.dirFacing = dir;
+		return this;
 	}
 
 	public ThingWithPhysicalPresence(ThingCategory type) : base(type)

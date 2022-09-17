@@ -27,6 +27,10 @@ public partial class Game : MonoBehaviour
 
 
 	}
+	public void Load()
+	{
+		world.LoadTestingSceneaerio();
+	}
 
 	// Use this for initialization
 

@@ -123,7 +123,7 @@ public partial class Thing
 		}
 
 	}
-	public void SetPosition(float xValue, float yValue)
+	public Thing SetPosition(float xValue, float yValue)
 	{
 		float xOld = this.x;
 		float yOld = this.y;
@@ -152,6 +152,7 @@ public partial class Thing
 		{
 			OnPositionChanged[i](this, xOld,yOld, xValue, yValue);
 		}
+		return this;
 	}
 
 	public void SetPosition(Vector2 vec2)
