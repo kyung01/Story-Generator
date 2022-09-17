@@ -58,7 +58,7 @@ public class Thing_Describable : Thing_Interactable {
 	KeywordContainer thingContainer;
 	public KeywordContainer KeywordContainer { get { return this.thingContainer; } }
 
-	public Thing_Describable(ThingCategory type) : base(type)
+	public Thing_Describable(ThingCategory category) : base(category)
 	{
 		thingContainer = new KeywordContainer();
 		thingContainer.Init(this);

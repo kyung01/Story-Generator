@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StoryGenerator.World.Things.Actors.Satisfaction
+namespace StoryGenerator.World.Things.Actors.Need
 {
 
 	public class Happy : NeedBase

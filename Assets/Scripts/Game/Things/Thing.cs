@@ -117,10 +117,6 @@ public partial class Thing
 
 	public virtual void Init(World world)
 	{
-		if (moduleNeeds != null)
-		{
-			moduleNeeds.Init(this);
-		}
 
 	}
 	public Thing SetPosition(float xValue, float yValue)

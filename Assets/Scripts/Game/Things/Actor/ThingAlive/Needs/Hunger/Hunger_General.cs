@@ -47,7 +47,7 @@ public partial class Hunger_General : NeedBase
 		ref Thing targetThing, ref Keyword keywordSelected)
 	{
 		List<Thing> thingsToEat = thing.ThinkGetEdible(world);
-		var thingsIsee = world.GetSightableThings(thing, thing.moduleBody.MainBody.GetSight());
+		var thingsIsee = world.GetSightableThings(thing, ((ActorBase)thing).moduleBody.MainBody.GetSight());
 		if (thing.moduleHouse != null)
 		{
 			thingsIsee.AddRange(thing.moduleHouse.GetThings(requiredKeywords));

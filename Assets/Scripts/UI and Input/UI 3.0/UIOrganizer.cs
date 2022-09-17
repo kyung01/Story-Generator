@@ -14,7 +14,8 @@ public class UIOrganizer : MonoBehaviour
 
 	World world;
 
-	public UIActorView actorView;
+	public UIPersonView actorView;
+	public UIThingView thingView;
 
 	// Use this for initialization
 	public void Init(World world)
@@ -38,14 +39,21 @@ public class UIOrganizer : MonoBehaviour
 
 	private void hdrThingsSelected(List<Thing> selectedThings)
 	{
-		if (selectedThings.Count == 1 && selectedThings[0] is ActorBase )
+		this.actorView.gameObject.SetActive(false);
+		this.thingView.gameObject.SetActive(false);
+		if (selectedThings.Count == 1)
 		{
-			this.actorView.gameObject.SetActive(true);
-			this.actorView.View((ActorBase)selectedThings[0]);
-		}
-		else
-		{
-			this.actorView.gameObject.SetActive(false);
+			if(selectedThings[0] is Person)
+			{
+
+				this.actorView.gameObject.SetActive(true);
+				this.actorView.View((Person)selectedThings[0]);
+			}
+			else
+			{
+				this.thingView.gameObject.SetActive(true);
+				this.thingView.View(selectedThings[0]);
+			}
 		}
 	}
 

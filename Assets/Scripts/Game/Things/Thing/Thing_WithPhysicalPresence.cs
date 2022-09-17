@@ -29,7 +29,7 @@ public class ThingWithPhysicalPresence : Thing_Describable
 		return this;
 	}
 
-	public ThingWithPhysicalPresence(ThingCategory type) : base(type)
+	public ThingWithPhysicalPresence(ThingCategory category) : base(category)
 	{
 	}
 

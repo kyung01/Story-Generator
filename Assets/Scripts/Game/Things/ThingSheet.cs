@@ -1,4 +1,5 @@
 ﻿using GameEnums;
+using StoryGenerator.World.Things.Actors;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,10 +53,10 @@ public class ThingSheet
 	}
 	public static Thing Rabbit(ThingCategory category = ThingCategory.RABBIT)
 	{
-		Thing thing = new StoryGenerator.World.Things.Actors.Animal(category);
+		Animal thing = new Animal(category);
 
-		thing.InitBodyManager();
-		thing.InitThingNeedManager();
+		//thing.InitBodyManager();
+		//thing.InitThingNeedManager();
 
 		//thing.moduleNeeds.AddNeed(new Hunger_Vegi());
 		thing.moduleNeeds.AddNeed(Hunger_General.InitSimpleHunger(Keyword.FOOD_VEGI, Hunger_General.HungerResolutionMethodType.PASSIVE));
@@ -79,23 +80,24 @@ public class ThingSheet
 	}
 	public static Thing Human()
 	{
-		var rabbit = Rabbit(ThingCategory.HUMAN);
-		rabbit.moduleNeeds.AddNeed(new NeedSleepHere());
-		rabbit.moduleBody.AddBody(new SleepNerve());
+		Person human  = new StoryGenerator.World.Things.Actors.Person( ThingCategory.HUMAN);
+
+		//human.AddNeed(new NeedSleepHere());
+		human.moduleBody.AddBody(new SleepNerve());
 		//rabbit.SetCategory(CATEGORY.HUMAN);
-		return rabbit;
+		return human;
 	}
 	public static Thing GetBear()
 	{
-		Thing thing = new Thing(ThingCategory.BEAR);
+		Animal thing = new Animal(ThingCategory.BEAR);
 
-		thing.InitBodyManager();
-		thing.InitThingNeedManager();
+		//thing.InitBodyManager();
+		//thing.InitThingNeedManager();
 
 		//thing.moduleNeeds.AddNeed(new Hunger_Meat());
-		thing.moduleNeeds.AddNeed(Hunger_General.InitSimpleHunger(
+		thing.AddNeed(Hunger_General.InitSimpleHunger(
 			Keyword.FOOD_MEAT, Hunger_General.HungerResolutionMethodType.PASSIVE, Hunger_General.HungerResolutionMethodType.HUNT));
-		thing.moduleNeeds.AddNeed(new Wander());		
+		thing.AddNeed(new Wander());		
 
 		var meatBody = new MeatBody();
 		var stomach = new Stomach();

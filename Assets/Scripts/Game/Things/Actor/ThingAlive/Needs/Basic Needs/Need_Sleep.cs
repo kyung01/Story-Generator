@@ -9,11 +9,13 @@ using System.Threading.Tasks;
 
 public class NeedSleepHere : NeedBase
 {
-	public NeedSleepHere()
+	public NeedSleepHere(Person person)
 	{
+		Init(person);
+
 		this.name = "Sleep";
 		this.explanation = "Actor needs to sleep periodically.";
-		this.fullfillment = 60;
+		this.fullfillment = 55;
 		this.requiredKeywords.Add(Keyword.SLEEP);
 		this.stressKeywords.Add(Keyword.CHEM_SLEEPY);
 	}

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StoryGenerator.World.Things.Actors;
 
 public static class ThingExtensions
 {
@@ -54,7 +55,7 @@ public static class ThingExtensions
 
 	static public Dictionary<TaskType, List<BodyTaskable>> GetBodiesForTask(this Thing thing)
 	{
-		bool IsThisThing_ThingBodyWithTask = thing.moduleBody != null;
+		bool IsThisThing_ThingBodyWithTask =( thing is ActorBase);
 
 		var dicTaskAvailableBodies = new Dictionary<TaskType, List<BodyTaskable>>();
 		if (!IsThisThing_ThingBodyWithTask)
@@ -64,7 +65,7 @@ public static class ThingExtensions
 			return dicTaskAvailableBodies;
 		}
 		//var twb = (ThingWithBody)thing;
-		sortBodiesForTask(ref dicTaskAvailableBodies, thing.moduleBody.MainBody);
+		sortBodiesForTask(ref dicTaskAvailableBodies, (thing as ActorBase) .moduleBody.MainBody);
 		//UnityEngine.Debug.Log(" GetBodiesForTask :: " + dicTaskAvailableBodies.Count);
 
 

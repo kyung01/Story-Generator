@@ -50,10 +50,13 @@ public class Hunt : Action
 			if (bitingParts[i].IsReady)
 			{
 				((Mouth)bitingParts[i]).Bite(thing,targetThing);
-				if (targetThing.moduleBody.IsBodyAvailableForKeywordExchanges())
+				if(targetThing is ActorBase)
 				{
-					targetIsInSurrenderingState = true;
-					break;
+					if(((ActorBase)targetThing).moduleBody.IsBodyAvailableForKeywordExchanges()){
+
+						targetIsInSurrenderingState = true;
+						break;
+					}
 				}
 			}
 		}

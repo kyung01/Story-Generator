@@ -182,7 +182,8 @@ public class ThingRenderer : MonoBehaviour
 
 				}
 			}
-			
+
+			/*
 			if(thing.moduleNeeds != null)
 			{
 				for (int i = 0; i < thing.moduleNeeds.needs.Count; i++)
@@ -192,7 +193,8 @@ public class ThingRenderer : MonoBehaviour
 
 				}
 			}
-			
+			 * */
+
 		}
 		catch
 		{

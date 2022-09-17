@@ -8,7 +8,6 @@ public class ThingDescriber
 {
 	public Thing thing;
 	public ThingActionManager thingActionManger;
-	public ThingNeedManager thingNeedMangaer;
 
 
 }

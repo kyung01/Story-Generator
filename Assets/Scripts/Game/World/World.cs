@@ -340,7 +340,7 @@ namespace StoryGenerator.World
 		public void LoadTestingSceneaerio()
 		{
 			zoneOrganizer.BuildHouseZone(0, 0, 11, 11);
-			int numHumans = 3;
+			int numHumans = 1;
 			for (int i = 0; i < numHumans; i++)
 			{
 				Thing Human = (ActorBase)ThingSheet.Human();
@@ -420,7 +420,7 @@ namespace StoryGenerator.World
 				thing.OnPositionIndexChanged.Add(hdrPosIdxChg_Things);
 
 			}
-			if (thing.moduleBody != null)
+			if ((thing is ActorBase) )
 			{
 				thingsMoving[Mathf.RoundToInt(thing.X) + Mathf.RoundToInt(thing.Y) * width].Add(thing);
 				pathFinder.addCellWeightInt(thing.X_INT, thing.Y_INT, WEIGHT_AVOID_ANIMAL);
