@@ -59,11 +59,11 @@ public class ZoneOrganizer
 
 		for(int i = 0; i < zonesBefore.Count; i++)
 		{
-			zonesBefore[i].MovedOut(thing);
+			zonesBefore[i].RemoveThing(thing);
 		}
 		for(int i = 0; i < zonesAfter.Count; i++)
 		{
-			zonesAfter[i].MovedIn(thing);
+			zonesAfter[i].AddThing(thing);
 
 		}
 	}

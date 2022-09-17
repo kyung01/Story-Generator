@@ -1,4 +1,5 @@
 ﻿using GameEnums;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,12 +48,16 @@ public class Zone
 
 	}
 
-	public virtual void MovedIn(Thing thing)
+	public virtual void AddThing(Thing thing)
 	{
 		this.thingsIn.Add(thing);
 
 	}
-	public virtual void MovedOut(Thing thing)
+	public virtual void AddThingInRange(List<Thing> things)
+	{
+		this.thingsIn.AddRange(things);
+	}
+	public virtual void RemoveThing(Thing thing)
 	{
 		this.thingsIn.Remove(thing);
 
@@ -114,7 +119,9 @@ public class Zone
 			hprSort(areas, newArea, availablePositions);
 		}
 	}
+
 	
+
 	#endregion
 
 	#region GetSetRemove

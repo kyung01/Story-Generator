@@ -99,8 +99,20 @@ namespace StoryGenerator.World
 
 
 		#endregion
-		
+
 		#region Handlers
+
+		private void hdrZoneAdded(Zone zone)
+		{
+			Debug.Log("Zone Added " +zone.positions.Count);
+			foreach(var p in zone.positions)
+			{
+				var things = GetThingsAt((int)p.x, (int)p.y);
+				zone.AddThingInRange(things);
+			}
+			Debug.Log("Zone has " + zone.Things.Count);
+		}
+
 
 		void hprInitThingsIndex(ref List<Thing>[] things)
 		{
@@ -176,6 +188,7 @@ namespace StoryGenerator.World
 			hdrStructurePositionChangedAdd(thing, xNew, yNew);
 		}
 
+		//Separate handler for things that are moving (actors usually)
 		void hdrPosIdxChg_ThingsMoving(Thing thing, int xBefore, int yBefore, int xNew, int yNew)
 		{
 			//hdrAnimalMovedSoShouldWeightOnMap
@@ -187,19 +200,29 @@ namespace StoryGenerator.World
 
 		}
 
-		private void hdrPosIdxChg_All(Thing thing, int xBefore, int yBefore, int xNew, int yNew)
-		{
-			OnThingMoved.Raise(this, thing, xBefore, yBefore, xNew, yNew);
-			//this.zoneOrganizer.ThingMovedFrom(this, thing, xBefore, yBefore);
-			//this.zoneOrganizer.ThingMovedTo(this, thing, xNew, yNew);
-
-		}
+		
 
 		void hdrPosIdxChg_Things(Thing thing, int xBefore, int yBefore, int xNew, int yNew)
 		{
+			OnThingMoved.Raise(this, thing, xBefore, yBefore, xNew, yNew);
+
 			//Debug.Log("Hdr Thing's position is changed " + thing + xBefore+ " "  + yBefore + " -> " +xNew + " " + yNew);
 			things[xBefore + yBefore * width].Remove(thing);
 			things[xNew + yNew * width].Add(thing);
+
+			var zoneBefore = zoneOrganizer.GetZoneAt(xBefore, yBefore);
+			var zoneAfter = zoneOrganizer.GetZoneAt(xNew, yNew);
+
+			if (zoneBefore == zoneAfter) return;
+
+			if(zoneBefore!= null)
+			{
+				zoneBefore.RemoveThing(thing);
+			}
+			if(zoneAfter != null)
+			{
+				zoneAfter.AddThing(thing);
+			}
 
 		}
 
@@ -218,6 +241,8 @@ namespace StoryGenerator.World
 			Init1_Terrain();
 			//Init2_Animals();
 			//Init3_TestingGround();
+
+			this.zoneOrganizer.OnZoneAdded.Add(hdrZoneAdded);
 		}
 
 		void Init0_DefaultVariables()
@@ -340,7 +365,7 @@ namespace StoryGenerator.World
 		public void LoadTestingSceneaerio()
 		{
 			zoneOrganizer.BuildHouseZone(0, 0, 11, 11);
-			int numHumans = 1;
+			int numHumans = 3;
 			for (int i = 0; i < numHumans; i++)
 			{
 				Thing Human = (ActorBase)ThingSheet.Human();
@@ -367,9 +392,12 @@ namespace StoryGenerator.World
 		{
 			thing.Init(this);
 			this.allThings.Add(thing);
+			var zone = zoneOrganizer.GetZoneAt(thing.X_INT, thing.Y_INT);
+			if(zone!= null) { zone.AddThing(thing); }
+
 			//this.things[thing.X_INT + width * thing.Y_INT].Add(thing);
 
-			thing.OnPositionIndexChanged.Add(hdrPosIdxChg_All);
+			//thing.OnPositionIndexChanged.Add(hdrPosIdxChg_All);
 			
 			if (thing is Frame)
 			{
@@ -416,6 +444,7 @@ namespace StoryGenerator.World
 			}
 			else
 			{
+				//If it is not frame, apply a general rule for all things in the game
 				things[Mathf.RoundToInt(thing.X) + Mathf.RoundToInt(thing.Y) * width].Add(thing);
 				thing.OnPositionIndexChanged.Add(hdrPosIdxChg_Things);
 
@@ -475,6 +504,7 @@ namespace StoryGenerator.World
 			EmptySpot(x, y);
 
 		}
+		
 		public void EmptySpot(int x, int y)
 		{
 			//Debug.Log("ClearspotForConstruction");
@@ -528,6 +558,7 @@ namespace StoryGenerator.World
 			
 
 		}
+		
 		List<Item> sortItems(List<Thing> things)
 		{
 			List<Item> items = new List<Item>();
@@ -535,6 +566,7 @@ namespace StoryGenerator.World
 			foreach (var t in things) { if (t is Item) items.Add((Item)t); }
 			return items;
 		}
+		
 		public List<Thing>	GetThingsAt(int x, int y)
 		{
 			List<Thing> list = new List<Thing>();
