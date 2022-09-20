@@ -28,14 +28,14 @@ namespace StoryGenerator.World.Things.Actors
 
 		public override void hdrUpdate(World world, Thing thing, float timeElapsed)
 		{
-			Debug.Log("THING NEED MANAGER UPDATE ");
+			//Debug.Log("THING NEED MANAGER UPDATE ");
 			base.hdrUpdate(world, thing, timeElapsed);
 			ActorBase actor = (ActorBase)thing;
 
 			for (int i = 0; i < needs.Count; i++)
 			{
 				needs[i].updateStatic(world, actor, timeElapsed);
-				Debug.Log("THING NEED MANAGER UPDATE " +  i + " "  + needs[i].name + " " + needs[i].fullfillment);
+				//Debug.Log("THING NEED MANAGER UPDATE " +  i + " "  + needs[i].name + " " + needs[i].fullfillment);
 			}
 
 			if (actor.TAM.IsIdl)
@@ -154,7 +154,7 @@ namespace StoryGenerator.World.Things.Actors
 		BaseHousingZone GetHouseZoneIAmAt(World world) {
 
 			var zone = world.zoneOrganizer.GetZoneAt(this.X_INT, this.Y_INT);
-			Debug.Log("Zone " + zone);
+			//Debug.Log("Zone " + zone);
 			if (zone is BaseHousingZone) return (BaseHousingZone)zone;
 			return null;
 		}
@@ -187,7 +187,7 @@ namespace StoryGenerator.World.Things.Actors
 
 		public bool MoveTo(float x, float y)
 		{
-			if (IsBeingInteracted)
+			if (IsBeingCarried)
 			{
 				return false;
 			}
@@ -222,11 +222,11 @@ namespace StoryGenerator.World.Things.Actors
 				return;
 			}
 			*/
-			if (this.IsBeingInteracted)
+			if (this.IsBeingCarried)
 			{
-				this.FreeFromInteractor();
+				this.ResolveInteractor();
 			}
-			if (this.IsBeingInteracted)
+			if (this.IsBeingCarried)
 			{
 				return false;
 			}

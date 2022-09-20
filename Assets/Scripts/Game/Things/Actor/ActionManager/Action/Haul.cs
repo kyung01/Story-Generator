@@ -26,14 +26,14 @@ namespace ActionManagerAction {
 			bool thingAtDestination = (thingToHaul.XY - destination).magnitude < ZEROf;
 
 			
-			if (thingAtDestination && !thingToHaul.IsBeingInteracted)
+			if (thingAtDestination && !thingToHaul.IsBeingCarried)
 			{
 				Debug.Log("Action Haul Finished");
 				//ThingToHaul is at destination and no longer being held
 				finish();
 				return;
 			}
-			if(thingAtDestination && thingToHaul.Interactor == worker)
+			if(thingAtDestination && thingToHaul.IsInteractor(worker) ) 
 			{
 				//Package is at the destination and I need to drop this object 
 				Debug.Log("Action Haul Drop");
@@ -79,14 +79,14 @@ namespace ActionManagerAction {
 				worker.TAM.Drop(ThingActionManager.PriorityLevel.FIRST);
 				return;
 			}
-			if(thingToHaul.Interactor != worker)
+			if(!thingToHaul.IsInteractor( worker))
 			{
 				//if I am not holding the object, let me grap it first
 				Debug.Log("Action Haul Carry");
 				worker.TAM.Carry(thingToHaul, ThingActionManager.PriorityLevel.FIRST);
 				return;
 			}
-			if(!thingAtDestination && thingToHaul.Interactor == worker)
+			if(!thingAtDestination && thingToHaul.IsInteractor( worker))
 			{
 				//package is not at the destination but I am carrying it
 				Debug.Log("Action Haul : Package is not at the destination but I am carrying it " + this.destination + "(destination) " + thingToHaul.XY +"(where I am)");

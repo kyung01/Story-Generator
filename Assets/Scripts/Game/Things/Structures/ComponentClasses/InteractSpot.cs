@@ -47,7 +47,7 @@ public class InteractSpot
 		int x, y;
 		structureWithThisSpot.GetRelativePosition(interactSpot_X, interactSpot_Y, out x, out y);
 		float diff = (thing.XY_Int - new UnityEngine.Vector2(x, y)).magnitude;
-		Debug.Log("checking position " + thing.XY + " but mine is at " + x + " " + y);
+		//Debug.Log("checking position " + thing.XY + " but mine is at " + x + " " + y);
 		return EasyTools.EzT.IsZero(diff);
 	}
 	public void Interact(ThingWithPhysicalPresence structureWithThisSpot, ThingWithPhysicalPresence user)

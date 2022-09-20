@@ -49,6 +49,12 @@ namespace GameEnums {
 		NONE
 	}
 
+	public enum InteractorType { 
+		CARRIER,
+		STORAGE,
+		NONE,
+		BED
+	}
 
 
 	public enum Direction

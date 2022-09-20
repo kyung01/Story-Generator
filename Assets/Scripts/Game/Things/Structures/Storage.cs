@@ -41,7 +41,7 @@ public class Storage : StructureWithInteractSpots, IStorage
 		if (items.Count >= maxItemCount) return false;
 
 		items.Add(item);
-		item.SetInteractor(this);
+		item.SetInteractor(this, GameEnums.InteractorType.STORAGE);
 		item.SetPosition(this.XY);
 		return true;
 	}
@@ -63,7 +63,7 @@ public class Storage : StructureWithInteractSpots, IStorage
 			if(spot.CanInteractWithIt(world, this, actor))
 			{
 				spot.Interact(this, actor);
-				actor.SetInteractor(this);
+				//actor.SetInteractor(this, GameEnums.InteractorType.STORAGE);
 				return true;
 			}
 		}

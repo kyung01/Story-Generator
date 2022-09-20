@@ -47,7 +47,7 @@ public class Haul : Work
 		if (destinationZone == null) return false;
 		if(destinationZone.IsInZone(Mathf.RoundToInt(thingToHowl.X), Mathf.RoundToInt(thingToHowl.Y)))
 		{
-			if (!thingToHowl.IsBeingInteracted)
+			if (!thingToHowl.IsBeingCarried)
 			{
 				return true;
 			}

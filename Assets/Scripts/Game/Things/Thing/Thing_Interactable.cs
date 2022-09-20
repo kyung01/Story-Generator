@@ -5,6 +5,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+public class Interactor {
+	public Thing_Interactable thingInteractable;
+	public InteractorType type;
+
+
+	public Interactor(Thing_Interactable thing, InteractorType type)
+	{
+		this.thingInteractable = thing;
+		this.type = type;
+
+	}
+	public static implicit operator Thing(Interactor interactor) => interactor.thingInteractable;
+}
+
+
 public class Thing_Interactable : Thing
 {
 	public Thing_Interactable(ThingCategory category) : base(category)
@@ -13,8 +29,16 @@ public class Thing_Interactable : Thing
 	}
 
 	//Thing carrying me
-	Thing_Interactable thingInteractingWithThis = null;
-	public Thing Interactor { get { return thingInteractingWithThis; } }
+	//Thing_Interactable	interactor = null;
+
+	Interactor interactor = null;
+
+	public bool IsInteractor(Thing thing)
+	{
+		return interactor != null && interactor.thingInteractable == thing;
+	}
+	//InteractorType		interactorType = InteractorType.NONE;
+	// Interactor Interactor { get { return interactor; } }
 	
 	public virtual float GetInteractRange()
 	{
@@ -27,31 +51,33 @@ public class Thing_Interactable : Thing
 		return true;
 	}
 	
-	public virtual bool FreeFromInteractor()
+	public virtual bool ResolveInteractor()
 	{
-		if(this.thingInteractingWithThis is ISleepableStructure)
+		if (this.interactor == null) return true;
+		UnityEngine.Debug.LogError(this + "ResolveInteractor Called");
+		if (this.interactor.thingInteractable.RequestUnInteract(this))
 		{
-			if (!((Thing_Interactable)thingInteractingWithThis).RequestUnInteract(this))
-			{
-				//Thing I am trying to free from refused to uninteract me 
-				return false;
-			}
+			UnityEngine.Debug.LogError(this + "ResolveInteractor S");
+			this.interactor = null;
+			return true;
 
-			//
 		}
-		this.thingInteractingWithThis = null;
-		return true;
+		UnityEngine.Debug.LogError(this + "ResolveInteractor F");
+		return false;
 
 	}
-	public void SetInteractor(Thing_Interactable actorCarrier)
+	public void SetInteractor(Thing_Interactable thing, InteractorType interactorType)
 	{
-		thingInteractingWithThis = actorCarrier;
+		this.interactor = new Interactor(thing, interactorType);
 	}
-
 
 	public bool IsBeingInteracted
 	{
-		get { return thingInteractingWithThis != null; }
+		get { return interactor != null; }
+	}
+	public bool IsBeingCarried
+	{
+		get { return interactor != null && interactor.type == InteractorType.CARRIER; }
 	}
 
 	internal static bool Is(Thing thing)

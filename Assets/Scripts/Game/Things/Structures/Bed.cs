@@ -1,4 +1,5 @@
-﻿using StoryGenerator.World;
+﻿using GameEnums;
+using StoryGenerator.World;
 using StoryGenerator.World.Things.Actors;
 using System;
 using System.Collections.Generic;
@@ -36,11 +37,11 @@ public class Bed : StructureWithInteractSpots, ISleepableStructure
 			int x, y;
 			spotsToEnter[i].GetInteractionXY(this, out x, out y);
 
-			Debug.Log("attempting to sleep at " + x + y);
+			Debug.Log("attempting to sleep at " + x + " , " + y);
 			if (spotsToEnter[i].CanInteractWithIt(world, this, sleepingAgent))
 			{
 				spotsToEnter[i].Interact(this, sleepingAgent);
-				sleepingAgent.SetInteractor(this);
+				sleepingAgent.SetInteractor(this, InteractorType.BED);
 
 				return true;
 			}

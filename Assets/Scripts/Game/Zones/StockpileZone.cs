@@ -30,7 +30,7 @@ public class StockpileZone : Zone
 		{
 			if (thing is Item)
 			{
-				if (!((Thing_Interactable) thing).IsBeingInteracted)
+				if (!((Thing_Interactable) thing).IsBeingCarried)
 				{
 					//this spot is occupied
 					isOccupied = true;
@@ -73,7 +73,7 @@ public class StockpileZone : Zone
 			{
 				if (thing is Item)
 				{
-					if (! ((Item)thing).IsBeingInteracted)
+					if (! ((Item)thing).IsBeingCarried)
 					{
 						//this spot is occupied
 						isOccupied = true;
@@ -113,7 +113,7 @@ public class StockpileZone : Zone
 			{
 				if (thing is Item)
 				{
-					if (!((Item)thing).IsBeingInteracted)
+					if (!((Item)thing).IsBeingCarried)
 					{
 						//this spot is occupied
 						isOccupied = true;

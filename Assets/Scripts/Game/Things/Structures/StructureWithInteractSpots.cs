@@ -34,7 +34,7 @@ public class StructureWithInteractSpots : Structure
 
 	public override bool RequestUnInteract(Thing_Interactable thing)
 	{
-		Debug.Log("Bed RequestUnInteract");
+		Debug.Log("RequestUnInteract");
 		for (int i = 0; i < spotsToEnter.Count; i++)
 		{
 			if (spotsToEnter[i].CanUnInteract(thing))

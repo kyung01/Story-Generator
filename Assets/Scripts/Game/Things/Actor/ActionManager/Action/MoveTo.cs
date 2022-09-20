@@ -138,7 +138,7 @@ public abstract class MoveTo : Action
 
 	bool resolveCarryingSituation(World world, Thing_Interactable thing, float timeElapsed)
 	{
-		return thing.FreeFromInteractor();
+		return thing.ResolveInteractor();
 	}
 	bool UpdateNewPath(World world, Thing thing, float timeElapsed)
 	{
@@ -146,10 +146,10 @@ public abstract class MoveTo : Action
 		var thingWithDirection = (ThingWithPhysicalPresence)thing;
 
 
-		if(thingWithDirection.Interactor != null)
+		if(thingWithDirection.IsBeingInteracted)
 		{
 			//There is something that's carrying me
-			if(!resolveCarryingSituation(world, thingWithDirection, timeElapsed))
+			if(thingWithDirection.ResolveInteractor())
 			{
 				return false;
 			}
