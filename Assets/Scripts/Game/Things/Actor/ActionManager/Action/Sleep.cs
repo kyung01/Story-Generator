@@ -24,7 +24,7 @@ public class SleepAction : Action
 	{
 		base.Do(world, thing, timeElapsed);
 		Debug.Log("Action Sleep DO");
-		var positions = 	bedAssigned.GetSleepablePositions(world, thing);
+		var positions = 	bedAssigned.GetSleepAccessiblePositions(world, thing);
 
 		if(positions.Count == 0)
 		{

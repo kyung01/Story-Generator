@@ -9,14 +9,14 @@ public class ThingSheet
 {
 	public static Thing GetGrass()
 	{
-		Thing plant = new Item(ThingCategory.PLANT);
+		Thing plant = new Item(ThingCategory.GRASS);
 		//plant.InitContainer();
 		//plant.moduleContainer.Add(Keyword.FOOD_VEGI, 100);
 		return plant;
 	}
 	public static Thing GetBush()
 	{
-		Thing plant = new Item(ThingCategory.PLANT);
+		Thing plant = new Item(ThingCategory.BUSH);
 		//plant.resources.Add(Keyword.FOOD_VEGI, 100);
 		return plant;
 	}
@@ -32,11 +32,21 @@ public class ThingSheet
 		return thing;
 	}
 
-	internal static Structure GetBed()
+	public static Structure GetBed()
 	{
 		Structure thing = new Bed_Single();
 
 		return thing;
+	}
+
+	public static Structure GetStorage()
+	{
+		Structure s = new Storage(CAIModelSheet.Storage);
+		return s;
+	}
+	static Item GetEgg()
+	{
+		return null;
 	}
 
 	public static Frame GetRoof()

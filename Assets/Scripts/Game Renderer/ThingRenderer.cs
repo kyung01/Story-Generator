@@ -57,6 +57,9 @@ public class ThingRenderer : MonoBehaviour
 				meshRenderer.gameObject.transform.localScale = new Vector3(1,2,1);
 				meshRenderer.gameObject.transform.localPosition = new Vector3(0, .5f, 0); ;
 				break;
+			case ThingCategory.EGG:
+				meshRenderer.material.mainTexture = SPRITE_LIST.Egg;
+				break;
 			case ThingCategory.WALL:
 				break;
 			case ThingCategory.DOOR:

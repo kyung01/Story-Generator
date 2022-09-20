@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using UnityEngine;
 
 static class CAIModelSheet
 {
@@ -11,6 +11,7 @@ static class CAIModelSheet
 	public static CAIModel Chair;
 	public static CAIModel ChairDouble;
 	public static CAIModel Table;
+	public static CAIModel Storage;
 
 	public static void Init()
 	{
@@ -35,6 +36,9 @@ static class CAIModelSheet
 
 		Table = new CAIModel();
 		Table.setCollisionMap(new UnityEngine.Vector2(0, 0));
+
+		Storage = new CAIModel();
+		Storage.setCollisionMap(new Vector2(0, 0));
 
 
 	}

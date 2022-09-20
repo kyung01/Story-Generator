@@ -32,7 +32,12 @@ namespace GameEnums {
 		ROCK,
 		REED,
 		GRASS,
-		BUSH
+		BUSH,
+		STORAGE,
+		EGG,
+		BUTTER,
+		BREAD,
+		FLOUR
 	}
 
 	public enum ZoneCategory {

@@ -374,7 +374,16 @@ namespace StoryGenerator.World
 			}
 
 			AddThingAndInit(ThingSheet.GetBed().SetFacingDirection(Direction.DOWN).SetPosition(1, 1));
-			AddThingAndInit(ThingSheet.GetBed().SetFacingDirection(Direction.DOWN).SetPosition(9, 9));
+			AddThingAndInit(ThingSheet.GetBed().SetFacingDirection(Direction.DOWN).SetPosition(3, 1));
+
+			var storage = (Storage) ThingSheet.GetStorage();
+			AddThingAndInit(storage.SetPosition(5, 5));
+
+			var egg = new Item(ThingCategory.EGG);
+			AddThingAndInit(egg.SetPosition(5, 7));
+			AddThingAndInit(new Item(ThingCategory.EGG).SetPosition(6, 7));
+
+			storage.PutItInTheStorage(egg);
 		}
 
 		//Private methods

@@ -12,6 +12,7 @@ public class SpriteList : ScriptableObject
 	public Texture2D Human;
 	public Texture2D Rabbit;
 	public Texture2D Bear;
+	public Texture2D Egg;
 
 	public Texture2D Bed_Single;
 

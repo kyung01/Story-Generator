@@ -12,9 +12,9 @@ public class Bed_Single : Bed
 
 	public Bed_Single() : base( CAIModelSheet.Bed_Single)
 	{
-		spotsToSleepIn.Add(new OccupyingSpot(0, 0, GameEnums.Direction.UP));
-		spotsToEnterBed.Add(new InteractSpot( -1, 0, spotsToSleepIn[0]));
-		spotsToEnterBed.Add(new InteractSpot( +1, 0, spotsToSleepIn[0]));
+		spotsToOccupy.Add(new OccupyingSpot(0, 0, GameEnums.Direction.UP));
+		spotsToEnter.Add(new InteractSpot( -1, 0, spotsToOccupy[0]));
+		spotsToEnter.Add(new InteractSpot( +1, 0, spotsToOccupy[0]));
 	}
 
 }

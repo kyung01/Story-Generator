@@ -13,9 +13,9 @@ public interface ISleepableStructure
 	/// Checks if this structure has available spot to sleep and availalbe positions to enter the bedlike 
 	/// If a bed was sleepable, actor will attempt to sleep in it
 	/// </summary>
-	public bool IsSleepable(World world, ActorBase thingTryingToSleepIn);
+	public bool IsSleepable(World world, ActorBase actorTryingToSleepIn);
 	
-	public List<Vector2> GetSleepablePositions(World world, ActorBase thingTryingToSleepIn);
+	public List<Vector2> GetSleepAccessiblePositions(World world, ActorBase actorTryingToSleepIn);
 	
 	public bool SleepBy(World world, ActorBase sleepingAgent);
 }
